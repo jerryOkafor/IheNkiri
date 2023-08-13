@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import me.jerryokafor.ihenkiri.configureJacoco
 import org.gradle.api.Plugin
@@ -59,8 +60,10 @@ class AndroidApplicationJacocoConventionPlugin : Plugin<Project> {
                 apply("org.gradle.jacoco")
                 apply("com.android.application")
             }
-            val extension = extensions.getByType<ApplicationAndroidComponentsExtension>()
-            configureJacoco(extension)
+            val applicationExtension = extensions.getByType<ApplicationExtension>()
+            val applicationAndroidComponentsExtension =
+                extensions.getByType<ApplicationAndroidComponentsExtension>()
+            configureJacoco(applicationExtension, applicationAndroidComponentsExtension)
         }
     }
 }

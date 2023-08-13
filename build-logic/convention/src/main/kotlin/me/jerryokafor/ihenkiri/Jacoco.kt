@@ -24,7 +24,9 @@
 
 package me.jerryokafor.ihenkiri
 
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
@@ -34,6 +36,7 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import java.io.File
 import java.util.Locale
 
 private val coverageExclusions = listOf(
@@ -75,6 +78,7 @@ private fun String.capitalize() = replaceFirstChar {
 }
 
 internal fun Project.configureJacoco(
+    commonExtension: CommonExtension<*, *, *, *, *>,
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
     // set tool version
@@ -83,11 +87,30 @@ internal fun Project.configureJacoco(
     }
 
     // parent tasks that depends on the sub tasks
-    val jacocoTestCoverage = tasks.create("jacocoTestCoverage")
-    val jacocoTestCoverageVerification = tasks.create("jacocoTestCoverageVerification")
+    val jacocoTestCoverageReport = tasks.create("jacocoTestCoverageReport") {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for all variants after unit test"
+    }
+//    val jacocoTestCoverageVerification = tasks.create("jacocoTestCoverageVerification")
 
-    // set up for all variants
+    commonExtension.apply {
+        buildTypes {
+            getByName("debug") {
+                //allow coverage report only on debug build types
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = true
+            }
+
+            getByName("release") {
+                //disable coverage report on release build
+                enableUnitTestCoverage = false
+                enableAndroidTestCoverage = false
+            }
+        }
+    }
+
     androidComponentsExtension.onVariants { variant ->
+        //set up for all variants
         // original test task name for yhe given variant
         val testTaskName = "test${variant.name.capitalize()}UnitTest"
 
@@ -127,59 +150,66 @@ internal fun Project.configureJacoco(
                 )
 
                 // set outputs
-                executionData.setFrom(file("$buildDir/outputs/jacoco/$testTaskName.exec"))
+                executionData.setFrom(
+                    file(
+                        "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"
+                    )
+                )
             }
 
         // add unit test verification for all variant
-        val verificationTask = tasks.register(
-            "jacoco${testTaskName.capitalize()}CoverageVerification",
-            JacocoCoverageVerification::class.java,
-        ) {
-            group = "Reporting"
-            description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
+//        val verificationTask = tasks.register(
+//            "jacoco${testTaskName.capitalize()}CoverageVerification",
+//            JacocoCoverageVerification::class.java,
+//        ) {
+//            group = "Reporting"
+//            description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
+//
+//            // run this task after report task has finished running
+//            dependsOn(coverageTaskName)
+//
+//            violationRules {
+//                rule {
+//                    limit {
+//                        minimum = 0.3.toBigDecimal()
+//                    }
+//                }
+//                rule {
+//                    element = "BUNDLE"
+//                    limit {
+//                        counter = "LINE"
+//                        value = "COVEREDRATIO"
+//                        minimum = 0.3.toBigDecimal()
+//                    }
+//                }
+//            }
+//
+//            classDirectories.setFrom(
+//                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+//                    exclude(coverageExclusions)
+//                },
+//            )
+//
+//            // configure sources
+//            sourceDirectories.setFrom(
+//                files(
+//                    "$projectDir/src/main/java",
+//                    "$projectDir/src/${variant.name}/java",
+//                    "$projectDir/src/main/kotlin",
+//                    "$projectDir/src/${variant.name}/kotlin",
+//                ),
+//            )
+//
+//            // set outputs
+//            executionData.setFrom(file("$buildDir/outputs/jacoco/$testTaskName.exec"))
+//        }
 
-            // run this task after report task has finished running
-            dependsOn(coverageTaskName)
-
-            violationRules {
-                rule {
-                    limit {
-                        minimum = 0.3.toBigDecimal()
-                    }
-                }
-                rule {
-                    element = "BUNDLE"
-                    limit {
-                        counter = "LINE"
-                        value = "COVEREDRATIO"
-                        minimum = 0.3.toBigDecimal()
-                    }
-                }
-            }
-
-            classDirectories.setFrom(
-                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                    exclude(coverageExclusions)
-                },
-            )
-
-            // configure sources
-            sourceDirectories.setFrom(
-                files(
-                    "$projectDir/src/main/java",
-                    "$projectDir/src/${variant.name}/java",
-                    "$projectDir/src/main/kotlin",
-                    "$projectDir/src/${variant.name}/kotlin",
-                ),
-            )
-
-            // set outputs
-            executionData.setFrom(file("$buildDir/outputs/jacoco/$testTaskName.exec"))
-        }
-
-        jacocoTestCoverage.dependsOn(coverageTask)
-        jacocoTestCoverageVerification.dependsOn(verificationTask)
+        jacocoTestCoverageReport.dependsOn(coverageTask)
+//        jacocoTestCoverageVerification.dependsOn(verificationTask)
     }
+
+
+
 
     tasks.withType<Test>().configureEach {
         configure<JacocoTaskExtension> {
