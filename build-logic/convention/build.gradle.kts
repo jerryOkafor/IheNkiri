@@ -68,5 +68,15 @@ gradlePlugin {
             id = "me.jerryokafor.ihenkiri.build.ktlint"
             implementationClass = "KtLintConventionPlugin"
         }
+
+        register("androidApplicationJacoco") {
+            id = "me.jerryokafor.ihenkiri.application.jacoco"
+            implementationClass = "AndroidApplicationJacocoConventionPlugin"
+        }
+
+        register("androidLibraryJacoco") {
+            id = "me.jerryokafor.ihenkiri.library.jacoco"
+            implementationClass = "AndroidLibraryJacocoConventionPlugin"
+        }
     }
 }

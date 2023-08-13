@@ -26,6 +26,8 @@ import me.jerryokafor.ihenkiri.Config
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.application")
+    id("me.jerryokafor.ihenkiri.application.jacoco")
+    id("jacoco")
 }
 
 android {
@@ -43,6 +45,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
