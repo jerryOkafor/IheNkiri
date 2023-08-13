@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# build-logic
+build-logic/build
+build-logic/convention/build
