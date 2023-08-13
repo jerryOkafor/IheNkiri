@@ -50,6 +50,9 @@ jobs:
       - name: Generate Jacoco report
         run: ./gradlew jacocoTestCoverageReport
 
+      - name: Verify Jacoco report # This will fail if the coverage it not up to the set threshold
+        run: ./gradlew jacocoTestCoverageVerification
+
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v3
         with:
