@@ -38,5 +38,3 @@ plugins {
     id("me.jerryokafor.ihenkiri.build.ktlint")
 }
 true // Needed to make the Suppress annotation work for the plugins block
-
-

@@ -93,13 +93,13 @@ internal fun Project.configureJacoco(
     commonExtension.apply {
         buildTypes {
             getByName("debug") {
-                //allow coverage report only on debug build types
+                // allow coverage report only on debug build types
                 enableUnitTestCoverage = true
                 enableAndroidTestCoverage = true
             }
 
             getByName("release") {
-                //disable coverage report on release build
+                // disable coverage report on release build
                 enableUnitTestCoverage = false
                 enableAndroidTestCoverage = false
             }
@@ -107,7 +107,7 @@ internal fun Project.configureJacoco(
     }
 
     androidComponentsExtension.onVariants { variant ->
-        //set up for all variants
+        // set up for all variants
         // original test task name for yhe given variant
         val testTaskName = "test${variant.name.capitalize()}UnitTest"
 
@@ -149,8 +149,8 @@ internal fun Project.configureJacoco(
                 // set outputs
                 executionData.setFrom(
                     file(
-                        "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"
-                    )
+                        "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                    ),
                 )
             }
 
@@ -204,9 +204,6 @@ internal fun Project.configureJacoco(
         jacocoTestCoverageReport.dependsOn(coverageTask)
 //        jacocoTestCoverageVerification.dependsOn(verificationTask)
     }
-
-
-
 
     tasks.withType<Test>().configureEach {
         configure<JacocoTaskExtension> {
