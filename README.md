@@ -10,6 +10,7 @@ This project demonstrates the following tools and trends in Android application 
 - Add build logic
 - Add static code analysis - ktlint and detekt
 - Add CI/CD -> build,test and check(lint)
+- Add Test Coverage tools
 - Add Hild and Navigation
 - Create modules in line with clean architecture
 - Add network layers/module.

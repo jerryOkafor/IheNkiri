@@ -45,6 +45,11 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
+}
+
+tasks.check {
+    dependsOn("ktlintCheck", "jacocoTestReport")
 }
 
 gradlePlugin {
@@ -52,6 +57,16 @@ gradlePlugin {
         register("androidApp") {
             id = "me.jerryokafor.ihenkiri.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
+        }
+
+        register("detekt") {
+            id = "me.jerryokafor.ihenkiri.build.detekt"
+            implementationClass = "DetektConventionPlugin"
+        }
+
+        register("ktlint") {
+            id = "me.jerryokafor.ihenkiri.build.ktlint"
+            implementationClass = "KtLintConventionPlugin"
         }
     }
 }

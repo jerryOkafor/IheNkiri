@@ -11,6 +11,10 @@ activity-compose = "1.7.2"
 composeBom = "2023.08.00"
 composeCompiler = "1.5.1"
 
+# code quality
+detekt = "1.22.0"
+ktlint = "0.50.0"
+
 # testing
 junit4 = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -40,10 +44,12 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 # build-logic dependencies
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+io-gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [bundles]
 
