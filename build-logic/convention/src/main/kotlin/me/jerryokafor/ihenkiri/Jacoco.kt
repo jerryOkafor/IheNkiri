@@ -130,7 +130,6 @@ internal fun Project.configureJacoco(
                 executionData.setFrom(file("$buildDir/outputs/jacoco/$testTaskName.exec"))
             }
 
-
         // add unit test verification for all variant
         val verificationTask = tasks.register(
             "jacoco${testTaskName.capitalize()}CoverageVerification",
@@ -139,7 +138,7 @@ internal fun Project.configureJacoco(
             group = "Reporting"
             description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
 
-            //run this task after report task has finished running
+            // run this task after report task has finished running
             dependsOn(coverageTaskName)
 
             violationRules {
