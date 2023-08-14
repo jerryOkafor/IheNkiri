@@ -46,6 +46,7 @@ org-jetbrains-kotlin-jvm = "1.8.0"
 
 # utils
 chucker = "4.0.0"
+dependencyGraphGenerator = "0.8.0"
 
 [libraries]
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
@@ -127,6 +128,7 @@ com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", versio
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+com-vanniktech-dependency-graph-generator = { id = "com.vanniktech.dependency.graph.generator", version.ref = "dependencyGraphGenerator" }
 
 [bundles]
 
