@@ -33,10 +33,13 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false
     alias(libs.plugins.com.google.dagger.hilt.android) apply false
+    alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
 
     // add detket and ktlint
     alias(libs.plugins.io.gitlab.arturbosch.detekt)
     id("me.jerryokafor.ihenkiri.build.detekt")
     id("me.jerryokafor.ihenkiri.build.ktlint")
+    alias(libs.plugins.com.android.library) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block

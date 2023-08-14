@@ -22,23 +22,20 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+package me.jerryokafor.ihenkiri.core.network.service
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
+import me.jerryokafor.ihenkiri.core.network.Config
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
+import me.jerryokafor.ihenkiri.core.network.model.request.EmptyRequest
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
+import retrofit2.http.Body
+import retrofit2.http.POST
+
+interface TheMovieDBAPI {
+    @POST("${Config.TMDB_API_VERSION}auth/request_token")
+    suspend fun createRequestToken(@Body requestBody: EmptyRequest): CreateRequestTokenResponse
+
+    @POST("${Config.TMDB_API_VERSION}auth/access_token")
+    suspend fun createAccessToken(@Body requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse
+}

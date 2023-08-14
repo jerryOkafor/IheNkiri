@@ -22,34 +22,42 @@
  * THE SOFTWARE.
  */
 
-import me.jerryokafor.ihenkiri.Config
-
 plugins {
-    id("me.jerryokafor.ihenkiri.android.application")
+    id("me.jerryokafor.ihenkiri.android.library")
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
-    id("me.jerryokafor.ihenkiri.application.jacoco")
+    id("me.jerryokafor.ihenkiri.library.jacoco")
     id("jacoco")
-//    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
-    namespace = "me.jerryokafor.ihenkiri"
+    namespace = "me.jerryokafor.core.network"
 
     defaultConfig {
-        applicationId = "me.jerryokafor.ihenkiri"
-        versionCode = Config.versionCode
-        versionName = Config.versionName
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
-        debug {}
+        debug {
+            buildConfigField(
+                "String",
+                "TMDB_BASE_URL",
+                "\"https://api.themoviedb.org/\"",
+            )
+        }
+
         release {
+            buildConfigField(
+                "String",
+                "TMDB_BASE_URL",
+                "\"https://api.themoviedb.org/\"",
+            )
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -57,50 +65,27 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        compose = true
-        viewBinding = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":core:network"))
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.com.google.android.material)
-
+    implementation(project(":core:model"))
     // retrofit
     implementation(libs.com.squareup.retrofit2)
     implementation(libs.com.google.code.gson)
     implementation(libs.com.squareup.retrofit2.converter.gson)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-
     testImplementation(libs.junit4)
+    testImplementation(libs.com.squareup.okhttp3.mockwebserver)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
+
+//    ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
+//    ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
 }

@@ -22,23 +22,6 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+package me.jerryokafor.ihenkiri.core.network.model.response
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
+class EmptyResponse

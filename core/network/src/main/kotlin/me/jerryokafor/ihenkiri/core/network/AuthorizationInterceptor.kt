@@ -22,23 +22,24 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+package me.jerryokafor.ihenkiri.core.network
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
+import me.jerryokafor.core.network.BuildConfig
+import okhttp3.Interceptor
+import okhttp3.Request
+import okhttp3.Response
+import javax.inject.Singleton
+
+@Singleton
+class AuthorizationInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val newRequest = chain.request().signedRequest()
+        return chain.proceed(newRequest)
+    }
+
+    private fun Request.signedRequest(): Request {
+        return newBuilder()
+            .header("Authorization", "Bearer ${BuildConfig.TMDB_API_KEY}")
+            .build()
+    }
+}

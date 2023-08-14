@@ -22,15 +22,9 @@
  * THE SOFTWARE.
  */
 
-import com.android.build.api.dsl.ApplicationExtension
-import me.jerryokafor.ihenkiri.Config
-import me.jerryokafor.ihenkiri.configureKotlinAndroid
-import me.jerryokafor.ihenkiri.libs
+import me.jerryokafor.ihenkiri.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
 
 /*
  * The MIT License (MIT)
@@ -56,45 +50,13 @@ import org.gradle.kotlin.dsl.kotlin
  * THE SOFTWARE.
  */
 
-class AndroidApplicationConventionPlugin : Plugin<Project> {
+class JvmLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(target.pluginManager) {
-                apply("com.android.application")
-                apply("kotlin-android")
+            with(pluginManager) {
+                apply("org.jetbrains.kotlin.jvm")
             }
-
-            extensions.configure<ApplicationExtension> {
-                configureKotlinAndroid(this)
-                defaultConfig.targetSdk = Config.targetSdkVersion
-
-                lint {
-                    baseline = file("lint-baseline.xml")
-                    disable += Config.lintDisable
-                    enable += Config.lintEnable
-                    checkOnly += Config.lintCheckOnly
-                    quiet = true
-                    abortOnError = false // fix your lint issue
-                    ignoreWarnings = true
-                    checkDependencies = true
-                }
-
-                packaging {
-                    resources.excludes += "DebugProbesKt.bin"
-                }
-            }
-
-            configurations.configureEach {
-                resolutionStrategy {
-                    force(libs.findLibrary("junit4").get())
-                    // Temporary workaround for https://issuetracker.google.com/174733673
-                    force("org.objenesis:objenesis:2.6")
-                }
-            }
-            dependencies {
-                add("androidTestImplementation", kotlin("test"))
-                add("testImplementation", kotlin("test"))
-            }
+            configureKotlinJvm()
         }
     }
 }
