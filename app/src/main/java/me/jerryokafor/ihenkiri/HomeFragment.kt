@@ -24,44 +24,100 @@
 
 package me.jerryokafor.ihenkiri
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent.Builder
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import me.jerryokafor.ihenkiri.ui.theme.IheNkiriTheme
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
+import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
+import me.jerryokafor.ihenkiri.ui.theme.AppTheme
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+    @Inject
+    lateinit var theMovieDBAPI: TheMovieDBAPI
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            IheNkiriTheme {
-                Greeting(name = "Android")
+            AppTheme {
+                Greeting(name = "Android", onClick = ::onClick)
             }
+        }
+    }
+
+    private fun onClick() {
+        lifecycleScope.launch {
+            val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
+            val request =
+                theMovieDBAPI.createRequestToken(CreateRequestTokenRequest(redirectTo = redirectTo))
+            Log.d("MainActivity", "Result: $request")
+
+            val requestToken = request.requestToken
+
+            val url =
+                "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
+            Log.d("MainActivity", "Url: $url")
+            val intent: CustomTabsIntent = Builder().build()
+            intent.launchUrl(requireActivity(), Uri.parse(url))
+
+            // after approval, you can then use the request token to
+            // get an access token and save for future use
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier,
-    )
+fun Greeting(modifier: Modifier = Modifier, name: String, onClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier,
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(onClick = onClick) {
+            Text(text = "Open Link")
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    IheNkiriTheme {
-        Greeting("Android")
+    AppTheme {
+        Greeting(name = "Android") {}
     }
 }

@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.converter.gson)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
 
+    // util
+    debugImplementation(libs.com.github.chuckerteam.chucker.library)
+    releaseImplementation(libs.com.github.chuckerteam.chucker.library.no.op)
+
     testImplementation(libs.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver)
 

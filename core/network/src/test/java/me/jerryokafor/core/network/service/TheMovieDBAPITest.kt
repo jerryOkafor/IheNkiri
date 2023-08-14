@@ -29,7 +29,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
-import me.jerryokafor.ihenkiri.core.network.model.request.EmptyRequest
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class TheMovieDBAPI {
+class TheMovieDBAPITest {
 
     private val mockWebServer = MockWebServer()
 
@@ -74,7 +74,7 @@ class TheMovieDBAPI {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
         runBlocking {
-            val response = api.createRequestToken(EmptyRequest())
+            val response = api.createRequestToken(CreateRequestTokenRequest(""))
             val expected = CreateRequestTokenResponse(
                 requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
                 statusCode = 1,

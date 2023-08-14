@@ -22,20 +22,6 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.service
+package me.jerryokafor.ihenkiri.core.network.model.request
 
-import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
-import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
-import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
-import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
-import retrofit2.http.Body
-import retrofit2.http.POST
-
-interface TheMovieDBAPI {
-    @POST("${Config.TMDB_API_VERSION}/auth/request_token")
-    suspend fun createRequestToken(@Body requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse
-
-    @POST("${Config.TMDB_API_VERSION}/auth/access_token")
-    suspend fun createAccessToken(@Body requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse
-}
+data class CreateRequestTokenRequest(val redirectTo: String)

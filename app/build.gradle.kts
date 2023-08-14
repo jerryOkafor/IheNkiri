@@ -83,6 +83,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
 
+    implementation(libs.androidx.browser)
+
     // retrofit
     implementation(libs.com.squareup.retrofit2)
     implementation(libs.com.google.code.gson)
