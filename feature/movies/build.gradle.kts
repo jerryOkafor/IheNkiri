@@ -22,29 +22,33 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
+plugins {
+    id("me.jerryokafor.ihenkiri.android.feature")
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
+
+android {
+    namespace = "me.jerryokafor.feature.movies"
+
+    defaultConfig {
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
     }
 }
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":feature:movies")
+dependencies {
+    implementation(libs.core.ktx)
+
+    testImplementation(libs.junit4)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+}

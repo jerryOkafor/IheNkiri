@@ -4,6 +4,10 @@
 
 ![CI Build](https://github.com/jerryOkafor/IheNkiri/actions/workflows/Build.yml/badge.svg)
 [![codecov](https://codecov.io/gh/jerryOkafor/IheNkiri/branch/main/graph/badge.svg?token=993DZ960T0)](https://codecov.io/gh/jerryOkafor/IheNkiri)
+[![Maintainability](https://api.codeclimate.com/v1/badges/865558a6b32cb28f6227/maintainability)](https://codeclimate.com/github/jerryOkafor/IheNkiri/maintainability)
+
+[//]: # ([![Test Coverage]&#40;https://api.codeclimate.com/v1/badges/865558a6b32cb28f6227/test_coverage&#41;]&#40;https://codeclimate.com/github/jerryOkafor/IheNkiri/test_coverage&#41;)
+
 
 This project demonstrates the following tools and trends in Android application development using
 The [Movie Db API](https://developer.themoviedb.org/reference/intro/getting-started)

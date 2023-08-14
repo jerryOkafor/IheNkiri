@@ -64,6 +64,11 @@ gradlePlugin {
             implementationClass = "AndroidLibraryConventionPlugin"
         }
 
+        register("androidFeature") {
+            id = "me.jerryokafor.ihenkiri.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+
         register("kotlinJVM") {
             id = "me.jerryokafor.ihenkiri.kotlin.jvm"
             implementationClass = "JvmLibraryConventionPlugin"
