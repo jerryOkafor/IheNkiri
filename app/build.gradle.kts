@@ -26,8 +26,11 @@ import me.jerryokafor.ihenkiri.Config
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.application")
+    id("me.jerryokafor.ihenkiri.android.hilt")
+    id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.application.jacoco")
     id("jacoco")
+    alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
@@ -57,6 +60,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
@@ -69,9 +73,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
+
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.com.google.android.material)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

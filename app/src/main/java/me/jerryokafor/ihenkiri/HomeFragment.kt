@@ -25,26 +25,43 @@
 package me.jerryokafor.ihenkiri
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import me.jerryokafor.ihenkiri.databinding.ActivityMainBinding
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.Fragment
+import me.jerryokafor.ihenkiri.ui.theme.IheNkiriTheme
 
-class MainActivity : AppCompatActivity() {
+class HomeFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View = ComposeView(requireContext()).apply {
+        setContent {
+            IheNkiriTheme {
+                Greeting(name = "Android")
+            }
+        }
+    }
+}
 
-    private lateinit var binding: ActivityMainBinding
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier,
+    )
+}
 
-    private lateinit var navController: NavController
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        splashScreen.setKeepOnScreenCondition { false }
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    IheNkiriTheme {
+        Greeting("Android")
     }
 }

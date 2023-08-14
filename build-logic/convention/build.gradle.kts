@@ -78,5 +78,15 @@ gradlePlugin {
             id = "me.jerryokafor.ihenkiri.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
+
+        register("androidHilt") {
+            id = "me.jerryokafor.ihenkiri.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
+
+        register("androidNavigation") {
+            id = "me.jerryokafor.ihenkiri.android.navigation"
+            implementationClass = "AndroidNavigationConventionPlugin"
+        }
     }
 }
