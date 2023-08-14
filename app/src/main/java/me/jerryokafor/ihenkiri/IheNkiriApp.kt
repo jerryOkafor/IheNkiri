@@ -25,7 +25,9 @@
 package me.jerryokafor.ihenkiri
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class IheNkiriApp : Application() {
     override fun onCreate() {
         super.onCreate()

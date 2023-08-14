@@ -78,6 +78,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     ignoreWarnings = true
                     checkDependencies = true
                 }
+
+                packaging {
+                    resources.excludes += "DebugProbesKt.bin"
+                }
             }
 
             configurations.configureEach {

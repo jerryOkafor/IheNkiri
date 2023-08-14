@@ -2,6 +2,7 @@
 
 # IheNkiri
 
+![CI Build](https://github.com/jerryOkafor/IheNkiri/actions/workflows/Build.yml/badge.svg)
 [![codecov](https://codecov.io/gh/jerryOkafor/IheNkiri/branch/main/graph/badge.svg?token=993DZ960T0)](https://codecov.io/gh/jerryOkafor/IheNkiri)
 
 This project demonstrates the following tools and trends in Android application development using

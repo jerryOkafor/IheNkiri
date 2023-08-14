@@ -1,0 +1,6 @@
+{
+  "errors": [
+    "request_token must be provided"
+  ],
+  "success": false
+}

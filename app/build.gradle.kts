@@ -30,7 +30,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.application.jacoco")
     id("jacoco")
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+//    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -73,6 +73,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -81,6 +82,14 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
+
+    implementation(libs.androidx.browser)
+
+    // retrofit
+    implementation(libs.com.squareup.retrofit2)
+    implementation(libs.com.google.code.gson)
+    implementation(libs.com.squareup.retrofit2.converter.gson)
+    implementation(libs.com.squareup.okhttp3.logging.interceptor)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

@@ -40,3 +40,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "IheNkiri"
 include(":app")
+include(":core:network")
+include(":core:model")

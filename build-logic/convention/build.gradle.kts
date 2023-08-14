@@ -59,6 +59,16 @@ gradlePlugin {
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
+        register("androidLibrary") {
+            id = "me.jerryokafor.ihenkiri.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+
+        register("kotlinJVM") {
+            id = "me.jerryokafor.ihenkiri.kotlin.jvm"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
+
         register("detekt") {
             id = "me.jerryokafor.ihenkiri.build.detekt"
             implementationClass = "DetektConventionPlugin"
