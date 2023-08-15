@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Run local tests with coverage
-        run: ./gradlew testDebugUnitTestCoverage
+        run: ./gradlew testDebug
 
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v3
@@ -66,16 +66,6 @@ jobs:
         with:
           name: test-results
           path: '**/build/test-results/test*UnitTest/**.xml'
-
-      #      - name: Verify Jacoco report # This will fail if the coverage it not up to the set threshold
-      #        run: ./gradlew jacocoTestCoverageVerification
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: "**/build/reports/jacoco/jacocoTest*UnitTestCoverage/**.xml"
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   androidTest:
     needs: buildTestCheck
@@ -120,6 +110,9 @@ jobs:
         with:
           name: test-reports-${{ matrix.api-level }}
           path: '**/build/reports/androidTests'
+
+      - name: Generate Coverage Report
+        run: ./gradlew jacocoTestCoverageReport
 
       #      - name: Verify Jacoco report # This will fail if the coverage it not up to the set threshold
       #        run: ./gradlew jacocoTestCoverageVerification
