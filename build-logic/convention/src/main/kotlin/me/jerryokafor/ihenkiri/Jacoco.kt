@@ -100,13 +100,14 @@ internal fun Project.configureJacoco(
                 // allow coverage report only on debug build types
                 enableUnitTestCoverage = true
                 enableAndroidTestCoverage = true
+
             }
 
-            getByName("release") {
-                // disable coverage report on release build
-                enableUnitTestCoverage = false
-                enableAndroidTestCoverage = false
-            }
+//            getByName("release") {
+//                // disable coverage report on release build
+//                enableUnitTestCoverage = false
+//                enableAndroidTestCoverage = false
+//            }
         }
     }
 
@@ -115,8 +116,10 @@ internal fun Project.configureJacoco(
         // original test task name for yhe given variant
         val testTaskName = "test${variant.name.capitalize()}UnitTest"
 
+        val androidTestCoverageTask = "create${variant.name.capitalize()}CoverageReport"
+
         // register variants report task
-        val coverageTaskName = "jacoco${testTaskName.capitalize()}Coverage"
+        val coverageTaskName = "${testTaskName}Coverage"
 
         @Suppress("UnusedPrivateMember")
         val coverageTask =
@@ -126,7 +129,7 @@ internal fun Project.configureJacoco(
                     "Generate Jacoco coverage reports for the ${variant.name.capitalize()} build."
 
                 // run this task after the testTask has finished running
-                dependsOn(testTaskName)
+                dependsOn(testTaskName, androidTestCoverageTask)
 
                 // configure output formats
                 reports {
@@ -165,7 +168,7 @@ internal fun Project.configureJacoco(
 
         // add unit test verification for all variant
         val verificationTask = tasks.register(
-            "jacoco${testTaskName.capitalize()}CoverageVerification",
+            "${testTaskName}CoverageVerification",
             JacocoCoverageVerification::class.java,
         ) {
             group = "Reporting"

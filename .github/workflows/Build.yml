@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-coverage
-          path: '**/build/reports/jacoco/jacocoTest*UnitTestCoverage/**.xml'
+          path: '**/build/outputs/unit_test_code_coverage/*UnitTest/**.exec'
 
   androidTest:
     needs: buildTestCheck
@@ -122,7 +122,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-reports
+          name: android-coverage-reports
           path: '**/build/outputs/code_coverage/*AndroidTest/connected/**/*.ec'
 
   uploadToCodecov:
@@ -155,7 +155,7 @@ jobs:
       #        run: ls -R
 
       - name: Generate Jacoco report
-        run: ./gradlew jacocoTestCoverageReport
+        run: ./gradlew testDebugUnitTestCoverage
 
       #      - name: Verify Jacoco report # This will fail if the coverage it not up to the set threshold
       #        run: ./gradlew jacocoTestCoverageVerification
