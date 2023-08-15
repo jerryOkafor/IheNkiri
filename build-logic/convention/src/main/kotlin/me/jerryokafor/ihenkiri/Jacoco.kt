@@ -100,7 +100,6 @@ internal fun Project.configureJacoco(
                 // allow coverage report only on debug build types
                 enableUnitTestCoverage = true
                 enableAndroidTestCoverage = true
-
             }
 
 //            getByName("release") {
