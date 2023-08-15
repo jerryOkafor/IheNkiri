@@ -152,8 +152,13 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
-                    file(
+                    files(
+                        // Unit tests coverage data
                         "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                        // Instrumented tests coverage data
+                        fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                            include("**/*.ec")
+                        },
                     ),
                 )
             }
@@ -203,8 +208,13 @@ internal fun Project.configureJacoco(
 
             // set outputs
             executionData.setFrom(
-                file(
+                files(
+                    // Unit tests coverage data
                     "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                    // Instrumented tests coverage data
+                    fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                        include("**/*.ec")
+                    },
                 ),
             )
         }

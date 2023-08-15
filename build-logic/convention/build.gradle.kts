@@ -103,5 +103,15 @@ gradlePlugin {
             id = "me.jerryokafor.ihenkiri.android.navigation"
             implementationClass = "AndroidNavigationConventionPlugin"
         }
+
+        register("androidAppCompose") {
+            id = "me.jerryokafor.ihenkiri.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "me.jerryokafor.ihenkiri.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
     }
 }

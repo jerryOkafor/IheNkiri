@@ -22,19 +22,19 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.ds
+package me.jerryokafor.core.ui.extension
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionContext
+import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+fun ComponentActivity.setIheNkiriContent(
+    parent: CompositionContext? = null,
+    content: @Composable () -> Unit,
+) {
+    setContent(parent = parent) {
+        IheNkiriTheme(content = content)
     }
 }

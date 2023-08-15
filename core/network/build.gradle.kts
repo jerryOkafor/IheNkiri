@@ -27,7 +27,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.library.jacoco")
-    id("jacoco")
+
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 

@@ -26,10 +26,10 @@ import me.jerryokafor.ihenkiri.Config
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.application")
+    id("me.jerryokafor.ihenkiri.android.application.compose")
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.application.jacoco")
-    id("jacoco")
 //    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
@@ -59,11 +59,7 @@ android {
     }
 
     buildFeatures {
-        compose = true
         viewBinding = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packaging {
         resources {
@@ -74,10 +70,14 @@ android {
 
 dependencies {
     implementation(project(":core:network"))
+    implementation(project(":core:ds"))
+    implementation(project(":core:ui"))
+    implementation(project(":feature:movies"))
+
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
+    implementation(libs.androidx.activity.compose)
 
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
@@ -91,18 +91,20 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.converter.gson)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
 
+    // compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+
+    testImplementation(libs.junit4)
 }

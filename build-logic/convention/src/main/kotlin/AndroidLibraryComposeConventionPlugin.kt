@@ -22,9 +22,8 @@
  * THE SOFTWARE.
  */
 
-import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import me.jerryokafor.ihenkiri.configureJacoco
+import com.android.build.gradle.LibraryExtension
+import me.jerryokafor.ihenkiri.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
@@ -53,17 +52,12 @@ import org.gradle.kotlin.dsl.getByType
  * THE SOFTWARE.
  */
 
-class AndroidApplicationJacocoConventionPlugin : Plugin<Project> {
+class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("jacoco")
-                apply("com.android.application")
-            }
-            val applicationExtension = extensions.getByType<ApplicationExtension>()
-            val applicationAndroidComponentsExtension =
-                extensions.getByType<ApplicationAndroidComponentsExtension>()
-            configureJacoco(applicationExtension, applicationAndroidComponentsExtension)
+            pluginManager.apply("com.android.library")
+            val extension = extensions.getByType<LibraryExtension>()
+            configureAndroidCompose(extension)
         }
     }
 }
