@@ -29,7 +29,7 @@ style:
   ForbiddenComment:
     allowedPatterns: '[A-Z]{3,}-[\d]+' # allow TODO comments if a ticket number is included
   MagicNumber:
-    active: false  # Todo: remove later after refactor
+    active: true
   MaxLineLength:
     active: false
   UnnecessaryAbstractClass:

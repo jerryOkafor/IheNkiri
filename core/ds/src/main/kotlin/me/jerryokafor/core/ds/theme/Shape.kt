@@ -28,6 +28,7 @@ package me.jerryokafor.core.ds.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.dp
 
 data class IhenkiriShape(
@@ -42,3 +43,5 @@ data class IhenkiriShape(
         large = large,
     )
 }
+
+internal val LocalIheNkiriShape = staticCompositionLocalOf { IhenkiriShape() }

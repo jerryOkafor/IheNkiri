@@ -28,6 +28,7 @@ import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -35,7 +36,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 
 @VisibleForTesting
@@ -104,10 +104,6 @@ val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-internal val LocalIheNkiriSpacing = staticCompositionLocalOf { IheNkiriSpacing() }
-internal val LocalIhenkiriTypography = staticCompositionLocalOf { IheNkiriTypography() }
-internal val LocalIheNkiriShape = staticCompositionLocalOf { IhenkiriShape() }
-
 object IheNkiri {
     val spacing: IheNkiriSpacing
         @Composable
@@ -121,16 +117,15 @@ object IheNkiri {
         @Composable
         get() = LocalIheNkiriShape.current
 
-    object Icons
-}
+    val color: ColorScheme
+        @Composable
+        get() = MaterialTheme.colorScheme
 
-@Composable
-private fun ProvideIheNkiriTheme(content: @Composable () -> Unit) {
-    CompositionLocalProvider(
-        LocalIheNkiriSpacing provides IheNkiriSpacing(),
-        LocalIhenkiriTypography provides IheNkiriTypography(),
-        content = content,
-    )
+    val extraColor: IheNKiriColorScheme
+        @Composable
+        get() = LocalIheNkiriColorScheme.current
+
+    object Icons
 }
 
 @Composable
@@ -145,21 +140,23 @@ fun IheNkiriTheme(
     val dynamicColor = isDynamicColor && supportsDynamicTheming()
     val colorScheme = when {
         dynamicColor && isDarkTheme -> {
-            dynamicDarkColorScheme(LocalContext.current)
+            Pair(dynamicDarkColorScheme(LocalContext.current), iheNKiriDarkColorScheme())
         }
 
         dynamicColor && !isDarkTheme -> {
-            dynamicLightColorScheme(LocalContext.current)
+            Pair(dynamicLightColorScheme(LocalContext.current), iheNKiriLightColorScheme())
         }
 
-        isDarkTheme -> DarkColors
-        else -> LightColors
+        isDarkTheme -> Pair(DarkColors, iheNKiriDarkColorScheme())
+        else -> Pair(LightColors, iheNKiriLightColorScheme())
     }
-
-    // Make use of Material3 imports
-    ProvideIheNkiriTheme {
+    CompositionLocalProvider(
+        LocalIheNkiriSpacing provides IheNkiriSpacing(),
+        LocalIhenkiriTypography provides IheNkiriTypography(),
+        LocalIheNkiriColorScheme provides colorScheme.second,
+    ) {
         MaterialTheme(
-            colorScheme = colorScheme,
+            colorScheme = colorScheme.first,
             typography = IheNkiri.typography.toMaterialTypography(),
             content = content,
         )

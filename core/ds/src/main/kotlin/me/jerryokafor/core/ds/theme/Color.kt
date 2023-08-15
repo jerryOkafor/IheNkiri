@@ -21,8 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+@file:Suppress("MagicNumber")
 
 package me.jerryokafor.core.ds.theme
+
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF7C16F2)
@@ -88,3 +96,19 @@ val md_theme_dark_outlineVariant = Color(0xFF49454E)
 val md_theme_dark_scrim = Color(0xFF000000)
 
 val seed = Color(0xFF7703ED)
+
+@Stable
+class IheNKiriColorScheme(extraColor: Color) {
+    var extraColor by mutableStateOf(extraColor, structuralEqualityPolicy())
+        internal set
+}
+
+fun iheNKiriLightColorScheme(): IheNKiriColorScheme {
+    return IheNKiriColorScheme(extraColor = md_theme_dark_outline)
+}
+
+fun iheNKiriDarkColorScheme(): IheNKiriColorScheme {
+    return IheNKiriColorScheme(extraColor = md_theme_dark_outline)
+}
+
+internal val LocalIheNkiriColorScheme = staticCompositionLocalOf { iheNKiriLightColorScheme() }

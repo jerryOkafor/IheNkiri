@@ -57,6 +57,7 @@ object NetworkModule {
         )
 
         // Create the Interceptor
+        @Suppress("MagicNumber")
         return ChuckerInterceptor.Builder(context)
             .collector(chuckerCollector)
             .maxContentLength(250_000L)

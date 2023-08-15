@@ -30,7 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
-fun ComponentActivity.setIheNkiriContent(
+fun ComponentActivity.setIheAppThemedContent(
     parent: CompositionContext? = null,
     content: @Composable () -> Unit,
 ) {

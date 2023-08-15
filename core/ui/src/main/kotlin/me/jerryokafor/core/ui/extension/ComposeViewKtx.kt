@@ -28,7 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
-fun ComposeView.setIheNkiriContent(content: @Composable () -> Unit) {
+fun ComposeView.setIheAppThemedContent(content: @Composable () -> Unit) {
     setContent {
         IheNkiriTheme(content = content)
     }

@@ -22,14 +22,28 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.theme
+package me.jerryokafor.feature.movies.screens
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+@Preview
+@Composable
+fun MoviesScreenPreview() {
+    IheNkiriTheme {
+        MoviesScreen("Movies")
+    }
+}
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+@Composable
+fun MoviesScreen(currentScreen: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(modifier = Modifier.align(Alignment.Center), text = "We are here: $currentScreen")
+    }
+}
