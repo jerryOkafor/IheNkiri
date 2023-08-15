@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Run local tests
-        run: ./gradlew testDebug
+        run: ./gradlew testDebugUnitTestCoverage
 
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v3
