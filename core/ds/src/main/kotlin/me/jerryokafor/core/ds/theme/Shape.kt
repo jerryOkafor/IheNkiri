@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-@file:Suppress("ktlint:standard:filename","MatchingDeclarationName")
+@file:Suppress("ktlint:standard:filename", "MatchingDeclarationName")
 
 package me.jerryokafor.core.ds.theme
 

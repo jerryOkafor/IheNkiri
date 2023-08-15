@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-@file:Suppress("TooManyFunctions","MatchingDeclarationName")
+@file:Suppress("TooManyFunctions", "MatchingDeclarationName")
 
 package me.jerryokafor.core.ds.theme
 
