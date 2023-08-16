@@ -22,19 +22,33 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.network
+package me.jerryokafor.ihenkiri.core.test.util
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
+import okhttp3.mockwebserver.MockWebServer
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+object MockWebServerUtil {
+    fun <T> createMockedService(mockWebServer: MockWebServer, service: Class<T>): T {
+        val client = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
+            .writeTimeout(1, TimeUnit.SECONDS)
+            .build()
+        val gson = GsonBuilder()
+            .setPrettyPrinting()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
+
+        return Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(service)
     }
 }

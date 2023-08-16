@@ -22,42 +22,20 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-    id("me.jerryokafor.ihenkiri.android.library.compose")
-}
+package me.jerryokafor.ihenkiri.core.network.model.response
 
-android {
-    namespace = "me.jerryokafor.ihenkiri.core.test"
-}
+import com.google.gson.annotations.SerializedName
 
-dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
+data class MovieListResponse(
+    @SerializedName("page")
+    val page: Int,
 
-    // retrofit
-    api(libs.com.squareup.retrofit2)
-    api(libs.com.google.code.gson)
-    api(libs.com.squareup.retrofit2.converter.gson)
-    api(libs.com.squareup.okhttp3.logging.interceptor)
-    api(libs.com.squareup.okhttp3.mockwebserver)
+    @SerializedName("results")
+    val results: ArrayList<MovieResponse> = arrayListOf(),
 
-    api(libs.junit4)
-    api(libs.androidx.test.core)
-    api(libs.androidx.test.core.ktx)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.test.runner)
+    @SerializedName("total_pages")
+    val totalPages: Int,
 
-    api(libs.app.cash.turbine)
-    api(libs.androidx.hilt.android.testing)
-    api(libs.org.jetbrains.kotlinx.coroutines.test)
-    api(libs.androidx.compose.ui.test.junit4)
-    api(libs.androidx.compose.ui.test.manifest)
-
-    api(libs.io.mockk.android)
-    api(libs.io.mockk.agent)
-
-    api(libs.androidx.test.ext.junit)
-    api(libs.androidx.test.espresso.core)
-}
+    @SerializedName("total_results")
+    val totalResults: Int,
+)

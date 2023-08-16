@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -42,7 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.jerryokafor.core.ui.extension.setIheAppThemedContent
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
-import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
+import me.jerryokafor.ihenkiri.core.network.service.AuthService
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Inject
-    lateinit var theMovieDBAPI: TheMovieDBAPI
+    lateinit var theMovieDBAPI: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()

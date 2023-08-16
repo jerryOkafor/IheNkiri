@@ -24,6 +24,7 @@
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.library")
+    id("me.jerryokafor.ihenkiri.android.hilt")
 }
 
 android {
@@ -46,8 +47,5 @@ android {
 
 dependencies {
     testImplementation(project(":core:test"))
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(project(":core:test"))
 }

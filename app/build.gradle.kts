@@ -41,7 +41,7 @@ android {
         versionCode = Config.versionCode
         versionName = Config.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -110,13 +110,14 @@ dependencies {
 
     implementation(libs.com.google.accompanist.systemuicontroller)
 
+    testImplementation(project(":core:test"))
     testImplementation(libs.junit4)
-
     testImplementation(libs.io.mockk.android)
     testImplementation(libs.io.mockk.agent)
+
+    androidTestImplementation(project(":core:test"))
     androidTestImplementation(libs.io.mockk.android)
     androidTestImplementation(libs.io.mockk.agent)
-
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

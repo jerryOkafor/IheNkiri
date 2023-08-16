@@ -22,42 +22,23 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-    id("me.jerryokafor.ihenkiri.android.library.compose")
-}
+package me.jerryokafor.ihenkiri.core.test
 
-android {
-    namespace = "me.jerryokafor.ihenkiri.core.test"
-}
+import android.app.Application
+import android.content.Context
+import androidx.test.runner.AndroidJUnitRunner
+import dagger.hilt.android.testing.HiltTestApplication
 
-dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
-
-    // retrofit
-    api(libs.com.squareup.retrofit2)
-    api(libs.com.google.code.gson)
-    api(libs.com.squareup.retrofit2.converter.gson)
-    api(libs.com.squareup.okhttp3.logging.interceptor)
-    api(libs.com.squareup.okhttp3.mockwebserver)
-
-    api(libs.junit4)
-    api(libs.androidx.test.core)
-    api(libs.androidx.test.core.ktx)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.test.runner)
-
-    api(libs.app.cash.turbine)
-    api(libs.androidx.hilt.android.testing)
-    api(libs.org.jetbrains.kotlinx.coroutines.test)
-    api(libs.androidx.compose.ui.test.junit4)
-    api(libs.androidx.compose.ui.test.manifest)
-
-    api(libs.io.mockk.android)
-    api(libs.io.mockk.agent)
-
-    api(libs.androidx.test.ext.junit)
-    api(libs.androidx.test.espresso.core)
+/**
+ * A custom runner to setup the instrumented applicaton class for test with Hilt
+ *
+ */
+class IheNkiriTestRunner : AndroidJUnitRunner() {
+    override fun newApplication(
+        cl: ClassLoader?,
+        className: String?,
+        context: Context?,
+    ): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+    }
 }

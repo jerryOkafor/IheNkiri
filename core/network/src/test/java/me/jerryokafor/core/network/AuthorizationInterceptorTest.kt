@@ -22,17 +22,18 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.network.service
+package me.jerryokafor.core.network
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
-import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
-import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
-import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
-import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
-import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
+import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
+import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor.Companion.AUTH_HEADER
+import me.jerryokafor.ihenkiri.core.network.service.AuthService
+import me.jerryokafor.ihenkiri.core.test.test.network.createRequestToken
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -41,28 +42,28 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
-class TheMovieDBAPITest {
-
+class AuthorizationInterceptorTest {
     private val mockWebServer = MockWebServer()
+    private val authToken = "eyJhbGciOiJIUzI1NiJ9"
+    private val authInterceptor = spyk(AuthorizationInterceptor(authToken))
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(1, TimeUnit.SECONDS)
         .readTimeout(1, TimeUnit.SECONDS)
         .writeTimeout(1, TimeUnit.SECONDS)
+        .addInterceptor(authInterceptor)
         .build()
     private val gson = GsonBuilder()
         .setPrettyPrinting()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .create()
-
-    private val api = Retrofit.Builder()
+    private val authService = Retrofit.Builder()
         .baseUrl(mockWebServer.url("/"))
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-        .create(TheMovieDBAPI::class.java)
+        .create(AuthService::class.java)
 
     @After
     fun tearDown() {
@@ -70,44 +71,16 @@ class TheMovieDBAPITest {
     }
 
     @Test
-    fun `test create request token success if response is 200`() {
+    fun `test authToken set when a request is sent`() {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
         runBlocking {
-            val response = api.createRequestToken(CreateRequestTokenRequest(""))
-            val expected = CreateRequestTokenResponse(
-                requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
-                statusCode = 1,
-                statusMessage = "Success.",
-                success = true,
-            )
-
-            assertNotNull(response)
-
-            assertEquals(expected, response)
+            authService.createRequestToken(createRequestToken())
         }
-    }
 
-    @Test
-    fun `test create access token success if response is 200`() {
-        mockWebServer.enqueueResponse("create-access-token-200.json", 200)
+        val recordedRequest = mockWebServer.takeRequest()
+        assertEquals(recordedRequest.getHeader(AUTH_HEADER), "Bearer $authToken")
 
-        runBlocking {
-            val response = api.createAccessToken(
-                CreateAccessTokenRequest(
-                    requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
-                ),
-            )
-            val expected = CreateAccessTokenResponse(
-                accountId = "4bc889XXXXa3c0z92001001",
-                accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2",
-                statusMessage = "Success.",
-                statusCode = 1,
-                success = true,
-            )
-
-            assertNotNull(response)
-            assertEquals(expected, response)
-        }
+        verify(exactly = 1) { authInterceptor.intercept(any()) }
     }
 }

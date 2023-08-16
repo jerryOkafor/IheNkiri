@@ -69,6 +69,7 @@ android {
 
 dependencies {
     implementation(project(":core:model"))
+
     // retrofit
     implementation(libs.com.squareup.retrofit2)
     implementation(libs.com.google.code.gson)
@@ -79,11 +80,15 @@ dependencies {
     debugImplementation(libs.com.github.chuckerteam.chucker.library)
     releaseImplementation(libs.com.github.chuckerteam.chucker.library.no.op)
 
+    testImplementation(project(":core:test"))
     testImplementation(libs.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver)
+    testImplementation(libs.io.mockk.android)
+    testImplementation(libs.io.mockk.agent)
 
+    androidTestImplementation(project(":core:test"))
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }
 
 secrets {

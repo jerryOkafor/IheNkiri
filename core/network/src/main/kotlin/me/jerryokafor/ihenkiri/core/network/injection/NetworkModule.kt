@@ -37,7 +37,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.jerryokafor.core.network.BuildConfig
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
-import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
+import me.jerryokafor.ihenkiri.core.network.service.AuthService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -71,9 +71,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
+        val authToken = BuildConfig.TMDB_API_KEY
         val builder = OkHttpClient.Builder()
             .addInterceptor(chuckerInterceptor)
-            .addInterceptor(AuthorizationInterceptor())
+            .addInterceptor(AuthorizationInterceptor(authToken))
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -100,6 +101,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideTheMovieDBAPI(retrofit: Retrofit): TheMovieDBAPI =
-        retrofit.create(TheMovieDBAPI::class.java)
+    fun provideTheMovieDBAPI(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 }

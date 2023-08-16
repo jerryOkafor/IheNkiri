@@ -22,42 +22,16 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-    id("me.jerryokafor.ihenkiri.android.library.compose")
-}
+package me.jerryokafor.core.network.service
 
-android {
-    namespace = "me.jerryokafor.ihenkiri.core.test"
-}
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 
-dependencies {
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
+open class BaseServiceTest {
+    val mockWebServer = MockWebServer()
 
-    // retrofit
-    api(libs.com.squareup.retrofit2)
-    api(libs.com.google.code.gson)
-    api(libs.com.squareup.retrofit2.converter.gson)
-    api(libs.com.squareup.okhttp3.logging.interceptor)
-    api(libs.com.squareup.okhttp3.mockwebserver)
-
-    api(libs.junit4)
-    api(libs.androidx.test.core)
-    api(libs.androidx.test.core.ktx)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.test.runner)
-
-    api(libs.app.cash.turbine)
-    api(libs.androidx.hilt.android.testing)
-    api(libs.org.jetbrains.kotlinx.coroutines.test)
-    api(libs.androidx.compose.ui.test.junit4)
-    api(libs.androidx.compose.ui.test.manifest)
-
-    api(libs.io.mockk.android)
-    api(libs.io.mockk.agent)
-
-    api(libs.androidx.test.ext.junit)
-    api(libs.androidx.test.espresso.core)
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
 }
