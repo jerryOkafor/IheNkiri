@@ -69,6 +69,11 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
 
+        register("androidTest") {
+            id = "me.jerryokafor.ihenkiri.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
+
         register("kotlinJVM") {
             id = "me.jerryokafor.ihenkiri.kotlin.jvm"
             implementationClass = "JvmLibraryConventionPlugin"

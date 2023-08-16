@@ -23,31 +23,28 @@
  */
 
 plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
+    id("me.jerryokafor.ihenkiri.android.test")
 }
 
 android {
-    namespace = "me.jerryokafor.core.data"
+    namespace = "me.jerryokafor.core.ihenkiri.androidTest"
 
     defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
+    targetProjectPath = ":app"
 }
 
 dependencies {
-    testImplementation(project(":core:test"))
-    testImplementation(libs.junit4)
+    implementation(project(":app"))
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.com.google.android.material)
+
+    implementation(libs.junit4)
+
+    implementation(libs.androidx.test.ext.junit)
+    implementation(libs.espresso.core)
 }

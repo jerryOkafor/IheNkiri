@@ -37,6 +37,27 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import me.jerryokafor.core.ds.theme.IheNkiri
 
+@Composable
+fun BottomNavigation(navController: NavHostController) {
+    val items = listOf(
+        BottomNavItem.Movies,
+        BottomNavItem.TVShows,
+        BottomNavItem.People,
+        BottomNavItem.More,
+    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    NavigationBar {
+        items.forEach { item ->
+            AddItem(screen = item, selected = currentRoute == item.route) {
+                navController.navigate(item.route)
+            }
+        }
+    }
+}
+
 sealed class BottomNavItem(
     val title: String,
     val icon: Int,
@@ -62,7 +83,7 @@ sealed class BottomNavItem(
 }
 
 @Composable
-fun RowScope.AddItem(
+private fun RowScope.AddItem(
     screen: BottomNavItem,
     selected: Boolean,
     onClick: () -> Unit,
@@ -81,25 +102,4 @@ fun RowScope.AddItem(
         onClick = onClick,
         colors = NavigationBarItemDefaults.colors(),
     )
-}
-
-@Composable
-fun BottomNavigation(navController: NavHostController) {
-    val items = listOf(
-        BottomNavItem.Movies,
-        BottomNavItem.TVShows,
-        BottomNavItem.People,
-        BottomNavItem.More,
-    )
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    NavigationBar {
-        items.forEach { item ->
-            AddItem(screen = item, selected = currentRoute == item.route) {
-                navController.navigate(item.route)
-            }
-        }
-    }
 }

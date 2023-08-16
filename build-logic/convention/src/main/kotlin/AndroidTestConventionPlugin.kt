@@ -22,32 +22,29 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-}
+import com.android.build.gradle.TestExtension
+import me.jerryokafor.ihenkiri.Config
+import me.jerryokafor.ihenkiri.configureKotlinAndroid
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
-android {
-    namespace = "me.jerryokafor.core.data"
+class AndroidTestConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("com.android.test")
+                apply("kotlin-parcelize")
+            }
 
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
+            extensions.configure<TestExtension> {
+                defaultConfig {
+                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
+                configureKotlinAndroid(this)
+                defaultConfig.targetSdk = Config.targetSdkVersion
+            }
         }
     }
-}
-
-dependencies {
-    testImplementation(project(":core:test"))
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }

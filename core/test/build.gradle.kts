@@ -24,28 +24,21 @@
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.library")
+    id("me.jerryokafor.ihenkiri.android.hilt")
+    id("me.jerryokafor.ihenkiri.android.library.compose")
 }
 
 android {
-    namespace = "me.jerryokafor.core.data"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
+    namespace = "me.jerryokafor.ihenkiri.core.test"
 }
 
 dependencies {
-    testImplementation(project(":core:test"))
+    implementation(project(":core:data"))
+
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.com.google.android.material)
+
     testImplementation(libs.junit4)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
