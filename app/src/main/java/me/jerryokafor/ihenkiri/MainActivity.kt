@@ -57,6 +57,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ui.extension.setIheAppThemedContent
 import me.jerryokafor.feature.movies.screens.MoviesScreen
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
@@ -157,11 +158,10 @@ internal fun AppContent(onSignInClick: () -> Unit) {
         } else {
             LandingScreen(
                 onContinueAsGuestClick = onContinueAsGuestClick,
-                onSignInClick = onSignInClick
+                onSignInClick = onSignInClick,
             )
         }
     }
-
 }
 
 @Composable
@@ -242,6 +242,7 @@ fun RowScope.AddItem(
             Icon(
                 painterResource(id = screen.icon),
                 contentDescription = screen.title,
+                tint = IheNkiri.color.secondary,
             )
         },
         selected = selected,
