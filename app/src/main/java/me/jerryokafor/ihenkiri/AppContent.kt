@@ -24,23 +24,34 @@
 
 package me.jerryokafor.ihenkiri
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import androidx.compose.animation.Crossfade
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.navigation.compose.rememberNavController
+import me.jerryokafor.ihenkiri.screens.LandingScreen
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("me.jerryokafor.ihenkiri", appContext.packageName)
+@Composable
+internal fun AppContent(onSignInClick: () -> Unit) {
+    val navController = rememberNavController()
+    val isLoggedIn = remember { mutableStateOf(false) }
+
+    val onContinueAsGuestClick: () -> Unit = {
+        isLoggedIn.value = true
+    }
+    Crossfade(targetState = isLoggedIn.value, label = "loginState") {
+        if (it) {
+            Scaffold(
+                bottomBar = { BottomNavigation(navController) },
+            ) {
+                NavigationGraph(navController)
+            }
+        } else {
+            LandingScreen(
+                onContinueAsGuestClick = onContinueAsGuestClick,
+                onSignInClick = onSignInClick,
+            )
+        }
     }
 }

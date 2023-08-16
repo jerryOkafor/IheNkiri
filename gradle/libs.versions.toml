@@ -41,6 +41,7 @@ jacoco = "0.8.8"
 
 # testing
 junit4 = "4.13.2"
+mockk = "1.13.7"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 org-jetbrains-kotlin-jvm = "1.8.0"
@@ -109,7 +110,10 @@ com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", 
 
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
+# testing
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 
 
 # utils

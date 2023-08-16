@@ -24,8 +24,6 @@
 
 <resources>
     <string name="app_name">IheNkiri</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_movies">Movies</string>
     <string name="app_tv_shows">TV Shows</string>
     <string name="app_people">People</string>
@@ -33,7 +31,7 @@
     <string name="app_continue_as_guest">Continue as Guest</string>
     <string name="app_sign_in">Sign In</string>
     <string name="app_landing_sub_text">Stay on top of information about movies, series, anime and more.</string>
-    <string name="app_landing_text_everything_about">"Everything about "</string>
+    <string name="app_landing_text_everything_about">Everything about </string>
     <string name="app_landing_text_extra">"  movies, series, anime and much more."</string>
     <string name="app_cont_txt_tmdb_logo">TMDB logo</string>
 </resources>

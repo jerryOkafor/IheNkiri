@@ -63,7 +63,11 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
         }
     }
 }
@@ -106,8 +110,13 @@ dependencies {
 
     implementation(libs.com.google.accompanist.systemuicontroller)
 
+    testImplementation(libs.junit4)
+
+    testImplementation(libs.io.mockk.android)
+    testImplementation(libs.io.mockk.agent)
+    androidTestImplementation(libs.io.mockk.android)
+    androidTestImplementation(libs.io.mockk.agent)
+
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    testImplementation(libs.junit4)
 }

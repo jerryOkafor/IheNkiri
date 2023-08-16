@@ -30,39 +30,19 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ui.extension.setIheAppThemedContent
-import me.jerryokafor.feature.movies.screens.MoviesScreen
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
-import me.jerryokafor.ihenkiri.screens.LandingScreen
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -138,116 +118,4 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onNewIntent() $data")
     }
-}
-
-@Composable
-internal fun AppContent(onSignInClick: () -> Unit) {
-    val navController = rememberNavController()
-    val isLoggedIn = remember { mutableStateOf(false) }
-
-    val onContinueAsGuestClick: () -> Unit = {
-        isLoggedIn.value = true
-    }
-    Crossfade(targetState = isLoggedIn.value, label = "loginState") {
-        if (it) {
-            Scaffold(
-                bottomBar = { BottomNavigation(navController) },
-            ) {
-                NavigationGraph(navController)
-            }
-        } else {
-            LandingScreen(
-                onContinueAsGuestClick = onContinueAsGuestClick,
-                onSignInClick = onSignInClick,
-            )
-        }
-    }
-}
-
-@Composable
-fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = BottomNavItem.Movies.route) {
-        composable(BottomNavItem.Movies.route) {
-            MoviesScreen(currentScreen = "Movies")
-        }
-
-        composable(BottomNavItem.TVShows.route) {
-            MoviesScreen(currentScreen = "TV Shows")
-        }
-
-        composable(BottomNavItem.People.route) {
-            MoviesScreen(currentScreen = "People")
-        }
-
-        composable(BottomNavItem.More.route) {
-            MoviesScreen(currentScreen = "More")
-        }
-    }
-}
-
-sealed class BottomNavItem(
-    val title: String,
-    val icon: Int,
-    val route: String,
-) {
-    data object Movies : BottomNavItem(
-        title = "Movies",
-        icon = R.drawable.baseline_video_library_24,
-        route = "/movies",
-    )
-
-    data object TVShows : BottomNavItem(
-        title = "TV Shows",
-        icon = R.drawable.baseline_live_tv_24,
-        route = "/tv-shows",
-    )
-
-    data object People :
-        BottomNavItem(title = "People", icon = R.drawable.baseline_people_24, route = "/people")
-
-    data object More :
-        BottomNavItem(title = "More", icon = R.drawable.baseline_more_24, route = "/more")
-}
-
-@Composable
-fun BottomNavigation(navController: NavHostController) {
-    val items = listOf(
-        BottomNavItem.Movies,
-        BottomNavItem.TVShows,
-        BottomNavItem.People,
-        BottomNavItem.More,
-    )
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
-    NavigationBar {
-        items.forEach { item ->
-            AddItem(screen = item, selected = currentRoute == item.route) {
-                navController.navigate(item.route)
-            }
-        }
-    }
-}
-
-@Composable
-fun RowScope.AddItem(
-    screen: BottomNavItem,
-    selected: Boolean,
-    onClick: () -> Unit,
-) {
-    NavigationBarItem(
-        label = { Text(text = screen.title) },
-        icon = {
-            Icon(
-                painterResource(id = screen.icon),
-                contentDescription = screen.title,
-                tint = IheNkiri.color.secondary,
-            )
-        },
-        selected = selected,
-        alwaysShowLabel = true,
-        onClick = onClick,
-        colors = NavigationBarItemDefaults.colors(),
-    )
 }
