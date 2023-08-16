@@ -123,13 +123,26 @@ fun LandingScreen(onSignInClick: () -> Unit = {}, onContinueAsGuestClick: () -> 
                 style = IheNkiri.typography.bodyMedium,
             )
             TwoVerticalSpacer()
-            Button(modifier = Modifier, onClick = onSignInClick) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = IheNkiri.spacing.two),
+                onClick = onSignInClick,
+            ) {
                 Text(text = stringResource(R.string.app_sign_in))
             }
             TwoVerticalSpacer()
 
-            TextButton(modifier = Modifier, onClick = onContinueAsGuestClick) {
-                Text(text = stringResource(R.string.app_continue_as_guest), color = Color.White)
+            TextButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = IheNkiri.spacing.two),
+                onClick = onContinueAsGuestClick,
+            ) {
+                Text(
+                    text = stringResource(R.string.app_continue_as_guest),
+                    color = Color.White,
+                )
             }
             TwoVerticalSpacer()
         }

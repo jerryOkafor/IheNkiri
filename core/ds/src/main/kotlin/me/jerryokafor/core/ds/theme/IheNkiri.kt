@@ -150,14 +150,18 @@ fun IheNkiriTheme(
         isDarkTheme -> Pair(DarkColors, iheNKiriDarkColorScheme())
         else -> Pair(LightColors, iheNKiriLightColorScheme())
     }
+    val ihenkiriShape = IhenkiriShape()
+
     CompositionLocalProvider(
         LocalIheNkiriSpacing provides IheNkiriSpacing(),
         LocalIhenkiriTypography provides IheNkiriTypography(),
         LocalIheNkiriColorScheme provides colorScheme.second,
+        LocalIheNkiriShape provides ihenkiriShape,
     ) {
         MaterialTheme(
             colorScheme = colorScheme.first,
             typography = IheNkiri.typography.toMaterialTypography(),
+            shapes = ihenkiriShape.toMaterialShapes(),
             content = content,
         )
     }

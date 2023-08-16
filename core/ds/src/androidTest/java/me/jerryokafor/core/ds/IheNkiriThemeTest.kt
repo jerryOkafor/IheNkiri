@@ -24,11 +24,24 @@
 
 package me.jerryokafor.core.ds
 
+import android.os.Build
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createComposeRule
 import me.jerryokafor.core.ds.theme.DarkColors
+import me.jerryokafor.core.ds.theme.IheNkiriSpacing
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.IhenkiriShape
+import me.jerryokafor.core.ds.theme.LightColors
+import me.jerryokafor.core.ds.theme.LocalIheNkiriColorScheme
+import me.jerryokafor.core.ds.theme.LocalIheNkiriSpacing
+import me.jerryokafor.core.ds.theme.iheNKiriDarkColorScheme
+import me.jerryokafor.core.ds.theme.iheNKiriLightColorScheme
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -47,8 +60,104 @@ class IheNkiriThemeTest {
             IheNkiriTheme(isDarkTheme = true, isDynamicColor = false) {
                 val expectedColorScheme = DarkColors
                 assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
+
+                assertEquals(
+                    iheNKiriDarkColorScheme().extraColor,
+                    LocalIheNkiriColorScheme.current.extraColor,
+                )
+
+                // assert spacing
+                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+
+                // assert shape
+                assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
             }
         }
+    }
+
+    @Test
+    fun test_LightColors_When_isDarkThemeFalse_and_isDynamicColorFalse() {
+        composeTestRule.setContent {
+            IheNkiriTheme(isDarkTheme = false, isDynamicColor = false) {
+                val expectedColorScheme = LightColors
+                assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
+
+                assertEquals(
+                    iheNKiriLightColorScheme().extraColor,
+                    LocalIheNkiriColorScheme.current.extraColor,
+                )
+
+                // assert spacing
+                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+
+                // assert shape
+                assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
+            }
+        }
+    }
+
+    @Test
+    fun test_DynamicDarkColors_When_isDarkThemeTrue_and_isDynamicColorTrue() {
+        composeTestRule.setContent {
+            IheNkiriTheme(isDarkTheme = true, isDynamicColor = true) {
+                val expectedColorScheme = dynamicDarkColorSchemeWithFallback()
+                assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
+
+                assertEquals(
+                    iheNKiriLightColorScheme().extraColor,
+                    LocalIheNkiriColorScheme.current.extraColor,
+                )
+
+                // assert spacing
+                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+
+                // assert shape
+                assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
+            }
+        }
+    }
+
+    @Test
+    fun test_DynamicLightColors_When_isDarkThemeFalse_and_isDynamicColorTrue() {
+        composeTestRule.setContent {
+            IheNkiriTheme(isDarkTheme = false, isDynamicColor = true) {
+                val expectedColorScheme = dynamicLightColorSchemeWithFallback()
+                assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
+
+                assertEquals(
+                    iheNKiriLightColorScheme().extraColor,
+                    LocalIheNkiriColorScheme.current.extraColor,
+                )
+
+                // assert spacing
+                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+
+                // assert shape
+                assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
+            }
+        }
+    }
+}
+
+private fun defaultShape(): IhenkiriShape = IhenkiriShape()
+
+private fun defaultSpacing(): IheNkiriSpacing = IheNkiriSpacing()
+
+@Composable
+private fun dynamicLightColorSchemeWithFallback(): ColorScheme {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        dynamicLightColorScheme(LocalContext.current)
+    } else {
+        LightColors
+    }
+}
+
+@Composable
+private fun dynamicDarkColorSchemeWithFallback(): ColorScheme {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        dynamicDarkColorScheme(LocalContext.current)
+    } else {
+        DarkColors
     }
 }
 
@@ -84,4 +193,11 @@ private fun assertColorSchemesEqual(
     assertEquals(expectedColorScheme.inverseSurface, actualColorScheme.inverseSurface)
     assertEquals(expectedColorScheme.inverseOnSurface, actualColorScheme.inverseOnSurface)
     assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
+}
+
+private fun assertEqualsShapesEqual(defaultShape: IhenkiriShape, shapes: Shapes) {
+    val toMaterialShapes = defaultShape.toMaterialShapes()
+    assertEquals(toMaterialShapes.small, shapes.small)
+    assertEquals(toMaterialShapes.medium, shapes.medium)
+    assertEquals(toMaterialShapes.large, shapes.large)
 }
