@@ -69,6 +69,11 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
 
+        register("androidTest") {
+            id = "me.jerryokafor.ihenkiri.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
+
         register("kotlinJVM") {
             id = "me.jerryokafor.ihenkiri.kotlin.jvm"
             implementationClass = "JvmLibraryConventionPlugin"
@@ -102,6 +107,16 @@ gradlePlugin {
         register("androidNavigation") {
             id = "me.jerryokafor.ihenkiri.android.navigation"
             implementationClass = "AndroidNavigationConventionPlugin"
+        }
+
+        register("androidAppCompose") {
+            id = "me.jerryokafor.ihenkiri.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "me.jerryokafor.ihenkiri.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
     }
 }

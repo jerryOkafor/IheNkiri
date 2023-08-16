@@ -56,6 +56,7 @@ internal fun Project.configureKotlinAndroid(
         }
 
         testOptions {
+            animationsDisabled = true
             unitTests {
                 isIncludeAndroidResources = true
                 isReturnDefaultValues = true

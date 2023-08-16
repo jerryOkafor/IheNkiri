@@ -32,6 +32,7 @@ androidxHiltNavigationCompose = "1.0.0"
 # compose
 composeBom = "2023.08.00"
 composeCompiler = "1.5.1"
+accompanist = "0.33.0-alpha"
 
 # code quality
 detekt = "1.22.0"
@@ -40,6 +41,7 @@ jacoco = "0.8.8"
 
 # testing
 junit4 = "4.13.2"
+mockk = "1.13.7"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 org-jetbrains-kotlin-jvm = "1.8.0"
@@ -58,7 +60,8 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
 com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
@@ -101,10 +104,16 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+# accompanist
+com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+
 
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
+# testing
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 
 
 # utils

@@ -29,11 +29,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import me.jerryokafor.ihenkiri.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
+import me.jerryokafor.core.ui.extension.setIheAppThemedContent
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
+import me.jerryokafor.ihenkiri.core.network.service.TheMovieDBAPI
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -42,24 +52,62 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "MainActivity"
     }
 
-    private lateinit var binding: ActivityMainBinding
+    @Inject
+    lateinit var theMovieDBAPI: TheMovieDBAPI
 
-    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         splashScreen.setKeepOnScreenCondition { false }
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+        // Turn off the decor fitting system windows, which allows us to handle insets,
+        // including IME animations
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        setIheAppThemedContent {
+            val systemUiController = rememberSystemUiController()
+            val useDarkIcons = !isSystemInDarkTheme()
+
+            DisposableEffect(systemUiController, useDarkIcons) {
+                // Update all of the system bar colors to be transparent, and use
+                // dark icons if we're in light theme
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = useDarkIcons,
+                )
+                onDispose {}
+            }
+
+            AppContent(onSignInClick = ::onSignInClick)
+        }
 
         val action: String? = intent?.action
         val data: Uri? = intent?.data
 
         Log.d(TAG, "onCreate() $data")
+    }
+
+    private fun onSignInClick() {
+        lifecycleScope.launch {
+            try {
+                val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
+
+                val request =
+                    theMovieDBAPI.createRequestToken(CreateRequestTokenRequest(redirectTo = redirectTo))
+                Log.d("MainActivity", "Result: $request")
+                val requestToken = request.requestToken
+
+                val url =
+                    "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
+                val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
+                intent.launchUrl(this@MainActivity, Uri.parse(url))
+
+                // after approval, you can then use the request token to
+                // get an access token and save for future use
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error: ${e.localizedMessage}")
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

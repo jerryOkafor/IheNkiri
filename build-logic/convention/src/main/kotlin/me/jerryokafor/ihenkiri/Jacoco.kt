@@ -102,11 +102,11 @@ internal fun Project.configureJacoco(
                 enableAndroidTestCoverage = true
             }
 
-            getByName("release") {
-                // disable coverage report on release build
-                enableUnitTestCoverage = false
-                enableAndroidTestCoverage = false
-            }
+//            getByName("release") {
+//                // disable coverage report on release build
+//                enableUnitTestCoverage = false
+//                enableAndroidTestCoverage = false
+//            }
         }
     }
 
@@ -115,8 +115,10 @@ internal fun Project.configureJacoco(
         // original test task name for yhe given variant
         val testTaskName = "test${variant.name.capitalize()}UnitTest"
 
+//        val androidTestCoverageTask = "create${variant.name.capitalize()}CoverageReport"
+
         // register variants report task
-        val coverageTaskName = "jacoco${testTaskName.capitalize()}Coverage"
+        val coverageTaskName = "${testTaskName}Coverage"
 
         @Suppress("UnusedPrivateMember")
         val coverageTask =
@@ -152,15 +154,20 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
-                    file(
+                    files(
+                        // Unit tests coverage data
                         "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                        // Instrumented tests coverage data
+                        fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                            include("**/*.ec")
+                        },
                     ),
                 )
             }
 
         // add unit test verification for all variant
         val verificationTask = tasks.register(
-            "jacoco${testTaskName.capitalize()}CoverageVerification",
+            "${testTaskName}CoverageVerification",
             JacocoCoverageVerification::class.java,
         ) {
             group = "Reporting"
@@ -203,8 +210,13 @@ internal fun Project.configureJacoco(
 
             // set outputs
             executionData.setFrom(
-                file(
+                files(
+                    // Unit tests coverage data
                     "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                    // Instrumented tests coverage data
+                    fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                        include("**/*.ec")
+                    },
                 ),
             )
         }

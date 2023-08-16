@@ -24,6 +24,7 @@
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.library")
+    id("me.jerryokafor.ihenkiri.android.library.compose")
 }
 
 android {
@@ -33,6 +34,7 @@ android {
     }
 
     buildTypes {
+        debug { }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -44,6 +46,24 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ds"))
+
+    // compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+
     testImplementation(libs.junit4)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
