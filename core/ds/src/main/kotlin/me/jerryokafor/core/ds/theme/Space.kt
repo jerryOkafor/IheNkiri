@@ -35,6 +35,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 
 data class IheNkiriSpacing(
     val none: Dp = 0.dp,
@@ -57,112 +58,134 @@ data class IheNkiriSpacing(
 )
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun QuarterVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.quarter))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun HalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.half))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun OneVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.one))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun OneAndHalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.oneAndHalf))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TwoVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.two))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TwoAndHalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.twoAndaHalf))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun ThreeVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.three))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun FourVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.four))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun FiveVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.five))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun SixVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.six))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun EightVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.eight))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TenVerticaSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.ten))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TwelveVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.twelve))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun ColumnScope.FillingSpacer() {
     Spacer(modifier = Modifier.weight(1f))
 }
 
 // Horizontal Spacers
 @Composable
+@IgnoreCoverageAsGenerated
 fun QuarterHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.quarter))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun HalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.half))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun OneHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.one))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun OneAndHalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.oneAndHalf))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TwoHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.two))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun ThreeHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.three))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun TwoAndHalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.twoAndaHalf))
 }
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun RowScope.FillingSpacer() {
     Spacer(modifier = Modifier.weight(1f))
 }
