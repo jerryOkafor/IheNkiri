@@ -22,29 +22,31 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.test")
-}
+package me.jerryokafor.ihenkiri.ui
 
-android {
-    namespace = "me.jerryokafor.core.ihenkiri.androidTest"
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+@HiltViewModel
+class AppContentViewModel @Inject constructor() : ViewModel() {
+
+    private val _uiState = MutableStateFlow(AppUIState())
+    val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
+
+    fun updateLoginState(loggedIn: Boolean) {
+        _uiState.update {
+            it.copy(isLoggedIn = loggedIn)
+        }
     }
-
-    targetProjectPath = ":app"
 }
 
-dependencies {
-    implementation(project(":app"))
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.com.google.android.material)
-
-    implementation(libs.junit4)
-
-    implementation(libs.androidx.test.ext.junit)
-    implementation(libs.androidx.test.espresso.core)
-}
+data class AppUIState(
+    val isLoggedIn: Boolean = false,
+    val isDarkTheme: Boolean = false,
+    val isDynamicColor: Boolean = true,
+)

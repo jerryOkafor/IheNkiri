@@ -48,7 +48,6 @@ android {
     }
 
     buildTypes {
-        debug {}
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -57,21 +56,23 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:ds"))
     implementation(project(":core:ui"))
     implementation(project(":feature:movies"))
 
+    // lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
 
     implementation(libs.androidx.fragment.ktx)

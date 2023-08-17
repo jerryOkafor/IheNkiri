@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri
+package me.jerryokafor.ihenkiri.ui
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
@@ -35,9 +35,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.theme.IheNkiri
+import me.jerryokafor.ihenkiri.R
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun BottomNavigation(navController: NavHostController) {
     val items = listOf(
         BottomNavItem.Movies,

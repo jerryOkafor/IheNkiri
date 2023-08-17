@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screens
+package me.jerryokafor.ihenkiri.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,9 +67,13 @@ fun LandingScreenPreview() {
 private const val HALF_WIDTH = 0.5F
 
 @Composable
-fun LandingScreen(onSignInClick: () -> Unit = {}, onContinueAsGuestClick: () -> Unit = {}) {
+fun LandingScreen(
+    modifier: Modifier = Modifier,
+    onSignInClick: () -> Unit = {},
+    onContinueAsGuestClick: () -> Unit = {},
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),

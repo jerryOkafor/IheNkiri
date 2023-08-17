@@ -22,22 +22,18 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screens
+package me.jerryokafor.ihenkiri
 
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
+import androidx.compose.ui.test.onNodeWithTag
+import me.jerryokafor.ihenkiri.ui.AppContent
+import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
+import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
-class LandingScreenTest {
-
+class AppContentTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -45,24 +41,34 @@ class LandingScreenTest {
     private var onSignInClick = 0
 
     @Test
-    fun testLandingScreen() {
+    fun when_isLoggedInFalse_Expect_SignScreenToBeShown() {
         composeTestRule.setContent {
-            IheNkiriTheme {
-                LandingScreen(
-                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
-                    onSignInClick = { onSignInClick++ },
-                )
-            }
+            AppContent(
+                isLoggedIn = false,
+                isDarkTheme = false,
+                isDynamicColor = false,
+                onContinueAsGuestClick = { onContinueAsGuestClick++ },
+                onSignInClick = { onSignInClick++ },
+            )
         }
 
-        composeTestRule.onNodeWithText("Sign In").assertIsDisplayed().assertHasClickAction()
-            .performClick()
-        composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
-            .assertHasClickAction().performClick()
-        composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("TMDB logo").assertIsDisplayed()
+        composeTestRule.onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertExists()
+        composeTestRule.onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertDoesNotExist()
+    }
 
-        assertEquals(onContinueAsGuestClick, 1)
-        assertEquals(onSignInClick, 1)
+    @Test
+    fun when_isLoggedInTrue_Expect_MainContentToBeShown() {
+        composeTestRule.setContent {
+            AppContent(
+                isLoggedIn = true,
+                isDarkTheme = false,
+                isDynamicColor = false,
+                onContinueAsGuestClick = { onContinueAsGuestClick++ },
+                onSignInClick = { onSignInClick++ },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()
+        composeTestRule.onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertIsDisplayed()
     }
 }

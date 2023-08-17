@@ -4,7 +4,7 @@ kotlin = "1.9.0"
 androidDesugarJdkLibs = "2.0.3"
 
 core-ktx = "1.10.1"
-lifecycle-runtime-ktx = "2.6.1"
+lifecycle = "2.6.1"
 activity-compose = "1.7.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.1"
@@ -37,7 +37,7 @@ accompanist = "0.33.0-alpha"
 # code quality
 detekt = "1.22.0"
 ktlint = "0.50.0"
-jacoco = "0.8.8"
+jacoco = "0.8.10"
 
 # testing
 junit4 = "4.13.2"
@@ -58,27 +58,33 @@ chucker = "4.0.0"
 dependencyGraphGenerator = "0.8.0"
 
 [libraries]
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "adroidXFragmentktx" }
 android-tools-desugarKdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "adroidXFragmentktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-testing = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "lifecycle" }
 
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
-
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
-
-com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-
-
+# jetbrains
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
+# google
+com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# accompanist
+com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+
 
 # Retrofit
 com-squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 com-squareup-retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 com-squareup-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 com-squareup-okhttp3-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp3" }
@@ -108,12 +114,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-
-# accompanist
-com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
-
-
-androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
 # testing
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }

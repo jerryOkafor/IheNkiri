@@ -22,29 +22,27 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri
+package me.jerryokafor.ihenkiri.ui
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import me.jerryokafor.core.ui.extension.setIheAppThemedContent
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import javax.inject.Inject
 
 @AndroidEntryPoint
+@IgnoreCoverageAsGenerated
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -63,20 +61,7 @@ class MainActivity : AppCompatActivity() {
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setIheAppThemedContent {
-            val systemUiController = rememberSystemUiController()
-            val useDarkIcons = !isSystemInDarkTheme()
-
-            DisposableEffect(systemUiController, useDarkIcons) {
-                // Update all of the system bar colors to be transparent, and use
-                // dark icons if we're in light theme
-                systemUiController.setSystemBarsColor(
-                    color = Color.Transparent,
-                    darkIcons = useDarkIcons,
-                )
-                onDispose {}
-            }
-
+        setContent {
             AppContent(onSignInClick = ::onSignInClick)
         }
 

@@ -22,15 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri
+package me.jerryokafor.ihenkiri.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.feature.movies.screens.MoviesScreen
 
 @Composable
+@IgnoreCoverageAsGenerated
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavItem.Movies.route) {
         composable(BottomNavItem.Movies.route) {

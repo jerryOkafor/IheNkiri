@@ -117,7 +117,7 @@ object NetworkModule {
         DefaultMoviesRemoteDataSource(gson = gson, okHttpClient = okHttpClient)
 
     @[Provides Singleton]
-    fun provideAuthApi(@NoAuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): AuthApi =
+    fun provideAuthApi(@AuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): AuthApi =
         Retrofit.Builder()
             .baseUrl(BuildConfig.TMDB_BASE_URL)
             .client(okHttpClient)

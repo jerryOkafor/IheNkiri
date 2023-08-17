@@ -22,41 +22,29 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri
+package me.jerryokafor.ihenkiri.core.test.util
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.tween
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.navigation.compose.rememberNavController
-import me.jerryokafor.ihenkiri.screens.LandingScreen
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.rules.TestRule
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-@Composable
-internal fun AppContent(onSignInClick: () -> Unit) {
-    val navController = rememberNavController()
-    val isLoggedIn = remember { mutableStateOf(false) }
-
-    val onContinueAsGuestClick: () -> Unit = {
-        isLoggedIn.value = true
+/**
+ * A JUnit [TestRule] that sets the Main dispatcher to [testDispatcher]
+ * for the duration of the test.
+ */
+class MainDispatcherRule(
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+) : TestWatcher() {
+    override fun starting(description: Description) {
+        Dispatchers.setMain(testDispatcher)
     }
-    Crossfade(
-        targetState = isLoggedIn.value,
-        label = "loginState",
-        animationSpec = tween(durationMillis = 3000),
-    ) {
-        if (it) {
-            Scaffold(
-                bottomBar = { BottomNavigation(navController) },
-            ) {
-                NavigationGraph(navController)
-            }
-        } else {
-            LandingScreen(
-                onContinueAsGuestClick = onContinueAsGuestClick,
-                onSignInClick = onSignInClick,
-            )
-        }
+
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
     }
 }

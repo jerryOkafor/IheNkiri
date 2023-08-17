@@ -22,19 +22,34 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri
+package me.jerryokafor.ihenkiri.ui
 
-import org.junit.Assert.assertEquals
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
+class AppContentViewModelTest {
+    private var viewModel: AppContentViewModel = AppContentViewModel()
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun `Given UI initial state, when viewModel is observed, then isLoggedIn == false`() = runTest {
+        viewModel.uiState.test {
+            val uiState = awaitItem()
+            assertThat(uiState.isLoggedIn).isFalse()
+            cancelAndIgnoreRemainingEvents()
+        }
     }
+
+    @Test
+    fun `Given isLoggedIn == false, when isLoggedIn == true and viewModel is observed, then isLoggedIn = true`() =
+        runTest {
+            viewModel.uiState.test {
+                viewModel.updateLoginState(loggedIn = true)
+
+                assertThat(awaitItem().isLoggedIn).isFalse()
+                assertThat(awaitItem().isLoggedIn).isTrue()
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
 }
