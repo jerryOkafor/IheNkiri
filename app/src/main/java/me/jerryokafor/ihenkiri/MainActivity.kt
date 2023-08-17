@@ -41,7 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.jerryokafor.core.ui.extension.setIheAppThemedContent
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
-import me.jerryokafor.ihenkiri.core.network.service.AuthService
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Inject
-    lateinit var theMovieDBAPI: AuthService
+    lateinit var theMovieDBAPI: AuthApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()

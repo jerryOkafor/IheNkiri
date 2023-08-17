@@ -22,19 +22,22 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data
-
-import org.junit.Assert.assertEquals
-import org.junit.Test
+package me.jerryokafor.core.common.outcome
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Called when the given request is successfully
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * @param T Object Type
+ * @property response Object requested from backend
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+open class Success<out T>(val response: T) : Outcome<T>() {
+    operator fun invoke(): T = response
+
+    override fun equals(other: Any?): Boolean {
+        return (other as? Success<*>)?.response?.equals(this.response) == true
+    }
+
+    override fun hashCode(): Int {
+        return response?.hashCode() ?: 0
     }
 }

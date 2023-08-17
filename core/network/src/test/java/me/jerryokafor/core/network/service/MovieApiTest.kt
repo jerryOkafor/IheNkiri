@@ -27,22 +27,22 @@ package me.jerryokafor.core.network.service
 import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.service.MovieService
+import me.jerryokafor.ihenkiri.core.network.service.MovieApi
 import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class MovieServiceTest : BaseServiceTest() {
-    private val movieService =
-        MockWebServerUtil.createMockedService(mockWebServer, MovieService::class.java)
+class MovieApiTest : BaseServiceTest() {
+    private val movieApi =
+        MockWebServerUtil.createMockedService(mockWebServer, MovieApi::class.java)
 
     @Test
     fun `test nowPlaying(), returns list of movies when status = 200`() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runBlocking {
-            val response = movieService.nowPlaying(language = "en-US", page = 1)
+            val response = movieApi.nowPlaying(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
@@ -63,7 +63,7 @@ class MovieServiceTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runBlocking {
-            val response = movieService.popular(language = "en-US", page = 1)
+            val response = movieApi.popular(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
@@ -84,7 +84,7 @@ class MovieServiceTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runBlocking {
-            val response = movieService.topRated(language = "en-US", page = 1)
+            val response = movieApi.topRated(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
@@ -105,7 +105,7 @@ class MovieServiceTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runBlocking {
-            val response = movieService.upcoming(language = "en-US", page = 1)
+            val response = movieApi.upcoming(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)

@@ -22,22 +22,13 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.domain.outcome
+package me.jerryokafor.ihenkiri.core.network.datasource
 
-/**
- * Called when the given request is successfully
- *
- * @param T Object Type
- * @property response Object requested from backend
- */
-open class Success<out T>(val response: T) : Outcome<T>() {
-    operator fun invoke(): T = response
+import me.jerryokafor.core.model.Movie
 
-    override fun equals(other: Any?): Boolean {
-        return (other as? Success<*>)?.response?.equals(this.response) == true
-    }
-
-    override fun hashCode(): Int {
-        return response?.hashCode() ?: 0
-    }
+interface MoviesRemoteDataSource {
+    suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie>
+    suspend fun popularMovies(query: MoviesQuery): List<Movie>
+    suspend fun topRatedMovies(query: MoviesQuery): List<Movie>
+    suspend fun upcomingMovies(query: MoviesQuery): List<Movie>
 }

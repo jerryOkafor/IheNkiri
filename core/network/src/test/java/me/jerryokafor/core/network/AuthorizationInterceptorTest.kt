@@ -32,7 +32,7 @@ import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor.Companion.AUTH_HEADER
-import me.jerryokafor.ihenkiri.core.network.service.AuthService
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.test.network.createRequestToken
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
@@ -58,12 +58,12 @@ class AuthorizationInterceptorTest {
         .setPrettyPrinting()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .create()
-    private val authService = Retrofit.Builder()
+    private val authApi = Retrofit.Builder()
         .baseUrl(mockWebServer.url("/"))
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-        .create(AuthService::class.java)
+        .create(AuthApi::class.java)
 
     @After
     fun tearDown() {
@@ -75,7 +75,7 @@ class AuthorizationInterceptorTest {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
         runBlocking {
-            authService.createRequestToken(createRequestToken())
+            authApi.createRequestToken(createRequestToken())
         }
 
         val recordedRequest = mockWebServer.takeRequest()

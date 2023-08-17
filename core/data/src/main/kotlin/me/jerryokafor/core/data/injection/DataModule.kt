@@ -22,36 +22,21 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-}
+package me.jerryokafor.core.data.injection
 
-android {
-    namespace = "me.jerryokafor.core.common"
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import me.jerryokafor.core.data.repository.DefaultMoviesRepository
+import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import javax.inject.Singleton
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-}
-
-dependencies {
-    implementation(libs.org.jetbrains.kotlinx.coroutines.android)
-    testImplementation(libs.org.jetbrains.kotlinx.coroutines.test)
-    androidTestImplementation(libs.org.jetbrains.kotlinx.coroutines.test)
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+@Module
+@InstallIn(SingletonComponent::class)
+object DataModule {
+    @[Singleton Provides]
+    fun provideMoviesRepository(moviesRemoteDataSource: MoviesRemoteDataSource): MoviesRepository =
+        DefaultMoviesRepository(moviesRemoteDataSource = moviesRemoteDataSource)
 }

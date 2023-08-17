@@ -22,36 +22,15 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-}
+package me.jerryokafor.core.data.filter
 
-android {
-    namespace = "me.jerryokafor.core.common"
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
+data class MoviesFilter(
+    val language: String,
+    val page: Int,
+    val region: String? = null,
+)
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-}
-
-dependencies {
-    implementation(libs.org.jetbrains.kotlinx.coroutines.android)
-    testImplementation(libs.org.jetbrains.kotlinx.coroutines.test)
-    androidTestImplementation(libs.org.jetbrains.kotlinx.coroutines.test)
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-}
+fun MoviesFilter.toQuery() =
+    MoviesQuery(language = this.language, page = this.page, region = this.region)

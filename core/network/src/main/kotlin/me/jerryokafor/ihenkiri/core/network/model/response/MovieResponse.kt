@@ -25,6 +25,7 @@
 package me.jerryokafor.ihenkiri.core.network.model.response
 
 import com.google.gson.annotations.SerializedName
+import me.jerryokafor.core.model.Movie
 
 data class MovieResponse(
     @SerializedName("adult")
@@ -37,7 +38,7 @@ data class MovieResponse(
     val genreIds: ArrayList<Int> = arrayListOf(),
 
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
 
     @SerializedName("original_language")
     val originalLanguage: String,
@@ -68,4 +69,13 @@ data class MovieResponse(
 
     @SerializedName("vote_count")
     val voteCount: Int,
+)
+
+fun MovieResponse.toMovie() = Movie(
+    id = this.id,
+    title = this.title,
+    overview = this.overview,
+    backDropPath = this.backdropPath,
+    posterPath = this.posterPath,
+    voteAverage = this.voteAverage,
 )

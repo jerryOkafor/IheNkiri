@@ -55,7 +55,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:model"))
+    implementation(project(":core:network"))
 
     testImplementation(project(":core:test"))
     androidTestImplementation(project(":core:test"))

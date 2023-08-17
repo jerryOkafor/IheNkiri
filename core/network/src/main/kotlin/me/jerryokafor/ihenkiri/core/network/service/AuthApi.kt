@@ -32,7 +32,7 @@ import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenRes
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface AuthService {
+interface AuthApi {
     /**
      * This method generates a new request token that you can ask a user to approve.
      * This is the first step in getting permission from a user to read and write data on

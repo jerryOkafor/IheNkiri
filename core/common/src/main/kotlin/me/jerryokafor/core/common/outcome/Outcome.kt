@@ -22,21 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.domain.outcome
+package me.jerryokafor.core.common.outcome
 
 /**
- * Called when the given request fails to make a request
- *
- * @property errorResponse The error message returned
- * @property errorCode The HTTP error code
- *
- * we should find a way to separate out jsonApi failures and socket failures, it likely
- * will require us to create a new Outcome object to do it cleanly.
- *
- * @property throwable exception stack trace if the failure resulted from an exception
+ * Defines the possible outcomes of a request.
+ * Success, with the requested data, or Failure, with an error response.
  */
-data class Failure(
-    val errorResponse: String,
-    val errorCode: Int = -1,
-    val throwable: Throwable? = null,
-) : Outcome<Nothing>()
+sealed class Outcome<out T> {
+    fun fold(onSuccess: (T) -> Unit, onFailure: (String) -> Unit) {
+        when (this) {
+            is Success -> onSuccess(response)
+            is Failure -> onFailure(errorResponse)
+        }
+    }
+}

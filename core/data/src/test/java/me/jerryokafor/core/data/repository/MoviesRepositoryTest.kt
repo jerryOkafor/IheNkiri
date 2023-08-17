@@ -22,17 +22,6 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.domain.outcome
+package me.jerryokafor.core.data.repository
 
-/**
- * Defines the possible outcomes of a request.
- * Success, with the requested data, or Failure, with an error response.
- */
-sealed class Outcome<out T> {
-    fun fold(onSuccess: (T) -> Unit, onFailure: (String) -> Unit) {
-        when (this) {
-            is Success -> onSuccess(response)
-            is Failure -> onFailure(errorResponse)
-        }
-    }
-}
+class MoviesRepositoryTest

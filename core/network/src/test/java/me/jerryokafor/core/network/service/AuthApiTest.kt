@@ -27,7 +27,7 @@ package me.jerryokafor.core.network.service
 import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.service.AuthService
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.test.network.createAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.test.test.network.createAccessTokenSuccessResponse
 import me.jerryokafor.ihenkiri.core.test.test.network.createRequestToken
@@ -37,10 +37,10 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class AuthServiceTest : BaseServiceTest() {
+class AuthApiTest : BaseServiceTest() {
 
-    private val authService =
-        createMockedService(mockWebServer, AuthService::class.java)
+    private val authApi =
+        createMockedService(mockWebServer, AuthApi::class.java)
 
     @Test
     fun `test createRequestToken(), returns request token if response is 200`() {
@@ -48,7 +48,7 @@ class AuthServiceTest : BaseServiceTest() {
 
         runBlocking {
             val requestBody = createRequestToken()
-            val response = authService.createRequestToken(requestBody)
+            val response = authApi.createRequestToken(requestBody)
             val expected = createRequestTokenSuccessResponse()
 
             assertNotNull(response)
@@ -66,7 +66,7 @@ class AuthServiceTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("create-access-token-200.json", 200)
 
         runBlocking {
-            val response = authService.createAccessToken(createAccessTokenRequest())
+            val response = authApi.createAccessToken(createAccessTokenRequest())
             val expected = createAccessTokenSuccessResponse()
 
             assertNotNull(response)

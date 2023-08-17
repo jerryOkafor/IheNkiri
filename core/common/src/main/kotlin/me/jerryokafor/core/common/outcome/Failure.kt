@@ -22,19 +22,21 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.repository.movies
+package me.jerryokafor.core.common.outcome
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import me.jerryokafor.core.data.datasource.movies.MoviesDatasource
-import me.jerryokafor.core.model.Movie
-
-class MoviesRepository : MoviesDatasource {
-    override fun nowPlayingMovies(): Flow<Movie> = flow { }
-
-    override fun popularMovies(): Flow<Movie> = flow { }
-
-    override fun topRatedMovies(): Flow<Movie> = flow { }
-
-    override fun upcomingMovies(): Flow<Movie> = flow { }
-}
+/**
+ * Called when the given request fails to make a request
+ *
+ * @property errorResponse The error message returned
+ * @property errorCode The HTTP error code
+ *
+ * we should find a way to separate out jsonApi failures and socket failures, it likely
+ * will require us to create a new Outcome object to do it cleanly.
+ *
+ * @property throwable exception stack trace if the failure resulted from an exception
+ */
+data class Failure(
+    val errorResponse: String,
+    val errorCode: Int = -1,
+    val throwable: Throwable? = null,
+) : Outcome<Nothing>()

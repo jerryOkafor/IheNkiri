@@ -22,15 +22,10 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.datasource.movies
+package me.jerryokafor.ihenkiri.core.network.datasource
 
-import kotlinx.coroutines.flow.Flow
-import me.jerryokafor.core.model.Movie
-
-interface MoviesDatasource {
-
-    fun nowPlayingMovies(): Flow<Movie>
-    fun popularMovies(): Flow<Movie>
-    fun topRatedMovies(): Flow<Movie>
-    fun upcomingMovies(): Flow<Movie>
-}
+data class MoviesQuery(
+    val language: String,
+    val page: Int,
+    val region: String? = null,
+)
