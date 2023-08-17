@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:network"))
 
@@ -51,6 +52,7 @@ dependencies {
     api(libs.androidx.test.runner)
 
     api(libs.app.cash.turbine)
+    api(libs.com.google.truth)
     api(libs.androidx.hilt.android.testing)
     api(libs.org.jetbrains.kotlinx.coroutines.test)
     api(libs.androidx.compose.ui.test.junit4)

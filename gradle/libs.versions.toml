@@ -130,6 +130,7 @@ androidx-test-espresso-idling-resource = { group = "androidx.test.espresso", nam
 
 io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
+com-google-truth = { group = "com.google.truth", name = "truth", version.ref = "googleTruth" }
 
 
 # utils

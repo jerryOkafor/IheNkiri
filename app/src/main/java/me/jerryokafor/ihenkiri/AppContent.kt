@@ -25,6 +25,8 @@
 package me.jerryokafor.ihenkiri
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +42,11 @@ internal fun AppContent(onSignInClick: () -> Unit) {
     val onContinueAsGuestClick: () -> Unit = {
         isLoggedIn.value = true
     }
-    Crossfade(targetState = isLoggedIn.value, label = "loginState") {
+    Crossfade(
+        targetState = isLoggedIn.value,
+        label = "loginState",
+        animationSpec = tween(durationMillis = 3000)
+    ) {
         if (it) {
             Scaffold(
                 bottomBar = { BottomNavigation(navController) },

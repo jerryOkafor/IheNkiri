@@ -24,4 +24,92 @@
 
 package me.jerryokafor.core.data.repository
 
-class MoviesRepositoryTest
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import me.jerryokafor.core.data.filter.MoviesFilter
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
+import org.junit.Before
+import org.junit.Test
+
+class MoviesRepositoryTest {
+    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testScope = TestScope(testDispatcher)
+
+    private val moviesRemoteDataSource = mockk<MoviesRemoteDataSource>(relaxed = true)
+    private val testFilter = mockk<MoviesFilter>(relaxed = true)
+
+    private lateinit var moviesRepository: MoviesRepository
+
+
+    @Before
+    fun setUp() {
+        coEvery { moviesRemoteDataSource.nowPlayingMovies(any()) } returns testMovies()
+        coEvery { moviesRemoteDataSource.popularMovies(any()) } returns testMovies()
+        coEvery { moviesRemoteDataSource.topRatedMovies(any()) } returns testMovies()
+        coEvery { moviesRemoteDataSource.upcomingMovies(any()) } returns testMovies()
+        coEvery { testFilter.language } returns "en-US"
+        coEvery { testFilter.page } returns 1
+
+        moviesRepository = DefaultMoviesRepository(moviesRemoteDataSource, testDispatcher)
+    }
+
+    @Test
+    fun `test nowPlayingMovies() returns list of movies`() = testScope.runTest {
+        moviesRepository.nowPlayingMovies(testFilter).test {
+            val items = awaitItem()
+            assertThat(items).isNotEmpty()
+            assertThat(items.size).isEqualTo(7)
+
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) { moviesRemoteDataSource.nowPlayingMovies(any()) }
+    }
+
+    @Test
+    fun `test popularMovies() returns list of movies`() = testScope.runTest {
+        moviesRepository.popularMovies(testFilter).test {
+            val items = awaitItem()
+            assertThat(items).isNotEmpty()
+            assertThat(items.size).isEqualTo(7)
+
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) { moviesRemoteDataSource.popularMovies(any()) }
+    }
+
+    @Test
+    fun `test topRatedMovies() returns list of movies`() = testScope.runTest {
+        moviesRepository.topRatedMovies(testFilter).test {
+            val items = awaitItem()
+            assertThat(items).isNotEmpty()
+            assertThat(items.size).isEqualTo(7)
+
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) { moviesRemoteDataSource.topRatedMovies(any()) }
+    }
+
+    @Test
+    fun `test upcomingMovies() returns list of movies`() = testScope.runTest {
+        moviesRepository.upcomingMovies(testFilter).test {
+            val items = awaitItem()
+            assertThat(items).isNotEmpty()
+            assertThat(items.size).isEqualTo(7)
+
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) { moviesRemoteDataSource.upcomingMovies(any()) }
+    }
+
+}

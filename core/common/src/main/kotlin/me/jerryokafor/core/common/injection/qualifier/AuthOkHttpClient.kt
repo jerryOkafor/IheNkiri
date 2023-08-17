@@ -22,21 +22,10 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.injection
+package me.jerryokafor.core.common.injection.qualifier
 
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import me.jerryokafor.core.data.repository.DefaultMoviesRepository
-import me.jerryokafor.core.data.repository.MoviesRepository
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import javax.inject.Singleton
+import javax.inject.Qualifier
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface DataModule {
-    @Binds
-    fun provideMoviesRepository(moviesRepository: DefaultMoviesRepository): MoviesRepository
-}
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class AuthOkHttpClient

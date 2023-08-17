@@ -51,7 +51,7 @@ object TestDispatchersModule {
     fun providesTestDispatcher(): TestDispatcher = UnconfinedTestDispatcher()
 
     @[Provides Singleton]
-    fun provideTestScope(): TestScope = TestScope()
+    fun provideTestScope(testDispatcher: TestDispatcher): TestScope = TestScope(testDispatcher)
 
     @ApplicationScope
     @[Provides Singleton]
