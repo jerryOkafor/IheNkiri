@@ -26,13 +26,10 @@ package me.jerryokafor.core.data.injection
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.jerryokafor.core.data.repository.DefaultMoviesRepository
 import me.jerryokafor.core.data.repository.MoviesRepository
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

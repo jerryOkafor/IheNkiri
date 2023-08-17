@@ -26,7 +26,6 @@ package me.jerryokafor.ihenkiri
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +44,7 @@ internal fun AppContent(onSignInClick: () -> Unit) {
     Crossfade(
         targetState = isLoggedIn.value,
         label = "loginState",
-        animationSpec = tween(durationMillis = 3000)
+        animationSpec = tween(durationMillis = 3000),
     ) {
         if (it) {
             Scaffold(

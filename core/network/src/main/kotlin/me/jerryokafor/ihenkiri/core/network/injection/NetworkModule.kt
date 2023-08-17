@@ -43,14 +43,11 @@ import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
 import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.network.service.MovieApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Qualifier
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -92,7 +89,6 @@ object NetworkModule {
         return builder.build()
     }
 
-
     @[Provides Singleton NoAuthOkHttpClient]
     fun provideNoAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -116,7 +112,7 @@ object NetworkModule {
     @[Provides Singleton]
     fun provideMoviesRemoteDataSource(
         gson: Gson,
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
     ): MoviesRemoteDataSource =
         DefaultMoviesRemoteDataSource(gson = gson, okHttpClient = okHttpClient)
 

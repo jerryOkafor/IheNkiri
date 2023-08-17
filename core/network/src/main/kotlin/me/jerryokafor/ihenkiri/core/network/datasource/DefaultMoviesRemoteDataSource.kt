@@ -39,7 +39,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultMoviesRemoteDataSource @Inject constructor(
     gson: Gson,
-    @AuthOkHttpClient val okHttpClient: OkHttpClient
+    @AuthOkHttpClient val okHttpClient: OkHttpClient,
 ) : MoviesRemoteDataSource {
 
     private val moviesApi = Retrofit.Builder()

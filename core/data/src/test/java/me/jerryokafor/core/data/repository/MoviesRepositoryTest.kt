@@ -47,7 +47,6 @@ class MoviesRepositoryTest {
 
     private lateinit var moviesRepository: MoviesRepository
 
-
     @Before
     fun setUp() {
         coEvery { moviesRemoteDataSource.nowPlayingMovies(any()) } returns testMovies()
@@ -111,5 +110,4 @@ class MoviesRepositoryTest {
 
         coVerify(exactly = 1) { moviesRemoteDataSource.upcomingMovies(any()) }
     }
-
 }

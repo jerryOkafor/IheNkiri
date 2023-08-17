@@ -43,8 +43,6 @@ android {
             )
         }
     }
-
-    
 }
 
 dependencies {
