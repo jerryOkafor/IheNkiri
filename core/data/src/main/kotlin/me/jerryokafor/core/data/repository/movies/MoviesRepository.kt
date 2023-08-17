@@ -22,35 +22,19 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-}
+package me.jerryokafor.core.data.repository.movies
 
-android {
-    namespace = "me.jerryokafor.core.domain"
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import me.jerryokafor.core.data.datasource.movies.MoviesDatasource
+import me.jerryokafor.core.model.Movie
 
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
+class MoviesRepository : MoviesDatasource {
+    override fun nowPlayingMovies(): Flow<Movie> = flow { }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-}
+    override fun popularMovies(): Flow<Movie> = flow { }
 
-dependencies {
-    implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
+    override fun topRatedMovies(): Flow<Movie> = flow { }
 
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    override fun upcomingMovies(): Flow<Movie> = flow { }
 }

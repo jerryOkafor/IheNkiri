@@ -22,35 +22,22 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-}
+package me.jerryokafor.core.domain.outcome
 
-android {
-    namespace = "me.jerryokafor.core.domain"
+/**
+ * Called when the given request is successfully
+ *
+ * @param T Object Type
+ * @property response Object requested from backend
+ */
+open class Success<out T>(val response: T) : Outcome<T>() {
+    operator fun invoke(): T = response
 
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
+    override fun equals(other: Any?): Boolean {
+        return (other as? Success<*>)?.response?.equals(this.response) == true
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
+    override fun hashCode(): Int {
+        return response?.hashCode() ?: 0
     }
-}
-
-dependencies {
-    implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
-
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
 }

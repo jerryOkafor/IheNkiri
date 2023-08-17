@@ -22,35 +22,21 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-}
+package me.jerryokafor.core.domain.outcome
 
-android {
-    namespace = "me.jerryokafor.core.domain"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-}
-
-dependencies {
-    implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
-
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-}
+/**
+ * Called when the given request fails to make a request
+ *
+ * @property errorResponse The error message returned
+ * @property errorCode The HTTP error code
+ *
+ * we should find a way to separate out jsonApi failures and socket failures, it likely
+ * will require us to create a new Outcome object to do it cleanly.
+ *
+ * @property throwable exception stack trace if the failure resulted from an exception
+ */
+data class Failure(
+    val errorResponse: String,
+    val errorCode: Int = -1,
+    val throwable: Throwable? = null,
+) : Outcome<Nothing>()

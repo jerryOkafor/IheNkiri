@@ -22,6 +22,15 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.model
+package me.jerryokafor.core.data.datasource.movies
 
-class MyClass
+import kotlinx.coroutines.flow.Flow
+import me.jerryokafor.core.model.Movie
+
+interface MoviesDatasource {
+
+    fun nowPlayingMovies(): Flow<Movie>
+    fun popularMovies(): Flow<Movie>
+    fun topRatedMovies(): Flow<Movie>
+    fun upcomingMovies(): Flow<Movie>
+}
