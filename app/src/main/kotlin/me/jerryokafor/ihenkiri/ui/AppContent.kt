@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
 
@@ -44,6 +45,7 @@ const val MAIN_CONTENT_TEST_TAG = "mainContent"
 const val LANDING_SCREEN_TEST_TAG = "landingScreen"
 
 @Composable
+@IgnoreCoverageAsGenerated
 internal fun AppContent(
     viewModel: AppContentViewModel = viewModel(),
     onSignInClick: () -> Unit,

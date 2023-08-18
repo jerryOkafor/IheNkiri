@@ -37,7 +37,7 @@ accompanist = "0.33.0-alpha"
 # code quality
 detekt = "1.22.0"
 ktlint = "0.50.0"
-jacoco = "0.8.10"
+jacoco = "0.8.7"
 
 # testing
 junit4 = "4.13.2"
