@@ -26,6 +26,6 @@ package me.jerryokafor.ihenkiri.ui
 
 data class AppUIState(
     val isLoggedIn: Boolean = false,
-    val isDarkTheme: Boolean = false,
-    val isDynamicColor: Boolean = true,
+    val isDarkTheme: Boolean = true,
+    val isDynamicColor: Boolean = false,
 )

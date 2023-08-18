@@ -102,11 +102,11 @@ internal fun Project.configureJacoco(
                 enableAndroidTestCoverage = true
             }
 
-//            getByName("release") {
-//                // disable coverage report on release build
-//                enableUnitTestCoverage = false
-//                enableAndroidTestCoverage = false
-//            }
+            getByName("release") {
+                // disable coverage report on release build
+                enableUnitTestCoverage = false
+                enableAndroidTestCoverage = false
+            }
         }
     }
 
@@ -235,7 +235,7 @@ internal fun Project.configureJacoco(
 
             // Required for JDK 11 with the above
             // https://github.com/gradle/gradle/issues/5184#issuecomment-391982009
-            excludes = listOf("jdk.internal.*", "*")
+            excludes = listOf("jdk.internal.*")
         }
     }
 }
