@@ -44,5 +44,3 @@ class AppContentViewModel @Inject constructor() : ViewModel() {
         }
     }
 }
-
-
