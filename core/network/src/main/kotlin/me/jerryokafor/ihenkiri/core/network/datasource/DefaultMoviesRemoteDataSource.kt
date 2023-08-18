@@ -24,31 +24,15 @@
 
 package me.jerryokafor.ihenkiri.core.network.datasource
 
-import com.google.gson.Gson
-import me.jerryokafor.core.common.injection.qualifier.AuthOkHttpClient
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.core.network.BuildConfig
 import me.jerryokafor.ihenkiri.core.network.model.response.toMovie
-import me.jerryokafor.ihenkiri.core.network.service.MovieApi
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultMoviesRemoteDataSource @Inject constructor(
-    gson: Gson,
-    @AuthOkHttpClient val okHttpClient: OkHttpClient,
-) : MoviesRemoteDataSource {
-
-    private val moviesApi = Retrofit.Builder()
-        .baseUrl(BuildConfig.TMDB_BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
-        .create(MovieApi::class.java)
-
+class DefaultMoviesRemoteDataSource @Inject constructor(val moviesApi: MoviesApi) :
+    MoviesRemoteDataSource {
     override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = moviesApi.nowPlaying(
         language = query.language,
         page = query.page,

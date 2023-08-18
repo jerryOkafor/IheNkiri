@@ -27,16 +27,24 @@ package me.jerryokafor.ihenkiri.ui
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 
 class AppContentViewModelTest {
-    private var viewModel: AppContentViewModel = AppContentViewModel()
+    private lateinit var viewModel: AppContentViewModel
+
+    @Before
+    fun setUp() {
+        viewModel = AppContentViewModel()
+    }
 
     @Test
     fun `Given UI initial state, when viewModel is observed, then isLoggedIn == false`() = runTest {
         viewModel.uiState.test {
             val uiState = awaitItem()
             assertThat(uiState.isLoggedIn).isFalse()
+            assertThat(uiState.isDarkTheme).isFalse()
+            assertThat(uiState.isDynamicColor).isTrue()
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -45,10 +53,14 @@ class AppContentViewModelTest {
     fun `Given isLoggedIn == false, when isLoggedIn == true and viewModel is observed, then isLoggedIn = true`() =
         runTest {
             viewModel.uiState.test {
-                viewModel.updateLoginState(loggedIn = true)
-
                 assertThat(awaitItem().isLoggedIn).isFalse()
-                assertThat(awaitItem().isLoggedIn).isTrue()
+                viewModel.updateLoginState(loggedIn = true)
+                with(awaitItem()) {
+                    assertThat(isLoggedIn).isTrue()
+                    assertThat(isDarkTheme).isFalse()
+                    assertThat(isDynamicColor).isTrue()
+                }
+
                 cancelAndIgnoreRemainingEvents()
             }
         }

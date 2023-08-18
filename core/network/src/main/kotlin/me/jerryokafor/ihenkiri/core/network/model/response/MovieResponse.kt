@@ -75,7 +75,12 @@ fun MovieResponse.toMovie() = Movie(
     id = this.id,
     title = this.title,
     overview = this.overview,
-    backDropPath = this.backdropPath,
+    backdropPath = this.backdropPath,
     posterPath = this.posterPath,
     voteAverage = this.voteAverage,
 )
+
+fun MovieResponse.equalsMovie(movie: Movie): Boolean =
+    id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
+        backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
+        overview == movie.overview

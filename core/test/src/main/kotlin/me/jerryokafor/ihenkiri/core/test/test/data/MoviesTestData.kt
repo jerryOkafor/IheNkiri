@@ -35,7 +35,7 @@ fun testMovie(): Movie = Movie(
         fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
         to help the Transformers as they engage in the ultimate battle to save Earth.
     """.trimIndent(),
-    backDropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
+    backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
     posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
     voteAverage = 7.5,
 )
@@ -50,7 +50,7 @@ fun testMovies(): List<Movie> = listOf(
         fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
         to help the Transformers as they engage in the ultimate battle to save Earth.
         """.trimIndent(),
-        backDropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
+        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         voteAverage = 7.5,
     ),
@@ -64,7 +64,7 @@ fun testMovies(): List<Movie> = listOf(
             return to the future that he knows, Barry's only hope is to race for his life. But 
             will making the ultimate sacrifice be enough to reset the universe
         """.trimIndent(),
-        backDropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
+        backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
         voteAverage = 7.0,
     ),
@@ -77,7 +77,7 @@ fun testMovies(): List<Movie> = listOf(
             son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the 
             awkward Percy is no sure thing.
         """.trimIndent(),
-        backDropPath = "/rRcNmiH55Tz0ugUsDUGmj8Bsa4V.jpg",
+        backdropPath = "/rRcNmiH55Tz0ugUsDUGmj8Bsa4V.jpg",
         posterPath = "/4K7gQjD19CDEPd7A9KZwr2D9Nco.jpg",
         voteAverage = 7.1,
     ),
@@ -89,7 +89,7 @@ fun testMovies(): List<Movie> = listOf(
             perfect world of Barbie Land. However, when they get a chance to go to the real world, 
             they soon discover the joys and perils of living among humans.
         """.trimIndent(),
-        backDropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
+        backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
         posterPath = "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
         voteAverage = 7.5,
     ),
@@ -101,7 +101,7 @@ fun testMovies(): List<Movie> = listOf(
             spirals into chaos when a malevolent mining operation threatens their mission and 
             forces them into a high-stakes battle for survival
         """.trimIndent(),
-        backDropPath = "/zN41DPmPhwmgJjHwezALdrdvD0h.jpg",
+        backdropPath = "/zN41DPmPhwmgJjHwezALdrdvD0h.jpg",
         posterPath = "/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg",
         voteAverage = 7.0,
     ),
@@ -112,7 +112,7 @@ fun testMovies(): List<Movie> = listOf(
             In a city where fire, water, land and air residents live together, a fiery young woman 
             and a go-with-the-flow guy will discover something elemental: how much they have in common.
         """.trimIndent(),
-        backDropPath = "/jZIYaISP3GBSrVOPfrp98AMa8Ng.jpg",
+        backdropPath = "/jZIYaISP3GBSrVOPfrp98AMa8Ng.jpg",
         posterPath = "/8riWcADI1ekEiBguVB9vkilhiQm.jpg",
         voteAverage = 7.7,
     ),
@@ -123,7 +123,7 @@ fun testMovies(): List<Movie> = listOf(
             A horde of giant hungry alligators is unleashed on a group of in-transit 
             prisoners and their guards after a massive hurricane floods Louisiana.
         """.trimIndent(),
-        backDropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
+        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         posterPath = "/mvjqqklMpHwOxc40rn7dMhGT0Fc.jpg",
         voteAverage = 6.8,
     ),

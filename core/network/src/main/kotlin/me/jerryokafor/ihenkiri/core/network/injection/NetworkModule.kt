@@ -43,6 +43,7 @@ import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
 import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -111,10 +112,9 @@ object NetworkModule {
 
     @[Provides Singleton]
     fun provideMoviesRemoteDataSource(
-        gson: Gson,
-        okHttpClient: OkHttpClient,
+        moviesApi: MoviesApi,
     ): MoviesRemoteDataSource =
-        DefaultMoviesRemoteDataSource(gson = gson, okHttpClient = okHttpClient)
+        DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
     @[Provides Singleton]
     fun provideAuthApi(@AuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): AuthApi =

@@ -58,7 +58,8 @@ class LandingScreenTest {
         composeTestRule.onNodeWithText("Sign In").assertIsDisplayed().assertHasClickAction()
             .performClick()
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
-            .assertHasClickAction().performClick()
+            .assertHasClickAction()
+            .performClick()
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("TMDB logo").assertIsDisplayed()
 
