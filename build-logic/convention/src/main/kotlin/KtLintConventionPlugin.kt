@@ -61,11 +61,11 @@ class KtLintConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            val ktlintVersion = libs.findVersion("ktlint").get().toString()
-            val ktlintConfig by configurations.creating
+            val version = libs.findVersion("ktlint").get().toString()
+            val ktlint by configurations.creating
 
             dependencies {
-                ktlintConfig("com.pinterest:ktlint:$ktlintVersion") {
+                ktlint("com.pinterest:ktlint:$version") {
                     attributes {
                         attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
                     }
@@ -76,14 +76,13 @@ class KtLintConventionPlugin : Plugin<Project> {
             val outputDir = "${project.buildDir}/reports/ktlint/"
             val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
-            @Suppress("UnusedPrivateMember")
-            val ktlint by tasks.creating(JavaExec::class) {
+            tasks.register("ktlintCheck", JavaExec::class.java) {
                 inputs.files(inputFiles)
                 outputs.dir(outputDir)
 
                 group = LifecycleBasePlugin.VERIFICATION_GROUP
                 description = "Check Kotlin code style."
-                classpath = ktlintConfig
+                classpath = ktlint
                 mainClass.set("com.pinterest.ktlint.Main")
                 args(
                     "**/src/**/*.kt",
@@ -92,14 +91,13 @@ class KtLintConventionPlugin : Plugin<Project> {
                 )
             }
 
-            @Suppress("UnusedPrivateMember")
-            val ktlintFormat by tasks.creating(JavaExec::class) {
+            tasks.register("ktlintFormat", JavaExec::class.java) {
                 inputs.files(inputFiles)
                 outputs.dir(outputDir)
 
                 group = LifecycleBasePlugin.VERIFICATION_GROUP
                 description = "Fix Kotlin code style deviations."
-                classpath = ktlintConfig
+                classpath = ktlint
                 mainClass.set("com.pinterest.ktlint.Main")
                 jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
                 args(
@@ -110,10 +108,9 @@ class KtLintConventionPlugin : Plugin<Project> {
                 )
             }
 
-            @Suppress("UnusedPrivateMember")
-            val ktlintAndroidStudio by tasks.creating(JavaExec::class) {
+            tasks.register("ktlintAndroidStudio", JavaExec::class.java) {
                 description = "Setup Android Studio to use the same code style as ktlint."
-                classpath = ktlintConfig
+                classpath = ktlint
                 mainClass.set("com.pinterest.ktlint.Main")
                 args = listOf("--android", "applyToIDEAProject", "-y")
             }
