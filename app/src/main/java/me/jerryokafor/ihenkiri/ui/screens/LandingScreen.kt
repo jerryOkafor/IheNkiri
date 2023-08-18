@@ -49,6 +49,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -58,7 +59,8 @@ import me.jerryokafor.ihenkiri.R
 
 @ThemePreviews
 @Composable
-fun LandingScreenPreview() {
+@IgnoreCoverageAsGenerated
+private fun LandingScreenPreview() {
     IheNkiriTheme {
         LandingScreen()
     }

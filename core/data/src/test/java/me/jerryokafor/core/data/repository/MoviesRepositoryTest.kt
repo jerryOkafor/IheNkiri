@@ -37,13 +37,14 @@ import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class MoviesRepositoryTest {
     private val testDispatcher = UnconfinedTestDispatcher()
     private val testScope = TestScope(testDispatcher)
 
     private val moviesRemoteDataSource = mockk<MoviesRemoteDataSource>(relaxed = true)
-    private val testFilter = mockk<MoviesFilter>(relaxed = true)
+    private val testFilter = MoviesFilter(language = "en-US", page = 1, region = null)
 
     private lateinit var moviesRepository: MoviesRepository
 
@@ -53,8 +54,6 @@ class MoviesRepositoryTest {
         coEvery { moviesRemoteDataSource.popularMovies(any()) } returns testMovies()
         coEvery { moviesRemoteDataSource.topRatedMovies(any()) } returns testMovies()
         coEvery { moviesRemoteDataSource.upcomingMovies(any()) } returns testMovies()
-        coEvery { testFilter.language } returns "en-US"
-        coEvery { testFilter.page } returns 1
 
         moviesRepository = DefaultMoviesRepository(moviesRemoteDataSource, testDispatcher)
     }
@@ -69,7 +68,15 @@ class MoviesRepositoryTest {
             awaitComplete()
         }
 
-        coVerify(exactly = 1) { moviesRemoteDataSource.nowPlayingMovies(any()) }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.nowPlayingMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
+        }
     }
 
     @Test
@@ -82,7 +89,15 @@ class MoviesRepositoryTest {
             awaitComplete()
         }
 
-        coVerify(exactly = 1) { moviesRemoteDataSource.popularMovies(any()) }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.popularMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
+        }
     }
 
     @Test
@@ -95,7 +110,15 @@ class MoviesRepositoryTest {
             awaitComplete()
         }
 
-        coVerify(exactly = 1) { moviesRemoteDataSource.topRatedMovies(any()) }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.topRatedMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
+        }
     }
 
     @Test
@@ -108,6 +131,14 @@ class MoviesRepositoryTest {
             awaitComplete()
         }
 
-        coVerify(exactly = 1) { moviesRemoteDataSource.upcomingMovies(any()) }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.upcomingMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
+        }
     }
 }
