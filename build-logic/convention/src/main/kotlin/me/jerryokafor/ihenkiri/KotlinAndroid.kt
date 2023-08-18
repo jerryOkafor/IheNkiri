@@ -28,7 +28,6 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
@@ -116,17 +115,5 @@ private fun Project.configureKotlin() {
                 "-opt-in=kotlinx.coroutines.FlowPreview",
             )
         }
-    }
-
-    // Fixes: class io.mockk.impl.InternalPlatform cannot access a member of class
-    // java.lang.reflect.Proxy (in module java.base) with modifiers "protected"
-    // Based on: https://mockk.io/doc/md/jdk16-access-exceptions.html
-    tasks.withType<Test> {
-        jvmArgs(
-            "--add-opens",
-            "java.base/java.time=ALL-UNNAMED",
-            "--add-opens",
-            "java.base/java.lang.reflect=ALL-UNNAMED",
-        )
     }
 }

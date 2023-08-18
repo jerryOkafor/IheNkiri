@@ -25,11 +25,16 @@
 package me.jerryokafor.ihenkiri.ui
 
 import kotlinx.coroutines.test.runTest
+import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class AppContentViewModelTest {
+    @get:Rule
+    val dispatcherRule = MainDispatcherRule()
+
     private lateinit var viewModel: AppContentViewModel
 
     @Before

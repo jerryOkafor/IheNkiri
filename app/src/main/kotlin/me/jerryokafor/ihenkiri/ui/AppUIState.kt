@@ -24,27 +24,6 @@
 
 package me.jerryokafor.ihenkiri.ui
 
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import javax.inject.Inject
-
-@HiltViewModel
-class AppContentViewModel @Inject constructor() : ViewModel() {
-
-    private val _uiState = MutableStateFlow(AppUIState())
-    val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
-
-    fun updateLoginState(loggedIn: Boolean) {
-        _uiState.update {
-            it.copy(isLoggedIn = loggedIn)
-        }
-    }
-}
-
 data class AppUIState(
     val isLoggedIn: Boolean = false,
     val isDarkTheme: Boolean = false,
