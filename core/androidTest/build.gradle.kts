@@ -39,12 +39,12 @@ android {
 dependencies {
     implementation(project(":app"))
 
-    implementation(libs.core.ktx)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
 
     implementation(libs.junit4)
 
     implementation(libs.androidx.test.ext.junit)
-    implementation(libs.espresso.core)
+    implementation(libs.androidx.test.espresso.core)
 }

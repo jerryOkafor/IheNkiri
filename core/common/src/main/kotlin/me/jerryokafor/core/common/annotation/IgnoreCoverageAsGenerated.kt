@@ -30,5 +30,10 @@ package me.jerryokafor.core.common.annotation
 
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.TYPE, AnnotationTarget.FUNCTION, AnnotationTarget.CONSTRUCTOR)
+@Target(
+    AnnotationTarget.TYPE,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.CLASS,
+)
 annotation class IgnoreCoverageAsGenerated

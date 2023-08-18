@@ -4,7 +4,7 @@ kotlin = "1.9.0"
 androidDesugarJdkLibs = "2.0.3"
 
 core-ktx = "1.10.1"
-lifecycle-runtime-ktx = "2.6.1"
+lifecycle = "2.6.1"
 activity-compose = "1.7.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.1"
@@ -37,43 +37,54 @@ accompanist = "0.33.0-alpha"
 # code quality
 detekt = "1.22.0"
 ktlint = "0.50.0"
-jacoco = "0.8.8"
+jacoco = "0.8.10"
 
 # testing
 junit4 = "4.13.2"
+testing = "6.9.6"
+robolectric = "4.8"
+testCore = "1.5.0"
+testRunner = "1.5.2"
+testRules = "1.5.0"
+testJunit = "1.1.5"
+testTruth = "1.5.0"
+testMonitor = "1.6.1"
+espressoCore = "3.5.1"
+googleTruth = "1.1.4"
 mockk = "1.13.7"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
-org-jetbrains-kotlin-jvm = "1.8.0"
 
 # utils
 chucker = "4.0.0"
 dependencyGraphGenerator = "0.8.0"
 
 [libraries]
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "adroidXFragmentktx" }
 android-tools-desugarKdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "adroidXFragmentktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-testing = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "lifecycle" }
 
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
-
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
-
-com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-
-
+# jetbrains
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
+# google
+com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# accompanist
+com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+
 
 # Retrofit
 com-squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 com-squareup-retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 com-squareup-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 com-squareup-okhttp3-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp3" }
@@ -103,17 +114,24 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-
-# accompanist
-com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
-
-
-androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
 # testing
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCore" }
+androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "testCore" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "testRules" }
+androidx-test-monitor = { group = "androidx.test", name = "monitor", version.ref = "testMonitor" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "testJunit" }
+androidx-test-ext-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "testJunit" }
+androidx-test-ext-truth = { group = "androidx.test.ext", name = "truth", version.ref = "testTruth" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-test-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
+
 io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
+com-google-truth = { group = "com.google.truth", name = "truth", version.ref = "googleTruth" }
 
 
 # utils
@@ -136,7 +154,7 @@ androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotli
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 com-vanniktech-dependency-graph-generator = { id = "com.vanniktech.dependency.graph.generator", version.ref = "dependencyGraphGenerator" }
 
 [bundles]

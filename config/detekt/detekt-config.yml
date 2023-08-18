@@ -25,7 +25,7 @@ naming:
 style:
   UnusedPrivateMember:
     active: true
-    ignoreAnnotated: [ 'Preview' ]
+    ignoreAnnotated: [ 'Preview','ThemePreviews' ]
   ForbiddenComment:
     allowedPatterns: '[A-Z]{3,}-[\d]+' # allow TODO comments if a ticket number is included
   MagicNumber:

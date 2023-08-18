@@ -41,14 +41,13 @@ android {
         versionCode = Config.versionCode
         versionName = Config.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
     buildTypes {
-        debug {}
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -57,30 +56,23 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
-    packaging {
-        resources {
-            excludes += listOf(
-                "/META-INF/{AL2.0,LGPL2.1}",
-                "META-INF/LICENSE.md",
-                "META-INF/LICENSE-notice.md",
-            )
-        }
-    }
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:ds"))
     implementation(project(":core:ui"))
     implementation(project(":feature:movies"))
 
+    // lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
 
     implementation(libs.androidx.fragment.ktx)
@@ -110,13 +102,14 @@ dependencies {
 
     implementation(libs.com.google.accompanist.systemuicontroller)
 
+    testImplementation(project(":core:test"))
     testImplementation(libs.junit4)
-
     testImplementation(libs.io.mockk.android)
     testImplementation(libs.io.mockk.agent)
+
+    androidTestImplementation(project(":core:test"))
     androidTestImplementation(libs.io.mockk.android)
     androidTestImplementation(libs.io.mockk.agent)
-
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

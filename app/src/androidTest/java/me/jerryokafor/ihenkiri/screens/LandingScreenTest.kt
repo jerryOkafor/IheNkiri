@@ -31,6 +31,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -57,7 +58,8 @@ class LandingScreenTest {
         composeTestRule.onNodeWithText("Sign In").assertIsDisplayed().assertHasClickAction()
             .performClick()
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
-            .assertHasClickAction().performClick()
+            .assertHasClickAction()
+            .performClick()
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("TMDB logo").assertIsDisplayed()
 
