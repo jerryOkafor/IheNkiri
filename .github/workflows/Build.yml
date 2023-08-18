@@ -36,7 +36,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Verify Code Quality
-        run: ./gradlew detekt ktlint
+        run: ./gradlew detekt ktlintCheck
 
       - name: Check lint
         run: ./gradlew lintDebug
