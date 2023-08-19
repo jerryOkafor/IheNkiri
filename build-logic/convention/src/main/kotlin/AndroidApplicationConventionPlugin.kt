@@ -68,6 +68,14 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = Config.targetSdkVersion
 
+                buildTypes {
+                    getByName("release") {
+                        // disable coverage report on release build
+                        enableUnitTestCoverage = false
+                        enableAndroidTestCoverage = false
+                    }
+                }
+
                 lint {
                     baseline = file("lint-baseline.xml")
                     disable += Config.lintDisable

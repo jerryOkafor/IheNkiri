@@ -101,12 +101,6 @@ internal fun Project.configureJacoco(
                 enableUnitTestCoverage = true
                 enableAndroidTestCoverage = true
             }
-
-            getByName("release") {
-                // disable coverage report on release build
-                enableUnitTestCoverage = false
-                enableAndroidTestCoverage = false
-            }
         }
     }
 

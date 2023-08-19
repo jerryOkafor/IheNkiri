@@ -190,4 +190,4 @@ fun RowScope.FillingSpacer() {
     Spacer(modifier = Modifier.weight(1f))
 }
 
-internal val LocalIheNkiriSpacing = staticCompositionLocalOf { IheNkiriSpacing() }
+val LocalIheNkiriSpacing = staticCompositionLocalOf { IheNkiriSpacing() }

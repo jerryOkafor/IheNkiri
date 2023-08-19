@@ -35,8 +35,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
-import me.jerryokafor.feature.movies.screens.MoviesScreen
-import me.jerryokafor.feature.movies.screens.MoviesScreen2
+import me.jerryokafor.feature.movies.screen.MoviesScreen
 
 private const val TWEEN_ANIM_DURATION = 700
 
@@ -84,7 +83,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoviesScreen2()
+            MoviesScreen()
         }
 
         composable(
@@ -94,7 +93,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoviesScreen(currentScreen = "TV Shows")
+            TvShowScreen()
         }
 
         composable(
@@ -104,7 +103,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoviesScreen(currentScreen = "People")
+            PeopleScreen()
         }
 
         composable(
@@ -114,7 +113,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoviesScreen(currentScreen = "More")
+            MoreScree()
         }
     }
 }

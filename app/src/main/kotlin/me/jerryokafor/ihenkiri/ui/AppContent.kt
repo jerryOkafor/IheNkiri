@@ -27,10 +27,13 @@ package me.jerryokafor.ihenkiri.ui
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -66,7 +69,7 @@ internal fun AppContent(
 }
 
 @Composable
-internal fun AppContent(
+fun AppContent(
     isLoggedIn: Boolean,
     isDarkTheme: Boolean,
     isDynamicColor: Boolean,
@@ -102,11 +105,8 @@ internal fun AppContent(
                     bottomBar = {
                         BottomNavigation(navController)
                     },
-                ) { innerPadding ->
-                    NavigationGraph(
-                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                        navController = navController,
-                    )
+                ) {
+                    NavigationGraph(navController = navController)
                 }
             } else {
                 LandingScreen(
@@ -116,5 +116,38 @@ internal fun AppContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@IgnoreCoverageAsGenerated
+fun TvShowScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = "Welcome to TV Shows, coming soon",
+        )
+    }
+}
+
+@Composable
+@IgnoreCoverageAsGenerated
+fun PeopleScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = "Welcome to People screen, coming soon",
+        )
+    }
+}
+
+@Composable
+@IgnoreCoverageAsGenerated
+fun MoreScree() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = "Welcome to More Screen, coming soon",
+        )
     }
 }

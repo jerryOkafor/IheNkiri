@@ -30,7 +30,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import me.jerryokafor.feature.movies.screens.Chip
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.feature.movies.screen.Chip
+import me.jerryokafor.feature.movies.screen.testMovies
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,11 +49,18 @@ class MoviesViewModel @Inject constructor() : ViewModel() {
 
     init {
         _uiState.update {
-            it.copy(availableFilters = availableFilters)
+            it.copy(
+                availableFilters = availableFilters,
+                movies = testMovies(),
+            )
         }
     }
 
-    data class UIState(val loading: Boolean = false, val availableFilters: List<Chip> = emptyList())
+    data class UIState(
+        val loading: Boolean = false,
+        val availableFilters: List<Chip> = emptyList(),
+        val movies: List<Movie> = emptyList(),
+    )
 
     fun onEvent(event: Event) {
         when (event) {
