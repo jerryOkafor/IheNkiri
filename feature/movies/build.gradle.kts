@@ -25,6 +25,7 @@
 plugins {
     id("me.jerryokafor.ihenkiri.android.feature")
     id("me.jerryokafor.ihenkiri.android.library.compose")
+    id("me.jerryokafor.ihenkiri.android.navigation")
 }
 
 android {
@@ -47,6 +48,15 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+
+    // lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.io.coil.compose)
+    implementation(libs.com.valentinilk.compose.shimmer)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))

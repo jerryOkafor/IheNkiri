@@ -24,30 +24,96 @@
 
 package me.jerryokafor.ihenkiri.ui
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.feature.movies.screens.MoviesScreen
+import me.jerryokafor.feature.movies.screens.MoviesScreen2
+
+private const val TWEEN_ANIM_DURATION = 700
 
 @Composable
 @IgnoreCoverageAsGenerated
-fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = BottomNavItem.Movies.route) {
-        composable(BottomNavItem.Movies.route) {
-            MoviesScreen(currentScreen = "Movies")
+fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostController) {
+//https://proandroiddev.com/screen-transition-animations-with-jetpack-navigation-17afdc714d0e
+    val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
+        {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(TWEEN_ANIM_DURATION)
+            )
+        }
+    val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
+        {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(TWEEN_ANIM_DURATION)
+            )
+        }
+    val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
+        {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(TWEEN_ANIM_DURATION)
+            )
+        }
+    val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
+        {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(TWEEN_ANIM_DURATION)
+            )
+        }
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = BottomNavItem.Movies.route
+    ) {
+        composable(
+            route = BottomNavItem.Movies.route,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition
+        ) {
+            MoviesScreen2()
         }
 
-        composable(BottomNavItem.TVShows.route) {
+        composable(
+            route = BottomNavItem.TVShows.route,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition
+        ) {
             MoviesScreen(currentScreen = "TV Shows")
         }
 
-        composable(BottomNavItem.People.route) {
+        composable(
+            route = BottomNavItem.People.route,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition
+        ) {
             MoviesScreen(currentScreen = "People")
         }
 
-        composable(BottomNavItem.More.route) {
+        composable(
+            route = BottomNavItem.More.route,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition
+        ) {
             MoviesScreen(currentScreen = "More")
         }
     }

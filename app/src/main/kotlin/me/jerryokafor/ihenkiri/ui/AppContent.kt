@@ -27,6 +27,7 @@ package me.jerryokafor.ihenkiri.ui
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -94,15 +95,18 @@ internal fun AppContent(
             targetState = isLoggedIn,
             label = "loginState",
             animationSpec = tween(durationMillis = 3000),
-        ) {
-            if (it) {
+        ) { loggedIn ->
+            if (loggedIn) {
                 Scaffold(
                     modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
                     bottomBar = {
                         BottomNavigation(navController)
                     },
-                ) {
-                    NavigationGraph(navController)
+                ) { innerPadding ->
+                    NavigationGraph(
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                        navController = navController
+                    )
                 }
             } else {
                 LandingScreen(

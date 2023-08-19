@@ -22,10 +22,13 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.core.data.util
 
-data class AppUIState(
-    val isLoggedIn: Boolean = true,
-    val isDarkTheme: Boolean = true,
-    val isDynamicColor: Boolean = false,
-)
+object ImageUtil {
+    enum class Size(val value: String) {
+        W500("w500"),
+    }
+
+    fun buildImageUrl(path: String, size: Size = Size.W500): String =
+        "https://image.tmdb.org/t/p/${size.value}/$path"
+}
