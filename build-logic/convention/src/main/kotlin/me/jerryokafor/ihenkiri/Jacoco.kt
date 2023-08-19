@@ -104,6 +104,8 @@ internal fun Project.configureJacoco(
         }
     }
 
+    androidComponentsExtension.beforeVariants { it.unitTestEnabled }
+
     androidComponentsExtension.onVariants { variant ->
         // set up for all variants
         // original test task name for yhe given variant
@@ -122,7 +124,9 @@ internal fun Project.configureJacoco(
                     "Generate Jacoco coverage reports for the ${variant.name.capitalize()} build."
 
                 // run this task after the testTask has finished running
-                dependsOn(testTaskName)
+                if (tasks.findByName(testTaskName) != null) {
+                    dependsOn(testTaskName)
+                }
 
                 // configure output formats
                 reports {
@@ -168,8 +172,9 @@ internal fun Project.configureJacoco(
             description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
 
             // run this task after report task has finished running
-            dependsOn(coverageTaskName)
-
+            if (tasks.findByName(coverageTaskName) != null) {
+                dependsOn(coverageTaskName)
+            }
             violationRules {
                 rule {
                     limit {
