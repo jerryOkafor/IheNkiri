@@ -105,7 +105,7 @@ internal fun AppContent(
                 ) { innerPadding ->
                     NavigationGraph(
                         modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                        navController = navController
+                        navController = navController,
                     )
                 }
             } else {

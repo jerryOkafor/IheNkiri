@@ -43,46 +43,46 @@ private const val TWEEN_ANIM_DURATION = 700
 @Composable
 @IgnoreCoverageAsGenerated
 fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostController) {
-//https://proandroiddev.com/screen-transition-animations-with-jetpack-navigation-17afdc714d0e
+// https://proandroiddev.com/screen-transition-animations-with-jetpack-navigation-17afdc714d0e
     val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
         {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TWEEN_ANIM_DURATION)
+                animationSpec = tween(TWEEN_ANIM_DURATION),
             )
         }
     val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
         {
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TWEEN_ANIM_DURATION)
+                animationSpec = tween(TWEEN_ANIM_DURATION),
             )
         }
     val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
         {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TWEEN_ANIM_DURATION)
+                animationSpec = tween(TWEEN_ANIM_DURATION),
             )
         }
     val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
         {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TWEEN_ANIM_DURATION)
+                animationSpec = tween(TWEEN_ANIM_DURATION),
             )
         }
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = BottomNavItem.Movies.route
+        startDestination = BottomNavItem.Movies.route,
     ) {
         composable(
             route = BottomNavItem.Movies.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition
+            popExitTransition = popExitTransition,
         ) {
             MoviesScreen2()
         }
@@ -92,7 +92,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition
+            popExitTransition = popExitTransition,
         ) {
             MoviesScreen(currentScreen = "TV Shows")
         }
@@ -102,7 +102,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition
+            popExitTransition = popExitTransition,
         ) {
             MoviesScreen(currentScreen = "People")
         }
@@ -112,7 +112,7 @@ fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostControl
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition
+            popExitTransition = popExitTransition,
         ) {
             MoviesScreen(currentScreen = "More")
         }

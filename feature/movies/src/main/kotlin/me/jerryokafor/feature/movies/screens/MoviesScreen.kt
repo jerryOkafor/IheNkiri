@@ -80,8 +80,8 @@ import me.jerryokafor.core.ds.theme.TwoAndHalfVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 
-//private const val CHIP_GROUP_TEST_TAG = "chips"
-//private const val SEARCH_TEST_TAG = "search"
+// private const val CHIP_GROUP_TEST_TAG = "chips"
+// private const val SEARCH_TEST_TAG = "search"
 
 @ThemePreviews
 @Composable
