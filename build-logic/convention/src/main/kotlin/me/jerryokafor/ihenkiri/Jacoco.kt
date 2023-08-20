@@ -163,7 +163,7 @@ internal fun Project.configureJacoco(
                     ),
                 )
 
-                val otherSources = subprojects//.filter { it.pluginManager.hasPlugin("jacoco") }
+                val otherSources = subprojects // .filter { it.pluginManager.hasPlugin("jacoco") }
                 additionalSourceDirs.setFrom(otherSources.map { it.the<SourceSetContainer>()["main"].allSource.srcDirs })
                 additionalClassDirs.setFrom(otherSources.map { it.the<SourceSetContainer>()["main"].output })
             }
@@ -227,7 +227,6 @@ internal fun Project.configureJacoco(
 
         jacocoTestCoverageReport.dependsOn(coverageTask)
         jacocoTestCoverageVerification.dependsOn(verificationTask)
-
     }
 
     tasks.withType<Test>().configureEach {

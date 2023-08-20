@@ -27,7 +27,6 @@
 // apply<KtLintConventionPlugin>() //not working, path not auto imported in buildscript
 // apply<DetektConventionPlugin>() //not working, path not auto imported in buildscript
 
-
 plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false

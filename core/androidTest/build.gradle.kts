@@ -43,7 +43,6 @@ android {
     }
 
     targetProjectPath = ":app"
-
 }
 
 dependencies {
@@ -71,7 +70,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
-
 tasks.withType<JacocoReport> {
     val additionalProject = subprojects
     additionalSourceDirs.setFrom(additionalProject.map { it.the<SourceSetContainer>()["main"].allSource.srcDirs })
@@ -84,5 +82,4 @@ tasks.withType<JacocoReport> {
             logger.debug("Adding Project: ${it.name}")
         }
     }
-
 }
