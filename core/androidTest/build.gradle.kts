@@ -69,17 +69,3 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-
-tasks.withType<JacocoReport> {
-    val additionalProject = subprojects
-    additionalSourceDirs.setFrom(additionalProject.map { it.the<SourceSetContainer>()["main"].allSource.srcDirs })
-    sourceDirectories.setFrom(additionalProject.map { it.the<SourceSetContainer>()["main"].allSource.srcDirs })
-    classDirectories.setFrom(additionalProject.map { it.the<SourceSetContainer>()["main"].output })
-
-    doLast {
-        println("A message which is logged at QUIET level")
-        additionalProject.forEach {
-            logger.debug("Adding Project: ${it.name}")
-        }
-    }
-}

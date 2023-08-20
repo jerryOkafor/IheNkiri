@@ -55,11 +55,6 @@ class AndroidTestConventionPlugin : Plugin<Project> {
                 }
             }
 
-//            val testExtension = extensions.getByType<TestExtension>()
-//            val testAndroidComponentsExtension =
-//                extensions.getByType<TestAndroidComponentsExtension>()
-//            configureJacoco(testExtension, testAndroidComponentsExtension)
-
             dependencies {
                 implementation(kotlin("test"))
             }
