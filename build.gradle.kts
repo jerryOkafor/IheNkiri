@@ -27,7 +27,7 @@
 // apply<KtLintConventionPlugin>() //not working, path not auto imported in buildscript
 // apply<DetektConventionPlugin>() //not working, path not auto imported in buildscript
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+
 plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
@@ -43,4 +43,3 @@ plugins {
     id("me.jerryokafor.ihenkiri.build.ktlint")
     alias(libs.plugins.com.vanniktech.dependency.graph.generator)
 }
-true // Needed to make the Suppress annotation work for the plugins block

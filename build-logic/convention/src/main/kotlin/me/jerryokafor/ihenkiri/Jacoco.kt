@@ -27,9 +27,12 @@ package me.jerryokafor.ihenkiri
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
@@ -37,7 +40,7 @@ import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
-private val coverageExclusions = listOf(
+val coverageExclusions = listOf(
     // Android
     "**/R.class",
     "**/R\$*.class",
@@ -104,8 +107,6 @@ internal fun Project.configureJacoco(
         }
     }
 
-    androidComponentsExtension.beforeVariants { it.unitTestEnabled }
-
     androidComponentsExtension.onVariants { variant ->
         // set up for all variants
         // original test task name for yhe given variant
@@ -156,11 +157,15 @@ internal fun Project.configureJacoco(
                         // Unit tests coverage data
                         "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
                         // Instrumented tests coverage data
-                        fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                        fileTree("$buildDir/outputs/code_coverage/${variant.name}/connected/") {
                             include("**/*.ec")
                         },
                     ),
                 )
+
+                val otherSources = subprojects//.filter { it.pluginManager.hasPlugin("jacoco") }
+                additionalSourceDirs.setFrom(otherSources.map { it.the<SourceSetContainer>()["main"].allSource.srcDirs })
+                additionalClassDirs.setFrom(otherSources.map { it.the<SourceSetContainer>()["main"].output })
             }
 
         // add unit test verification for all variant
@@ -213,7 +218,7 @@ internal fun Project.configureJacoco(
                     // Unit tests coverage data
                     "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
                     // Instrumented tests coverage data
-                    fileTree("$buildDir/outputs/code_coverage/${variant.name}AndroidTest/connected/") {
+                    fileTree("$buildDir/outputs/code_coverage/${variant.name}/connected/") {
                         include("**/*.ec")
                     },
                 ),
@@ -222,6 +227,7 @@ internal fun Project.configureJacoco(
 
         jacocoTestCoverageReport.dependsOn(coverageTask)
         jacocoTestCoverageVerification.dependsOn(verificationTask)
+
     }
 
     tasks.withType<Test>().configureEach {

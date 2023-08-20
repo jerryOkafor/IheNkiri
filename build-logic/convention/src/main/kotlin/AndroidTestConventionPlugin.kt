@@ -52,6 +52,50 @@ class AndroidTestConventionPlugin : Plugin<Project> {
                 }
 
                 configureKotlinAndroid(this)
+
+//                buildTypes {
+//                    debug { enableAndroidTestCoverage = true }
+//                }
+//
+//                val buildType = "debug"
+//                tasks.register("${buildType}AndroidTestCoverage", JacocoReport::class) {
+//                    group = "Reporting"
+//                    description =
+//                        "Generate Jacoco coverage reports for the debug androidTest build."
+//
+//
+//                    // configure output formats
+//                    reports {
+//                        xml.required.set(true)
+//                        html.required.set(true)
+//                    }
+//
+//                    classDirectories.setFrom(
+//                        fileTree("$buildDir/tmp/kotlin-classes/debug") {
+//                            exclude(coverageExclusions)
+//                        },
+//                    )
+//
+//                    // configure sources
+//                    sourceDirectories.setFrom(
+//                        files(
+//                            "$projectDir/src/main/java",
+//                            "$projectDir/src/debug/java",
+//                            "$projectDir/src/main/kotlin",
+//                            "$projectDir/src/debug/kotlin",
+//                        ),
+//                    )
+//
+//                    // set outputs
+//                    executionData.setFrom(
+//                        files(
+//                            // Instrumented tests coverage data
+//                            fileTree("$buildDir/outputs/code_coverage/debug/connected/") {
+//                                include("**/*.ec")
+//                            },
+//                        ),
+//                    )
+//                }
             }
 
             val testExtension = extensions.getByType<TestExtension>()
