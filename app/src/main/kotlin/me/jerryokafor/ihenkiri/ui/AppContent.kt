@@ -44,6 +44,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
+import me.jerryokafor.ihenkiri.viewmodel.AppContentViewModel
 
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 const val LANDING_SCREEN_TEST_TAG = "landingScreen"

@@ -22,10 +22,11 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.ihenkiri.viewmodel
 
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
+import me.jerryokafor.ihenkiri.ui.AppUIState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
