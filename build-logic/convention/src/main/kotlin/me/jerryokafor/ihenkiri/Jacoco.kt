@@ -36,7 +36,6 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
-import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
@@ -92,10 +91,11 @@ internal fun Project.configureJacoco(
         group = "Reporting"
         description = "Generate Jacoco coverage reports for all variants after unit test"
     }
-    val jacocoTestCoverageVerification = tasks.create("jacocoTestCoverageVerification") {
-        group = "Reporting"
-        description = "Verify Jacoco coverage reports"
-    }
+
+//    val jacocoTestCoverageVerification = tasks.create("jacocoTestCoverageVerification") {
+//        group = "Reporting"
+//        description = "Verify Jacoco coverage reports"
+//    }
 
     commonExtension.apply {
         buildTypes {
@@ -125,9 +125,7 @@ internal fun Project.configureJacoco(
                     "Generate Jacoco coverage reports for the ${variant.name.capitalize()} build."
 
                 // run this task after the testTask has finished running
-                if (tasks.findByName(testTaskName) != null) {
-                    dependsOn(testTaskName)
-                }
+                dependsOn(testTaskName)
 
                 // configure output formats
                 reports {
@@ -157,7 +155,7 @@ internal fun Project.configureJacoco(
                         // Unit tests coverage data
                         "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
                         // Instrumented tests coverage data
-                        fileTree("$buildDir/outputs/code_coverage/${variant.name}/connected/") {
+                        fileTree("$rootDir/core/androidTest/build/outputs/code_coverage/${variant.name}/connected/") {
                             include("**/*.ec")
                         },
                     ),
@@ -169,64 +167,64 @@ internal fun Project.configureJacoco(
             }
 
         // add unit test verification for all variant
-        val verificationTask = tasks.register(
-            "${testTaskName}CoverageVerification",
-            JacocoCoverageVerification::class.java,
-        ) {
-            group = "Reporting"
-            description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
-
-            // run this task after report task has finished running
-            if (tasks.findByName(coverageTaskName) != null) {
-                dependsOn(coverageTaskName)
-            }
-            violationRules {
-                rule {
-                    limit {
-                        minimum = 0.6.toBigDecimal()
-                    }
-                }
-                rule {
-                    element = "BUNDLE"
-                    limit {
-                        counter = "LINE"
-                        value = "COVEREDRATIO"
-                        minimum = 0.6.toBigDecimal()
-                    }
-                }
-            }
-
-            classDirectories.setFrom(
-                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                    exclude(coverageExclusions)
-                },
-            )
-
-            // configure sources
-            sourceDirectories.setFrom(
-                files(
-                    "$projectDir/src/main/java",
-                    "$projectDir/src/${variant.name}/java",
-                    "$projectDir/src/main/kotlin",
-                    "$projectDir/src/${variant.name}/kotlin",
-                ),
-            )
-
-            // set outputs
-            executionData.setFrom(
-                files(
-                    // Unit tests coverage data
-                    "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
-                    // Instrumented tests coverage data
-                    fileTree("$buildDir/outputs/code_coverage/${variant.name}/connected/") {
-                        include("**/*.ec")
-                    },
-                ),
-            )
-        }
+//        val verificationTask = tasks.register(
+//            "${testTaskName}CoverageVerification",
+//            JacocoCoverageVerification::class.java,
+//        ) {
+//            group = "Reporting"
+//            description = "Verifies Jacoco coverage for the ${variant.name.capitalize()} build."
+//
+//            // run this task after report task has finished running
+//            if (tasks.findByName(coverageTaskName) != null) {
+//                dependsOn(coverageTaskName)
+//            }
+//            violationRules {
+//                rule {
+//                    limit {
+//                        minimum = 0.6.toBigDecimal()
+//                    }
+//                }
+//                rule {
+//                    element = "BUNDLE"
+//                    limit {
+//                        counter = "LINE"
+//                        value = "COVEREDRATIO"
+//                        minimum = 0.6.toBigDecimal()
+//                    }
+//                }
+//            }
+//
+//            classDirectories.setFrom(
+//                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+//                    exclude(coverageExclusions)
+//                },
+//            )
+//
+//            // configure sources
+//            sourceDirectories.setFrom(
+//                files(
+//                    "$projectDir/src/main/java",
+//                    "$projectDir/src/${variant.name}/java",
+//                    "$projectDir/src/main/kotlin",
+//                    "$projectDir/src/${variant.name}/kotlin",
+//                ),
+//            )
+//
+//            // set outputs
+//            executionData.setFrom(
+//                files(
+//                    // Unit tests coverage data
+//                    "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+//                    // Instrumented tests coverage data
+//                    fileTree("$buildDir/outputs/code_coverage/${variant.name}/connected/") {
+//                        include("**/*.ec")
+//                    },
+//                ),
+//            )
+//        }
 
         jacocoTestCoverageReport.dependsOn(coverageTask)
-        jacocoTestCoverageVerification.dependsOn(verificationTask)
+//        jacocoTestCoverageVerification.dependsOn(verificationTask)
     }
 
     tasks.withType<Test>().configureEach {

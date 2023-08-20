@@ -22,17 +22,14 @@
  * THE SOFTWARE.
  */
 
-import com.android.build.api.variant.TestAndroidComponentsExtension
 import com.android.build.gradle.TestExtension
 import me.jerryokafor.ihenkiri.Config
-import me.jerryokafor.ihenkiri.configureJacoco
 import me.jerryokafor.ihenkiri.configureKotlinAndroid
 import me.jerryokafor.ihenkiri.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
 
 class AndroidTestConventionPlugin : Plugin<Project> {
@@ -53,55 +50,15 @@ class AndroidTestConventionPlugin : Plugin<Project> {
 
                 configureKotlinAndroid(this)
 
-//                buildTypes {
-//                    debug { enableAndroidTestCoverage = true }
-//                }
-//
-//                val buildType = "debug"
-//                tasks.register("${buildType}AndroidTestCoverage", JacocoReport::class) {
-//                    group = "Reporting"
-//                    description =
-//                        "Generate Jacoco coverage reports for the debug androidTest build."
-//
-//
-//                    // configure output formats
-//                    reports {
-//                        xml.required.set(true)
-//                        html.required.set(true)
-//                    }
-//
-//                    classDirectories.setFrom(
-//                        fileTree("$buildDir/tmp/kotlin-classes/debug") {
-//                            exclude(coverageExclusions)
-//                        },
-//                    )
-//
-//                    // configure sources
-//                    sourceDirectories.setFrom(
-//                        files(
-//                            "$projectDir/src/main/java",
-//                            "$projectDir/src/debug/java",
-//                            "$projectDir/src/main/kotlin",
-//                            "$projectDir/src/debug/kotlin",
-//                        ),
-//                    )
-//
-//                    // set outputs
-//                    executionData.setFrom(
-//                        files(
-//                            // Instrumented tests coverage data
-//                            fileTree("$buildDir/outputs/code_coverage/debug/connected/") {
-//                                include("**/*.ec")
-//                            },
-//                        ),
-//                    )
-//                }
+                buildTypes {
+                    debug { enableAndroidTestCoverage = true }
+                }
             }
 
-            val testExtension = extensions.getByType<TestExtension>()
-            val testAndroidComponentsExtension =
-                extensions.getByType<TestAndroidComponentsExtension>()
-            configureJacoco(testExtension, testAndroidComponentsExtension)
+//            val testExtension = extensions.getByType<TestExtension>()
+//            val testAndroidComponentsExtension =
+//                extensions.getByType<TestAndroidComponentsExtension>()
+//            configureJacoco(testExtension, testAndroidComponentsExtension)
 
             dependencies {
                 implementation(kotlin("test"))
