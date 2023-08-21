@@ -31,7 +31,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
 //    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    id("jacoco")
+//    id("jacoco")
 }
 
 android {
@@ -48,15 +48,17 @@ android {
         }
     }
 
+    testCoverage {
+        jacocoVersion = libs.versions.jacoco.get().toString()
+    }
+
     buildTypes {
         debug {
-            enableUnitTestCoverage = false
-            enableAndroidTestCoverage = false
+            isTestCoverageEnabled = false
         }
+
         release {
             isMinifyEnabled = false
-            enableUnitTestCoverage = false
-            enableAndroidTestCoverage = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -67,6 +69,7 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            isReturnDefaultValues = true
         }
     }
 }

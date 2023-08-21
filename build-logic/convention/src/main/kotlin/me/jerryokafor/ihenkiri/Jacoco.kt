@@ -151,6 +151,7 @@ internal fun Project.configureJacoco(
                     files(
                         // Unit tests coverage data
                         "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                        "$buildDir/jacoco/*.exec",
                         // Instrumented tests coverage data
                         fileTree("$rootDir/core/androidTest/build/outputs/code_coverage/${variant.name}/connected/") {
                             include("**/*.ec")

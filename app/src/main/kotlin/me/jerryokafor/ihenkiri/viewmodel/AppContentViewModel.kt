@@ -28,7 +28,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.jerryokafor.ihenkiri.ui.AppUIState
 import javax.inject.Inject
@@ -37,7 +36,7 @@ import javax.inject.Inject
 class AppContentViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUIState())
-    val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
+    val uiState: StateFlow<AppUIState> = _uiState
 
     fun updateLoginState(loggedIn: Boolean) {
         _uiState.update {
