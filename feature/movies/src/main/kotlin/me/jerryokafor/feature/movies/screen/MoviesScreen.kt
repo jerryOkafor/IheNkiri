@@ -29,49 +29,26 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
-import coil.request.ImageRequest
-import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
-import com.valentinilk.shimmer.shimmer
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.EightVerticalSpacer
@@ -79,8 +56,11 @@ import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoAndHalfVerticalSpacer
 import me.jerryokafor.core.model.Movie
+import me.jerryokafor.feature.movies.R
+import me.jerryokafor.feature.movies.model.MovieListFilterItem
 import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 
+const val TITLE_TEST_TAG = "title"
 const val SEARCH_TEST_TAG = "search"
 const val CHIP_GROUP_TEST_TAG = "chips"
 const val GRID_ITEMS_TEST_TAG = "gridItems"
@@ -92,10 +72,26 @@ private fun MoviesScreenPreview() {
         MoviesScreen(
             movies = testMovies(),
             filters = listOf(
-                Chip(label = "Now Playing", isSelected = true, type = Chip.FilterType.NOW_PLAYING),
-                Chip(label = "Popular", isSelected = false, type = Chip.FilterType.POPULAR),
-                Chip(label = "Top Rated", isSelected = false, type = Chip.FilterType.TOP_RATED),
-                Chip(label = "Upcoming", isSelected = false, type = Chip.FilterType.UPCOMING),
+                MovieListFilterItem(
+                    label = "Now Playing",
+                    isSelected = true,
+                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
+                ),
+                MovieListFilterItem(
+                    label = "Popular",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.POPULAR,
+                ),
+                MovieListFilterItem(
+                    label = "Top Rated",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.TOP_RATED,
+                ),
+                MovieListFilterItem(
+                    label = "Upcoming",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.UPCOMING,
+                ),
             ),
             onItemSelected = {},
         )
@@ -105,7 +101,8 @@ private fun MoviesScreenPreview() {
 @Composable
 fun MoviesScreen(viewModel: MoviesViewModel = viewModel()) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    val onItemSelected: (Chip.FilterType) -> Unit = {
+
+    val onItemSelected: (MovieListFilterItem.FilterType) -> Unit = {
         viewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(it))
     }
 
@@ -116,11 +113,12 @@ fun MoviesScreen(viewModel: MoviesViewModel = viewModel()) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesScreen(
     movies: List<Movie>,
-    filters: List<Chip> = emptyList(),
-    onItemSelected: (Chip.FilterType) -> Unit = {},
+    filters: List<MovieListFilterItem> = emptyList(),
+    onItemSelected: (MovieListFilterItem.FilterType) -> Unit = {},
 ) {
     @Suppress("MagicNumber")
     val colorStops = listOf(
@@ -139,16 +137,31 @@ fun MoviesScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .systemBarsPadding()
-                    .padding(IheNkiri.spacing.twoAndaHalf),
+                    .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
+                    .padding(bottom = IheNkiri.spacing.twoAndaHalf),
             ) {
+                CenterAlignedTopAppBar(
+                    modifier = Modifier.testTag(TITLE_TEST_TAG),
+                    title = {
+                        Text(
+                            text = stringResource(R.string.movies_title),
+                            style = IheNkiri.typography.titleMedium,
+                            color = IheNkiri.color.onPrimary,
+                        )
+                    },
+//                    windowInsets = WindowInsets(0, 0, 0, 0),
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                    ),
+                )
                 SearchBar(
                     modifier = Modifier
                         .testTag(SEARCH_TEST_TAG)
                         .fillMaxWidth(),
                 )
                 TwoAndHalfVerticalSpacer()
-                ChipGroup(
+                MovieListFilter(
                     modifier = Modifier.testTag(CHIP_GROUP_TEST_TAG),
                     filters = filters,
                     onItemSelected = onItemSelected,
@@ -169,7 +182,7 @@ fun MoviesScreen(
                             key = { index, item -> "${item.id}$index" },
                         ) { _, item ->
                             val path = ImageUtil.buildImageUrl(item.posterPath)
-                            Poster(
+                            MoviePoster(
                                 path = path,
                                 shimmer = shimmerInstance,
                                 contentDescription = item.title,
@@ -179,190 +192,6 @@ fun MoviesScreen(
                     },
                 )
             }
-        }
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun PosterPreview() {
-    IheNkiriTheme {
-        Column(modifier = Modifier.padding(IheNkiri.spacing.twoAndaHalf)) {
-            Poster(
-                path = "https://example.com/image.jpg",
-                contentDescription = "Image",
-                shimmer = rememberShimmer(
-                    shimmerBounds = ShimmerBounds.Window,
-                ),
-            ) {}
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun Poster(
-    modifier: Modifier = Modifier,
-    path: String,
-    contentDescription: String,
-    shimmer: Shimmer,
-    onClick: () -> Unit,
-) {
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        shape = IheNkiri.shape.medium,
-    ) {
-        SubcomposeAsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(path).crossfade(true).build(),
-            contentScale = ContentScale.FillBounds,
-            contentDescription = contentDescription,
-        ) {
-            val state = painter.state
-            val showShimmer = state is AsyncImagePainter.State.Loading
-            val shimmerModifier = if (showShimmer) {
-                Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(
-                        @Suppress("MagicNumber")
-                        listOf(0.6f, 0.8f, 1.5f)
-                            .shuffled()
-                            .first(),
-                    )
-            } else {
-                Modifier.fillMaxWidth()
-            }
-
-            ShimmerBox(
-                modifier = shimmerModifier,
-                shimmer = shimmer,
-                showShimmer = showShimmer,
-            ) {
-                if (state !is AsyncImagePainter.State.Loading) {
-                    SubcomposeAsyncImageContent()
-                } else {
-                    // Show empty place holder here
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ShimmerBox(
-    modifier: Modifier = Modifier,
-    showShimmer: Boolean,
-    shimmer: Shimmer,
-    content: @Composable () -> Unit,
-) {
-    Box(modifier = modifier.background(Color.Transparent)) {
-        if (showShimmer) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .shimmer(shimmer)
-                    .background(Color.Black.copy(alpha = 0.8f)),
-            )
-        } else {
-            content()
-        }
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun SearchBarPreview() {
-    IheNkiriTheme {
-        Column(modifier = Modifier.padding(IheNkiri.spacing.twoAndaHalf)) {
-            SearchBar()
-        }
-    }
-}
-
-@Composable
-private fun SearchBar(modifier: Modifier = Modifier, onSearch: (searchQuery: String) -> Unit = {}) {
-    val searching by remember { mutableStateOf(false) }
-    val trailingIcon = if (searching) {
-        me.jerryokafor.core.ui.R.drawable.baseline_cancel_24
-    } else {
-        me.jerryokafor.core.ui.R.drawable.search
-    }
-    val contentDescription = if (searching) "Close" else "Search"
-    var searchQuery by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        modifier = modifier,
-        value = searchQuery,
-        placeholder = { Text(text = "the end game") },
-        onValueChange = { searchQuery = it },
-        shape = IheNkiri.shape.pill,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch(searchQuery) }),
-        trailingIcon = {
-            Icon(
-                painter = painterResource(id = trailingIcon),
-                tint = IheNkiri.color.tertiaryContainer,
-                contentDescription = contentDescription,
-            )
-        },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
-            focusedContainerColor = IheNkiri.color.onPrimaryContainer.copy(alpha = 0.7f),
-            unfocusedContainerColor = IheNkiri.color.onPrimaryContainer.copy(alpha = 0.7f),
-            focusedPlaceholderColor = IheNkiri.color.onPrimary.copy(alpha = 0.5F),
-            unfocusedPlaceholderColor = IheNkiri.color.onPrimary.copy(alpha = 0.8f),
-            focusedTextColor = IheNkiri.color.onPrimary,
-            unfocusedTextColor = IheNkiri.color.onPrimary.copy(alpha = 0.4F),
-        ),
-    )
-}
-
-@ThemePreviews
-@Composable
-private fun ChipGroupPreview() {
-    IheNkiriTheme {
-        ChipGroup(
-            filters = listOf(
-                Chip(label = "Now Playing", isSelected = true, type = Chip.FilterType.NOW_PLAYING),
-                Chip(label = "Popular", isSelected = false, type = Chip.FilterType.POPULAR),
-                Chip(label = "Top Rated", isSelected = false, type = Chip.FilterType.TOP_RATED),
-                Chip(label = "Upcoming", isSelected = false, type = Chip.FilterType.UPCOMING),
-            ),
-        ) {}
-    }
-}
-
-data class Chip(val label: String, val isSelected: Boolean, val type: FilterType) {
-    enum class FilterType {
-        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ChipGroup(
-    modifier: Modifier = Modifier,
-    filters: List<Chip>,
-    onItemSelected: (Chip.FilterType) -> Unit,
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.twoAndaHalf),
-    ) {
-        items(filters) {
-            FilterChip(
-                selected = it.isSelected,
-                onClick = { onItemSelected(it.type) },
-                label = { Text(text = it.label) },
-                shape = IheNkiri.shape.pill,
-                colors = FilterChipDefaults.filterChipColors(
-                    labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                ),
-                border = FilterChipDefaults.filterChipBorder(
-                    borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                ),
-            )
         }
     }
 }

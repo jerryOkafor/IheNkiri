@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.feature.movies.screen.Chip
+import me.jerryokafor.feature.movies.model.MovieListFilterItem
 import me.jerryokafor.feature.movies.screen.testMovies
 import javax.inject.Inject
 
@@ -41,10 +41,26 @@ class MoviesViewModel @Inject constructor() : ViewModel() {
     val uiState: StateFlow<UIState> = _uiState.asStateFlow()
 
     private val availableFilters = listOf(
-        Chip(label = "Now Playing", isSelected = true, type = Chip.FilterType.NOW_PLAYING),
-        Chip(label = "Popular", isSelected = false, type = Chip.FilterType.POPULAR),
-        Chip(label = "Top Rated", isSelected = false, type = Chip.FilterType.TOP_RATED),
-        Chip(label = "Upcoming", isSelected = false, type = Chip.FilterType.UPCOMING),
+        MovieListFilterItem(
+            label = "Now Playing",
+            isSelected = true,
+            type = MovieListFilterItem.FilterType.NOW_PLAYING,
+        ),
+        MovieListFilterItem(
+            label = "Popular",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.POPULAR,
+        ),
+        MovieListFilterItem(
+            label = "Top Rated",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.TOP_RATED,
+        ),
+        MovieListFilterItem(
+            label = "Upcoming",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.UPCOMING,
+        ),
     )
 
     init {
@@ -58,7 +74,7 @@ class MoviesViewModel @Inject constructor() : ViewModel() {
 
     data class UIState(
         val loading: Boolean = false,
-        val availableFilters: List<Chip> = emptyList(),
+        val availableFilters: List<MovieListFilterItem> = emptyList(),
         val movies: List<Movie> = emptyList(),
     )
 
@@ -72,16 +88,16 @@ class MoviesViewModel @Inject constructor() : ViewModel() {
                     it.copy(availableFilters = updatedFilters)
                 }
                 when (event.filter) {
-                    Chip.FilterType.NOW_PLAYING -> {}
-                    Chip.FilterType.POPULAR -> {}
-                    Chip.FilterType.TOP_RATED -> {}
-                    Chip.FilterType.UPCOMING -> {}
+                    MovieListFilterItem.FilterType.NOW_PLAYING -> {}
+                    MovieListFilterItem.FilterType.POPULAR -> {}
+                    MovieListFilterItem.FilterType.TOP_RATED -> {}
+                    MovieListFilterItem.FilterType.UPCOMING -> {}
                 }
             }
         }
     }
 
     sealed interface Event {
-        data class OnFilterSelected(val filter: Chip.FilterType) : Event
+        data class OnFilterSelected(val filter: MovieListFilterItem.FilterType) : Event
     }
 }

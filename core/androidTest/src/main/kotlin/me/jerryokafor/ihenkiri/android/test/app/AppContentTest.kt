@@ -24,12 +24,18 @@
 
 package me.jerryokafor.ihenkiri.android.test.app
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.navigation.compose.ComposeNavigator
+import androidx.navigation.testing.TestNavHostController
+import com.google.common.truth.Truth.assertThat
 import me.jerryokafor.ihenkiri.ui.AppContent
 import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
+import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
 import org.junit.Rule
 import org.junit.Test
 
@@ -37,14 +43,29 @@ class AppContentTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private lateinit var navController: TestNavHostController
+
     private var onContinueAsGuestClick = 0
     private var onSignInClick = 0
 
-    @Test
-    fun when_isLoggedInFalse_Expect_SignScreenToBeShown() {
+    private fun setUp(content: @Composable () -> Unit) {
         composeTestRule.setContent {
+            navController = TestNavHostController(LocalContext.current)
+            navController.navigatorProvider.addNavigator(
+                ComposeNavigator(),
+            )
+
+            // dump content
+            content()
+        }
+    }
+
+    @Test
+    fun appContent_verifyAuhStartDestinatoin() {
+        setUp {
             AppContent(
-                isLoggedIn = false,
+                navHostController = navController,
+                startDestination = GraphRoute.AUTH,
                 isDarkTheme = false,
                 isDynamicColor = false,
                 onContinueAsGuestClick = { onContinueAsGuestClick++ },
@@ -54,21 +75,26 @@ class AppContentTest {
 
         composeTestRule.onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertExists()
         composeTestRule.onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertDoesNotExist()
+        val route = navController.currentBackStackEntry?.destination?.route
+        assertThat(route).isEqualTo("welcome")
     }
 
     @Test
-    fun when_isLoggedInTrue_Expect_MainContentToBeShown() {
-        composeTestRule.setContent {
+    fun appContent_verifyHomeDestination() {
+        setUp {
             AppContent(
-                isLoggedIn = true,
+                navHostController = navController,
+                startDestination = GraphRoute.HOME,
                 isDarkTheme = false,
                 isDynamicColor = false,
                 onContinueAsGuestClick = { onContinueAsGuestClick++ },
                 onSignInClick = { onSignInClick++ },
             )
         }
-
         composeTestRule.onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()
         composeTestRule.onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertIsDisplayed()
+
+        val route = navController.currentBackStackEntry?.destination?.route
+        assertThat(route).isEqualTo("home-graph")
     }
 }

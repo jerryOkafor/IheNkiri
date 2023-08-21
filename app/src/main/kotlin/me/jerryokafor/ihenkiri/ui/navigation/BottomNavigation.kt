@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.ihenkiri.ui.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
@@ -54,9 +54,11 @@ fun BottomNavigation(navController: NavHostController) {
 
     NavigationBar {
         items.forEach { item ->
-            AddItem(screen = item, selected = currentRoute == item.route) {
-                navController.navigate(item.route)
-            }
+            AddItem(
+                screen = item,
+                selected = currentRoute == item.route,
+                onClick = { navController.navigate(item.route) },
+            )
         }
     }
 }

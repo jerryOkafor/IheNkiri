@@ -22,55 +22,31 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.ihenkiri.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavBackStackEntry
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.feature.movies.screen.MoviesScreen
-
-private const val TWEEN_ANIM_DURATION = 700
+import me.jerryokafor.ihenkiri.ui.MoreScree
+import me.jerryokafor.ihenkiri.ui.PeopleScreen
+import me.jerryokafor.ihenkiri.ui.TvShowScreen
 
 @Composable
 @IgnoreCoverageAsGenerated
-fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostController) {
+@Suppress("UnusedPrivateMember")
+fun HomeNavGraph(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    paddingValues: PaddingValues = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
+) {
 // https://proandroiddev.com/screen-transition-animations-with-jetpack-navigation-17afdc714d0e
-    val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
-        {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TWEEN_ANIM_DURATION),
-            )
-        }
-    val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
-        {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(TWEEN_ANIM_DURATION),
-            )
-        }
-    val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
-        {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TWEEN_ANIM_DURATION),
-            )
-        }
-    val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
-        {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(TWEEN_ANIM_DURATION),
-            )
-        }
+// https://medium.com/androiddevelopers/animations-in-navigation-compose-36d48870776b
     NavHost(
         modifier = modifier,
         navController = navController,

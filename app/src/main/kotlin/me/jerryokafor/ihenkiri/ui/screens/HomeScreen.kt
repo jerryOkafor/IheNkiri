@@ -22,25 +22,23 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.viewmodel
+package me.jerryokafor.ihenkiri.ui.screens
 
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import me.jerryokafor.ihenkiri.ui.AppUIState
-import javax.inject.Inject
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
+import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
+import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
 
-@HiltViewModel
-class AppContentViewModel @Inject constructor() : ViewModel() {
-
-    private val _uiState = MutableStateFlow(AppUIState())
-    val uiState: StateFlow<AppUIState> = _uiState
-
-    fun updateLoginState(loggedIn: Boolean) {
-        _uiState.update {
-            it.copy(isLoggedIn = loggedIn)
-        }
-    }
+@Composable
+fun HomeScreen(navController: NavHostController = rememberNavController()) {
+    Scaffold(
+        modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
+        bottomBar = { BottomNavigation(navController) },
+        content = { HomeNavGraph(navController = navController, paddingValues = it) },
+    )
 }

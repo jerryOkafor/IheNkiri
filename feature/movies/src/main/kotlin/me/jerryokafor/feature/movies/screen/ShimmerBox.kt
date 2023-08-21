@@ -22,10 +22,33 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.feature.movies.screen
 
-data class AppUIState(
-    val isLoggedIn: Boolean = true,
-    val isDarkTheme: Boolean = true,
-    val isDynamicColor: Boolean = false,
-)
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.shimmer
+
+@Composable
+fun ShimmerBox(
+    modifier: Modifier = Modifier,
+    showShimmer: Boolean,
+    shimmer: Shimmer,
+    content: @Composable () -> Unit,
+) {
+    Box(modifier = modifier.background(Color.Transparent)) {
+        if (showShimmer) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .shimmer(shimmer)
+                    .background(Color.Black.copy(alpha = 0.8f)),
+            )
+        } else {
+            content()
+        }
+    }
+}

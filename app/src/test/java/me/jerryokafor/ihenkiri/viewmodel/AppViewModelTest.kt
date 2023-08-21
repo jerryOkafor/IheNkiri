@@ -24,48 +24,47 @@
 
 package me.jerryokafor.ihenkiri.viewmodel
 
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
-import me.jerryokafor.ihenkiri.ui.AppUIState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
-class AppContentViewModelTest {
+class AppViewModelTest {
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
-    private lateinit var viewModel: AppContentViewModel
+    private lateinit var viewModel: AppViewModel
 
     @Before
     fun setUp() {
-        viewModel = AppContentViewModel()
+        viewModel = AppViewModel()
     }
 
     @Test
-    fun `Given UI initial state, when viewModel is observed, then isLoggedIn == false`() = runTest {
-        val expected = AppUIState()
+    fun appViewMode_verifyInitialState() = runTest {
         val actualValue = viewModel.uiState.value
-        assertEquals(expected.isLoggedIn, actualValue.isLoggedIn)
-        assertEquals(expected.isDarkTheme, actualValue.isDarkTheme)
-        assertEquals(expected.isDynamicColor, actualValue.isDynamicColor)
+        val startDestination = viewModel.startDestination.value
+        assertThat(actualValue.isLoggedIn).isTrue()
+        assertThat(actualValue.isDarkTheme).isTrue()
+        assertThat(actualValue.isDynamicColor).isFalse()
+        assertThat(startDestination).isEqualTo("auth-graph")
     }
 
     @Test
-    fun `Given isLoggedIn == false, when isLoggedIn == true and viewModel is observed, then isLoggedIn = true`() =
-        runTest {
-            val actualInitialValue = viewModel.uiState.value
-            val expected = AppUIState()
-            assertEquals(AppUIState(), actualInitialValue)
-            assertEquals(expected.isDarkTheme, actualInitialValue.isDarkTheme)
-            assertEquals(expected.isDynamicColor, actualInitialValue.isDynamicColor)
-
-            viewModel.updateLoginState(loggedIn = true)
-            val appUIState = AppUIState(isLoggedIn = true)
-            val otherValue = viewModel.uiState.value
-            assertEquals(appUIState.isLoggedIn, otherValue.isLoggedIn)
-            assertEquals(appUIState.isDarkTheme, otherValue.isDarkTheme)
-            assertEquals(appUIState.isDynamicColor, otherValue.isDynamicColor)
+    fun appViewModel_verifyUpdateLogin() = runTest {
+        viewModel.updateLoginState(loggedIn = false)
+        with(viewModel.uiState.value) {
+            assertThat(isLoggedIn).isFalse()
         }
+        assertThat(viewModel.startDestination.value).isEqualTo("auth-graph")
+
+        viewModel.updateLoginState(loggedIn = true)
+        with(viewModel.uiState.value) {
+            assertThat(isLoggedIn).isTrue()
+        }
+
+        assertThat(viewModel.startDestination.value).isEqualTo("home-graph")
+    }
 }

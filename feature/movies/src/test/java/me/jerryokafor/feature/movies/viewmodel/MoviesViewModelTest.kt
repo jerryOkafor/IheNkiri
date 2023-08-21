@@ -25,7 +25,7 @@
 package me.jerryokafor.feature.movies.viewmodel
 
 import com.google.common.truth.Truth.assertThat
-import me.jerryokafor.feature.movies.screen.Chip
+import me.jerryokafor.feature.movies.model.MovieListFilterItem
 import org.junit.Before
 import org.junit.Test
 
@@ -46,25 +46,25 @@ class MoviesViewModelTest {
         with(currentUIState.availableFilters[0]) {
             assertThat(label).isEqualTo("Now Playing")
             assertThat(isSelected).isTrue()
-            assertThat(type).isEqualTo(Chip.FilterType.NOW_PLAYING)
+            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.NOW_PLAYING)
         }
 
         with(currentUIState.availableFilters[1]) {
             assertThat(label).isEqualTo("Popular")
             assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(Chip.FilterType.POPULAR)
+            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.POPULAR)
         }
 
         with(currentUIState.availableFilters[2]) {
             assertThat(label).isEqualTo("Top Rated")
             assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(Chip.FilterType.TOP_RATED)
+            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.TOP_RATED)
         }
 
         with(currentUIState.availableFilters[3]) {
             assertThat(label).isEqualTo("Upcoming")
             assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(Chip.FilterType.UPCOMING)
+            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.UPCOMING)
         }
     }
 
@@ -73,30 +73,31 @@ class MoviesViewModelTest {
         val currentUIState = moviesViewModel.uiState.value
         assertThat(currentUIState.availableFilters).isNotEmpty()
         assertThat(currentUIState.availableFilters.size).isEqualTo(4)
+
         with(currentUIState.availableFilters[0]) {
             assertThat(label).isEqualTo("Now Playing")
             assertThat(isSelected).isTrue()
-            assertThat(type).isEqualTo(Chip.FilterType.NOW_PLAYING)
+            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.NOW_PLAYING)
         }
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(Chip.FilterType.POPULAR))
+        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.POPULAR))
         with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == Chip.FilterType.POPULAR }.isSelected).isTrue()
+            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.POPULAR }.isSelected).isTrue()
         }
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(Chip.FilterType.TOP_RATED))
+        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.TOP_RATED))
         with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == Chip.FilterType.TOP_RATED }.isSelected).isTrue()
+            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.TOP_RATED }.isSelected).isTrue()
         }
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(Chip.FilterType.UPCOMING))
+        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.UPCOMING))
         with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == Chip.FilterType.UPCOMING }.isSelected).isTrue()
+            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.UPCOMING }.isSelected).isTrue()
         }
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(Chip.FilterType.NOW_PLAYING))
+        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.NOW_PLAYING))
         with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == Chip.FilterType.NOW_PLAYING }.isSelected).isTrue()
+            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.NOW_PLAYING }.isSelected).isTrue()
         }
     }
 }

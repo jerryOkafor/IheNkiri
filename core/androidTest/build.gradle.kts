@@ -24,6 +24,8 @@
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.test")
+    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -48,6 +50,7 @@ android {
 dependencies {
     implementation(project(":app"))
     implementation(project(":core:ds"))
+    implementation(project(":core:network"))
     implementation(project(":core:test"))
 
     implementation(project(":feature:movies"))
@@ -55,6 +58,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
+
+    // hilt
+    implementation(libs.androidx.hilt.android)
+    kapt(libs.androidx.hilt.android.compiler)
+    implementation(libs.androidx.hilt.android.testing)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))
@@ -66,6 +74,16 @@ dependencies {
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui.test.junit4)
+    implementation(libs.androidx.navigation.testing)
+    implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // espresso
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.androidx.test.espresso.idling.resource)
+    implementation(libs.androidx.test.espresso.intents)
+
+    // ui automator
+    implementation(libs.androidx.test.uiautomator)
 }

@@ -22,35 +22,21 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-    id("me.jerryokafor.ihenkiri.library.jacoco")
-}
+package me.jerryokafor.ihenkiri.core.test.test.network
 
-android {
-    namespace = "me.jerryokafor.core.data"
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
+import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import javax.inject.Inject
 
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
+class FakeAuthApi @Inject constructor() : AuthApi {
+    override suspend fun createRequestToken(requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse {
+        return createRequestTokenSuccessResponse()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
+    override suspend fun createAccessToken(requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse {
+        return createAccessTokenSuccessResponse()
     }
-}
-
-dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
-    implementation(project(":core:network"))
-
-    testImplementation(project(":core:test"))
-    androidTestImplementation(project(":core:test"))
 }

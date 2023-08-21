@@ -52,6 +52,7 @@ testJunit = "1.1.5"
 testTruth = "1.5.0"
 testMonitor = "1.6.1"
 espressoCore = "3.5.1"
+uiautomator = "2.3.0-alpha03"
 googleTruth = "1.1.4"
 mockk = "1.13.7"
 
@@ -135,6 +136,8 @@ androidx-test-ext-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx",
 androidx-test-ext-truth = { group = "androidx.test.ext", name = "truth", version.ref = "testTruth" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-test-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
+androidx-test-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoCore" }
+androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 
 io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }

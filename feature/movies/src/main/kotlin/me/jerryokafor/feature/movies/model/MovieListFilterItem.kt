@@ -22,35 +22,10 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    id("me.jerryokafor.ihenkiri.android.library")
-    id("me.jerryokafor.ihenkiri.android.hilt")
-    id("me.jerryokafor.ihenkiri.library.jacoco")
-}
+package me.jerryokafor.feature.movies.model
 
-android {
-    namespace = "me.jerryokafor.core.data"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
+data class MovieListFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
+    enum class FilterType {
+        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-}
-
-dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
-    implementation(project(":core:network"))
-
-    testImplementation(project(":core:test"))
-    androidTestImplementation(project(":core:test"))
 }

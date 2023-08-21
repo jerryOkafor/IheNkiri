@@ -27,7 +27,7 @@ package me.jerryokafor.ihenkiri.android.test.movies
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import me.jerryokafor.feature.movies.screen.Chip
+import me.jerryokafor.feature.movies.model.MovieListFilterItem
 import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.feature.movies.screen.SEARCH_TEST_TAG
@@ -40,10 +40,26 @@ class MoviesScreenTest {
     val composeTestRule = createComposeRule()
 
     private val testFilters = listOf(
-        Chip(label = "Now Playing", isSelected = true, type = Chip.FilterType.NOW_PLAYING),
-        Chip(label = "Popular", isSelected = false, type = Chip.FilterType.POPULAR),
-        Chip(label = "Top Rated", isSelected = false, type = Chip.FilterType.TOP_RATED),
-        Chip(label = "Upcoming", isSelected = false, type = Chip.FilterType.UPCOMING),
+        MovieListFilterItem(
+            label = "Now Playing",
+            isSelected = true,
+            type = MovieListFilterItem.FilterType.NOW_PLAYING
+        ),
+        MovieListFilterItem(
+            label = "Popular",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.POPULAR
+        ),
+        MovieListFilterItem(
+            label = "Top Rated",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.TOP_RATED
+        ),
+        MovieListFilterItem(
+            label = "Upcoming",
+            isSelected = false,
+            type = MovieListFilterItem.FilterType.UPCOMING
+        ),
     )
 
     @Test
