@@ -43,22 +43,22 @@ class MoviesScreenTest {
         MovieListFilterItem(
             label = "Now Playing",
             isSelected = true,
-            type = MovieListFilterItem.FilterType.NOW_PLAYING
+            type = MovieListFilterItem.FilterType.NOW_PLAYING,
         ),
         MovieListFilterItem(
             label = "Popular",
             isSelected = false,
-            type = MovieListFilterItem.FilterType.POPULAR
+            type = MovieListFilterItem.FilterType.POPULAR,
         ),
         MovieListFilterItem(
             label = "Top Rated",
             isSelected = false,
-            type = MovieListFilterItem.FilterType.TOP_RATED
+            type = MovieListFilterItem.FilterType.TOP_RATED,
         ),
         MovieListFilterItem(
             label = "Upcoming",
             isSelected = false,
-            type = MovieListFilterItem.FilterType.UPCOMING
+            type = MovieListFilterItem.FilterType.UPCOMING,
         ),
     )
 
