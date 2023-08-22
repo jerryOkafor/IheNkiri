@@ -22,10 +22,33 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies.model
+package me.jerryokafor.core.ui.components
 
-data class MovieListFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
-    enum class FilterType {
-        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.valentinilk.shimmer.Shimmer
+import com.valentinilk.shimmer.shimmer
+
+@Composable
+fun ShimmerBox(
+    modifier: Modifier = Modifier,
+    showShimmer: Boolean,
+    shimmer: Shimmer,
+    content: @Composable () -> Unit,
+) {
+    Box(modifier = modifier.background(Color.Transparent)) {
+        if (showShimmer) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .shimmer(shimmer)
+                    .background(Color.Black.copy(alpha = 0.8f)),
+            )
+        } else {
+            content()
+        }
     }
 }

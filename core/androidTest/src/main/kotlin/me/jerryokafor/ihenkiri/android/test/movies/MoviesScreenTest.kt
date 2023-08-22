@@ -27,7 +27,7 @@ package me.jerryokafor.ihenkiri.android.test.movies
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import me.jerryokafor.feature.movies.model.MovieListFilterItem
+import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.feature.movies.screen.SEARCH_TEST_TAG

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies.screen
+package me.jerryokafor.core.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -58,7 +58,7 @@ private fun SearchBarPreview() {
 }
 
 @Composable
-internal fun SearchBar(
+fun SearchBar(
     modifier: Modifier = Modifier,
     onSearch: (searchQuery: String) -> Unit = {},
 ) {

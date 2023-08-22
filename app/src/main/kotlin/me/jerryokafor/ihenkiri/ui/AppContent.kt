@@ -48,6 +48,7 @@ import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
+import me.jerryokafor.core.ui.components.Background
 import me.jerryokafor.feature.movies.screen.TITLE_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
 import me.jerryokafor.ihenkiri.ui.navigation.RootNavGraph
@@ -131,8 +132,8 @@ fun AppContent(
 @Composable
 @IgnoreCoverageAsGenerated
 fun TvShowScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column {
+    Background {
+        Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
                 modifier = Modifier.testTag(TITLE_TEST_TAG),
                 title = {
@@ -161,8 +162,8 @@ fun TvShowScreen() {
 @Composable
 @IgnoreCoverageAsGenerated
 fun PeopleScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column {
+    Background() {
+        Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
                 modifier = Modifier.testTag(TITLE_TEST_TAG),
                 title = {
@@ -191,8 +192,8 @@ fun PeopleScreen() {
 @Composable
 @IgnoreCoverageAsGenerated
 fun MoreScree() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column {
+    Background {
+        Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
                 modifier = Modifier.testTag(TITLE_TEST_TAG),
                 title = {

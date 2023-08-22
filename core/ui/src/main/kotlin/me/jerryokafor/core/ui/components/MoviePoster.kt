@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies.screen
+package me.jerryokafor.core.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -65,7 +65,7 @@ private fun PosterPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MoviePoster(
+fun MoviePoster(
     modifier: Modifier = Modifier,
     path: String,
     contentDescription: String,

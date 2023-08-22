@@ -30,7 +30,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import me.jerryokafor.core.data.repository.MoviesRepository
-import me.jerryokafor.feature.movies.model.MovieListFilterItem
+import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.feature.movies.screen.testMovies
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import org.junit.Before

@@ -24,6 +24,9 @@
 
 package me.jerryokafor.ihenkiri.ui.navigation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -35,13 +38,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
+import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.R
+
+@ThemePreviews
+@Composable
+fun BottomNavigationPreview() {
+    IheNkiriTheme {
+        BottomNavigation(navController = rememberNavController(), show = true)
+    }
+}
 
 @Composable
 @IgnoreCoverageAsGenerated
-fun BottomNavigation(navController: NavHostController) {
+fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
     val items = listOf(
         BottomNavItem.Movies,
         BottomNavItem.TVShows,
@@ -52,15 +67,35 @@ fun BottomNavigation(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    NavigationBar {
-        items.forEach { item ->
-            AddItem(
-                screen = item,
-                selected = currentRoute == item.route,
-                onClick = { navController.navigate(item.route) },
-            )
-        }
-    }
+    AnimatedVisibility(
+        visible = show,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it }),
+        content = {
+            NavigationBar {
+                items.forEach { item ->
+                    AddItem(
+                        screen = item,
+                        selected = currentRoute == item.route,
+                        onClick = {
+                            navController.navigate(
+                                item.route,
+                                navOptions = navOptions {
+                                    launchSingleTop = true
+                                },
+                            )
+                        },
+                    )
+                }
+            }
+        },
+    )
+}
+
+sealed class TopLevelDestinations(val route: String) {
+    data object SearchView : TopLevelDestinations(route = "/search")
+
+    data object MovieDetail : TopLevelDestinations(route = "/movie/{movieId}")
 }
 
 sealed class BottomNavItem(

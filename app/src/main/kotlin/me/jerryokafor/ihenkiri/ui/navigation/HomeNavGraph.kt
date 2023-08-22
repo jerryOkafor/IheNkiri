@@ -34,6 +34,8 @@ import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.ihenkiri.ui.MoreScree
 import me.jerryokafor.ihenkiri.ui.PeopleScreen
 import me.jerryokafor.ihenkiri.ui.TvShowScreen
+import me.jerryokafor.ihenkiri.ui.screens.MoviesDetails
+import me.jerryokafor.ihenkiri.ui.screens.SearchView
 
 @Composable
 @IgnoreCoverageAsGenerated
@@ -55,7 +57,14 @@ fun HomeNavGraph(
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoviesScreen()
+            MoviesScreen(
+                onSearchClick = {
+                    navController.navigate(TopLevelDestinations.SearchView.route)
+                },
+                onMovieClick = {
+                    navController.navigate("/movie/$it")
+                },
+            )
         }
 
         composable(
@@ -86,6 +95,14 @@ fun HomeNavGraph(
             popExitTransition = popExitTransition,
         ) {
             MoreScree()
+        }
+
+        composable(route = TopLevelDestinations.SearchView.route) {
+            SearchView()
+        }
+
+        composable(route = TopLevelDestinations.MovieDetail.route) {
+            MoviesDetails()
         }
     }
 }

@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.update
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.data.repository.MoviesRepository
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.feature.movies.model.MovieListFilterItem
+import me.jerryokafor.core.model.MovieListFilterItem
 import javax.inject.Inject
 
 @HiltViewModel

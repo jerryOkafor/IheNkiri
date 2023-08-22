@@ -22,35 +22,10 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.app
+package me.jerryokafor.core.model
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import me.jerryokafor.ihenkiri.ui.MainActivity
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-
-@HiltAndroidTest
-class MainActivityTest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
-    @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
-
-    @Before
-    fun init() {
-        hiltRule.inject()
-    }
-
-    @Test
-    fun mainActivityStart() {
-        activityRule.scenario.onActivity {
-        }
+data class MovieListFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
+    enum class FilterType {
+        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING
     }
 }
-
-// more here :https://github.com/android/testing-samples/blob/main/ui/espresso/IntentsAdvancedSample/app/src/androidTest/java/com/example/android/testing/espresso/intents/AdvancedSample/ImageViewerActivityTest.java

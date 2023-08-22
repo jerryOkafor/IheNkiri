@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies.screen
+package me.jerryokafor.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
@@ -37,7 +37,7 @@ import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.feature.movies.model.MovieListFilterItem
+import me.jerryokafor.core.model.MovieListFilterItem
 
 @ThemePreviews
 @Composable
@@ -73,7 +73,7 @@ private fun MovieListFilterPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MovieListFilter(
+fun MovieListFilter(
     modifier: Modifier = Modifier,
     filters: List<MovieListFilterItem>,
     onItemSelected: (MovieListFilterItem.FilterType) -> Unit,
