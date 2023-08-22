@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.theme.IheNkiri
@@ -69,7 +70,16 @@ internal fun AppContent(
     }
 
     LaunchedEffect(key1 = viewModel.startDestination.value) {
-        navController.navigate(viewModel.startDestination.value)
+        navController.navigate(
+            route = viewModel.startDestination.value,
+            navOptions = navOptions {
+                navController.currentDestination?.route?.let {
+                    popUpTo(it) {
+                        inclusive = true
+                    }
+                }
+            },
+        )
     }
 
     AppContent(

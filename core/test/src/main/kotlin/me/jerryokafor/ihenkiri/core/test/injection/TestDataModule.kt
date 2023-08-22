@@ -22,30 +22,22 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.core.test.injection
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
-import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
+import me.jerryokafor.core.data.injection.DataModule
+import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
 
-@Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
-    Scaffold(
-        modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
-        bottomBar = { BottomNavigation(navController) },
-        content = { innerPadding ->
-            Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 40.dp)) {
-                HomeNavGraph(navController = navController)
-            }
-        },
-    )
+@Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [DataModule::class],
+)
+abstract class TestDataModule {
+    @Binds
+    abstract fun provideFakeFakeMoviesRepository(repo: FakeMoviesRepository): MoviesRepository
 }

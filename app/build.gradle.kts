@@ -80,6 +80,7 @@ dependencies {
     implementation(project(":core:ds"))
     implementation(project(":core:ui"))
     implementation(project(":feature:movies"))
+    implementation(project(":core:data"))
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

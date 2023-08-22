@@ -24,10 +24,8 @@
 
 package me.jerryokafor.ihenkiri.ui.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,11 +37,9 @@ import me.jerryokafor.ihenkiri.ui.TvShowScreen
 
 @Composable
 @IgnoreCoverageAsGenerated
-@Suppress("UnusedPrivateMember")
 fun HomeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    paddingValues: PaddingValues = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
 ) {
 // https://proandroiddev.com/screen-transition-animations-with-jetpack-navigation-17afdc714d0e
 // https://medium.com/androiddevelopers/animations-in-navigation-compose-36d48870776b

@@ -22,30 +22,20 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.core.test.test.network
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
-import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
+import javax.inject.Inject
 
-@Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
-    Scaffold(
-        modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
-        bottomBar = { BottomNavigation(navController) },
-        content = { innerPadding ->
-            Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 40.dp)) {
-                HomeNavGraph(navController = navController)
-            }
-        },
-    )
+class FakeMoviesRemoteDataSource @Inject constructor() : MoviesRemoteDataSource {
+    override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = testMovies()
+
+    override suspend fun popularMovies(query: MoviesQuery): List<Movie> = testMovies()
+
+    override suspend fun topRatedMovies(query: MoviesQuery): List<Movie> = testMovies()
+
+    override suspend fun upcomingMovies(query: MoviesQuery): List<Movie> = testMovies()
 }

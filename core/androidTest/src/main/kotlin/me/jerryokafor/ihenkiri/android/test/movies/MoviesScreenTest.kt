@@ -66,6 +66,7 @@ class MoviesScreenTest {
     fun testMoviesScreen() {
         composeTestRule.setContent {
             MoviesScreen(
+                loading = false,
                 filters = testFilters,
                 movies = testMovies(),
             )

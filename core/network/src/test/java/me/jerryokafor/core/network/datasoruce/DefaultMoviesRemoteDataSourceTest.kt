@@ -33,8 +33,8 @@ import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSo
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 import me.jerryokafor.ihenkiri.core.network.model.response.equalsMovie
 import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
-import me.jerryokafor.ihenkiri.core.test.test.network.moviesListResponse
-import me.jerryokafor.ihenkiri.core.test.test.network.moviesResponse
+import me.jerryokafor.ihenkiri.core.test.test.network.testMoviesListResponse
+import me.jerryokafor.ihenkiri.core.test.test.network.testMoviesResponse
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -46,10 +46,10 @@ class DefaultMoviesRemoteDataSourceTest {
 
     @Before
     fun setUp() {
-        coEvery { moviesApi.nowPlaying(any(), any(), any()) } returns moviesListResponse()
-        coEvery { moviesApi.popular(any(), any(), any()) } returns moviesListResponse()
-        coEvery { moviesApi.topRated(any(), any(), any()) } returns moviesListResponse()
-        coEvery { moviesApi.upcoming(any(), any(), any()) } returns moviesListResponse()
+        coEvery { moviesApi.nowPlaying(any(), any(), any()) } returns testMoviesListResponse()
+        coEvery { moviesApi.popular(any(), any(), any()) } returns testMoviesListResponse()
+        coEvery { moviesApi.topRated(any(), any(), any()) } returns testMoviesListResponse()
+        coEvery { moviesApi.upcoming(any(), any(), any()) } returns testMoviesListResponse()
 
         moviesRemoteDataSource = DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
     }
@@ -59,7 +59,7 @@ class DefaultMoviesRemoteDataSourceTest {
         val result = moviesRemoteDataSource.nowPlayingMovies(query)
 
         assertThat(result.size).isEqualTo(7)
-        result.zip(moviesResponse()) { first, second -> Pair(first, second) }.forEach {
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
             assertThat(it.second.equalsMovie(it.first)).isTrue()
         }
 
@@ -77,7 +77,7 @@ class DefaultMoviesRemoteDataSourceTest {
         val result = moviesRemoteDataSource.popularMovies(query)
 
         assertThat(result.size).isEqualTo(7)
-        result.zip(moviesResponse()) { first, second -> Pair(first, second) }.forEach {
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
             assertThat(it.second.equalsMovie(it.first)).isTrue()
         }
 
@@ -95,7 +95,7 @@ class DefaultMoviesRemoteDataSourceTest {
         val result = moviesRemoteDataSource.topRatedMovies(query)
 
         assertThat(result.size).isEqualTo(7)
-        result.zip(moviesResponse()) { first, second -> Pair(first, second) }.forEach {
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
             assertThat(it.second.equalsMovie(it.first)).isTrue()
         }
 
@@ -113,7 +113,7 @@ class DefaultMoviesRemoteDataSourceTest {
         val result = moviesRemoteDataSource.upcomingMovies(query)
 
         assertThat(result.size).isEqualTo(7)
-        result.zip(moviesResponse()) { first, second -> Pair(first, second) }.forEach {
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
             assertThat(it.second.equalsMovie(it.first)).isTrue()
         }
 

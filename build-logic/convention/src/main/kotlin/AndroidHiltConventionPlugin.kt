@@ -44,6 +44,8 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
+                implementation(libs.findLibrary("androidx-hilt-navigation-compose").get())
+
                 implementation(libs.findLibrary("androidx-hilt-android").get())
                 kapt(libs.findLibrary("androidx-hilt-android-compiler").get())
 

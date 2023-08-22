@@ -25,17 +25,34 @@
 package me.jerryokafor.feature.movies.viewmodel
 
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flow
+import me.jerryokafor.core.data.repository.MoviesRepository
 import me.jerryokafor.feature.movies.model.MovieListFilterItem
+import me.jerryokafor.feature.movies.screen.testMovies
+import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class MoviesViewModelTest {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var moviesViewModel: MoviesViewModel
 
+    private val moviesRepository = mockk<MoviesRepository>(relaxed = true) {
+        coEvery { nowPlayingMovies(any()) } returns flow { testMovies() }
+        coEvery { popularMovies(any()) } returns flow { testMovies() }
+        coEvery { topRatedMovies(any()) } returns flow { testMovies() }
+        coEvery { upcomingMovies(any()) } returns flow { testMovies() }
+    }
+
     @Before
     fun setUp() {
-        moviesViewModel = MoviesViewModel()
+        moviesViewModel = MoviesViewModel(moviesRepository)
     }
 
     @Test
@@ -80,24 +97,31 @@ class MoviesViewModelTest {
             assertThat(type).isEqualTo(MovieListFilterItem.FilterType.NOW_PLAYING)
         }
 
+        // initial call due to default
+        coVerify(exactly = 1) { moviesRepository.nowPlayingMovies(any()) }
+
         moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.POPULAR))
         with(moviesViewModel.uiState.value) {
             assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.POPULAR }.isSelected).isTrue()
         }
+        coVerify(exactly = 1) { moviesRepository.popularMovies(any()) }
 
         moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.TOP_RATED))
         with(moviesViewModel.uiState.value) {
             assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.TOP_RATED }.isSelected).isTrue()
         }
+        coVerify(exactly = 1) { moviesRepository.topRatedMovies(any()) }
 
         moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.UPCOMING))
         with(moviesViewModel.uiState.value) {
             assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.UPCOMING }.isSelected).isTrue()
         }
+        coVerify(exactly = 1) { moviesRepository.upcomingMovies(any()) }
 
         moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.NOW_PLAYING))
         with(moviesViewModel.uiState.value) {
             assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.NOW_PLAYING }.isSelected).isTrue()
         }
+        coVerify(exactly = 2) { moviesRepository.nowPlayingMovies(any()) }
     }
 }

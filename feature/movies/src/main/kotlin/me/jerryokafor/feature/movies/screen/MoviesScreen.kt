@@ -29,6 +29,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,24 +37,27 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
-import me.jerryokafor.core.ds.theme.EightVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.OneVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoAndHalfVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.feature.movies.R
@@ -65,12 +69,14 @@ const val SEARCH_TEST_TAG = "search"
 const val CHIP_GROUP_TEST_TAG = "chips"
 const val GRID_ITEMS_TEST_TAG = "gridItems"
 
+@Suppress("MagicNumber")
 @ThemePreviews
 @Composable
 private fun MoviesScreenPreview() {
     IheNkiriTheme {
         MoviesScreen(
-            movies = testMovies(),
+            movies = testMovies().takeLast(4),
+            loading = false,
             filters = listOf(
                 MovieListFilterItem(
                     label = "Now Playing",
@@ -99,7 +105,7 @@ private fun MoviesScreenPreview() {
 }
 
 @Composable
-fun MoviesScreen(viewModel: MoviesViewModel = viewModel()) {
+fun MoviesScreen(viewModel: MoviesViewModel = hiltViewModel()) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val onItemSelected: (MovieListFilterItem.FilterType) -> Unit = {
@@ -108,6 +114,7 @@ fun MoviesScreen(viewModel: MoviesViewModel = viewModel()) {
 
     MoviesScreen(
         movies = uiState.value.movies,
+        loading = uiState.value.loading,
         filters = uiState.value.availableFilters,
         onItemSelected = onItemSelected,
     )
@@ -117,6 +124,7 @@ fun MoviesScreen(viewModel: MoviesViewModel = viewModel()) {
 @Composable
 fun MoviesScreen(
     movies: List<Movie>,
+    loading: Boolean,
     filters: List<MovieListFilterItem> = emptyList(),
     onItemSelected: (MovieListFilterItem.FilterType) -> Unit = {},
 ) {
@@ -125,6 +133,9 @@ fun MoviesScreen(
         IheNkiri.color.primary,
         Color(0x00000000),
     )
+
+    val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -149,7 +160,6 @@ fun MoviesScreen(
                             color = IheNkiri.color.onPrimary,
                         )
                     },
-//                    windowInsets = WindowInsets(0, 0, 0, 0),
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = Color.Transparent,
                         scrolledContainerColor = Color.Transparent,
@@ -167,30 +177,35 @@ fun MoviesScreen(
                     onItemSelected = onItemSelected,
                 )
                 TwoAndHalfVerticalSpacer()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalStaggeredGrid(
+                        modifier = Modifier
+                            .testTag(GRID_ITEMS_TEST_TAG)
+                            .fillMaxSize(),
+                        columns = StaggeredGridCells.Fixed(2),
+                        verticalItemSpacing = IheNkiri.spacing.oneAndHalf,
+                        contentPadding = PaddingValues(bottom = IheNkiri.spacing.twoAndaHalf),
+                        horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
+                        content = {
+                            itemsIndexed(
+                                items = movies,
+                                key = { index, item -> "${item.id}$index" },
+                            ) { _, item ->
+                                val path = ImageUtil.buildImageUrl(item.posterPath)
+                                MoviePoster(
+                                    path = path,
+                                    shimmer = shimmerInstance,
+                                    contentDescription = item.title,
+                                ) {}
+                            }
 
-                val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
-                LazyVerticalStaggeredGrid(
-                    modifier = Modifier
-                        .testTag(GRID_ITEMS_TEST_TAG)
-                        .fillMaxSize(),
-                    columns = StaggeredGridCells.Fixed(2),
-                    verticalItemSpacing = IheNkiri.spacing.oneAndHalf,
-                    horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
-                    content = {
-                        itemsIndexed(
-                            items = movies,
-                            key = { index, item -> "${item.id}$index" },
-                        ) { _, item ->
-                            val path = ImageUtil.buildImageUrl(item.posterPath)
-                            MoviePoster(
-                                path = path,
-                                shimmer = shimmerInstance,
-                                contentDescription = item.title,
-                            ) {}
-                        }
-                        item { EightVerticalSpacer() }
-                    },
-                )
+                            item { OneVerticalSpacer() }
+                        },
+                    )
+                    if (loading) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                }
             }
         }
     }

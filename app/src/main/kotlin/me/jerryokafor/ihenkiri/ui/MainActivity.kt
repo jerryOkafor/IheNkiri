@@ -57,9 +57,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        splashScreen.setKeepOnScreenCondition {
-            appViewModel.isLoading.value
-        }
+        splashScreen.setKeepOnScreenCondition { appViewModel.isLoading.value }
 
         // Turn off the decor fitting system windows, which allows us to handle insets,
         // including IME animations

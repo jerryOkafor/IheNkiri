@@ -39,7 +39,7 @@ composeShimmer = "1.0.5"
 # code quality
 detekt = "1.22.0"
 ktlint = "0.50.0"
-jacoco = "0.8.7"
+jacoco = "0.8.10"
 
 # testing
 junit4 = "4.13.2"
@@ -52,7 +52,7 @@ testJunit = "1.1.5"
 testTruth = "1.5.0"
 testMonitor = "1.6.1"
 espressoCore = "3.5.1"
-uiautomator = "2.3.0-alpha03"
+uiautomator = "2.3.0-alpha04"
 googleTruth = "1.1.4"
 mockk = "1.13.7"
 

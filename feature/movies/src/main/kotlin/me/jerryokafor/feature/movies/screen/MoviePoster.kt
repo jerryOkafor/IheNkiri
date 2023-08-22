@@ -41,12 +41,14 @@ import coil.request.ImageRequest
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
+import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 @ThemePreviews
 @Composable
+@IgnoreCoverageAsGenerated
 private fun PosterPreview() {
     IheNkiriTheme {
         Column(modifier = Modifier.padding(IheNkiri.spacing.twoAndaHalf)) {

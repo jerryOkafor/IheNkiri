@@ -22,30 +22,20 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.core.test.test.data
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
-import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import me.jerryokafor.core.data.filter.MoviesFilter
+import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.core.model.Movie
+import javax.inject.Inject
 
-@Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
-    Scaffold(
-        modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
-        bottomBar = { BottomNavigation(navController) },
-        content = { innerPadding ->
-            Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 40.dp)) {
-                HomeNavGraph(navController = navController)
-            }
-        },
-    )
+class FakeMoviesRepository @Inject constructor() : MoviesRepository {
+    override fun nowPlayingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+
+    override fun popularMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+
+    override fun topRatedMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override fun upcomingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
 }

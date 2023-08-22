@@ -34,35 +34,16 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import dagger.hilt.components.SingletonComponent
-import me.jerryokafor.ihenkiri.core.network.injection.NetworkModule
-import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApi
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Singleton
 
-@UninstallModules(NetworkModule::class)
 @HiltAndroidTest
 class MainActivityTest {
-
-    @Module
-    @InstallIn(SingletonComponent::class)
-    abstract class TestModule {
-
-        @Singleton
-        @Binds
-        abstract fun bindAuthApi(authApi: FakeAuthApi): AuthApi
-    }
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

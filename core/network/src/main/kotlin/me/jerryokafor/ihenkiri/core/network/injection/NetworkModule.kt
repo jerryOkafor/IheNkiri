@@ -113,15 +113,19 @@ object NetworkModule {
     @[Provides Singleton]
     fun provideMoviesRemoteDataSource(
         moviesApi: MoviesApi,
-    ): MoviesRemoteDataSource =
-        DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
+    ): MoviesRemoteDataSource = DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
     @[Provides Singleton]
-    fun provideAuthApi(@AuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): AuthApi =
+    fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
+
+    @[Provides Singleton]
+    fun provideMoviesApi(retrofit: Retrofit): MoviesApi = retrofit.create(MoviesApi::class.java)
+
+    @[Provides Singleton]
+    fun provideRetrofit(@AuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.TMDB_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(AuthApi::class.java)
 }

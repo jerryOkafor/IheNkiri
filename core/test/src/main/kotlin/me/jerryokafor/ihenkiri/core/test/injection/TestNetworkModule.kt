@@ -22,30 +22,28 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.core.test.injection
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
-import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
+import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.ihenkiri.core.network.injection.NetworkModule
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApi
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeMoviesRemoteDataSource
 
-@Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
-    Scaffold(
-        modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
-        bottomBar = { BottomNavigation(navController) },
-        content = { innerPadding ->
-            Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 40.dp)) {
-                HomeNavGraph(navController = navController)
-            }
-        },
-    )
+@Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [NetworkModule::class],
+)
+abstract class TestNetworkModule {
+
+    @Binds
+    abstract fun bindAuthApi(authApi: FakeAuthApi): AuthApi
+
+    @Binds
+    abstract fun MoviesRemoteDataSource(datasource: FakeMoviesRemoteDataSource): MoviesRemoteDataSource
 }

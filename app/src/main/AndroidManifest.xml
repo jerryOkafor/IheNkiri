@@ -41,19 +41,18 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.Splash">
+            android:launchMode="singleTask">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
 
                 <!--app://ihenkiri.jerryokafor.me/auth-->
                 <data
@@ -65,7 +64,6 @@
                     android:host="ihenkiri.jerryokafor.me"
                     android:pathPrefix="/auth"
                     android:scheme="https" />
-
             </intent-filter>
         </activity>
     </application>
