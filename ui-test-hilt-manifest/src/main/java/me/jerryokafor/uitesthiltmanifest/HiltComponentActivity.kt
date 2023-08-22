@@ -22,32 +22,14 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+package me.jerryokafor.uitesthiltmanifest
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":feature:movies")
-include(":core:test")
-include(":core:androidTest")
-include(":ui-test-hilt-manifest")
+import androidx.activity.ComponentActivity
+import dagger.hilt.android.AndroidEntryPoint
+
+/**
+ * A [ComponentActivity] annotated with [AndroidEntryPoint] for use in tests, as a workaround
+ * for https://github.com/google/dagger/issues/3394
+ */
+@AndroidEntryPoint
+class HiltComponentActivity : ComponentActivity()

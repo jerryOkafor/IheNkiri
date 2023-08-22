@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":feature:movies"))
     implementation(project(":core:data"))
+    debugImplementation(project(":ui-test-hilt-manifest"))
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

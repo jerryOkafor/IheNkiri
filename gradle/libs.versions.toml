@@ -27,7 +27,7 @@ hiltExt = "1.0.0"
 
 # navigation
 navigation = "2.7.0"
-androidxHiltNavigationCompose = "1.0.0"
+androidxHiltNavigationCompose = "1.1.0-alpha01"
 
 # compose
 composeBom = "2023.08.00"

@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":core:test"))
 
     implementation(project(":feature:movies"))
+    debugImplementation(project(":ui-test-hilt-manifest"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

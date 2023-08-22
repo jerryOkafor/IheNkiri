@@ -22,32 +22,11 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
+plugins {
+    id("me.jerryokafor.ihenkiri.android.library")
+    id("me.jerryokafor.ihenkiri.android.hilt")
 }
 
-rootProject.name = "IheNkiri"
-include(":app")
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":feature:movies")
-include(":core:test")
-include(":core:androidTest")
-include(":ui-test-hilt-manifest")
+android {
+    namespace = "me.jerryokafor.uitesthiltmanifest"
+}

@@ -27,28 +27,41 @@ package me.jerryokafor.ihenkiri.android.test.app
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import me.jerryokafor.ihenkiri.ui.AppContent
 import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
+import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class AppContentTest {
-    @get:Rule
-    val composeTestRule = createComposeRule()
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
     private lateinit var navController: TestNavHostController
 
     private var onContinueAsGuestClick = 0
     private var onSignInClick = 0
 
-    private fun setUp(content: @Composable () -> Unit) {
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+    }
+
+    private fun setUpNavController(content: @Composable () -> Unit) {
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(
@@ -62,7 +75,7 @@ class AppContentTest {
 
     @Test
     fun appContent_verifyAuhStartDestinatoin() {
-        setUp {
+        setUpNavController {
             AppContent(
                 navHostController = navController,
                 startDestination = GraphRoute.AUTH,
@@ -81,7 +94,7 @@ class AppContentTest {
 
     @Test
     fun appContent_verifyHomeDestination() {
-        setUp {
+        setUpNavController {
             AppContent(
                 navHostController = navController,
                 startDestination = GraphRoute.HOME,
