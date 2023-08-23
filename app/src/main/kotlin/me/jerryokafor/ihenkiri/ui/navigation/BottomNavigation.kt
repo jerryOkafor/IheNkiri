@@ -40,7 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -55,7 +55,7 @@ fun BottomNavigationPreview() {
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
     val items = listOf(
         BottomNavItem.Movies,

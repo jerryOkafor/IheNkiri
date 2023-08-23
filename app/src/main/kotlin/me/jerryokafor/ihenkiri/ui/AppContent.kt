@@ -43,7 +43,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
@@ -57,7 +57,7 @@ const val MAIN_CONTENT_TEST_TAG = "mainContent"
 const val LANDING_SCREEN_TEST_TAG = "landingScreen"
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 internal fun AppContent(
     viewModel: AppViewModel,
     onSignInClick: () -> Unit,
@@ -129,7 +129,7 @@ fun AppContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TvShowScreen() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -159,7 +159,7 @@ fun TvShowScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun PeopleScreen() {
     Background() {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -189,7 +189,7 @@ fun PeopleScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun MoreScree() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {

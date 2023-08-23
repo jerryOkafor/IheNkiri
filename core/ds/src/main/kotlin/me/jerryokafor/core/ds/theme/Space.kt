@@ -35,7 +35,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 
 data class IheNkiriSpacing(
     val none: Dp = 0.dp,
@@ -58,134 +58,134 @@ data class IheNkiriSpacing(
 )
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun QuarterVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.quarter))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun HalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.half))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun OneVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.one))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun OneAndHalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.oneAndHalf))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TwoVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.two))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TwoAndHalfVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.twoAndaHalf))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun ThreeVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.three))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun FourVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.four))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun FiveVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.five))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun SixVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.six))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun EightVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.eight))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TenVerticaSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.ten))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TwelveVerticalSpacer() {
     Spacer(modifier = Modifier.height(IheNkiri.spacing.twelve))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun ColumnScope.FillingSpacer() {
     Spacer(modifier = Modifier.weight(1f))
 }
 
 // Horizontal Spacers
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun QuarterHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.quarter))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun HalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.half))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun OneHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.one))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun OneAndHalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.oneAndHalf))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TwoHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.two))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun ThreeHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.three))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun TwoAndHalfHorizontalSpacer() {
     Spacer(modifier = Modifier.width(IheNkiri.spacing.twoAndaHalf))
 }
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun RowScope.FillingSpacer() {
     Spacer(modifier = Modifier.weight(1f))
 }

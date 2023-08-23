@@ -33,7 +33,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -41,7 +41,7 @@ import me.jerryokafor.core.model.MovieListFilterItem
 
 @ThemePreviews
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 private fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(

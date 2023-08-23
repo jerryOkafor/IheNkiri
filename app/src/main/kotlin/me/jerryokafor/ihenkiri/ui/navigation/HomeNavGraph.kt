@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.ihenkiri.ui.MoreScree
 import me.jerryokafor.ihenkiri.ui.PeopleScreen
@@ -38,7 +38,7 @@ import me.jerryokafor.ihenkiri.ui.screens.MoviesDetails
 import me.jerryokafor.ihenkiri.ui.screens.SearchView
 
 @Composable
-@IgnoreCoverageAsGenerated
+@ExcludeFromJacocoGeneratedReport
 fun HomeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,

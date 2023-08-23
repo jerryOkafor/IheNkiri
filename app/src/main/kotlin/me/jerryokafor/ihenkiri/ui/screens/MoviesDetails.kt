@@ -39,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.FillingSpacer
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -46,6 +47,7 @@ import me.jerryokafor.core.ui.components.Background
 
 @ThemePreviews
 @Composable
+@ExcludeFromJacocoGeneratedReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
         MoviesDetails()
@@ -53,6 +55,7 @@ fun MoviesDetailsPreview() {
 }
 
 @Composable
+@ExcludeFromJacocoGeneratedReport
 fun MoviesDetails() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
