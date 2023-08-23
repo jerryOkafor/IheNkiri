@@ -36,3 +36,5 @@ import kotlin.annotation.AnnotationTarget.CONSTRUCTOR
 @Retention(AnnotationRetention.RUNTIME)
 @Target(TYPE, FUNCTION, CONSTRUCTOR)
 annotation class ExcludeFromJacocoGeneratedReport
+
+//https://www.youtube.com/watch?v=CIp-fOsf3JI
