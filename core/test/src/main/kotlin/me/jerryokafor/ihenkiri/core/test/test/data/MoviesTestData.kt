@@ -93,38 +93,4 @@ fun testMovies(): List<Movie> = listOf(
         posterPath = "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
         voteAverage = 7.5,
     ),
-    Movie(
-        id = 615656,
-        title = "Meg 2: The Trench",
-        overview = """
-            An exploratory dive into the deepest depths of the ocean of a daring research team 
-            spirals into chaos when a malevolent mining operation threatens their mission and 
-            forces them into a high-stakes battle for survival
-        """.trimIndent(),
-        backdropPath = "/zN41DPmPhwmgJjHwezALdrdvD0h.jpg",
-        posterPath = "/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg",
-        voteAverage = 7.0,
-    ),
-    Movie(
-        id = 976573,
-        title = "Elemental",
-        overview = """
-            In a city where fire, water, land and air residents live together, a fiery young woman 
-            and a go-with-the-flow guy will discover something elemental: how much they have in common.
-        """.trimIndent(),
-        backdropPath = "/jZIYaISP3GBSrVOPfrp98AMa8Ng.jpg",
-        posterPath = "/8riWcADI1ekEiBguVB9vkilhiQm.jpg",
-        voteAverage = 7.7,
-    ),
-    Movie(
-        id = 1006462,
-        title = "The Flood",
-        overview = """
-            A horde of giant hungry alligators is unleashed on a group of in-transit 
-            prisoners and their guards after a massive hurricane floods Louisiana.
-        """.trimIndent(),
-        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
-        posterPath = "/mvjqqklMpHwOxc40rn7dMhGT0Fc.jpg",
-        voteAverage = 6.8,
-    ),
 )

@@ -67,7 +67,6 @@ import me.jerryokafor.feature.movies.R
 import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 
 const val TITLE_TEST_TAG = "title"
-const val SEARCH_TEST_TAG = "search"
 const val CHIP_GROUP_TEST_TAG = "chips"
 const val GRID_ITEMS_TEST_TAG = "gridItems"
 
@@ -197,12 +196,6 @@ fun MoviesScreen(
                     }
                 },
             )
-//                SearchBar(
-//                    modifier = Modifier
-//                        .testTag(SEARCH_TEST_TAG)
-//                        .fillMaxWidth(),
-//                )
-//                TwoAndHalfVerticalSpacer()
             MovieListFilter(
                 modifier = Modifier.testTag(CHIP_GROUP_TEST_TAG),
                 filters = filters,

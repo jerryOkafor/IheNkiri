@@ -63,7 +63,7 @@ class MoviesRepositoryTest {
         moviesRepository.nowPlayingMovies(testFilter).test {
             val items = awaitItem()
             assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(7)
+            assertThat(items.size).isEqualTo(4)
 
             awaitComplete()
         }
@@ -84,7 +84,7 @@ class MoviesRepositoryTest {
         moviesRepository.popularMovies(testFilter).test {
             val items = awaitItem()
             assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(7)
+            assertThat(items.size).isEqualTo(4)
 
             awaitComplete()
         }
@@ -105,7 +105,7 @@ class MoviesRepositoryTest {
         moviesRepository.topRatedMovies(testFilter).test {
             val items = awaitItem()
             assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(7)
+            assertThat(items.size).isEqualTo(4)
 
             awaitComplete()
         }
@@ -126,7 +126,7 @@ class MoviesRepositoryTest {
         moviesRepository.upcomingMovies(testFilter).test {
             val items = awaitItem()
             assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(7)
+            assertThat(items.size).isEqualTo(4)
 
             awaitComplete()
         }

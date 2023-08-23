@@ -50,6 +50,7 @@ android {
 dependencies {
     implementation(project(":app"))
     implementation(project(":core:ds"))
+    implementation(project(":core:ui"))
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:network"))

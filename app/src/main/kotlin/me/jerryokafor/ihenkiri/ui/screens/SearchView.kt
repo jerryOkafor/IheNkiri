@@ -111,7 +111,6 @@ fun SearchView() {
             contentPadding = PaddingValues(start = 16.dp, top = 72.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-
             @Suppress("MagicNumber")
             val list = List(10) { "Text $it" }
             items(count = list.size) {
