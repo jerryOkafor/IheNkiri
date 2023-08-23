@@ -24,9 +24,9 @@
 
 package me.jerryokafor.core.common.annotation
 
-import kotlin.annotation.AnnotationTarget.TYPE
-import kotlin.annotation.AnnotationTarget.FUNCTION
 import kotlin.annotation.AnnotationTarget.CONSTRUCTOR
+import kotlin.annotation.AnnotationTarget.FUNCTION
+import kotlin.annotation.AnnotationTarget.TYPE
 
 /**
  * Annotation to exclude targets from Jacoco test coverage report
@@ -37,4 +37,4 @@ import kotlin.annotation.AnnotationTarget.CONSTRUCTOR
 @Target(TYPE, FUNCTION, CONSTRUCTOR)
 annotation class ExcludeFromJacocoGeneratedReport
 
-//https://www.youtube.com/watch?v=CIp-fOsf3JI
+// https://www.youtube.com/watch?v=CIp-fOsf3JI
