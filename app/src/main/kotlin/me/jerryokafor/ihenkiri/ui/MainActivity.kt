@@ -28,23 +28,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import me.jerryokafor.core.common.annotation.IgnoreCoverageAsGenerated
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.viewmodel.AppViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@IgnoreCoverageAsGenerated
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : ComponentActivity() {
     companion object {
         const val TAG = "MainActivity"
     }
@@ -52,17 +52,22 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var theMovieDBAPI: AuthApi
 
+    private val appViewModel by viewModels<AppViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        splashScreen.setKeepOnScreenCondition { false }
+        splashScreen.setKeepOnScreenCondition { appViewModel.isLoading.value }
 
         // Turn off the decor fitting system windows, which allows us to handle insets,
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            AppContent(onSignInClick = ::onSignInClick)
+            AppContent(
+                viewModel = appViewModel,
+                onSignInClick = ::onSignInClick,
+            )
         }
 
         val action: String? = intent?.action
@@ -71,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate() $data")
     }
 
+    @VisibleForTesting
     private fun onSignInClick() {
         lifecycleScope.launch {
             try {

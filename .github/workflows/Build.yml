@@ -67,6 +67,7 @@ jobs:
           name: test-results
           path: '**/build/test-results/test*UnitTest/**.xml'
 
+
   androidTest:
     needs: buildTestCheck
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
@@ -91,8 +92,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Build AndroidTest apps
-        run: ./gradlew packageDebug packageDebugAndroidTest --daemon
+#      - name: Build AndroidTest apps
+#        run: ./gradlew :core:androidTest:packageDebug packageDebugAndroidTest --daemon
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -102,7 +103,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedDebugAndroidTest --daemon
+          script: ./gradlew :core:androidTest:connectedDebugAndroidTest --daemon
 
       - name: Upload test reports
         if: always()
@@ -111,10 +112,10 @@ jobs:
           name: test-reports-${{ matrix.api-level }}
           path: '**/build/reports/androidTests'
 
-      - name: Generate Coverage Report
+      - name: Generate androidTest Coverage Report
         run: ./gradlew jacocoTestCoverageReport
 
-      #      - name: Verify Jacoco report # This will fail if the coverage it not up to the set threshold
+      #      - name: Verify androidTest Coverage report # This will fail if the coverage it not up to the set threshold
       #        run: ./gradlew jacocoTestCoverageVerification
 
       - name: Upload coverage reports to Codecov

@@ -25,25 +25,38 @@
 import com.android.build.gradle.TestExtension
 import me.jerryokafor.ihenkiri.Config
 import me.jerryokafor.ihenkiri.configureKotlinAndroid
+import me.jerryokafor.ihenkiri.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
 
 class AndroidTestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
                 apply("com.android.test")
-                apply("kotlin-parcelize")
+                apply("org.jetbrains.kotlin.android")
+                apply("jacoco")
             }
 
             extensions.configure<TestExtension> {
+                compileSdk = Config.compileSdkVersion
                 defaultConfig {
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    targetSdk = Config.targetSdkVersion
+                    minSdk = Config.minimumSdkVersion
                 }
 
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = Config.targetSdkVersion
+
+                buildTypes {
+                    debug { enableAndroidTestCoverage = true }
+                }
+            }
+
+            dependencies {
+                implementation(kotlin("test"))
             }
         }
     }

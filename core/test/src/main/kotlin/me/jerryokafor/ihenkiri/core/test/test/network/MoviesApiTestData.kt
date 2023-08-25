@@ -27,10 +27,10 @@ package me.jerryokafor.ihenkiri.core.test.test.network
 import me.jerryokafor.ihenkiri.core.network.model.response.MovieListResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.MovieResponse
 
-fun moviesListResponse() =
-    MovieListResponse(page = 1, results = moviesResponse(), totalResults = 7, totalPages = 1)
+fun testMoviesListResponse() =
+    MovieListResponse(page = 1, results = testMoviesResponse(), totalResults = 7, totalPages = 1)
 
-fun moviesResponse() = arrayListOf(
+fun testMoviesResponse() = arrayListOf(
     MovieResponse(
         adult = false,
         backdropPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",

@@ -27,10 +27,11 @@ import me.jerryokafor.ihenkiri.Config
 plugins {
     id("me.jerryokafor.ihenkiri.android.application")
     id("me.jerryokafor.ihenkiri.android.application.compose")
+    id("me.jerryokafor.ihenkiri.application.jacoco")
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
-    id("me.jerryokafor.ihenkiri.application.jacoco")
 //    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+//    id("jacoco")
 }
 
 android {
@@ -47,13 +48,28 @@ android {
         }
     }
 
+    testCoverage {
+        jacocoVersion = libs.versions.jacoco.get().toString()
+    }
+
     buildTypes {
+        debug {
+            isTestCoverageEnabled = false
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+        }
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
         }
     }
 }
@@ -64,6 +80,8 @@ dependencies {
     implementation(project(":core:ds"))
     implementation(project(":core:ui"))
     implementation(project(":feature:movies"))
+    implementation(project(":core:data"))
+    debugImplementation(project(":ui-test-hilt-manifest"))
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -103,13 +121,5 @@ dependencies {
     implementation(libs.com.google.accompanist.systemuicontroller)
 
     testImplementation(project(":core:test"))
-    testImplementation(libs.junit4)
-    testImplementation(libs.io.mockk.android)
-    testImplementation(libs.io.mockk.agent)
-
     androidTestImplementation(project(":core:test"))
-    androidTestImplementation(libs.io.mockk.android)
-    androidTestImplementation(libs.io.mockk.agent)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
 }

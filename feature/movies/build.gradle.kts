@@ -25,6 +25,9 @@
 plugins {
     id("me.jerryokafor.ihenkiri.android.feature")
     id("me.jerryokafor.ihenkiri.android.library.compose")
+    id("me.jerryokafor.ihenkiri.android.navigation")
+    id("me.jerryokafor.ihenkiri.library.jacoco")
+    id("me.jerryokafor.ihenkiri.android.hilt")
 }
 
 android {
@@ -46,7 +49,18 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:data"))
+    implementation(project(":core:network"))
     implementation(libs.androidx.core.ktx)
+
+    // lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.io.coil.compose)
+    implementation(libs.com.valentinilk.compose.shimmer)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))
@@ -61,8 +75,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    testImplementation(libs.junit4)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    testImplementation(project(":core:test"))
+    androidTestImplementation(project(":core:test"))
 }

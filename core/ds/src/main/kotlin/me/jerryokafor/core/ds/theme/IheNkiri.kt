@@ -131,7 +131,7 @@ object IheNkiri {
 @Composable
 fun IheNkiriTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
-    isDynamicColor: Boolean = true,
+    isDynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     /**

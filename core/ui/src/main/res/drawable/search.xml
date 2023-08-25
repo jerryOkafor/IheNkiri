@@ -1,0 +1,35 @@
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2023 IheNkiri Project
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="21dp"
+    android:height="22dp"
+    android:viewportWidth="21"
+    android:viewportHeight="22">
+  <path
+      android:pathData="M10.892,0C5.335,0 0.815,4.52 0.815,10.077C0.815,12.699 1.821,15.09 3.468,16.885L0.228,20.118C-0.075,20.421 -0.076,20.912 0.227,21.215C0.378,21.368 0.578,21.443 0.776,21.443C0.974,21.443 1.173,21.368 1.325,21.217L4.604,17.947C6.329,19.328 8.516,20.155 10.892,20.155C16.449,20.155 20.971,15.634 20.971,10.077C20.971,4.52 16.449,0 10.892,0ZM10.892,1.552C15.594,1.552 19.418,5.376 19.418,10.077C19.418,14.778 15.594,18.603 10.892,18.603C6.192,18.603 2.367,14.778 2.367,10.077C2.367,5.376 6.192,1.552 10.892,1.552Z"
+      android:fillColor="#ffffff"
+      android:fillAlpha="0.5"
+      android:fillType="evenOdd"/>
+</vector>

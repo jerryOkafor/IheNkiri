@@ -24,13 +24,24 @@
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.test")
+    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
     namespace = "me.jerryokafor.core.ihenkiri.androidTest"
 
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testApplicationId = "me.jerryokafor.ihenkiri.androidTest"
+        testInstrumentationRunner = "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     targetProjectPath = ":app"
@@ -38,13 +49,45 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(project(":core:ds"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:model"))
+    implementation(project(":core:data"))
+    implementation(project(":core:network"))
+    implementation(project(":core:test"))
+
+    implementation(project(":feature:movies"))
+    debugImplementation(project(":ui-test-hilt-manifest"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
 
-    implementation(libs.junit4)
+    // hilt
+    implementation(libs.androidx.hilt.android)
+    kapt(libs.androidx.hilt.android.compiler)
+    implementation(libs.androidx.hilt.android.testing)
 
-    implementation(libs.androidx.test.ext.junit)
+    // compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui.test.junit4)
+    implementation(libs.androidx.navigation.testing)
+    implementation(libs.androidx.navigation.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // espresso
     implementation(libs.androidx.test.espresso.core)
+    implementation(libs.androidx.test.espresso.idling.resource)
+    implementation(libs.androidx.test.espresso.intents)
+
+    // ui automator
+    implementation(libs.androidx.test.uiautomator)
 }

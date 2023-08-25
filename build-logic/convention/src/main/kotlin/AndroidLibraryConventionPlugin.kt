@@ -25,9 +25,11 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import me.jerryokafor.ihenkiri.Config
+import me.jerryokafor.ihenkiri.androidTestImplementation
 import me.jerryokafor.ihenkiri.configureKotlinAndroid
 import me.jerryokafor.ihenkiri.disableUnnecessaryAndroidTests
 import me.jerryokafor.ihenkiri.libs
+import me.jerryokafor.ihenkiri.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -45,11 +47,19 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 defaultConfig {
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    testInstrumentationRunner =
+                        "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
+                }
+
+                buildTypes {
+                    getByName("release") {
+                        // disable coverage report on release build
+                        enableUnitTestCoverage = false
+                        enableAndroidTestCoverage = false
+                    }
                 }
 
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = Config.targetSdkVersion
 
                 lint {
                     baseline = file("lint-baseline.xml")
@@ -79,8 +89,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                add("androidTestImplementation", kotlin("test"))
-                add("testImplementation", kotlin("test"))
+                testImplementation(kotlin("test"))
+                androidTestImplementation(kotlin("test"))
             }
         }
     }

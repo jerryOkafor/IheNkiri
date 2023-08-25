@@ -111,4 +111,4 @@ fun iheNKiriDarkColorScheme(): IheNKiriColorScheme {
     return IheNKiriColorScheme(extraColor = md_theme_dark_outline)
 }
 
-internal val LocalIheNkiriColorScheme = staticCompositionLocalOf { iheNKiriLightColorScheme() }
+val LocalIheNkiriColorScheme = staticCompositionLocalOf { iheNKiriLightColorScheme() }
