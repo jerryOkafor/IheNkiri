@@ -38,6 +38,7 @@
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/movies" />
+            <option value="$PROJECT_DIR$/lint" />
             <option value="$PROJECT_DIR$/ui-test-hilt-manifest" />
           </set>
         </option>

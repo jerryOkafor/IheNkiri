@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    lintPublish(project(":lint"))
     implementation(project(":core:common"))
     // compose
     implementation(platform(libs.androidx.compose.bom))
