@@ -29,12 +29,13 @@ package me.jerryokafor.core.common.annotation
  */
 
 @MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.TYPE,
     AnnotationTarget.FUNCTION,
     AnnotationTarget.CLASS,
     AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.EXPRESSION,
 )
 annotation class ExcludeFromJacocoGeneratedReport
 
