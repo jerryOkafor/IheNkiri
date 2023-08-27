@@ -48,6 +48,7 @@ import me.jerryokafor.ihenkiri.R
 
 @ThemePreviews
 @Composable
+@ExcludeFromJacocoGeneratedReport
 fun BottomNavigationPreview() {
     IheNkiriTheme {
         BottomNavigation(navController = rememberNavController(), show = true)
@@ -55,7 +56,6 @@ fun BottomNavigationPreview() {
 }
 
 @Composable
-@ExcludeFromJacocoGeneratedReport
 fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
     val items = listOf(
         BottomNavItem.Movies,

@@ -41,6 +41,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
+lint {
+    baseline = file("lint-baseline.xml")
+}
+
 dependencies {
     compileOnly(libs.org.jetbrains.kotlin)
     compileOnly(libs.com.android.tools.lint.api)
