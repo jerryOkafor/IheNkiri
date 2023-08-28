@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.1.0"
+androidGradlePlugin = "8.1.1"
 kotlin = "1.9.0"
 androidDesugarJdkLibs = "2.0.3"
 
@@ -19,19 +19,19 @@ retrofit = "2.9.0"
 gson = "2.10.1"
 okhttp3 = "4.11.0"
 
-material = "1.11.0-alpha01"
+material = "1.11.0-alpha02"
 secrets = "2.0.1"
 # hilt
 hilt = "2.47"
 hiltExt = "1.0.0"
 
 # navigation
-navigation = "2.7.0"
+navigation = "2.7.1"
 androidxHiltNavigationCompose = "1.1.0-alpha01"
 
 # compose
 composeBom = "2023.08.00"
-composeCompiler = "1.5.1"
+composeCompiler = "1.5.2"
 accompanist = "0.33.0-alpha"
 coil = "2.4.0"
 composeShimmer = "1.0.5"
@@ -40,6 +40,7 @@ composeShimmer = "1.0.5"
 detekt = "1.22.0"
 ktlint = "0.50.0"
 jacoco = "0.8.10"
+lint = "31.1.1"
 
 # testing
 junit4 = "4.13.2"
@@ -75,6 +76,7 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-lifecycle-runtime-testing = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "lifecycle" }
 
 # jetbrains
+org-jetbrains-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
@@ -147,6 +149,8 @@ com-google-truth = { group = "com.google.truth", name = "truth", version.ref = "
 # utils
 com-github-chuckerteam-chucker-library = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 com-github-chuckerteam-chucker-library-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
+com-android-tools-lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "lint" }
+com-android-tools-lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "lint" }
 
 # build-logic dependencies
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

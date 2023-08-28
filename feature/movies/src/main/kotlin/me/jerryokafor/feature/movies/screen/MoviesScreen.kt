@@ -76,6 +76,7 @@ const val GRID_ITEMS_TEST_TAG = "gridItems"
 @Composable
 @ExcludeFromJacocoGeneratedReport
 private fun MoviesScreenPreview() {
+    @ExcludeFromJacocoGeneratedReport
     IheNkiriTheme {
         MoviesScreen(
             movies = listOf(

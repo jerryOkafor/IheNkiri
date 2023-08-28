@@ -22,21 +22,27 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.common.annotation
+package me.jerryokafor.ihenkiri.tools.lint
 
-/**
- * Annotation to exclude targets from Jacoco test coverage report
- */
+import com.android.tools.lint.client.api.IssueRegistry
+import com.android.tools.lint.client.api.Vendor
+import com.android.tools.lint.detector.api.CURRENT_API
+import me.jerryokafor.ihenkiri.tools.lint.composepreview.MissingExcludePreviewAnnotationDetector
 
-@MustBeDocumented
-@Retention(AnnotationRetention.SOURCE)
-@Target(
-    AnnotationTarget.TYPE,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.CLASS,
-    AnnotationTarget.CONSTRUCTOR,
-    AnnotationTarget.EXPRESSION,
-)
-annotation class ExcludeFromJacocoGeneratedReport
+@Suppress("UnstableApiUsage")
+class IssueRegistry : IssueRegistry() {
 
-// https://www.youtube.com/watch?v=CIp-fOsf3JI
+    override val issues =
+        listOf(MissingExcludePreviewAnnotationDetector.ISSUE)
+
+    override val api: Int = CURRENT_API
+
+    @Suppress("MagicNumber")
+    override val minApi: Int = 12
+
+    override val vendor: Vendor = Vendor(
+        vendorName = "Ihenkiri",
+        feedbackUrl = "",
+        contact = "",
+    )
+}

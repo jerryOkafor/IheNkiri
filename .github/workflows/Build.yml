@@ -93,7 +93,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
 #      - name: Build AndroidTest apps
-#        run: ./gradlew :core:androidTest:packageDebug packageDebugAndroidTest --daemon
+#        run: ./gradlew :androidTest:packageDebug packageDebugAndroidTest --daemon
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -103,7 +103,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew :core:androidTest:connectedDebugAndroidTest --daemon
+          script: ./gradlew :androidTest:connectedDebugAndroidTest --daemon
 
       - name: Upload test reports
         if: always()

@@ -22,21 +22,31 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.common.annotation
+plugins {
+    `java-library`
+    kotlin("jvm")
+    id("com.android.lint")
+}
 
-/**
- * Annotation to exclude targets from Jacoco test coverage report
- */
+java {
+    // Up to Java 11 APIs are available through desugaring
+    // https://developer.android.com/studio/write/java11-minimal-support-table
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
-@MustBeDocumented
-@Retention(AnnotationRetention.SOURCE)
-@Target(
-    AnnotationTarget.TYPE,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.CLASS,
-    AnnotationTarget.CONSTRUCTOR,
-    AnnotationTarget.EXPRESSION,
-)
-annotation class ExcludeFromJacocoGeneratedReport
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+}
 
-// https://www.youtube.com/watch?v=CIp-fOsf3JI
+lint {
+    baseline = file("lint-baseline.xml")
+}
+
+dependencies {
+    compileOnly(libs.org.jetbrains.kotlin)
+    compileOnly(libs.com.android.tools.lint.api)
+    compileOnly(libs.com.android.tools.lint.checks)
+}

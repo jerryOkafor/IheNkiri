@@ -24,7 +24,6 @@
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import me.jerryokafor.ihenkiri.Config
 import me.jerryokafor.ihenkiri.androidTestImplementation
 import me.jerryokafor.ihenkiri.configureKotlinAndroid
 import me.jerryokafor.ihenkiri.disableUnnecessaryAndroidTests
@@ -63,10 +62,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
                 lint {
                     baseline = file("lint-baseline.xml")
-                    disable += Config.lintDisable
-                    enable += Config.lintEnable
-                    checkOnly += Config.lintCheckOnly
-                    quiet = true
+//                    quiet = true
                     abortOnError = false // fix your lint issue
                     ignoreWarnings = true
                     checkDependencies = true
