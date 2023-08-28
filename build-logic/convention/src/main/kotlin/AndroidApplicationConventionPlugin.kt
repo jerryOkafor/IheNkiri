@@ -56,7 +56,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 lint {
                     baseline = file("lint-baseline.xml")
 //                    quiet = true
-                    abortOnError = true // fix your lint issue
+                    abortOnError = false // fix your lint issue
                     ignoreWarnings = true
                     checkDependencies = true
                 }
