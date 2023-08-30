@@ -47,8 +47,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:ds"))
+    implementation(projects.core.common)
+    implementation(projects.core.model)
+    implementation(projects.core.ds)
+
     api(libs.io.coil.compose)
     api(libs.com.valentinilk.compose.shimmer)
 
@@ -59,7 +61,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
-    implementation(project(mapOf("path" to ":core:common")))
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

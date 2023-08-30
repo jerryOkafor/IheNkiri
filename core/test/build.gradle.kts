@@ -33,10 +33,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
+    implementation(projects.core.common)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
+    implementation(projects.core.network)
 
     // retrofit
     api(libs.com.squareup.retrofit2)

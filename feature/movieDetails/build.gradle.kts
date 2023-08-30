@@ -31,7 +31,7 @@ plugins {
 }
 
 android {
-    namespace = "me.jerryokafor.feature.movies"
+    namespace = "me.jerryokafor.ihenkiri.feature.moviedetails"
 
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+
     implementation(projects.core.data)
     implementation(projects.core.network)
     implementation(libs.androidx.core.ktx)

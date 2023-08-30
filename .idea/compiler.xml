@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
       <module name="IheNkiri.core.androidTest" target="17" />
+      <module name="IheNkiri.feature.detail" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

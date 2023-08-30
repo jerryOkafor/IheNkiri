@@ -68,8 +68,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
 
     // retrofit
     implementation(libs.com.squareup.retrofit2)
@@ -81,13 +81,13 @@ dependencies {
     debugImplementation(libs.com.github.chuckerteam.chucker.library)
     releaseImplementation(libs.com.github.chuckerteam.chucker.library.no.op)
 
-    testImplementation(project(":core:test"))
+    testImplementation(projects.core.test)
     testImplementation(libs.junit4)
     testImplementation(libs.com.squareup.okhttp3.mockwebserver)
     testImplementation(libs.io.mockk.android)
     testImplementation(libs.io.mockk.agent)
 
-    androidTestImplementation(project(":core:test"))
+    androidTestImplementation(projects.core.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }
