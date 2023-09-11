@@ -267,7 +267,6 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-
                         @Suppress("MagicNumber")
                         items(6) {
                             PeoplePoster(
@@ -293,7 +292,6 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-
                         @Suppress("MagicNumber")
                         items(3) {
                             GenreChip(text = "Drama")
@@ -310,7 +308,6 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-
                         @Suppress("MagicNumber")
                         items(5) {
                             @Suppress("MagicNumber")
