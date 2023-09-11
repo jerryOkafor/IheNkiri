@@ -78,4 +78,6 @@ dependencies {
 
     testImplementation(project(":core:test"))
     androidTestImplementation(project(":core:test"))
+
+    implementation("me.onebone:toolbar-compose:2.3.5")
 }

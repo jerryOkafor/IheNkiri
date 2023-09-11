@@ -59,7 +59,7 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 @ThemePreviews
 @Composable
 @ExcludeFromJacocoGeneratedReport
-private fun SearchViewPreview() {
+fun SearchViewPreview() {
     IheNkiriTheme {
         SearchView()
     }

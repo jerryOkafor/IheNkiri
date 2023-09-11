@@ -36,10 +36,12 @@
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/test" />
             <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/core/ui/uipresenter" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/movieDetails" />
             <option value="$PROJECT_DIR$/feature/movies" />
             <option value="$PROJECT_DIR$/lint" />
+            <option value="$PROJECT_DIR$/screenshotTest" />
             <option value="$PROJECT_DIR$/ui-test-hilt-manifest" />
           </set>
         </option>

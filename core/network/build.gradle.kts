@@ -69,7 +69,7 @@ android {
 
 dependencies {
     implementation(projects.core.common)
-    implementation(projects.core.domain)
+    implementation(projects.core.model)
 
     // retrofit
     implementation(libs.com.squareup.retrofit2)

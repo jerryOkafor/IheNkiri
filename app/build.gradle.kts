@@ -75,13 +75,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:network"))
-    implementation(project(":core:ds"))
-    implementation(project(":core:ui"))
-    implementation(project(":feature:movies"))
-    implementation(project(":core:data"))
-    debugImplementation(project(":ui-test-hilt-manifest"))
+    implementation(projects.core.common)
+    implementation(projects.core.network)
+    implementation(projects.core.ds)
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
+
+    implementation(projects.feature.movies)
+    implementation(projects.feature.movieDetails)
+    debugImplementation(projects.uiTestHiltManifest)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

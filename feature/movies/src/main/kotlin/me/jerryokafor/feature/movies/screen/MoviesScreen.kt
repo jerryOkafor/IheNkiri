@@ -75,7 +75,7 @@ const val GRID_ITEMS_TEST_TAG = "gridItems"
 @ThemePreviews
 @Composable
 @ExcludeFromJacocoGeneratedReport
-private fun MoviesScreenPreview() {
+fun MoviesScreenPreview() {
     @ExcludeFromJacocoGeneratedReport
     IheNkiriTheme {
         MoviesScreen(

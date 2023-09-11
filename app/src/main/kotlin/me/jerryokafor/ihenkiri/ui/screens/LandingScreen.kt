@@ -60,7 +60,7 @@ import me.jerryokafor.ihenkiri.R
 @ThemePreviews
 @Composable
 @ExcludeFromJacocoGeneratedReport
-private fun LandingScreenPreview() {
+fun LandingScreenPreview() {
     IheNkiriTheme {
         LandingScreen()
     }
