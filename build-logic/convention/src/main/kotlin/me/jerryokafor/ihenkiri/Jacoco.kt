@@ -131,7 +131,7 @@ internal fun Project.configureJacoco(
                 }
 
                 classDirectories.setFrom(
-                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                    fileTree("${layout.buildDirectory}/tmp/kotlin-classes/${variant.name}") {
                         exclude(coverageExclusions)
                     },
                 )
@@ -150,8 +150,8 @@ internal fun Project.configureJacoco(
                 executionData.setFrom(
                     files(
                         // Unit tests coverage data
-                        "$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
-                        "$buildDir/jacoco/*.exec",
+                        "${layout.buildDirectory}/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
+                        "${layout.buildDirectory}/jacoco/*.exec",
                         // Instrumented tests coverage data
                         fileTree("$rootDir/androidTest/build/outputs/code_coverage/${variant.name}/connected/") {
                             include("**/*.ec")

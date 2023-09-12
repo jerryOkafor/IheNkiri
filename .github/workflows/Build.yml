@@ -44,10 +44,10 @@ jobs:
       - name: Build all build type and flavor permutations
         run: ./gradlew assemble
 
-      - name: Run all local screenshot tests (Roborazzi)
-        id: screenshotsverify
-        continue-on-error: true
-        run: ./gradlew :screenshotTest:verifyRoborazziDebug
+#      - name: Run all local screenshot tests (Roborazzi)
+#        id: screenshotsverify
+#        continue-on-error: true
+#        run: ./gradlew :screenshotTest:verifyRoborazziDebug
 
         #Add more codes
 

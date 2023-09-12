@@ -26,6 +26,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.library")
     id("me.jerryokafor.ihenkiri.android.library.compose")
     id("me.jerryokafor.ihenkiri.android.test.screenshot")
+    id("me.jerryokafor.ihenkiri.library.jacoco")
 }
 
 android {
