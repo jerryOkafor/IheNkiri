@@ -48,7 +48,10 @@ import me.jerryokafor.ihenkiri.ui.navigation.TopLevelDestinations
 private const val BOTTOM_NAV_BAR_DISPLAY_DELAY = 700L
 
 @Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
+fun HomeScreen(
+    navController: NavHostController = rememberNavController(),
+    bottomNavDelay: Long = BOTTOM_NAV_BAR_DISPLAY_DELAY,
+) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -58,7 +61,7 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
                 bottomBarState.value = false
 
             else -> {
-                delay(BOTTOM_NAV_BAR_DISPLAY_DELAY)
+                delay(bottomNavDelay)
                 bottomBarState.value = true
             }
         }
