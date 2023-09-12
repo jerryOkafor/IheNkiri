@@ -62,72 +62,50 @@ class HomeScreenTest {
     @Before
     fun setUp() {
         hiltRule.inject()
-
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(
-                ComposeNavigator(),
-            )
+            navController.navigatorProvider.addNavigator(ComposeNavigator())
             HomeScreen(navController = navController)
         }
     }
 
     @Test
     fun homeScreen_verifyNavMenus() {
-        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
+        with(composeTestRule) {
+            waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), 1)
 
-        composeTestRule.onNode(isBottomNavItemWithText("Movies")).assertHasClickAction()
-            .assertIsDisplayed()
-        composeTestRule.onNode(isBottomNavItemWithText("TV Shows")).assertHasClickAction()
-            .assertIsDisplayed()
-        composeTestRule.onNode(isBottomNavItemWithText("People")).assertHasClickAction()
-            .assertIsDisplayed()
-        composeTestRule.onNode(isBottomNavItemWithText("More")).assertHasClickAction()
-            .assertIsDisplayed()
-    }
+            // Verify /movies
+            onNode(isBottomNavItemWithText("Movies")).assertHasClickAction()
+                .assertIsDisplayed()
+                .performClick()
+            val moviesRoute = navController.currentBackStackEntry?.destination?.route
+            assertThat(moviesRoute).isEqualTo("/movies")
+            onNode(isBottomNavItemWithText("Movies")).assertIsSelected()
 
-    @Test
-    fun homeScreen_verifyMoviesNavMenuClick() {
-        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
-        composeTestRule.onNode(isBottomNavItemWithText("Movies"))
-            .assertIsDisplayed()
-            .performClick()
-        val route = navController.currentBackStackEntry?.destination?.route
-        assertThat(route).isEqualTo("/movies")
-        composeTestRule.onNode(isBottomNavItemWithText("Movies")).assertIsSelected()
-    }
+            // Verify /tv-shows
+            onNode(isBottomNavItemWithText("TV Shows")).assertHasClickAction()
+                .assertIsDisplayed()
+                .performClick()
+            val tvShowsRoute = navController.currentBackStackEntry?.destination?.route
+            assertThat(tvShowsRoute).isEqualTo("/tv-shows")
+            onNode(isBottomNavItemWithText("TV Shows")).assertIsSelected()
 
-    @Test
-    fun homeScreen_verifyTvShowsNavMenuClick() {
-        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
-        composeTestRule.onNode(isBottomNavItemWithText("TV Shows"))
-            .assertIsDisplayed()
-            .performClick()
-        val route = navController.currentBackStackEntry?.destination?.route
-        assertThat(route).isEqualTo("/tv-shows")
-        composeTestRule.onNode(isBottomNavItemWithText("TV Shows")).assertIsSelected()
-    }
+            // Verify route: /people
+            onNode(isBottomNavItemWithText("People")).assertHasClickAction()
+                .assertIsDisplayed()
+                .performClick()
+            val peopleRoute = navController.currentBackStackEntry?.destination?.route
+            assertThat(peopleRoute).isEqualTo("/people")
+            onNode(isBottomNavItemWithText("People")).assertIsSelected()
 
-    @Test
-    fun homeScreen_verifyPeopleNavMenuClick() {
-        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
-        composeTestRule.onNode(isBottomNavItemWithText("People"))
-            .assertIsDisplayed()
-            .performClick()
-        val route = navController.currentBackStackEntry?.destination?.route
-        assertThat(route).isEqualTo("/people")
-        composeTestRule.onNode(isBottomNavItemWithText("People")).assertIsSelected()
-    }
-
-    @Test
-    fun homeScreen_verifyMoreNavMenuClick() {
-        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
-        composeTestRule.onNode(isBottomNavItemWithText("More"))
-            .assertIsDisplayed()
-            .performClick()
-        val route = navController.currentBackStackEntry?.destination?.route
-        assertThat(route).isEqualTo("/more")
-        composeTestRule.onNode(isBottomNavItemWithText("More")).assertIsSelected()
+            // Verify route: /more
+            onNode(isBottomNavItemWithText("More")).assertHasClickAction()
+                .assertIsDisplayed()
+                .performClick()
+            val moreRtoue = navController.currentBackStackEntry?.destination?.route
+            assertThat(moreRtoue).isEqualTo("/more")
+            onNode(isBottomNavItemWithText("More")).assertIsSelected()
+        }
     }
 }
 

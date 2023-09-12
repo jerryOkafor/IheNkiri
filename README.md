@@ -215,6 +215,7 @@ We use Roborazzi to achieve this screenshot testing.
 ## References
 
 - [Alternatives to Idling Resources in Compose tests : the waitUntil APIs](https://medium.com/androiddevelopers/alternatives-to-idling-resources-in-compose-tests-8ae71f9fc473)
+- [runComposeUiTest](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#runComposeUiTest(kotlin.coroutines.CoroutineContext,kotlin.Function1))
 
 # License
 

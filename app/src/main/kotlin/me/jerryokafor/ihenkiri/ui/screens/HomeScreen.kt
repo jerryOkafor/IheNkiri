@@ -45,6 +45,8 @@ import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
 import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
 import me.jerryokafor.ihenkiri.ui.navigation.TopLevelDestinations
 
+private const val BOTTOM_NAV_BAR_DISPLAY_DELAY = 700L
+
 @Composable
 fun HomeScreen(navController: NavHostController = rememberNavController()) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
@@ -56,8 +58,7 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
                 bottomBarState.value = false
 
             else -> {
-                @Suppress("MagicNumber")
-                delay(700)
+                delay(BOTTOM_NAV_BAR_DISPLAY_DELAY)
                 bottomBarState.value = true
             }
         }
@@ -70,8 +71,8 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
             Box(
                 modifier = Modifier.padding(
                     bottom = max(
-                        0.dp,
-                        innerPadding.calculateBottomPadding() - 40.dp,
+                        a = 0.dp,
+                        b = innerPadding.calculateBottomPadding() - 40.dp,
                     ),
                 ),
             ) {
