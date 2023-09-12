@@ -55,7 +55,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:network"))
     implementation(project(":core:test")) {
-        //remove robolectric from list of dependencies
+        // remove robolectric from list of dependencies
         exclude(group = "org.robolectric")
     }
 
