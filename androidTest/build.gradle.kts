@@ -54,7 +54,10 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:network"))
-    implementation(project(":core:test"))
+    implementation(project(":core:test")) {
+        //remove robolectric from list of dependencies
+        exclude(group = "org.robolectric")
+    }
 
     implementation(project(":feature:movies"))
     debugImplementation(project(":ui-test-hilt-manifest"))

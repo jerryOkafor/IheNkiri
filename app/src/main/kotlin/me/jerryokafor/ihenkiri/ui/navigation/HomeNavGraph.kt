@@ -102,7 +102,7 @@ fun HomeNavGraph(
         }
 
         composable(route = TopLevelDestinations.MovieDetail.route) {
-            me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails()
+            MoviesDetails()
         }
     }
 }

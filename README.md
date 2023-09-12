@@ -212,6 +212,10 @@ We use Roborazzi to achieve this screenshot testing.
 
 [Todo]
 
+## References
+
+- [Alternatives to Idling Resources in Compose tests : the waitUntil APIs](https://medium.com/androiddevelopers/alternatives-to-idling-resources-in-compose-tests-8ae71f9fc473)
+
 # License
 
 **IheNkiri** is didtributed under the terms of the MIT License. See the [License](LICENSE) for more

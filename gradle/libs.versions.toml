@@ -5,7 +5,7 @@ androidDesugarJdkLibs = "2.0.3"
 ksp = "1.9.10-1.0.13"
 
 core-ktx = "1.10.1"
-lifecycle = "2.6.1"
+lifecycle = "2.6.2"
 activity-compose = "1.7.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.1"
@@ -27,11 +27,11 @@ hilt = "2.47"
 hiltExt = "1.0.0"
 
 # navigation
-navigation = "2.7.1"
+navigation = "2.7.2"
 androidxHiltNavigationCompose = "1.1.0-alpha01"
 
 # compose
-composeBom = "2023.08.00"
+composeBom = "2023.09.00"
 composeCompiler = "1.5.3"
 accompanist = "0.33.1-alpha"
 coil = "2.4.0"

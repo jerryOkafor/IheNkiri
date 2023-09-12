@@ -25,11 +25,13 @@
 package me.jerryokafor.ihenkiri.android.test.app.screens
 
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -39,12 +41,14 @@ import androidx.navigation.testing.TestNavHostController
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.jerryokafor.ihenkiri.ui.navigation.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.screens.HomeScreen
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalTestApi::class)
 @HiltAndroidTest
 class HomeScreenTest {
     @get:Rule(order = 0)
@@ -70,6 +74,8 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_verifyNavMenus() {
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
+
         composeTestRule.onNode(isBottomNavItemWithText("Movies")).assertHasClickAction()
             .assertIsDisplayed()
         composeTestRule.onNode(isBottomNavItemWithText("TV Shows")).assertHasClickAction()
@@ -82,6 +88,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_verifyMoviesNavMenuClick() {
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
         composeTestRule.onNode(isBottomNavItemWithText("Movies"))
             .assertIsDisplayed()
             .performClick()
@@ -92,6 +99,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_verifyTvShowsNavMenuClick() {
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
         composeTestRule.onNode(isBottomNavItemWithText("TV Shows"))
             .assertIsDisplayed()
             .performClick()
@@ -102,6 +110,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_verifyPeopleNavMenuClick() {
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
         composeTestRule.onNode(isBottomNavItemWithText("People"))
             .assertIsDisplayed()
             .performClick()
@@ -112,6 +121,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_verifyMoreNavMenuClick() {
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG))
         composeTestRule.onNode(isBottomNavItemWithText("More"))
             .assertIsDisplayed()
             .performClick()

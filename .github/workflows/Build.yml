@@ -47,7 +47,7 @@ jobs:
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
         continue-on-error: true
-        run: ./gradlew :screenshotTest:recordRoborazziDebug
+        run: ./gradlew :screenshotTest:verifyRoborazziDebug
 
         #Add more codes
 
