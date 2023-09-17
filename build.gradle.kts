@@ -61,6 +61,8 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false
     alias(libs.plugins.com.google.dagger.hilt.android) apply false
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
+    alias(libs.plugins.io.github.takahirom.roborazzi) apply false
+    alias(libs.plugins.com.google.devtools.ksp) apply false
 
     // add detket and ktlint
     alias(libs.plugins.io.gitlab.arturbosch.detekt)

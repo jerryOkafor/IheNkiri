@@ -38,6 +38,8 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "IheNkiri"
 include(":app")
 include(":core:network")
@@ -52,3 +54,6 @@ include(":core:test")
 include(":androidTest")
 include(":ui-test-hilt-manifest")
 include(":lint")
+include(":feature:movieDetails")
+include(":core:ui:uipresenter")
+include(":screenshotTest")

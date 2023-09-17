@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,23 +39,31 @@ import androidx.compose.ui.unit.max
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.navigation.BottomNavigation
 import me.jerryokafor.ihenkiri.ui.navigation.HomeNavGraph
 import me.jerryokafor.ihenkiri.ui.navigation.TopLevelDestinations
 
+private const val BOTTOM_NAV_BAR_DISPLAY_DELAY = 700L
+
 @Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
-    val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
+fun HomeScreen(
+    navController: NavHostController = rememberNavController(),
+    bottomNavDelay: Long = BOTTOM_NAV_BAR_DISPLAY_DELAY,
+) {
+    val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    when (navBackStackEntry?.destination?.route) {
-        TopLevelDestinations.SearchView.route, TopLevelDestinations.MovieDetail.route -> {
-            bottomBarState.value = false
-        }
+    LaunchedEffect(navBackStackEntry?.destination?.route) {
+        when (navBackStackEntry?.destination?.route) {
+            TopLevelDestinations.SearchView.route, TopLevelDestinations.MovieDetail.route ->
+                bottomBarState.value = false
 
-        else -> {
-            bottomBarState.value = true
+            else -> {
+                delay(bottomNavDelay)
+                bottomBarState.value = true
+            }
         }
     }
 
@@ -65,8 +74,8 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
             Box(
                 modifier = Modifier.padding(
                     bottom = max(
-                        0.dp,
-                        innerPadding.calculateBottomPadding() - 40.dp,
+                        a = 0.dp,
+                        b = innerPadding.calculateBottomPadding() - 40.dp,
                     ),
                 ),
             ) {

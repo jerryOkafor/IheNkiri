@@ -37,6 +37,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("me.jerryokafor.ihenkiri.android.library")
                 apply("me.jerryokafor.ihenkiri.android.hilt")
+//                apply("me.jerryokafor.ihenkiri.android.test.screenshot")
             }
 
             dependencies {

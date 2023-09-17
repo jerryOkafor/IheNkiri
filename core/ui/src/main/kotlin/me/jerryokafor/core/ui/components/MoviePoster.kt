@@ -24,10 +24,12 @@
 
 package me.jerryokafor.core.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
@@ -48,14 +51,22 @@ import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 const val MOVIE_POSTER_TEST_TAG = "movie_poster"
+private const val SIZE_ASPECT_RATIO = 0.8F
 
 @ThemePreviews
 @Composable
 @ExcludeFromJacocoGeneratedReport
-private fun PosterPreview() {
+fun PosterPreview() {
     IheNkiriTheme {
-        Column(modifier = Modifier.padding(IheNkiri.spacing.twoAndaHalf)) {
+        Column(
+            modifier = Modifier
+                .padding(IheNkiri.spacing.twoAndaHalf)
+                .background(IheNkiri.color.inverseOnSurface),
+        ) {
             MoviePoster(
+                modifier = Modifier
+                    .width(100.dp)
+                    .aspectRatio(SIZE_ASPECT_RATIO),
                 path = "https://example.com/image.jpg",
                 contentDescription = "Image",
                 shimmer = rememberShimmer(
@@ -81,27 +92,17 @@ fun MoviePoster(
         shape = IheNkiri.shape.medium,
     ) {
         SubcomposeAsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(path).crossfade(true).build(),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(path)
+                .crossfade(true).build(),
             contentScale = ContentScale.FillBounds,
             contentDescription = contentDescription,
         ) {
             val state = painter.state
             val showShimmer = state is AsyncImagePainter.State.Loading
-            val shimmerModifier = if (showShimmer) {
-                Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(
-                        @Suppress("MagicNumber")
-                        listOf(0.6f, 0.8f, 1.5f)
-                            .shuffled()
-                            .first(),
-                    )
-            } else {
-                Modifier.fillMaxWidth()
-            }
 
             ShimmerBox(
-                modifier = shimmerModifier,
+                modifier = Modifier.fillMaxWidth(),
                 shimmer = shimmer,
                 showShimmer = showShimmer,
             ) {

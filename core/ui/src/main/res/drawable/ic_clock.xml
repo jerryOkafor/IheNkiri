@@ -1,0 +1,36 @@
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2023 IheNkiri Project
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="19dp"
+    android:height="19dp"
+    android:viewportWidth="19"
+    android:viewportHeight="19">
+  <path
+      android:pathData="M9.5,1.583C5.135,1.583 1.583,5.135 1.583,9.5C1.583,13.865 5.135,17.417 9.5,17.417C13.865,17.417 17.417,13.865 17.417,9.5C17.417,5.135 13.865,1.583 9.5,1.583ZM9.5,15.833C6.008,15.833 3.167,12.992 3.167,9.5C3.167,6.008 6.008,3.167 9.5,3.167C12.992,3.167 15.833,6.008 15.833,9.5C15.833,12.992 12.992,15.833 9.5,15.833Z"
+      android:fillColor="#BBBBBB"/>
+  <path
+      android:pathData="M10.292,5.542H8.708V9.828L11.315,12.435L12.435,11.315L10.292,9.172V5.542Z"
+      android:fillColor="#BBBBBB"/>
+</vector>

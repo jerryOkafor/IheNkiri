@@ -49,8 +49,8 @@ android {
 }
 
 dependencies {
-    lintPublish(project(":lint"))
-    implementation(project(":core:common"))
+    lintPublish(projects.lint)
+    implementation(projects.core.common)
     // compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

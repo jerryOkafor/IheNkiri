@@ -33,10 +33,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
-    implementation(project(":core:data"))
-    implementation(project(":core:network"))
+    implementation(projects.core.common)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
+    implementation(projects.core.network)
+    implementation(projects.core.ds)
 
     // retrofit
     api(libs.com.squareup.retrofit2)
@@ -60,6 +61,11 @@ dependencies {
 
     api(libs.io.mockk.android)
     api(libs.io.mockk.agent)
+
+    api(libs.org.robolectric)
+    api(libs.org.robolectric.shadows)
+    api(libs.io.github.takahirom.roborazzi)
+    api(libs.com.google.accompanist.testharness)
 
     api(libs.androidx.test.ext.junit)
     api(libs.androidx.test.espresso.core)

@@ -1,10 +1,11 @@
 [versions]
 androidGradlePlugin = "8.1.1"
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 androidDesugarJdkLibs = "2.0.3"
+ksp = "1.9.10-1.0.13"
 
 core-ktx = "1.10.1"
-lifecycle = "2.6.1"
+lifecycle = "2.6.2"
 activity-compose = "1.7.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.1"
@@ -26,13 +27,13 @@ hilt = "2.47"
 hiltExt = "1.0.0"
 
 # navigation
-navigation = "2.7.1"
+navigation = "2.7.2"
 androidxHiltNavigationCompose = "1.1.0-alpha01"
 
 # compose
-composeBom = "2023.08.00"
-composeCompiler = "1.5.2"
-accompanist = "0.33.0-alpha"
+composeBom = "2023.09.00"
+composeCompiler = "1.5.3"
+accompanist = "0.33.1-alpha"
 coil = "2.4.0"
 composeShimmer = "1.0.5"
 
@@ -41,11 +42,13 @@ detekt = "1.22.0"
 ktlint = "0.50.0"
 jacoco = "0.8.10"
 lint = "31.1.1"
+testParameterInjector = "1.12"
 
 # testing
 junit4 = "4.13.2"
 testing = "6.9.6"
-robolectric = "4.8"
+robolectric = "4.10.3"
+roborazzi = "1.5.0-alpha-2"
 testCore = "1.5.0"
 testRunner = "1.5.2"
 testRules = "1.5.0"
@@ -86,6 +89,7 @@ com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.
 com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 # accompanist
 com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+com-google-accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
 
 
 # Retrofit
@@ -140,11 +144,16 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-test-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
 androidx-test-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoCore" }
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+org-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+org-robolectric-shadows = { group = "org.robolectric", name = "shadows-framework", version.ref = "robolectric" }
+io-github-takahirom-roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 
 io-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 io-mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 com-google-truth = { group = "com.google.truth", name = "truth", version.ref = "googleTruth" }
 
+# Generate multiple unit tests
+com-google-testparameterinjector = { group = "com.google.testparameterinjector", name = "test-parameter-injector", version.ref = "testParameterInjector" }
 
 # utils
 com-github-chuckerteam-chucker-library = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
@@ -160,6 +169,8 @@ jacoco-gradlePlugin = { group = "org.jacoco", name = "org.jacoco.core", version.
 #hilt-android-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 #navigation-safe-args-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
+com-google-devtools-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -170,6 +181,8 @@ com-google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.go
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 com-vanniktech-dependency-graph-generator = { id = "com.vanniktech.dependency.graph.generator", version.ref = "dependencyGraphGenerator" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+io-github-takahirom-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 
 [bundles]
 

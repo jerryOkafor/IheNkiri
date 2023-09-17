@@ -46,6 +46,10 @@ internal fun DependencyHandler.kapt(provider: Any) {
     add("kapt", provider)
 }
 
+internal fun DependencyHandler.ksp(provider: Any) {
+    add("ksp", provider)
+}
+
 internal fun DependencyHandler.kaptTest(provider: Any) {
     add("kaptTest", provider)
 }

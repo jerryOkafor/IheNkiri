@@ -44,6 +44,13 @@ jobs:
       - name: Build all build type and flavor permutations
         run: ./gradlew assemble
 
+        #      - name: Run all local screenshot tests (Roborazzi)
+        #        id: screenshotsverify
+        #        continue-on-error: true
+        #        run: ./gradlew :screenshotTest:verifyRoborazziDebug
+
+        #Add more codes
+
       - name: Run local tests with coverage
         run: ./gradlew testDebugUnitTest
 
@@ -92,8 +99,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-#      - name: Build AndroidTest apps
-#        run: ./gradlew :androidTest:packageDebug packageDebugAndroidTest --daemon
+      #      - name: Build AndroidTest apps
+      #        run: ./gradlew :androidTest:packageDebug packageDebugAndroidTest --daemon
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -105,6 +112,17 @@ jobs:
           heap-size: 600M
           script: ./gradlew :androidTest:connectedDebugAndroidTest --daemon
 
+      - name: Run all local screenshot tests (Roborazzi)
+        id: screenshotsverify
+        continue-on-error: true
+        run: ./gradlew :screenshotTest:verifyRoborazziDebug
+
+      - name: Generate androidTest Coverage Report
+        run: ./gradlew jacocoTestCoverageReport
+
+      #      - name: Verify androidTest Coverage report # This will fail if the coverage it not up to the set threshold
+      #        run: ./gradlew jacocoTestCoverageVerification
+
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v3
@@ -112,11 +130,6 @@ jobs:
           name: test-reports-${{ matrix.api-level }}
           path: '**/build/reports/androidTests'
 
-      - name: Generate androidTest Coverage Report
-        run: ./gradlew jacocoTestCoverageReport
-
-      #      - name: Verify androidTest Coverage report # This will fail if the coverage it not up to the set threshold
-      #        run: ./gradlew jacocoTestCoverageVerification
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3

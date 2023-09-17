@@ -46,6 +46,7 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.detekt.gradlePlugin)
+    compileOnly(libs.com.google.devtools.ksp.gradlePlugin)
 }
 
 tasks.check {
@@ -117,6 +118,11 @@ gradlePlugin {
         register("androidLibraryCompose") {
             id = "me.jerryokafor.ihenkiri.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+
+        register("androidScreenshotTest") {
+            id = "me.jerryokafor.ihenkiri.android.test.screenshot"
+            implementationClass = "AndroidScreenshotConvention"
         }
     }
 }

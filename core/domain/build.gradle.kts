@@ -45,10 +45,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
+    implementation(projects.core.common)
+    implementation(projects.core.network)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
 
     testImplementation(libs.junit4)
 
