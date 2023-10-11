@@ -27,9 +27,11 @@ package me.jerryokafor.ihenkiri.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import androidx.navigation.navArgument
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
 import me.jerryokafor.ihenkiri.ui.MoreScree
@@ -38,7 +40,7 @@ import me.jerryokafor.ihenkiri.ui.TvShowScreen
 import me.jerryokafor.ihenkiri.ui.screens.SearchView
 
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun HomeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
@@ -101,8 +103,11 @@ fun HomeNavGraph(
             SearchView()
         }
 
-        composable(route = TopLevelDestinations.MovieDetail.route) {
-            MoviesDetails()
+        composable(
+            route = TopLevelDestinations.MovieDetail.route,
+            arguments = listOf(navArgument("movieId") { type = NavType.LongType }),
+        ) { backStackEntry ->
+            MoviesDetails(movieId = backStackEntry.arguments?.getLong("movieId")!!)
         }
     }
 }

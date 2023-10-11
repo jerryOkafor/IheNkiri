@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.io.coil.compose)
     implementation(libs.com.valentinilk.compose.shimmer)
 
+    implementation(libs.androidx.palette)
+    implementation(libs.androidx.palette.ktx)
+
     // compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

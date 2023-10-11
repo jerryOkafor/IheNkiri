@@ -34,7 +34,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals

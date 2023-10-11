@@ -22,33 +22,8 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.components
+package me.jerryokafor.core.common.annotation
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import dagger.hilt.android.testing.HiltTestApplication
-import me.jerryokafor.core.ui.components.Background
-import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import org.robolectric.annotation.GraphicsMode
-import org.robolectric.annotation.LooperMode
-
-@RunWith(RobolectricTestRunner::class)
-@GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
-@LooperMode(LooperMode.Mode.PAUSED)
-class BackgroundScreenshotTest {
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @Test
-    fun genreChip_multipleThemes() {
-        composeTestRule.captureMultiTheme("Background") { desc: String ->
-            Background {}
-        }
-    }
-}
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+annotation class ExcludeFromGeneratedCoverageReport

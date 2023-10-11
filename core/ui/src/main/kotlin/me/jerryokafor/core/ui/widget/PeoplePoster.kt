@@ -55,7 +55,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -64,8 +64,8 @@ import me.jerryokafor.core.ui.R
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
-fun PeoplePosterPreview() {
+@ExcludeFromGeneratedCoverageReport
+private fun PeoplePosterPreview() {
     IheNkiriTheme {
         Column(
             modifier = Modifier

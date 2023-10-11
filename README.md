@@ -181,28 +181,28 @@ we have the following tests on **IheNkiri**
 Generate screenshots
 
 ```bash
-./gradlew :screenshotTest:recordRoborazziDebug
+./gradlew recordRoborazziDebug
 
 ```
 
 Compare screenshots
 
 ```bash
-./gradlew :screenshotTest:compareRoborazziDebug
+./gradlew compareRoborazziDebug
 
 ```
 
 Verify screenshots
 
 ```bash
-./gradlew :screenshotTest:verifyRoborazziDebug
+./gradlew verifyRoborazziDebug
 
 ```
 
 Verify & record screenshots
 
 ```bash
-./gradlew :screenshotTest:verifyAndRecordRoborazziDebug
+./gradlew verifyAndRecordRoborazziDebug
 
 ```
 

@@ -50,14 +50,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
                 }
 
-                buildTypes {
-                    getByName("release") {
-                        // disable coverage report on release build
-                        enableUnitTestCoverage = false
-                        enableAndroidTestCoverage = false
-                    }
-                }
-
                 configureKotlinAndroid(this)
 
                 lint {

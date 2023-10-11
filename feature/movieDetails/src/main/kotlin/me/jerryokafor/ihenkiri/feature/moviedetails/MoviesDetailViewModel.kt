@@ -24,22 +24,125 @@
 
 package me.jerryokafor.ihenkiri.feature.moviedetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import me.jerryokafor.core.common.outcome.onFailure
+import me.jerryokafor.core.common.outcome.onSuccess
+import me.jerryokafor.core.data.repository.MovieDetailsRepository
+import me.jerryokafor.core.model.Cast
+import me.jerryokafor.core.model.Crew
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.Video
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesDetailViewModel @Inject constructor() : ViewModel() {
+class MoviesDetailViewModel
+@Inject constructor(private val movieDetailsRepository: MovieDetailsRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> = _uiState.asStateFlow()
 
-    data class UIState(val loading: Boolean = false)
+    private suspend fun loadDetails(movieId: Long) {
+        coroutineScope {
+            _uiState.update { it.copy() }
+
+            val detailsJob = async {
+                movieDetailsRepository.movieDetails(movieId)
+                    .onSuccess { movieDetails ->
+
+                        @Suppress("MagicNumber")
+                        val hrs = movieDetails.runtime / 60
+
+                        @Suppress("MagicNumber")
+                        val mins = movieDetails.runtime.rem(60)
+                        val formattedRuntime =
+                            "${hrs}${if (hrs > 1) "hr(s)" else "hr"} ${mins}m"
+                        _uiState.update {
+                            it.copy(
+                                title = movieDetails.title,
+                                overview = movieDetails.overview,
+                                categories = movieDetails.genres.map { genre -> genre.name },
+                                postPath = movieDetails.posterPath,
+                                releaseDate = movieDetails.releaseDate.formatDate(),
+                                runtime = formattedRuntime,
+                            )
+                        }
+                    }.onFailure { errorResponse, errorCode, throwable ->
+                        Log.w("TestIng: ", "$throwable")
+                    }.collect()
+            }
+
+            val creditDetailsJob = async {
+                movieDetailsRepository.movieCredits(movieId)
+                    .onSuccess { movieCredit ->
+                        Log.d("TestIng: ", "$movieCredit")
+                        _uiState.update {
+                            it.copy(
+                                cast = movieCredit.cast,
+                                crew = movieCredit.crew,
+                            )
+                        }
+                    }
+                    .onFailure { _, _, e ->
+                        Log.w("TestIng: ", "$e")
+                    }.collect()
+            }
+
+            val similarMovies = async {
+                movieDetailsRepository.similarMovies(movieId)
+                    .onSuccess { movies ->
+                        Log.d("TestIng: ", "Recommendations: $movies")
+                        _uiState.update { it.copy(recommendations = movies) }
+                    }.onFailure { errorResponse, errorCode, throwable ->
+                        throwable?.printStackTrace()
+                        Log.w("TestIng: ", "$errorResponse")
+                    }.collect()
+            }
+
+            val videosJob = async {
+                movieDetailsRepository.movieVideos(movieId)
+                    .onSuccess { videos ->
+                        _uiState.update { it.copy(videos = videos) }
+                    }.onFailure { errorResponse, errorCode, throwable ->
+                        Log.w("TestIng: ", "$throwable")
+                    }.collect()
+            }
+
+            detailsJob.await()
+            creditDetailsJob.join()
+            similarMovies.join()
+            videosJob.join()
+        }
+    }
+
+    fun setMovieId(movieId: Long) {
+        viewModelScope.launch { loadDetails(movieId) }
+    }
+
+    data class UIState(
+        val loading: Boolean = false,
+        val title: String = "",
+        val overview: String = "",
+        val postPath: String = "",
+        val releaseDate: String = "",
+        val runtime: String = "",
+        val cast: List<Cast> = listOf(),
+        val crew: List<Crew> = listOf(),
+        val categories: List<String> = listOf(),
+        val recommendations: List<Movie> = listOf(),
+        val videos: List<Video> = listOf(),
+    )
 }
 
-// https://developer.themoviedb.org/reference/movie-details
-// https://developer.themoviedb.org/reference/movie-credits
-// https://developer.themoviedb.org/reference/movie-videos
-// https://developer.themoviedb.org/reference/movie-similar
+private fun String.formatDate(): String {
+    return this.replace("-", "/")
+}

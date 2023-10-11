@@ -33,8 +33,8 @@ import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSo
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 import me.jerryokafor.ihenkiri.core.network.model.response.equalsMovie
 import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
-import me.jerryokafor.ihenkiri.core.test.test.network.testMoviesListResponse
-import me.jerryokafor.ihenkiri.core.test.test.network.testMoviesResponse
+import me.jerryokafor.ihenkiri.core.test.util.testMoviesListResponse
+import me.jerryokafor.ihenkiri.core.test.util.testMoviesResponse
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals

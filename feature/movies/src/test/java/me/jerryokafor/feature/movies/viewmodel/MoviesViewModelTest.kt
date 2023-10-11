@@ -31,8 +31,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import me.jerryokafor.core.data.repository.MoviesRepository
 import me.jerryokafor.core.model.MovieListFilterItem
-import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

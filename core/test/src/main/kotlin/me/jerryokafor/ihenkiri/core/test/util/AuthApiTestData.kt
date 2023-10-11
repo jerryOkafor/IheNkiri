@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.test.network
+package me.jerryokafor.ihenkiri.core.test.util
 
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest

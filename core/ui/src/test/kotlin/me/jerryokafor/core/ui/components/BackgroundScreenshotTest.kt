@@ -22,13 +22,11 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.components
+package me.jerryokafor.core.ui.components
 
 import androidx.activity.ComponentActivity
-import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import dagger.hilt.android.testing.HiltTestApplication
-import me.jerryokafor.core.ui.components.TrailerButton
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
@@ -42,16 +40,14 @@ import org.robolectric.annotation.LooperMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
-class TrailerButtonScreenshotTest {
+class BackgroundScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun trailerButton_multipleThemes() {
-        composeTestRule.captureMultiTheme("TrailerButton") { desc: String ->
-            Surface {
-                TrailerButton()
-            }
+    fun genreChip_multipleThemes() {
+        composeTestRule.captureMultiTheme("Background") { desc: String ->
+            Background {}
         }
     }
 }

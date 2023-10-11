@@ -47,7 +47,7 @@ import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
 import me.jerryokafor.feature.movies.screen.CHIP_GROUP_TEST_TAG
 import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
 import me.jerryokafor.feature.movies.screen.MoviesScreen
-import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Rule
 import org.junit.Test
 

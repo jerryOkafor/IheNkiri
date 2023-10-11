@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.widget
+package me.jerryokafor.core.ui.widget
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background

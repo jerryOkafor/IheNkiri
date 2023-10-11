@@ -27,11 +27,8 @@ package me.jerryokafor.core.common.outcome
 /**
  * Called when the given request fails to make a request
  *
- * @property errorResponse The error message returned
- * @property errorCode The HTTP error code
- *
- * we should find a way to separate out jsonApi failures and socket failures, it likely
- * will require us to create a new Outcome object to do it cleanly.
+ * @property errorResponse is the  error message returned
+ * @property errorCode is the HTTP error code
  *
  * @property throwable exception stack trace if the failure resulted from an exception
  */

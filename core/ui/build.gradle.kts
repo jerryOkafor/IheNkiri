@@ -26,6 +26,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.library")
     id("me.jerryokafor.ihenkiri.android.library.compose")
     id("me.jerryokafor.ihenkiri.library.jacoco")
+    id("me.jerryokafor.ihenkiri.android.test.screenshot")
 }
 
 android {
@@ -74,4 +75,6 @@ dependencies {
 
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    testImplementation(projects.core.test)
 }

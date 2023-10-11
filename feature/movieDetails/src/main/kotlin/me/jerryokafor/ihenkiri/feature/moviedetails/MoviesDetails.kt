@@ -24,11 +24,13 @@
 
 package me.jerryokafor.ihenkiri.feature.moviedetails
 
+import android.app.Activity
+import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +46,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -72,20 +75,31 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.palette.graphics.Palette
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.delay
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
+import me.jerryokafor.core.ds.theme.FourVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.OneAndHalfVerticalSpacer
+import me.jerryokafor.core.ds.theme.OneVerticalSpacer
+import me.jerryokafor.core.ds.theme.SixVerticalSpacer
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.ui.components.GenreChip
@@ -99,7 +113,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
         MoviesDetails(uiState = MoviesDetailViewModel.UIState())
@@ -108,9 +122,13 @@ fun MoviesDetailsPreview() {
 
 @Composable
 @Suppress("UnusedPrivateMember")
-fun MoviesDetails(viewModel: MoviesDetailViewModel = hiltViewModel()) {
+fun MoviesDetails(viewModel: MoviesDetailViewModel = hiltViewModel(), movieId: Long) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     MoviesDetails(uiState = uiState.value)
+
+    LaunchedEffect(movieId) {
+        viewModel.setMovieId(movieId)
+    }
 }
 
 @Composable
@@ -122,7 +140,21 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
     @Suppress("MagicNumber")
     val secondaryTextColor = primaryTextColor.copy(0.7F)
     val state = rememberCollapsingToolbarScaffoldState()
-    var enabled by remember { mutableStateOf(true) }
+    val enabled by remember { mutableStateOf(true) }
+    var drawable by remember { mutableStateOf<Drawable?>(null) }
+
+    val view = LocalView.current
+    val window = (view.context as Activity).window
+
+    LaunchedEffect(drawable) {
+        drawable?.let {
+            Palette.Builder(it.toBitmap())
+                .generate { palette ->
+                    val vibrantSwatch = palette?.vibrantSwatch
+                    val lightVibrantSwatch = palette?.lightVibrantSwatch
+                }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -158,15 +190,22 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         .height(400.dp)
                         .fillMaxWidth(),
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.sample_banner),
+                    AsyncImage(
                         modifier = Modifier
                             .fillMaxSize()
                             .graphicsLayer {
                                 alpha = state.toolbarState.progress
                             },
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(ImageUtil.buildImageUrl(uiState.postPath))
+                            .crossfade(true)
+                            .build(),
+//                        placeholder = painterResource(R.drawable.sample_banner),
+                        contentDescription = uiState.title,
                         contentScale = ContentScale.FillWidth,
-                        contentDescription = null,
+                        onSuccess = {
+                            drawable = it.result.drawable
+                        },
                     )
                     Box(
                         modifier = Modifier
@@ -187,7 +226,7 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                                 verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                             ) {
                                 Text(
-                                    text = "Imperdoável (2021)",
+                                    text = uiState.title,
                                     style = IheNkiri.typography.titleMedium,
                                     color = primaryTextColor,
                                 )
@@ -196,17 +235,17 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     Text(
-                                        text = "10/12/2021 (BR)",
+                                        text = uiState.releaseDate,
                                         color = secondaryTextColor,
                                     )
                                     Text(text = "●", color = secondaryTextColor)
                                     Icon(
                                         painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.ic_clock),
-                                        contentDescription = "Time laps",
+                                        contentDescription = "runtime",
                                         tint = secondaryTextColor,
                                     )
                                     Text(
-                                        text = "1h 53m",
+                                        text = uiState.runtime,
                                         color = secondaryTextColor,
                                     )
                                 }
@@ -227,10 +266,12 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
                     ) {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = {
+                            // preview videos here
+                        }, enabled = uiState.videos.isNotEmpty()) {
                             Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
                         }
-                        Text("Enable collapse/expand", style = IheNkiri.typography.titleMedium)
+                        Text(uiState.title, style = IheNkiri.typography.titleMedium)
                     }
                 }
             },
@@ -244,9 +285,8 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                     TwoVerticalSpacer()
                     Text(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
-                        text = """
-            Após cumprir pena por um crime violento, Ruth volta ao convívio na sociedade, que se recusa a perdoar seu passado. Discriminada no lugar que já chamou de lar, sua única esperança é encontrar a irmã, que ela havia sido forçada a deixar para trás.
-                        """.trimIndent(),
+                        text = uiState.overview,
+                        textAlign = TextAlign.Justify,
                         color = secondaryTextColor,
                     )
 
@@ -257,71 +297,107 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                             .padding(horizontal = IheNkiri.spacing.two),
                     )
 
-                    TwoVerticalSpacer()
+                    // Main cast
+                    ThreeVerticalSpacer()
                     Text(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
+                        style = IheNkiri.typography.titleMedium,
                         text = stringResource(R.string.title_main_cast),
                     )
-                    TwoVerticalSpacer()
+                    OneVerticalSpacer()
                     LazyRow(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-                        @Suppress("MagicNumber")
-                        items(6) {
+                        items(uiState.cast) {
+                            val (firstName, lastName) = it.name.split(" ")
                             PeoplePoster(
                                 modifier = Modifier,
                                 size = 80.dp,
-                                firstName = "Sandra",
-                                lastName = "Bullock",
+                                firstName = firstName,
+                                lastName = lastName,
                                 imageUrl = ImageUtil.buildImageUrl(
-                                    path = "/lldeQ91GwIVff43JBrpdbAAeYWj.jpg",
+                                    path = it.profilePath ?: "",
                                     size = ImageUtil.Size.Profile.H632,
                                 ),
                             )
                         }
                     }
 
-                    TwoVerticalSpacer()
+                    // Crew
+                    ThreeVerticalSpacer()
                     Text(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
-                        text = stringResource(R.string.title_categories),
+                        style = IheNkiri.typography.titleMedium,
+                        text = stringResource(R.string.title_crew),
                     )
-                    TwoVerticalSpacer()
+                    OneVerticalSpacer()
                     LazyRow(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-                        @Suppress("MagicNumber")
-                        items(3) {
-                            GenreChip(text = "Drama")
+                        items(uiState.crew) {
+                            val (firstName, lastName) = it.name.split(" ")
+                            PeoplePoster(
+                                modifier = Modifier,
+                                size = 80.dp,
+                                firstName = firstName,
+                                lastName = lastName,
+                                imageUrl = ImageUtil.buildImageUrl(
+                                    path = it.profilePath ?: "",
+                                    size = ImageUtil.Size.Profile.H632,
+                                ),
+                            )
                         }
                     }
 
-                    TwoVerticalSpacer()
+                    // Categories
+                    ThreeVerticalSpacer()
                     Text(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
-                        text = stringResource(R.string.title_recommendations),
+                        style = IheNkiri.typography.titleMedium,
+                        text = stringResource(R.string.title_categories),
                     )
-                    TwoVerticalSpacer()
+                    OneAndHalfVerticalSpacer()
                     LazyRow(
                         modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
-                        @Suppress("MagicNumber")
-                        items(5) {
+                        items(uiState.categories) { GenreChip(text = it) }
+                    }
+
+                    // recommendations
+                    ThreeVerticalSpacer()
+                    Text(
+                        modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
+                        style = IheNkiri.typography.titleMedium,
+                        text = stringResource(R.string.title_recommendations),
+                    )
+                    OneVerticalSpacer()
+                    LazyRow(
+                        modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
+                        horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                    ) {
+                        items(uiState.recommendations) {
+                            val path = ImageUtil.buildImageUrl(it.posterPath)
+                            Log.d("Testing: ", "Binding: $path")
+
                             @Suppress("MagicNumber")
                             MoviePoster(
                                 modifier = Modifier
                                     .width(120.dp)
                                     .aspectRatio(0.8F),
-                                path = ImageUtil.buildImageUrl(path = "/8pjWz2lt29KyVGoq1mXYu6Br7dE.jpg"),
-                                contentDescription = "",
+                                path = path,
+                                contentDescription = it.title,
                                 shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window),
                                 onClick = {},
                             )
                         }
                     }
+
+                    SixVerticalSpacer()
+                    SixVerticalSpacer()
+                    FourVerticalSpacer()
                 }
             }
         }

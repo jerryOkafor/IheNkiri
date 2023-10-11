@@ -52,7 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
@@ -74,9 +74,8 @@ const val GRID_ITEMS_TEST_TAG = "gridItems"
 @Suppress("MagicNumber")
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun MoviesScreenPreview() {
-    @ExcludeFromJacocoGeneratedReport
     IheNkiriTheme {
         MoviesScreen(
             movies = listOf(

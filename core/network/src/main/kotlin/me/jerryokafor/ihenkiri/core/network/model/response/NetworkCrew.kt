@@ -25,6 +25,9 @@
 package me.jerryokafor.ihenkiri.core.network.model.response
 
 import com.google.gson.annotations.SerializedName
+import me.jerryokafor.core.model.Cast
+import me.jerryokafor.core.model.Crew
+import me.jerryokafor.core.model.MovieCredit
 
 data class NetworkCrew(
     val adult: Boolean,
@@ -41,7 +44,21 @@ data class NetworkCrew(
     val originalName: String,
     val popularity: Double,
     @SerializedName("profile_path")
-    val profilePath: String,
+    val profilePath: String? = "",
+)
+
+fun NetworkCrew.asDomainObject(): Crew = Crew(
+    adult = adult,
+    creditId = creditId,
+    department = department,
+    gender = gender,
+    id = id,
+    job = job,
+    knownForDepartment = knownForDepartment,
+    name = name,
+    originalName = originalName,
+    popularity = popularity,
+    profilePath = profilePath,
 )
 
 data class NetworkCast(
@@ -61,11 +78,32 @@ data class NetworkCast(
     val originalName: String,
     val popularity: Double,
     @SerializedName("profile_path")
-    val profilePath: String,
+    val profilePath: String? = "",
+)
+
+fun NetworkCast.asDomainObject(): Cast = Cast(
+    adult = adult,
+    castId = castId,
+    character = character,
+    creditId = creditId,
+    gender = gender,
+    id = id,
+    knownForDepartment = knownForDepartment,
+    name = name,
+    order = order,
+    originalName = originalName,
+    popularity = popularity,
+    profilePath = profilePath,
 )
 
 data class NetworkMovieCredit(
     val id: Int,
     val cast: List<NetworkCast> = listOf(),
     val crew: List<NetworkCrew> = listOf(),
+)
+
+fun NetworkMovieCredit.asDomainObject(): MovieCredit = MovieCredit(
+    id = id,
+    cast = cast.map { it.asDomainObject() },
+    crew = crew.map { it.asDomainObject() },
 )

@@ -48,15 +48,7 @@ android {
         }
     }
 
-    testCoverage {
-        jacocoVersion = libs.versions.jacoco.get().toString()
-    }
-
     buildTypes {
-        debug {
-            isTestCoverageEnabled = false
-        }
-
         release {
             isMinifyEnabled = false
             proguardFiles(

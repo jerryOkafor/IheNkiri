@@ -29,6 +29,8 @@ import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequ
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenSuccessResponse
+import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import javax.inject.Inject
 
 class FakeAuthApi @Inject constructor() : AuthApi {

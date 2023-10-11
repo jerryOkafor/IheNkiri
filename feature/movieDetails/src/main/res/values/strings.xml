@@ -26,4 +26,5 @@
     <string name="title_categories">Categories</string>
     <string name="title_recommendations">Recommendations</string>
     <string name="title_main_cast">Main Cast</string>
+    <string name="title_crew">Crew</string>
 </resources>

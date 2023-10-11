@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.test.data
+package me.jerryokafor.ihenkiri.core.test.util
 
 import me.jerryokafor.core.model.Movie
 

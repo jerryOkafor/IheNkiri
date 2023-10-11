@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.data.repository.MoviesRepository
 import me.jerryokafor.core.model.Movie
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
 class FakeMoviesRepository @Inject constructor() : MoviesRepository {
@@ -37,5 +38,6 @@ class FakeMoviesRepository @Inject constructor() : MoviesRepository {
     override fun popularMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
 
     override fun topRatedMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+
     override fun upcomingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
 }

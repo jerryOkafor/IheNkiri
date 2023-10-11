@@ -32,15 +32,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
-fun BackgroundPreview() {
+@ExcludeFromGeneratedCoverageReport
+private fun BackgroundPreview() {
     IheNkiriTheme {
         Background {
             Text(text = "Background")

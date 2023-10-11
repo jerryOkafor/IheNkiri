@@ -22,20 +22,35 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.model.response
+package me.jerryokafor.core.ui.components
 
-import com.google.gson.annotations.SerializedName
+import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import dagger.hilt.android.testing.HiltTestApplication
+import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
+import org.robolectric.annotation.LooperMode
 
-data class MovieListResponse(
-    @SerializedName("page")
-    val page: Int,
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
+@LooperMode(LooperMode.Mode.PAUSED)
+class TrailerButtonScreenshotTest {
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    @SerializedName("results")
-    val results: ArrayList<MovieResponse> = arrayListOf(),
-
-    @SerializedName("total_pages")
-    val totalPages: Int,
-
-    @SerializedName("total_results")
-    val totalResults: Int,
-)
+    @Test
+    fun trailerButton_multipleThemes() {
+        composeTestRule.captureMultiTheme("TrailerButton") { desc: String ->
+            Surface {
+                TrailerButton()
+            }
+        }
+    }
+}

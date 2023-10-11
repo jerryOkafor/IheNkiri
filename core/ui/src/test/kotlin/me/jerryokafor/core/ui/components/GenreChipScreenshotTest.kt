@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.components
+package me.jerryokafor.core.ui.components
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
@@ -34,7 +34,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
-import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
