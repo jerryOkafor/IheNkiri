@@ -27,7 +27,7 @@ package me.jerryokafor.ihenkiri.core.test.test.network
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.test.test.data.testMovies
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
 class FakeMoviesRemoteDataSource @Inject constructor() : MoviesRemoteDataSource {

@@ -22,20 +22,29 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.model.response
+package me.jerryokafor.ihenkiri.core.network.datasource
 
-import com.google.gson.annotations.SerializedName
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.MovieCredit
+import me.jerryokafor.core.model.MovieDetails
+import me.jerryokafor.core.model.Video
+import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
+import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
+import javax.inject.Inject
+import javax.inject.Singleton
 
-data class MovieListResponse(
-    @SerializedName("page")
-    val page: Int,
+@Singleton
+class DefaultMovieDetailsRemoteDataSource
+@Inject constructor(private val movieDetailsApi: MovieDetailsApi) : MovieDetailsRemoteDataSource {
+    override suspend fun movieDetails(movieId: Long): MovieDetails =
+        movieDetailsApi.movieDetails(movieId).asDomainObject()
 
-    @SerializedName("results")
-    val results: ArrayList<MovieResponse> = arrayListOf(),
+    override suspend fun movieCredits(movieId: Long): MovieCredit =
+        movieDetailsApi.movieCredits(movieId).asDomainObject()
 
-    @SerializedName("total_pages")
-    val totalPages: Int,
+    override suspend fun movieVideos(movieId: Long): List<Video> =
+        movieDetailsApi.movieVideos(movieId).results.map { it.asDomainObject() }
 
-    @SerializedName("total_results")
-    val totalResults: Int,
-)
+    override suspend fun similarVideos(movieId: Long): List<Movie> =
+        movieDetailsApi.similar(movieId).results.map { it.asDomainObject() }
+}

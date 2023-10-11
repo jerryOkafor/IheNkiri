@@ -28,6 +28,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -58,17 +59,19 @@ fun GenreChipPreview() {
 @Composable
 fun GenreChip(modifier: Modifier = Modifier, text: String) {
     Surface(
-        modifier = modifier,
+        modifier = modifier.wrapContentSize(),
         shape = IheNkiri.shape.pill,
         color = IheNkiri.color.tertiaryContainer,
-    ) {
-        Text(
-            modifier = Modifier.padding(
-                vertical = IheNkiri.spacing.half,
-                horizontal = IheNkiri.spacing.oneAndHalf,
-            ),
-            text = text,
-            color = contentColorFor(IheNkiri.color.tertiaryContainer),
-        )
-    }
+        content = {
+            Text(
+                modifier = Modifier
+                    .padding(
+                        vertical = IheNkiri.spacing.half,
+                        horizontal = IheNkiri.spacing.oneAndHalf,
+                    ),
+                text = text,
+                color = contentColorFor(IheNkiri.color.tertiaryContainer),
+            )
+        },
+    )
 }

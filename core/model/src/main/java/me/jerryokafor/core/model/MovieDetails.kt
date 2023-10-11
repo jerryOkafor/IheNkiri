@@ -33,10 +33,10 @@ data class SpokenLanguage(
 )
 
 data class MovieDetails(
-    val id: Int,
+    val id: Long,
     val adult: Boolean,
     val backdropPath: String,
-    val budget: Int,
+    val budget: Long,
     val genres: List<Genre> = arrayListOf(),
     val homepage: String,
     val imdbId: String,
@@ -46,7 +46,7 @@ data class MovieDetails(
     val popularity: Double,
     val posterPath: String,
     val releaseDate: String,
-    val revenue: Int,
+    val revenue: Long,
     val runtime: Int,
     val spokenLanguages: List<SpokenLanguage> = listOf(),
     val status: String,
@@ -54,5 +54,5 @@ data class MovieDetails(
     val title: String,
     val video: Boolean,
     val voteAverage: Double,
-    val voteCount: Int,
+    val voteCount: Long,
 )

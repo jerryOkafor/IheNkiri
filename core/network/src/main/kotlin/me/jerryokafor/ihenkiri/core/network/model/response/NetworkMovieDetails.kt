@@ -95,7 +95,7 @@ data class NetworkMovieDetails(
     val belongsToCollection: NetworkBelongsToCollection? = NetworkBelongsToCollection(),
 
     @SerializedName("budget")
-    val budget: Int = 0,
+    val budget: Long = 0,
 
     @SerializedName("genres")
     val genres: List<NetworkGenre> = arrayListOf(),
@@ -104,7 +104,7 @@ data class NetworkMovieDetails(
     val homepage: String = "",
 
     @SerializedName("id")
-    val id: Int = -1,
+    val id: Long,
 
     @SerializedName("imdb_id")
     val imdbId: String = "",
@@ -134,7 +134,7 @@ data class NetworkMovieDetails(
     val releaseDate: String = "",
 
     @SerializedName("revenue")
-    val revenue: Int = 0,
+    val revenue: Long = 0,
 
     @SerializedName("runtime")
     val runtime: Int = 0,
@@ -158,7 +158,7 @@ data class NetworkMovieDetails(
     val voteAverage: Double = 0.0,
 
     @SerializedName("vote_count")
-    val voteCount: Int = 0,
+    val voteCount: Long = 0,
 )
 
 fun NetworkMovieDetails.asDomainObject(): MovieDetails =

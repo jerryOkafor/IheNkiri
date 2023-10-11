@@ -33,7 +33,7 @@ import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor.Companion.AUTH_HEADER
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.test.test.network.createRequestToken
+import me.jerryokafor.ihenkiri.core.test.util.createRequestToken
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After

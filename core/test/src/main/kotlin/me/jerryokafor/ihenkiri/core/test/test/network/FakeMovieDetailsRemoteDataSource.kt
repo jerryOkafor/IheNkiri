@@ -22,18 +22,24 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.common.outcome
+package me.jerryokafor.ihenkiri.core.test.test.network
 
-/**
- * Called when the given request fails to make a request
- *
- * @property errorResponse is the  error message returned
- * @property errorCode is the HTTP error code
- *
- * @property throwable exception stack trace if the failure resulted from an exception
- */
-data class Failure(
-    val errorResponse: String,
-    val errorCode: Int = -1,
-    val throwable: Throwable? = null,
-) : Outcome<Nothing>()
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.MovieCredit
+import me.jerryokafor.core.model.MovieDetails
+import me.jerryokafor.core.model.Video
+import me.jerryokafor.ihenkiri.core.network.datasource.MovieDetailsRemoteDataSource
+import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData.testMovieCredit
+import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData.testMovieDetails
+import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData.testMovieVideos
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
+
+class FakeMovieDetailsRemoteDataSource : MovieDetailsRemoteDataSource {
+    override suspend fun movieDetails(movieId: Long): MovieDetails = testMovieDetails(movieId)
+
+    override suspend fun movieCredits(movieId: Long): MovieCredit = testMovieCredit(movieId)
+
+    override suspend fun movieVideos(movieId: Long): List<Video> = testMovieVideos(movieId)
+
+    override suspend fun similarVideos(movieId: Long): List<Movie> = testMovies()
+}

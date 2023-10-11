@@ -25,19 +25,19 @@
 package me.jerryokafor.core.common.outcome
 
 /**
- * Called when the given request is successfully
+ * Called when the given request is successful.
  *
- * @param T Object Type
- * @property response Object requested from backend
+ * @param T is object Type
+ * @property data is the object requested from backend
  */
-open class Success<out T>(val response: T) : Outcome<T>() {
-    operator fun invoke(): T = response
+open class Success<out T>(val data: T) : Outcome<T>() {
+    operator fun invoke(): T = data
 
     override fun equals(other: Any?): Boolean {
-        return (other as? Success<*>)?.response?.equals(this.response) == true
+        return (other as? Success<*>)?.data?.equals(this.data) == true
     }
 
     override fun hashCode(): Int {
-        return response?.hashCode() ?: 0
+        return data?.hashCode() ?: 0
     }
 }

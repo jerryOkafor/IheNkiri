@@ -26,18 +26,27 @@ package me.jerryokafor.ihenkiri.core.test.test.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.core.common.outcome.Outcome
+import me.jerryokafor.core.common.outcome.Success
+import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.MovieCredit
+import me.jerryokafor.core.model.MovieDetails
+import me.jerryokafor.core.model.Video
+import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
-class FakeMoviesRepository @Inject constructor() : MoviesRepository {
-    override fun nowPlayingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+class FakeMovieDetailsRepository @Inject constructor() : MovieDetailsRepository {
+    override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> =
+        flowOf(Success(MovieDetailsTestData.testMovieDetails(0L)))
 
-    override fun popularMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override fun movieCredits(movieId: Long): Flow<Outcome<MovieCredit>> =
+        flowOf(Success(MovieDetailsTestData.testMovieCredit(0L)))
 
-    override fun topRatedMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override fun movieVideos(movieId: Long): Flow<Outcome<List<Video>>> =
+        flowOf(Success(MovieDetailsTestData.testMovieVideos(0L)))
 
-    override fun upcomingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> =
+        flowOf(Success(testMovies()))
 }

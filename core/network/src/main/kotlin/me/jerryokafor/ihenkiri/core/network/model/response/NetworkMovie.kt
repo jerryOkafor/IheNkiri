@@ -27,15 +27,15 @@ package me.jerryokafor.ihenkiri.core.network.model.response
 import com.google.gson.annotations.SerializedName
 import me.jerryokafor.core.model.Movie
 
-data class MovieResponse(
+data class NetworkMovie(
     @SerializedName("adult")
     val adult: Boolean,
 
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String? = null,
 
     @SerializedName("genre_ids")
-    val genreIds: ArrayList<Int> = arrayListOf(),
+    val genreIds: List<Int> = listOf(),
 
     @SerializedName("id")
     val id: Long,
@@ -71,7 +71,7 @@ data class MovieResponse(
     val voteCount: Int,
 )
 
-fun MovieResponse.toMovie() = Movie(
+fun NetworkMovie.asDomainObject() = Movie(
     id = this.id,
     title = this.title,
     overview = this.overview,
@@ -80,7 +80,7 @@ fun MovieResponse.toMovie() = Movie(
     voteAverage = this.voteAverage,
 )
 
-fun MovieResponse.equalsMovie(movie: Movie): Boolean =
+fun NetworkMovie.equalsMovie(movie: Movie): Boolean =
     id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
         backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
         overview == movie.overview

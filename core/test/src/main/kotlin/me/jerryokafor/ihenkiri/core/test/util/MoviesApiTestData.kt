@@ -22,16 +22,16 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.test.network
+package me.jerryokafor.ihenkiri.core.test.util
 
-import me.jerryokafor.ihenkiri.core.network.model.response.MovieListResponse
-import me.jerryokafor.ihenkiri.core.network.model.response.MovieResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieList
 
 fun testMoviesListResponse() =
-    MovieListResponse(page = 1, results = testMoviesResponse(), totalResults = 7, totalPages = 1)
+    NetworkMovieList(page = 1, results = testMoviesResponse(), totalResults = 7, totalPages = 1)
 
 fun testMoviesResponse() = arrayListOf(
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         genreIds = arrayListOf(
@@ -56,7 +56,7 @@ fun testMoviesResponse() = arrayListOf(
         voteAverage = 7.5,
         voteCount = 2747,
     ),
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         genreIds = arrayListOf(
@@ -82,7 +82,7 @@ fun testMoviesResponse() = arrayListOf(
         voteAverage = 7.0,
         voteCount = 2305,
     ),
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/rRcNmiH55Tz0ugUsDUGmj8Bsa4V.jpg",
         genreIds = arrayListOf(
@@ -106,7 +106,7 @@ fun testMoviesResponse() = arrayListOf(
         voteAverage = 0.0,
         voteCount = 1,
     ),
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
         genreIds = arrayListOf(
@@ -130,7 +130,7 @@ fun testMoviesResponse() = arrayListOf(
         voteAverage = 7.5,
         voteCount = 3013,
     ),
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/zN41DPmPhwmgJjHwezALdrdvD0h.jpg",
         genreIds = arrayListOf(
@@ -155,7 +155,7 @@ fun testMoviesResponse() = arrayListOf(
         voteCount = 446,
     ),
 
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/jZIYaISP3GBSrVOPfrp98AMa8Ng.jpg",
         genreIds = arrayListOf(
@@ -181,7 +181,7 @@ fun testMoviesResponse() = arrayListOf(
         voteAverage = 7.7,
         voteCount = 877,
     ),
-    MovieResponse(
+    NetworkMovie(
         adult = false,
         backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         genreIds = arrayListOf(

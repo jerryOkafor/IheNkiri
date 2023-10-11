@@ -28,11 +28,11 @@ import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.test.test.network.createAccessTokenRequest
-import me.jerryokafor.ihenkiri.core.test.test.network.createAccessTokenSuccessResponse
-import me.jerryokafor.ihenkiri.core.test.test.network.createRequestToken
-import me.jerryokafor.ihenkiri.core.test.test.network.createRequestTokenSuccessResponse
 import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil.createMockedService
+import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenRequest
+import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenSuccessResponse
+import me.jerryokafor.ihenkiri.core.test.util.createRequestToken
+import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

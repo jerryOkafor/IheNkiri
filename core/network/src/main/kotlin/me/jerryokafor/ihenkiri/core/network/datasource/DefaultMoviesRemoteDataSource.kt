@@ -25,7 +25,7 @@
 package me.jerryokafor.ihenkiri.core.network.datasource
 
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.network.model.response.toMovie
+import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
 import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,23 +37,23 @@ class DefaultMoviesRemoteDataSource @Inject constructor(val moviesApi: MoviesApi
         language = query.language,
         page = query.page,
         region = query.region,
-    ).results.map { it.toMovie() }
+    ).results.map { it.asDomainObject() }
 
     override suspend fun popularMovies(query: MoviesQuery): List<Movie> = moviesApi.popular(
         language = query.language,
         page = query.page,
         region = query.region,
-    ).results.map { it.toMovie() }
+    ).results.map { it.asDomainObject() }
 
     override suspend fun topRatedMovies(query: MoviesQuery): List<Movie> = moviesApi.topRated(
         language = query.language,
         page = query.page,
         region = query.region,
-    ).results.map { it.toMovie() }
+    ).results.map { it.asDomainObject() }
 
     override suspend fun upcomingMovies(query: MoviesQuery): List<Movie> = moviesApi.upcoming(
         language = query.language,
         page = query.page,
         region = query.region,
-    ).results.map { it.toMovie() }
+    ).results.map { it.asDomainObject() }
 }

@@ -22,18 +22,31 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.common.outcome
+package me.jerryokafor.feature.moviedetails
 
-/**
- * Called when the given request fails to make a request
- *
- * @property errorResponse is the  error message returned
- * @property errorCode is the HTTP error code
- *
- * @property throwable exception stack trace if the failure resulted from an exception
- */
-data class Failure(
-    val errorResponse: String,
-    val errorCode: Int = -1,
-    val throwable: Throwable? = null,
-) : Outcome<Nothing>()
+import android.os.Build
+import androidx.compose.ui.test.junit4.createComposeRule
+import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetailViewModel
+import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
+internal class MoviesDetailsTest {
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    @Test
+    fun `moviesDetails`() {
+        composeTestRule.setContent {
+            MoviesDetails(uiState = MoviesDetailViewModel.UIState())
+        }
+    }
+}

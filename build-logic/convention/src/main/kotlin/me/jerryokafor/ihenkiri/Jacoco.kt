@@ -97,19 +97,16 @@ internal fun Project.configureJacoco(
     commonExtension.apply {
         buildTypes {
             getByName("debug") {
-                // allow coverage report only on debug build types
-                enableUnitTestCoverage = true
-                enableAndroidTestCoverage = true
+                enableUnitTestCoverage = true // (project.hasProperty("coverage"))
+                enableAndroidTestCoverage = true // (project.hasProperty("coverage"))
             }
         }
     }
 
     androidComponentsExtension.onVariants { variant ->
         // set up for all variants
-        // original test task name for yhe given variant
+        // original test task name for the given variant
         val testTaskName = "test${variant.name.capitalize()}UnitTest"
-
-//        val androidTestCoverageTask = "create${variant.name.capitalize()}CoverageReport"
 
         // register variants report task
         val coverageTaskName = "${testTaskName}Coverage"
@@ -121,9 +118,6 @@ internal fun Project.configureJacoco(
                 description =
                     "Generate Jacoco coverage reports for the ${variant.name.capitalize()} build."
 
-                // run this task after the testTask has finished running
-                dependsOn(testTaskName)
-
                 // configure output formats
                 reports {
                     xml.required.set(true)
@@ -131,7 +125,7 @@ internal fun Project.configureJacoco(
                 }
 
                 classDirectories.setFrom(
-                    fileTree("${layout.buildDirectory}/tmp/kotlin-classes/${variant.name}") {
+                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
                         exclude(coverageExclusions)
                     },
                 )
@@ -148,15 +142,10 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
-                    files(
-                        // Unit tests coverage data
-                        "${layout.buildDirectory}/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
-                        "${layout.buildDirectory}/jacoco/*.exec",
-                        // Instrumented tests coverage data
-                        fileTree("$rootDir/androidTest/build/outputs/code_coverage/${variant.name}/connected/") {
-                            include("**/*.ec")
-                        },
-                    ),
+                    files("$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"),
+                    fileTree("${layout.buildDirectory}/outputs/code_coverage") {
+                        include("*.ec")
+                    },
                 )
             }
 
