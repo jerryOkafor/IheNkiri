@@ -61,6 +61,7 @@ class MoviesDetailViewModel
 
                         @Suppress("MagicNumber")
                         val hrs = movieDetails.runtime / 60
+
                         @Suppress("MagicNumber")
                         val mins = movieDetails.runtime.rem(60)
                         val formattedRuntime =
