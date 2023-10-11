@@ -50,15 +50,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
-fun MovieRatingPreview() {
+@ExcludeFromGeneratedCoverageReport
+private fun MovieRatingPreview() {
     IheNkiriTheme {
         Box(
             modifier = Modifier
@@ -82,9 +82,7 @@ fun MovieRating(
     rating: Float,
     strokeWidth: Dp = 6.dp,
     textStyle: TextStyle = IheNkiri.typography.titleSmall,
-    textColor: Color = contentColorFor(
-        backgroundColor = IheNkiri.color.inverseOnSurface,
-    ),
+    textColor: Color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
 ) {
     var progress by remember { mutableStateOf(0f) }
     val progressAnimation by animateFloatAsState(

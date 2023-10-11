@@ -35,7 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.model.MovieListFilterItem
@@ -43,7 +43,7 @@ import me.jerryokafor.core.model.MovieListFilterItem
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme", showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme", showBackground = true)
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 private fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(

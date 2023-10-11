@@ -33,19 +33,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ui.R
 
-@ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ThemePreviews
+@ExcludeFromGeneratedCoverageReport
 fun TrailerButtonPreview() {
-    IheNkiriTheme {
-        TrailerButton()
-    }
+    IheNkiriTheme(content = { TrailerButton() })
 }
 
 @Composable

@@ -91,7 +91,7 @@ import coil.request.ImageRequest
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.coroutines.delay
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.FourVerticalSpacer
@@ -113,7 +113,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
         MoviesDetails(uiState = MoviesDetailViewModel.UIState())

@@ -36,15 +36,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
-fun GenreChipPreview() {
+@ExcludeFromGeneratedCoverageReport
+private fun GenreChipPreview() {
     IheNkiriTheme {
         Box(
             modifier = Modifier

@@ -31,7 +31,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
 import me.jerryokafor.ihenkiri.ui.MoreScree
@@ -40,7 +40,7 @@ import me.jerryokafor.ihenkiri.ui.TvShowScreen
 import me.jerryokafor.ihenkiri.ui.screens.SearchView
 
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun HomeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,

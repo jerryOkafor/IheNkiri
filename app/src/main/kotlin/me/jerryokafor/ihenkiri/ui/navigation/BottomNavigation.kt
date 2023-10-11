@@ -51,7 +51,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -61,7 +61,7 @@ const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
 @ThemePreviews
 @Composable
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 fun BottomNavigationPreview() {
     IheNkiriTheme {
         Row(modifier = Modifier.padding(IheNkiri.spacing.two)) {

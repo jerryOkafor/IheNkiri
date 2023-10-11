@@ -45,7 +45,7 @@ import coil.request.ImageRequest
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
-import me.jerryokafor.core.common.annotation.ExcludeFromJacocoGeneratedReport
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -53,10 +53,10 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 const val MOVIE_POSTER_TEST_TAG = "movie_poster"
 private const val SIZE_ASPECT_RATIO = 0.8F
 
-@ExcludeFromJacocoGeneratedReport
+@ExcludeFromGeneratedCoverageReport
 @ThemePreviews
 @Composable
-fun PosterPreview() {
+private fun PosterPreview() {
     IheNkiriTheme {
         Column(
             modifier = Modifier
