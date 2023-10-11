@@ -127,7 +127,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build AndroidTest apps
-        run: ./gradlew -Pcoverage :androidTest:assembleDebug :androidTest:assembleDebugAndroidTest --daemon
+        run: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --daemon
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
