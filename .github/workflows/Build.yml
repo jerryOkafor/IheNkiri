@@ -74,11 +74,11 @@ jobs:
 
         #Add more codes
 
-      - name: Check lint
-        run: ./gradlew lintDebug
-
       - name: Run local tests with coverage
         run: ./gradlew testDebugUnitTest
+
+      - name: Check lint
+        run: ./gradlew lintDebug
 
   #      - name: Upload build outputs (APKs)
   #        uses: actions/upload-artifact@v3
@@ -102,6 +102,7 @@ jobs:
 
 
   android_test:
+    name: Run Android Tests
     needs: [ verify_code_quality,build_test_check ]
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
     timeout-minutes: 55
@@ -126,7 +127,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build AndroidTest apps
-        run: ./gradlew -Pcoverage :androidTest:packageDebug :androidTest:packageDebugAndroidTest --daemon
+        run: ./gradlew -Pcoverage :androidTest:assembleDebug :androidTest:assembleDebugAndroidTest --daemon
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -139,9 +140,9 @@ jobs:
           script: ./gradlew :androidTest:connectedDebugAndroidTest --daemon
 
       - name: Run all local screenshot tests (Roborazzi)
-        id: screenshotsverify
+        id: verify-screen-shorts
         continue-on-error: true
-        run: ./gradlew :screenshotTest:verifyRoborazziDebug
+        run: ./gradlew verifyRoborazziDebug
 
       - name: Generate androidTest Coverage Report
         run: ./gradlew jacocoTestCoverageReport

@@ -42,6 +42,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "IheNkiri"
 include(":app")
+// Core
 include(":core:network")
 include(":core:model")
 include(":core:domain")
@@ -49,11 +50,11 @@ include(":core:ui")
 include(":core:ds")
 include(":core:data")
 include(":core:common")
-include(":feature:movies")
 include(":core:test")
 include(":androidTest")
 include(":ui-test-hilt-manifest")
 include(":lint")
+
+// Features
+include(":feature:movies")
 include(":feature:movieDetails")
-include(":core:ui:uipresenter")
-include(":screenshotTest")

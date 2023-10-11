@@ -22,12 +22,18 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.components
+package me.jerryokafor.core.ui.components
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.unit.dp
 import dagger.hilt.android.testing.HiltTestApplication
-import me.jerryokafor.core.ui.components.Background
+import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
@@ -41,14 +47,20 @@ import org.robolectric.annotation.LooperMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
-class BackgroundScreenshotTest {
+class GenreChipScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun genreChip_multipleThemes() {
-        composeTestRule.captureMultiTheme("Background") { desc: String ->
-            Background {}
+        composeTestRule.captureMultiTheme("GenreChip") { desc: String ->
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(IheNkiri.color.surface),
+            ) {
+                GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
+            }
         }
     }
 }

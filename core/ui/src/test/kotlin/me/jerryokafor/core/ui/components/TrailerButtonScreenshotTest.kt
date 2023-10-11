@@ -22,19 +22,12 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screenshotTest.components
+package me.jerryokafor.core.ui.components
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.unit.dp
 import dagger.hilt.android.testing.HiltTestApplication
-import me.jerryokafor.core.ds.theme.IheNkiri
-import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
@@ -48,19 +41,15 @@ import org.robolectric.annotation.LooperMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
-class GenreChipScreenshotTest {
+class TrailerButtonScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun genreChip_multipleThemes() {
-        composeTestRule.captureMultiTheme("GenreChip") { desc: String ->
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .background(IheNkiri.color.surface),
-            ) {
-                GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
+    fun trailerButton_multipleThemes() {
+        composeTestRule.captureMultiTheme("TrailerButton") { desc: String ->
+            Surface {
+                TrailerButton()
             }
         }
     }

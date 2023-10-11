@@ -22,21 +22,20 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.common.annotation
+package me.jerryokafor.core.common.annotation;
 
-/**
- * Annotation to exclude targets from Jacoco test coverage report
- */
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@MustBeDocumented
-@Retention(AnnotationRetention.SOURCE)
-@Target(
-    AnnotationTarget.TYPE,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.CLASS,
-    AnnotationTarget.CONSTRUCTOR,
-    AnnotationTarget.EXPRESSION,
-)
-annotation class ExcludeFromJacocoGeneratedReport
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-// https://www.youtube.com/watch?v=CIp-fOsf3JI
+@Documented
+@Retention(RUNTIME)
+@Target({TYPE, METHOD, CONSTRUCTOR,PARAMETER})
+public @interface ExcludeFromJacocoGeneratedReport {
+}

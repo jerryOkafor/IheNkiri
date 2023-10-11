@@ -181,28 +181,28 @@ we have the following tests on **IheNkiri**
 Generate screenshots
 
 ```bash
-./gradlew :screenshotTest:recordRoborazziDebug
+./gradlew recordRoborazziDebug
 
 ```
 
 Compare screenshots
 
 ```bash
-./gradlew :screenshotTest:compareRoborazziDebug
+./gradlew compareRoborazziDebug
 
 ```
 
 Verify screenshots
 
 ```bash
-./gradlew :screenshotTest:verifyRoborazziDebug
+./gradlew verifyRoborazziDebug
 
 ```
 
 Verify & record screenshots
 
 ```bash
-./gradlew :screenshotTest:verifyAndRecordRoborazziDebug
+./gradlew verifyAndRecordRoborazziDebug
 
 ```
 
@@ -223,8 +223,3 @@ We use Roborazzi to achieve this screenshot testing.
 
 **IheNkiri** is didtributed under the terms of the MIT License. See the [License](LICENSE) for more
 details.
-
-
-curl -Os https://uploader.codecov.io/latest/macos/codecov
-chmod +x codecov
-./codecov -f '**/build/reports/jacoco/test*UnitTestCoverage/**.xml' -t '8ea24729-59c9-4cd6-9a96-e715857e7d99'
