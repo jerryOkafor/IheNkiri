@@ -6,10 +6,10 @@ on:
       - main
     pull_request:
 
-  paths:
-    - "!docs/**"
-    - "!doc/**"
-    - ".github/workflows/Build.yml"
+    paths:
+      - "!docs/**"
+      - "!doc/**"
+      - ".github/workflows/Build.yml"
 
 concurrency:
   group: build-${{ github.ref }}
