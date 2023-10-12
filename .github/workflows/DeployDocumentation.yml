@@ -30,8 +30,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Build job
   build:
+    name: Build Docs Site
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -50,17 +50,23 @@ jobs:
       - name: Install Dependencies
         run: bundle install
 
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
+
       - name: Build with Jekyll
-        # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v1
+        with:
+          path: "docs/_site/"
 
   # Deployment job
   deploy:
+    name: Deploy Docs to Github Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
