@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request:
-
   paths:
     - "!docs/**"
+  pull_request:
+
+
 
 concurrency:
   group: build-${{ github.ref }}

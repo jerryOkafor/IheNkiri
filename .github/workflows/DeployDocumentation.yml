@@ -13,6 +13,7 @@ on:
 
     paths:
       - "docs/**"
+      - ".github/workflows/DeployDocumentation.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
