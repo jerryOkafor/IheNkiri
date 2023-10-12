@@ -6,14 +6,14 @@ on:
       - main
   paths:
     - "!docs/**"
+    - "!doc/**"
+    - ".github/workflows/Build.yml"
+
   pull_request:
-
-
 
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
-
 
 jobs:
   verify_code_quality:
