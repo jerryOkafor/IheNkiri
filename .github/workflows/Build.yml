@@ -74,11 +74,11 @@ jobs:
 
         #Add more codes
 
-      - name: Run local tests with coverage
-        run: ./gradlew testDebugUnitTest
-
       - name: Check lint
         run: ./gradlew lintDebug
+
+      - name: Run local tests with coverage
+        run: ./gradlew testDebugUnitTest
 
       - name: Generate androidTest Coverage Report
         run: ./gradlew jacocoTestCoverageReport
@@ -112,7 +112,7 @@ jobs:
 
 
   android_test:
-    name: Run Android Tests
+    name: Android Tests
     needs: [ verify_code_quality,build_test_check ]
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
     timeout-minutes: 55
