@@ -74,11 +74,21 @@ jobs:
 
         #Add more codes
 
+      - name: Check lint
+        run: ./gradlew lintDebug
+
       - name: Run local tests with coverage
         run: ./gradlew testDebugUnitTest
 
-      - name: Check lint
-        run: ./gradlew lintDebug
+      - name: Generate androidTest Coverage Report
+        run: ./gradlew jacocoTestCoverageReport
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: "**/build/reports/jacoco/test*UnitTestCoverage/**.xml"
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   #      - name: Upload build outputs (APKs)
   #        uses: actions/upload-artifact@v3
@@ -102,7 +112,7 @@ jobs:
 
 
   android_test:
-    name: Run Android Tests
+    name: Android Tests
     needs: [ verify_code_quality,build_test_check ]
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
     timeout-minutes: 55

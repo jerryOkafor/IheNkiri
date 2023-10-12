@@ -7,6 +7,9 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/emulatorDisplays.xml
+/.idea/migrations.xml
 .DS_Store
 /build
 /captures
@@ -18,3 +21,9 @@ local.properties
 build-logic/build
 build-logic/convention/build
 /secrets.properties
+
+# docs
+docs/_site
+
+# code cov
+/codecov

@@ -97,8 +97,8 @@ internal fun Project.configureJacoco(
     commonExtension.apply {
         buildTypes {
             getByName("debug") {
-                enableUnitTestCoverage = true // (project.hasProperty("coverage"))
-                enableAndroidTestCoverage = true // (project.hasProperty("coverage"))
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = (project.hasProperty("coverage"))
             }
         }
     }
@@ -143,7 +143,7 @@ internal fun Project.configureJacoco(
                 // set outputs
                 executionData.setFrom(
                     files("$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"),
-                    fileTree("${layout.buildDirectory}/outputs/code_coverage") {
+                    fileTree("$buildDir/outputs/code_coverage") {
                         include("*.ec")
                     },
                 )
