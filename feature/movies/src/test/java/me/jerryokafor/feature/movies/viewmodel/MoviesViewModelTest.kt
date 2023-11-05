@@ -29,7 +29,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
-import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
@@ -43,7 +43,7 @@ class MoviesViewModelTest {
 
     private lateinit var moviesViewModel: MoviesViewModel
 
-    private val moviesRepository = mockk<MoviesRepository>(relaxed = true) {
+    private val moviesRepository = mockk<MovieListRepository>(relaxed = true) {
         coEvery { nowPlayingMovies(any()) } returns flow { testMovies() }
         coEvery { popularMovies(any()) } returns flow { testMovies() }
         coEvery { topRatedMovies(any()) } returns flow { testMovies() }

@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.MovieListFilterItem
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme", showBackground = true)
@@ -84,6 +85,7 @@ fun MovieListFilter(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
     ) {
+        item { TwoAndHalfHorizontalSpacer() }
         items(filters) {
             FilterChip(
                 selected = it.isSelected,
@@ -91,6 +93,7 @@ fun MovieListFilter(
                 label = { Text(text = it.label) },
                 shape = IheNkiri.shape.pill,
                 colors = FilterChipDefaults.filterChipColors(
+                    containerColor = IheNkiri.color.primary,
                     labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
                 ),
                 border = FilterChipDefaults.filterChipBorder(
@@ -98,5 +101,6 @@ fun MovieListFilter(
                 ),
             )
         }
+        item { TwoAndHalfHorizontalSpacer() }
     }
 }

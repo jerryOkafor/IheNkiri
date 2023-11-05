@@ -32,7 +32,7 @@ import kotlinx.coroutines.test.runTest
 import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 import me.jerryokafor.ihenkiri.core.network.model.response.equalsMovie
-import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
+import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import me.jerryokafor.ihenkiri.core.test.util.testMoviesListResponse
 import me.jerryokafor.ihenkiri.core.test.util.testMoviesResponse
 import org.junit.Before
@@ -40,7 +40,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultMoviesRemoteDataSourceTest {
-    private val moviesApi = mockk<MoviesApi>()
+    private val moviesApi = mockk<MovieListApi>()
     private lateinit var moviesRemoteDataSource: DefaultMoviesRemoteDataSource
     private val query = MoviesQuery(language = "en-US", page = 1, region = null)
 

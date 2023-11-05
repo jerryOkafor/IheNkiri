@@ -26,12 +26,12 @@ package me.jerryokafor.ihenkiri.core.network.datasource
 
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
-import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
+import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultMoviesRemoteDataSource @Inject constructor(val moviesApi: MoviesApi) :
+class DefaultMoviesRemoteDataSource @Inject constructor(val moviesApi: MovieListApi) :
     MoviesRemoteDataSource {
     override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = moviesApi.nowPlaying(
         language = query.language,

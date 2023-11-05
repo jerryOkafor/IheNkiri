@@ -117,8 +117,10 @@ fun PeoplePoster(
                         shape = CircleShape,
                     )
                     .clip(CircleShape),
-                contentScale = ContentScale.Crop,
-                model = ImageRequest.Builder(LocalContext.current).data(imageUrl).crossfade(true)
+                contentScale = ContentScale.Inside,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .crossfade(true)
                     .build(),
                 contentDescription = firstName,
             ) {
@@ -135,12 +137,13 @@ fun PeoplePoster(
                     }
 
                     is AsyncImagePainter.State.Loading ->
-
                         CircularProgressIndicator(
                             modifier = Modifier
+                                .size(24.dp)
                                 .align(Alignment.Center)
                                 .padding(IheNkiri.spacing.twoAndaHalf),
                             strokeCap = StrokeCap.Round,
+                            strokeWidth = 1.dp,
                         )
 
                     is AsyncImagePainter.State.Success -> SubcomposeAsyncImageContent()

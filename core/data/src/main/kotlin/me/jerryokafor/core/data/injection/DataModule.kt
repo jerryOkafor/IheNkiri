@@ -29,15 +29,15 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
-import me.jerryokafor.core.data.repository.DefaultMoviesRepository
+import me.jerryokafor.core.data.repository.DefaultMovieListRepository
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
-import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.core.data.repository.MovieListRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
     @Binds
-    fun provideMoviesRepository(moviesRepository: DefaultMoviesRepository): MoviesRepository
+    fun provideMoviesRepository(moviesRepository: DefaultMovieListRepository): MovieListRepository
 
     @Binds
     fun provideMovieDetailsRepository(movieDetailsRepository: DefaultMovieDetailsRepository): MovieDetailsRepository

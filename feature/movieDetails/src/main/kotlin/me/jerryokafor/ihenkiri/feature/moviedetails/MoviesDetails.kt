@@ -48,6 +48,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -61,6 +62,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -116,15 +118,19 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
-        MoviesDetails(uiState = MoviesDetailViewModel.UIState())
+        MoviesDetails(uiState = MoviesDetailViewModel.UIState(), onBackPress = {})
     }
 }
 
 @Composable
 @Suppress("UnusedPrivateMember")
-fun MoviesDetails(viewModel: MoviesDetailViewModel = hiltViewModel(), movieId: Long) {
+fun MoviesDetails(
+    viewModel: MoviesDetailViewModel = hiltViewModel(),
+    movieId: Long,
+    onBackPress: () -> Unit,
+) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    MoviesDetails(uiState = uiState.value)
+    MoviesDetails(uiState = uiState.value, onBackPress = onBackPress)
 
     LaunchedEffect(movieId) {
         viewModel.setMovieId(movieId)
@@ -133,7 +139,7 @@ fun MoviesDetails(viewModel: MoviesDetailViewModel = hiltViewModel(), movieId: L
 
 @Composable
 @Suppress("UnusedPrivateMember")
-fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
+fun MoviesDetails(uiState: MoviesDetailViewModel.UIState, onBackPress: () -> Unit) {
     var showBottomAppBar by remember { mutableStateOf(false) }
     val primaryTextColor = contentColorFor(IheNkiri.color.inverseOnSurface)
 
@@ -145,7 +151,6 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
 
     val view = LocalView.current
     val window = (view.context as Activity).window
-
     LaunchedEffect(drawable) {
         drawable?.let {
             Palette.Builder(it.toBitmap())
@@ -156,10 +161,7 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         CollapsingToolbarScaffold(
             modifier = Modifier.fillMaxSize(),
             state = state,
@@ -266,10 +268,20 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
                     ) {
-                        IconButton(onClick = {
-                            // preview videos here
-                        }, enabled = uiState.videos.isNotEmpty()) {
-                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Surface(
+                            modifier = Modifier.padding(IheNkiri.spacing.one),
+                            color = Color.LightGray.copy(alpha = 0.3F),
+                            shape = CircleShape,
+                        ) {
+                            IconButton(
+                                onClick = onBackPress,
+                                enabled = uiState.videos.isNotEmpty(),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "Back",
+                                )
+                            }
                         }
                         Text(uiState.title, style = IheNkiri.typography.titleMedium)
                     }
@@ -386,7 +398,7 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState) {
                             MoviePoster(
                                 modifier = Modifier
                                     .width(120.dp)
-                                    .aspectRatio(0.8F),
+                                    .aspectRatio(0.7F),
                                 path = path,
                                 contentDescription = it.title,
                                 shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window),

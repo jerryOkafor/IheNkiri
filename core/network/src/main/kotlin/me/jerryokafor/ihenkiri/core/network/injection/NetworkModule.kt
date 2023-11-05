@@ -46,7 +46,7 @@ import me.jerryokafor.ihenkiri.core.network.datasource.MovieDetailsRemoteDataSou
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
-import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
+import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -115,7 +115,7 @@ object NetworkModule {
 
     @[Provides Singleton]
     fun provideMoviesRemoteDataSource(
-        moviesApi: MoviesApi,
+        moviesApi: MovieListApi,
     ): MoviesRemoteDataSource = DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
     @[Provides Singleton]
@@ -128,7 +128,7 @@ object NetworkModule {
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
     @[Provides Singleton]
-    fun provideMoviesApi(retrofit: Retrofit): MoviesApi = retrofit.create(MoviesApi::class.java)
+    fun provideMoviesApi(retrofit: Retrofit): MovieListApi = retrofit.create(MovieListApi::class.java)
 
     @[Provides Singleton]
     fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi =

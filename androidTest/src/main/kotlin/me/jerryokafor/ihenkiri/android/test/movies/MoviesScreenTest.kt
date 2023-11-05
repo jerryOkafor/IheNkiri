@@ -88,11 +88,10 @@ class MoviesScreenTest {
             MoviesScreen(
                 loading = false,
                 filters = filters,
-                movies = testMovies(),
+                movieLazyPagingItems = testMovies(),
                 onSearchClick = { onSearchClickCounter++ },
                 onMovieClick = { onMovieClickCounter++ },
-                onFilterItemSelected = { onFilterItemSelectedCounter++ },
-            )
+            ) { onFilterItemSelectedCounter++ }
         }
     }
 

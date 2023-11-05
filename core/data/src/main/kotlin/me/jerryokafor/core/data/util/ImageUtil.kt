@@ -71,6 +71,6 @@ object ImageUtil {
         }
     }
 
-    fun buildImageUrl(path: String, size: Size = Size.Original): String =
+    fun buildImageUrl(path: String?, size: Size = Size.Original): String =
         "https://image.tmdb.org/t/p/${size.value}/$path"
 }

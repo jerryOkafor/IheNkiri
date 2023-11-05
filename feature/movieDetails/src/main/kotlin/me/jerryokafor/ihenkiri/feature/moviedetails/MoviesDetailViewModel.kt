@@ -85,10 +85,10 @@ class MoviesDetailViewModel
                 movieDetailsRepository.movieCredits(movieId)
                     .onSuccess { movieCredit ->
                         Log.d("TestIng: ", "$movieCredit")
-                        _uiState.update {
-                            it.copy(
-                                cast = movieCredit.cast,
-                                crew = movieCredit.crew,
+                        _uiState.update { state ->
+                            state.copy(
+                                cast = movieCredit.cast.distinctBy { it.name },
+                                crew = movieCredit.crew.distinctBy { it.name },
                             )
                         }
                     }

@@ -46,7 +46,7 @@ class MoviesRepositoryTest {
     private val moviesRemoteDataSource = mockk<MoviesRemoteDataSource>(relaxed = true)
     private val testFilter = MoviesFilter(language = "en-US", page = 1, region = null)
 
-    private lateinit var moviesRepository: MoviesRepository
+    private lateinit var moviesRepository: MovieListRepository
 
     @Before
     fun setUp() {
@@ -55,7 +55,7 @@ class MoviesRepositoryTest {
         coEvery { moviesRemoteDataSource.topRatedMovies(any()) } returns testMovies()
         coEvery { moviesRemoteDataSource.upcomingMovies(any()) } returns testMovies()
 
-        moviesRepository = DefaultMoviesRepository(moviesRemoteDataSource, testDispatcher)
+        moviesRepository = DefaultMovieListRepository(moviesRemoteDataSource, testDispatcher)
     }
 
     @Test

@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
-    pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "doc/**"
 
-    paths:
-      - "!docs/**"
-      - "!doc/**"
-      - ".github/workflows/Build.yml"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "doc/**"
 
 concurrency:
   group: build-${{ github.ref }}

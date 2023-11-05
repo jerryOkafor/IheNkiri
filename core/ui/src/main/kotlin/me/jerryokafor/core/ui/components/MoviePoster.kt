@@ -81,7 +81,7 @@ private fun PosterPreview() {
 @Composable
 fun MoviePoster(
     modifier: Modifier = Modifier,
-    path: String,
+    path: String?,
     contentDescription: String,
     shimmer: Shimmer,
     onClick: () -> Unit,

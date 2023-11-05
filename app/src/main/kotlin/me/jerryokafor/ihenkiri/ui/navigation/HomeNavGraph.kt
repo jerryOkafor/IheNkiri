@@ -60,9 +60,6 @@ fun HomeNavGraph(
             popExitTransition = popExitTransition,
         ) {
             MoviesScreen(
-                onSearchClick = {
-                    navController.navigate(TopLevelDestinations.SearchView.route)
-                },
                 onMovieClick = {
                     navController.navigate("/movie/$it")
                 },
@@ -107,7 +104,12 @@ fun HomeNavGraph(
             route = TopLevelDestinations.MovieDetail.route,
             arguments = listOf(navArgument("movieId") { type = NavType.LongType }),
         ) { backStackEntry ->
-            MoviesDetails(movieId = backStackEntry.arguments?.getLong("movieId")!!)
+            MoviesDetails(
+                movieId = backStackEntry.arguments?.getLong("movieId")!!,
+                onBackPress = {
+                    navController.navigateUp()
+                },
+            )
         }
     }
 }

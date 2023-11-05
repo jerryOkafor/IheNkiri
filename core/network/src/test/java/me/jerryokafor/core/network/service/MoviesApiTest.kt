@@ -27,7 +27,7 @@ package me.jerryokafor.core.network.service
 import kotlinx.coroutines.runBlocking
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
+import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -35,7 +35,7 @@ import kotlin.test.assertNotNull
 
 class MoviesApiTest : BaseServiceTest() {
     private val movieApi =
-        MockWebServerUtil.createMockedService(mockWebServer, MoviesApi::class.java)
+        MockWebServerUtil.createMockedService(mockWebServer, MovieListApi::class.java)
 
     @Test
     fun `test nowPlaying(), returns list of movies when status = 200`() {

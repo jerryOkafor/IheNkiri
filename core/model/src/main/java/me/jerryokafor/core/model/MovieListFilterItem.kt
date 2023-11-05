@@ -26,6 +26,6 @@ package me.jerryokafor.core.model
 
 data class MovieListFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
     enum class FilterType {
-        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING
+        NOW_PLAYING, POPULAR, TOP_RATED, UPCOMING, DISCOVER
     }
 }
