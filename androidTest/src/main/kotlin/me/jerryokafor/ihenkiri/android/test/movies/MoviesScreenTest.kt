@@ -40,8 +40,11 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
 import me.jerryokafor.feature.movies.screen.CHIP_GROUP_TEST_TAG
@@ -86,10 +89,8 @@ class MoviesScreenTest {
     fun setUp(filters: List<MovieListFilterItem>) {
         composeTestRule.setContent {
             MoviesScreen(
-                loading = false,
                 filters = filters,
-                movieLazyPagingItems = testMovies(),
-                onSearchClick = { onSearchClickCounter++ },
+                movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
                 onMovieClick = { onMovieClickCounter++ },
             ) { onFilterItemSelectedCounter++ }
         }
