@@ -136,7 +136,7 @@ fun MoviesDetails(
 @Suppress("UnusedPrivateMember")
 fun MoviesDetails(
     uiState: MoviesDetailViewModel.UIState,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
 ) {
     var showBottomAppBar by remember { mutableStateOf(false) }
     val primaryTextColor = contentColorFor(IheNkiri.color.inverseOnSurface)

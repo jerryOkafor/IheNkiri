@@ -30,7 +30,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,7 +49,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val movieDetailsRepository: MovieDetailsRepository
+    private val movieDetailsRepository: MovieDetailsRepository,
 ) : ViewModel() {
     private val movieId = MovieDetailsArg(savedStateHandle).movieId
 

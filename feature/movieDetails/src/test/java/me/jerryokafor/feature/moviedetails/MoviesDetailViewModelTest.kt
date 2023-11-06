@@ -51,12 +51,11 @@ class MoviesDetailViewModelTest {
     }
     private val movieDetailsRepository = FakeMovieDetailsRepository()
 
-
     @Before
     fun init() {
         viewModel = MoviesDetailViewModel(
             savedStateHandle = savedStateHandle,
-            movieDetailsRepository = movieDetailsRepository
+            movieDetailsRepository = movieDetailsRepository,
         )
     }
 
@@ -64,8 +63,7 @@ class MoviesDetailViewModelTest {
     fun test() = runTest {
         assertEquals(savedStateHandle[movieIdArg], 0L)
         viewModel.uiState.test {
-
-            //clean up
+            // clean up
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -75,9 +73,7 @@ class MoviesDetailViewModelTest {
         val uiStateJob = launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
         assertEquals(savedStateHandle[movieIdArg], 0L)
 
-
-        //clean up
+        // clean up
         uiStateJob.cancel()
     }
-
 }

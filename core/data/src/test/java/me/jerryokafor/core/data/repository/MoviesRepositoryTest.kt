@@ -24,7 +24,6 @@
 
 package me.jerryokafor.core.data.repository
 
-import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

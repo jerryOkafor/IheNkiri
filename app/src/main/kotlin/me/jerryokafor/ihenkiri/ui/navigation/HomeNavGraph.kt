@@ -37,7 +37,6 @@ import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDe
 import me.jerryokafor.ihenkiri.ui.MoreScree
 import me.jerryokafor.ihenkiri.ui.PeopleScreen
 import me.jerryokafor.ihenkiri.ui.TvShowScreen
-import me.jerryokafor.ihenkiri.ui.screens.SearchView
 
 @Composable
 @ExcludeFromGeneratedCoverageReport
@@ -65,9 +64,12 @@ fun HomeNavGraph(
         ) {
             MoviesScreen(
                 onMovieClick = {
-                    navController.navigateToMovieDetails(movieId = it, navOptions = navOptions {
-                        launchSingleTop = true
-                    })
+                    navController.navigateToMovieDetails(
+                        movieId = it,
+                        navOptions = navOptions {
+                            launchSingleTop = true
+                        },
+                    )
                 },
             )
         }
@@ -103,6 +105,5 @@ fun HomeNavGraph(
         }
 
         movieDetailsScreen(onNavigateUp = onNavigateUp)
-
     }
 }

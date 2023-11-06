@@ -26,9 +26,7 @@ package me.jerryokafor.feature.movies.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
