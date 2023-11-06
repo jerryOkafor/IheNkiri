@@ -39,7 +39,7 @@ import org.robolectric.annotation.Config
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
 )
-internal class MoviesDetailsTest {
+internal class MoviesDetailsScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 

@@ -95,6 +95,7 @@ import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 const val TITLE_TEST_TAG = "title"
 const val CHIP_GROUP_TEST_TAG = "chips"
 const val GRID_ITEMS_TEST_TAG = "gridItems"
+const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 
 val testMovies = listOf(
@@ -332,6 +333,7 @@ fun SearchBarRow(
 ) {
     SearchBar(
         modifier = Modifier
+            .testTag(SEARCH_TEST_TAG)
             .semantics { traversalIndex = -1f },
         query = query,
         onQueryChange = onQueryChange,

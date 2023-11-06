@@ -50,6 +50,7 @@ import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
 import me.jerryokafor.feature.movies.screen.CHIP_GROUP_TEST_TAG
 import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
 import me.jerryokafor.feature.movies.screen.MoviesScreen
+import me.jerryokafor.feature.movies.screen.SEARCH_TEST_TAG
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Rule
 import org.junit.Test
@@ -82,7 +83,6 @@ class MoviesScreenTest {
         ),
     )
 
-    private var onSearchClickCounter = 0
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0
 
@@ -104,7 +104,9 @@ class MoviesScreenTest {
             .assertIsDisplayed()
             .performClick()
 
-        assertThat(onSearchClickCounter).isEqualTo(1)
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
     }
 
     @Test
