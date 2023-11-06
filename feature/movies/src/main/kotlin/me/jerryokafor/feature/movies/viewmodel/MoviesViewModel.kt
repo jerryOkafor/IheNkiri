@@ -107,8 +107,7 @@ class MoviesViewModel @Inject constructor(
                     }
                 }
             },
-        )
-            .flow
+        ).flow
             .cachedIn(viewModelScope)
     }
 

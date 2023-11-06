@@ -33,11 +33,11 @@ import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
 class FakeMoviesRepository @Inject constructor() : MovieListRepository {
-    override fun nowPlayingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun popularMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun topRatedMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun upcomingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> = testMovies()
 }

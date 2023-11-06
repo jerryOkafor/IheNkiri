@@ -118,7 +118,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
-        MoviesDetails(uiState = MoviesDetailViewModel.UIState(), onBackPress = {})
+        MoviesDetails(uiState = MoviesDetailViewModel.UIState(), onNavigateUp = {})
     }
 }
 
@@ -126,20 +126,18 @@ fun MoviesDetailsPreview() {
 @Suppress("UnusedPrivateMember")
 fun MoviesDetails(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
-    movieId: Long,
     onBackPress: () -> Unit,
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    MoviesDetails(uiState = uiState.value, onBackPress = onBackPress)
-
-    LaunchedEffect(movieId) {
-        viewModel.setMovieId(movieId)
-    }
+    MoviesDetails(uiState = uiState.value, onNavigateUp = onBackPress)
 }
 
 @Composable
 @Suppress("UnusedPrivateMember")
-fun MoviesDetails(uiState: MoviesDetailViewModel.UIState, onBackPress: () -> Unit) {
+fun MoviesDetails(
+    uiState: MoviesDetailViewModel.UIState,
+    onNavigateUp: () -> Unit
+) {
     var showBottomAppBar by remember { mutableStateOf(false) }
     val primaryTextColor = contentColorFor(IheNkiri.color.inverseOnSurface)
 
@@ -274,7 +272,7 @@ fun MoviesDetails(uiState: MoviesDetailViewModel.UIState, onBackPress: () -> Uni
                             shape = CircleShape,
                         ) {
                             IconButton(
-                                onClick = onBackPress,
+                                onClick = onNavigateUp,
                                 enabled = uiState.videos.isNotEmpty(),
                             ) {
                                 Icon(

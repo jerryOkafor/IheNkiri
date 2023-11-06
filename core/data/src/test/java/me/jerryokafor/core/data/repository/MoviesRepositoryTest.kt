@@ -60,13 +60,9 @@ class MoviesRepositoryTest {
 
     @Test
     fun `test nowPlayingMovies() returns list of movies`() = testScope.runTest {
-        moviesRepository.nowPlayingMovies(testFilter).test {
-            val items = awaitItem()
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
-
-            awaitComplete()
-        }
+        val items = moviesRepository.nowPlayingMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
         coVerify(exactly = 1) {
             moviesRemoteDataSource.nowPlayingMovies(
@@ -81,13 +77,9 @@ class MoviesRepositoryTest {
 
     @Test
     fun `test popularMovies() returns list of movies`() = testScope.runTest {
-        moviesRepository.popularMovies(testFilter).test {
-            val items = awaitItem()
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
-
-            awaitComplete()
-        }
+        val items = moviesRepository.popularMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
         coVerify(exactly = 1) {
             moviesRemoteDataSource.popularMovies(
@@ -102,13 +94,9 @@ class MoviesRepositoryTest {
 
     @Test
     fun `test topRatedMovies() returns list of movies`() = testScope.runTest {
-        moviesRepository.topRatedMovies(testFilter).test {
-            val items = awaitItem()
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
-
-            awaitComplete()
-        }
+        val items = moviesRepository.topRatedMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
         coVerify(exactly = 1) {
             moviesRemoteDataSource.topRatedMovies(
@@ -123,13 +111,9 @@ class MoviesRepositoryTest {
 
     @Test
     fun `test upcomingMovies() returns list of movies`() = testScope.runTest {
-        moviesRepository.upcomingMovies(testFilter).test {
-            val items = awaitItem()
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
-
-            awaitComplete()
-        }
+        val items = moviesRepository.upcomingMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
         coVerify(exactly = 1) {
             moviesRemoteDataSource.upcomingMovies(

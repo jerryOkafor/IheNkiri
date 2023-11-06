@@ -56,6 +56,7 @@ import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.R
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsNavPattern
 
 const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
@@ -118,9 +119,7 @@ fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
 }
 
 sealed class TopLevelDestinations(val route: String) {
-    data object SearchView : TopLevelDestinations(route = "/search")
-
-    data object MovieDetail : TopLevelDestinations(route = "/movie/{movieId}")
+    data object MovieDetail : TopLevelDestinations(route = movieDetailsNavPattern)
 }
 
 sealed class BottomNavItem(

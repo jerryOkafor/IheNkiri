@@ -22,33 +22,39 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.moviedetails
+package me.jerryokafor.ihenkiri.feature.moviedetails.navigation
 
-import android.os.Build
-import androidx.compose.ui.test.junit4.createComposeRule
-import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetailViewModel
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.NavType
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(
-    sdk = [Build.VERSION_CODES.O],
-    instrumentedPackages = ["androidx.loader.content"],
-)
-internal class MoviesDetailsTest {
-    @get:Rule
-    val composeTestRule = createComposeRule()
 
-    private val onNavigateUp: () -> Unit = {}
+@VisibleForTesting
+internal const val movieIdArg = "movieId"
 
-    @Test
-    fun `moviesDetails`() {
-        composeTestRule.setContent {
-            MoviesDetails(uiState = MoviesDetailViewModel.UIState(), onNavigateUp = onNavigateUp)
-        }
+const val movieDetailsNavPattern = "movie/{$movieIdArg}"
+
+internal class MovieDetailsArg(val movieId: Long) {
+    constructor(savedStateHandle: SavedStateHandle) : this(
+        movieId = checkNotNull(savedStateHandle[movieIdArg])
+    )
+}
+
+fun NavController.navigateToMovieDetails(movieId: Long, navOptions: NavOptions? = null) {
+    this.navigate(route = "movie/$movieId", navOptions = navOptions)
+}
+
+fun NavGraphBuilder.movieDetailsScreen(onNavigateUp: () -> Unit) {
+    composable(
+        route = movieDetailsNavPattern,
+        arguments = listOf(navArgument(movieIdArg) { type = NavType.LongType }),
+    ) {
+        MoviesDetails(onBackPress = onNavigateUp)
     }
 }

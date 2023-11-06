@@ -25,6 +25,7 @@
 package me.jerryokafor.ihenkiri.feature.moviedetails
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,16 +44,25 @@ import me.jerryokafor.core.model.Cast
 import me.jerryokafor.core.model.Crew
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.Video
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetailsArg
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesDetailViewModel
-@Inject constructor(private val movieDetailsRepository: MovieDetailsRepository) : ViewModel() {
+class MoviesDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val movieDetailsRepository: MovieDetailsRepository
+) : ViewModel() {
+    private val movieId = MovieDetailsArg(savedStateHandle).movieId
+
     private val _uiState = MutableStateFlow(UIState())
     val uiState: StateFlow<UIState> = _uiState.asStateFlow()
 
-    private suspend fun loadDetails(movieId: Long) {
-        coroutineScope {
+    init {
+        loadDetails(movieId)
+    }
+
+    private fun loadDetails(movieId: Long) {
+        viewModelScope.launch {
             _uiState.update { it.copy() }
 
             val detailsJob = async {
@@ -122,10 +132,6 @@ class MoviesDetailViewModel
             similarMovies.join()
             videosJob.join()
         }
-    }
-
-    fun setMovieId(movieId: Long) {
-        viewModelScope.launch { loadDetails(movieId) }
     }
 
     data class UIState(

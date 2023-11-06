@@ -57,7 +57,7 @@ fun HomeScreen(
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {
-            TopLevelDestinations.SearchView.route, TopLevelDestinations.MovieDetail.route ->
+            TopLevelDestinations.MovieDetail.route ->
                 bottomBarState.value = false
 
             else -> {
