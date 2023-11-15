@@ -40,7 +40,7 @@ class KtLintConventionPlugin : Plugin<Project> {
             val ktlint by configurations.creating
 
             dependencies {
-                ktlint("com.pinterest:ktlint:$version") {
+                ktlint("com.pinterest.ktlint:ktlint-cli:$version") {
                     attributes {
                         attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
                     }

@@ -74,6 +74,7 @@ class MissingExcludePreviewAnnotationDetector : Detector(), Detector.UastScanner
             "me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport"
 
         @JvmField
+        @Suppress("ktlint:standard:max-line-length")
         internal val ISSUE =
             Issue.create(
                 id = "MissingExcludePreviewAnnotationDetector",

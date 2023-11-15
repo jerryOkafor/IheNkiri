@@ -44,8 +44,8 @@ import org.robolectric.RuntimeEnvironment
 
 val DefaultRoborazziOptions =
     RoborazziOptions(
-        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f), // Pixel-perfect matching
-        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5), // Reduce the size of the PNGs
+        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f),
+        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5),
     )
 
 enum class DefaultTestDevices(val description: String, val spec: String) {

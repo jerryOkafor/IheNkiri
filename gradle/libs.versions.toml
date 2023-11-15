@@ -44,7 +44,7 @@ pagingCompose = "3.3.0-alpha02"
 
 # code quality
 detekt = "1.22.0"
-ktlint = "0.50.0"
+ktlint = "1.0.1"
 jacoco = "0.8.10"
 lint = "31.1.2"
 testParameterInjector = "1.12"

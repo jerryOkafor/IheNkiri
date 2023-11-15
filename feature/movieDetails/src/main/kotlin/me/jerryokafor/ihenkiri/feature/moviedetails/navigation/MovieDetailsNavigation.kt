@@ -60,8 +60,10 @@ import androidx.navigation.navArgument
 import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
 
 @VisibleForTesting
+@Suppress("ktlint:standard:property-naming")
 internal const val movieIdArg = "movieId"
 
+@Suppress("ktlint:standard:property-naming")
 const val movieDetailsNavPattern = "movie/{$movieIdArg}"
 
 internal class MovieDetailsArg(val movieId: Long) {

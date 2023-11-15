@@ -32,7 +32,7 @@ import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 
-@Suppress("TopLevelPropertyNaming")
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val moviesRoute = "/movies"
 
 fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
