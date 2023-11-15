@@ -132,7 +132,7 @@ class DefaultMovieDetailsRemoteDataSourceTest {
     @Test
     fun `test similar,returns list of similar videos`() =
         runTest {
-            val result = moviesDetailsRemoteDataSource.similarVideos(testMovieId)
+            val result = moviesDetailsRemoteDataSource.similarMovies(testMovieId)
             assertThat(result.size).isEqualTo(7)
 
             with(result.last()) {

@@ -44,6 +44,6 @@ class DefaultMovieDetailsRemoteDataSource
         override suspend fun movieVideos(movieId: Long): List<Video> =
             movieDetailsApi.movieVideos(movieId).results.map { it.asDomainObject() }
 
-        override suspend fun similarVideos(movieId: Long): List<Movie> =
+        override suspend fun similarMovies(movieId: Long): List<Movie> =
             movieDetailsApi.similar(movieId).results.map { it.asDomainObject() }
     }

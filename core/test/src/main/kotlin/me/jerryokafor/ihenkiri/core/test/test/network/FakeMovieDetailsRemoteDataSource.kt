@@ -41,5 +41,5 @@ class FakeMovieDetailsRemoteDataSource : MovieDetailsRemoteDataSource {
 
     override suspend fun movieVideos(movieId: Long): List<Video> = testMovieVideos(movieId)
 
-    override suspend fun similarVideos(movieId: Long): List<Movie> = testMovies()
+    override suspend fun similarMovies(movieId: Long): List<Movie> = testMovies()
 }

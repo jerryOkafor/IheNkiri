@@ -36,5 +36,5 @@ interface MovieDetailsRemoteDataSource {
 
     suspend fun movieVideos(movieId: Long): List<Video>
 
-    suspend fun similarVideos(movieId: Long): List<Movie>
+    suspend fun similarMovies(movieId: Long): List<Movie>
 }
