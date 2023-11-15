@@ -84,7 +84,7 @@ class DefaultMovieDetailsRepository
                     val response = remoteDataSource.movieVideos(movieId)
                     emit(Success(response))
                 } catch (e: Throwable) {
-                    emit(Failure(errorResponse = "Error getting movie credits"))
+                    emit(Failure(errorResponse = "Error getting movie videos"))
                 }
             }.flowOn(dispatcher)
 

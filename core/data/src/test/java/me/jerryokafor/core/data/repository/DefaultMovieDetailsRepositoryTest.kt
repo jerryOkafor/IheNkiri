@@ -32,6 +32,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import me.jerryokafor.core.common.outcome.Failure
 import me.jerryokafor.core.common.outcome.Success
 import me.jerryokafor.ihenkiri.core.network.datasource.MovieDetailsRemoteDataSource
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
@@ -88,6 +89,25 @@ class DefaultMovieDetailsRepositoryTest {
         }
 
     @Test
+    fun `test movieDetails() returns failure`() =
+        testScope.runTest {
+            coEvery { moviesDetailsRemoteDataSource.movieDetails(any()) } throws Exception()
+
+            movieDetailsRepository.movieDetails(testMovieId).test {
+                with((awaitItem() as Failure)) {
+                    assertThat(errorResponse).isEqualTo("Error loading movie details")
+                }
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                moviesDetailsRemoteDataSource.movieDetails(
+                    withArg { assertEquals(it, testMovieId) },
+                )
+            }
+        }
+
+    @Test
     fun `test movieCredits() returns movie credit (Cases & Crew)`() =
         testScope.runTest {
             movieDetailsRepository.movieCredits(testMovieId).test {
@@ -108,6 +128,26 @@ class DefaultMovieDetailsRepositoryTest {
                         assertThat(name).isEqualTo("Michael Kaplan")
                         assertThat(popularity).isEqualTo(4.294)
                     }
+                }
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                moviesDetailsRemoteDataSource.movieCredits(
+                    withArg { assertEquals(it, testMovieId) },
+                )
+            }
+        }
+
+    @Test
+    fun `test movieCredits() returns failure`() =
+        testScope.runTest {
+            coEvery { moviesDetailsRemoteDataSource.movieCredits(any()) } throws Exception()
+
+            movieDetailsRepository.movieCredits(testMovieId).test {
+                with((awaitItem() as Failure)) {
+                    assertThat(errorResponse).isEqualTo("Error getting movie credits")
                 }
 
                 cancelAndIgnoreRemainingEvents()
@@ -147,6 +187,26 @@ class DefaultMovieDetailsRepositoryTest {
         }
 
     @Test
+    fun `test movieVideos() returns  failure`() =
+        testScope.runTest {
+            coEvery { moviesDetailsRemoteDataSource.movieVideos(any()) } throws Exception()
+
+            movieDetailsRepository.movieVideos(testMovieId).test {
+                with((awaitItem() as Failure)) {
+                    assertThat(errorResponse).isEqualTo("Error getting movie videos")
+                }
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                moviesDetailsRemoteDataSource.movieVideos(
+                    withArg { assertEquals(it, testMovieId) },
+                )
+            }
+        }
+
+    @Test
     fun `test similarMovies() returns list of movies`() =
         testScope.runTest {
             movieDetailsRepository.similarMovies(testMovieId).test {
@@ -167,6 +227,25 @@ class DefaultMovieDetailsRepositoryTest {
                         assertThat(voteAverage).isEqualTo(7.5)
                     }
 
+                    cancelAndIgnoreRemainingEvents()
+                }
+
+                coVerify(exactly = 1) {
+                    moviesDetailsRemoteDataSource.similarMovies(
+                        withArg { assertEquals(it, testMovieId) },
+                    )
+                }
+            }
+        }
+
+    @Test
+    fun `test similarMovies() returns failure`() =
+        testScope.runTest {
+            coEvery { moviesDetailsRemoteDataSource.similarMovies(any()) } throws Exception()
+
+            movieDetailsRepository.similarMovies(testMovieId).test {
+                with((awaitItem() as Failure)) {
+                    assertThat(errorResponse).isEqualTo("Error getting recommended movies")
                     cancelAndIgnoreRemainingEvents()
                 }
 
