@@ -169,13 +169,13 @@ private fun assertColorSchemesEqual(
     Assert.assertEquals(expectedColorScheme.primaryContainer, actualColorScheme.primaryContainer)
     Assert.assertEquals(
         expectedColorScheme.onPrimaryContainer,
-        actualColorScheme.onPrimaryContainer
+        actualColorScheme.onPrimaryContainer,
     )
     Assert.assertEquals(expectedColorScheme.secondary, actualColorScheme.secondary)
     Assert.assertEquals(expectedColorScheme.onSecondary, actualColorScheme.onSecondary)
     Assert.assertEquals(
         expectedColorScheme.secondaryContainer,
-        actualColorScheme.secondaryContainer
+        actualColorScheme.secondaryContainer,
     )
     Assert.assertEquals(
         expectedColorScheme.onSecondaryContainer,
@@ -186,7 +186,7 @@ private fun assertColorSchemesEqual(
     Assert.assertEquals(expectedColorScheme.tertiaryContainer, actualColorScheme.tertiaryContainer)
     Assert.assertEquals(
         expectedColorScheme.onTertiaryContainer,
-        actualColorScheme.onTertiaryContainer
+        actualColorScheme.onTertiaryContainer,
     )
     Assert.assertEquals(expectedColorScheme.error, actualColorScheme.error)
     Assert.assertEquals(expectedColorScheme.onError, actualColorScheme.onError)
