@@ -88,8 +88,8 @@ fun MovieRating(
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
         animationSpec = tween(
-            durationMillis = 6000,
-            delayMillis = 500,
+            durationMillis = 3000,
+            delayMillis = 100,
             easing = FastOutSlowInEasing,
         ),
         label = "progressAnimation",

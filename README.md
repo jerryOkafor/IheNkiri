@@ -22,7 +22,10 @@ https://slackhq.github.io/circuit/
 ## Screenshots
 
 <p align="center">
+  <img src="doc/screenshots/auth.png" width="100" />
   <img src="doc/screenshots/oauth-2.0.png" width="100" />
+  <img src="doc/screenshots/movies.png" width="100" />
+  <img src="doc/screenshots/movies_details.png" width="100" />
 </p>
 
 # Development Environment
@@ -66,8 +69,7 @@ tests using robolectric instead of a real device or an emulator
       DI for injecting `ViewModel`.
 - [GSON](https://github.com/google/gson) - A modern JSON library for Kotlin and Java.
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
-- [Coil](https://github.com/coil-kt/coil) - An image loading library for Android backed by
-  Kotlin
+- [Coil](https://github.com/coil-kt/coil) - An image loading library for Android backed by Kotlin
   Coroutines.
 - [Desugar](https://developer.android.com/studio/write/java8-support) - Allows us to use Java 8
   language features and APIs.
@@ -86,14 +88,13 @@ tests using robolectric instead of a real device or an emulator
     - [Test Harness](https://google.github.io/accompanist/testharness/) - A library providing a test
       harness for UI components.
 
-## Testing
+#### Testing Libraries
 
 - [TestParameterInjector](https://github.com/google/TestParameterInjector) - A simple yet powerful
   parameterized test runner for Java.
 - [Roborazzi](https://github.com/takahirom/roborazzi) - helps to validate the app's appearance and
   functionality
-- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to
-- Android
+- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to Android
 - [Robolectric Shadows](https://robolectric.org/extending/) - use shadow objects to simulate Android
   behavior in a non-Android environment.
 
@@ -148,12 +149,28 @@ object TestDispatchersModule {}
 
 We also use manual constructor injection for testing ViewModels when necessary.
 
-Using Fakes/Test doubles is generally encouraged as better than mocks as these Fakes/Test Doubles
+Using **Test Doubles** (Fake) is generally encouraged as better than mocks as they
 implement the same interface as the production code and also provides simplified (but still
 realistic) implementation with additional testing hooks. This results in less brittle tests that may
 exercise more production code quality, instead of just verifying specific calls against mocks.
 
-we have the following tests on **IheNkiri**
+>[!IMPORTANT]
+
+> **Test naming convention**
+> 
+>  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test function name:
+> 
+> `thingUnderTest` e.g moviesViewModel
+> 
+> `TriggerOfTest` e.g OnEvent
+> 
+> `ResultOfTest` e.g CorrectFilterIsSet
+> 
+> Example: `moviesViewModel_OnEvent_CorrectFilterIsSet()`
+
+
+
+We have the following tests on **IheNkiri**
 
 - Unit tests - Runs all the local JVM tests, this can be invoked as follows:
 
@@ -162,7 +179,7 @@ we have the following tests on **IheNkiri**
 ```
 
 - Instrumentation tests - Runs all the instrumentation tests (tests that requires physical device or
-  emulators). Currently, we have all theese test in the `androidTest` module and can eb run using
+  emulators). Currently, we have all these test in the `androidTest` module and can eb run using
   the following command
 -
 

@@ -46,6 +46,9 @@ import me.jerryokafor.core.model.Video
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetailsArg
 import javax.inject.Inject
 
+private const val ONE_HOUR_IN_MINUTES = 60
+private const val MAX_MOVIE_RATING = 10.0
+
 @HiltViewModel
 class MoviesDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -67,14 +70,10 @@ class MoviesDetailViewModel @Inject constructor(
             val detailsJob = async {
                 movieDetailsRepository.movieDetails(movieId)
                     .onSuccess { movieDetails ->
-
-                        @Suppress("MagicNumber")
-                        val hrs = movieDetails.runtime / 60
-
-                        @Suppress("MagicNumber")
-                        val mins = movieDetails.runtime.rem(60)
+                        val hours = movieDetails.runtime / ONE_HOUR_IN_MINUTES
+                        val minutes = movieDetails.runtime.rem(ONE_HOUR_IN_MINUTES)
                         val formattedRuntime =
-                            "${hrs}${if (hrs > 1) "hr(s)" else "hr"} ${mins}m"
+                            "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
                         _uiState.update {
                             it.copy(
                                 title = movieDetails.title,
@@ -83,6 +82,7 @@ class MoviesDetailViewModel @Inject constructor(
                                 postPath = movieDetails.posterPath,
                                 releaseDate = movieDetails.releaseDate.formatDate(),
                                 runtime = formattedRuntime,
+                                rating = (movieDetails.voteAverage / MAX_MOVIE_RATING).toFloat(),
                             )
                         }
                     }.onFailure { errorResponse, errorCode, throwable ->
@@ -93,7 +93,6 @@ class MoviesDetailViewModel @Inject constructor(
             val creditDetailsJob = async {
                 movieDetailsRepository.movieCredits(movieId)
                     .onSuccess { movieCredit ->
-                        Log.d("TestIng: ", "$movieCredit")
                         _uiState.update { state ->
                             state.copy(
                                 cast = movieCredit.cast.distinctBy { it.name },
@@ -140,6 +139,7 @@ class MoviesDetailViewModel @Inject constructor(
         val postPath: String = "",
         val releaseDate: String = "",
         val runtime: String = "",
+        val rating: Float = 0F,
         val cast: List<Cast> = listOf(),
         val crew: List<Crew> = listOf(),
         val categories: List<String> = listOf(),

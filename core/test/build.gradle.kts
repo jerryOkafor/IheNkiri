@@ -39,6 +39,8 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.ds)
 
+    implementation(libs.io.coil.compose)
+
     // retrofit
     api(libs.com.squareup.retrofit2)
     api(libs.com.google.code.gson)
@@ -57,7 +59,7 @@ dependencies {
     api(libs.androidx.hilt.android.testing)
     api(libs.org.jetbrains.kotlinx.coroutines.test)
     api(libs.androidx.compose.ui.test.junit4)
-    api(libs.androidx.compose.ui.test.manifest)
+    debugApi(libs.androidx.compose.ui.test.manifest)
 
     api(libs.io.mockk.android)
     api(libs.io.mockk.agent)

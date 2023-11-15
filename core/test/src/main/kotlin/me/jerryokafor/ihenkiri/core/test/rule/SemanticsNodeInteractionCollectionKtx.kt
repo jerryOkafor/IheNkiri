@@ -22,19 +22,19 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies
+package me.jerryokafor.ihenkiri.core.test.rule
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import androidx.compose.ui.test.SemanticsNodeInteractionCollection
+import androidx.compose.ui.test.assertIsDisplayed
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Asserts `IsDisplayed` for more than 2 items.
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * @return
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+fun SemanticsNodeInteractionCollection.assertAreDisplayed(): SemanticsNodeInteractionCollection {
+    fetchSemanticsNodes().forEachIndexed { index, _ ->
+        get(index).assertIsDisplayed()
     }
+    return this
 }
