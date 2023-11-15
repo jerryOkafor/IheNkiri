@@ -68,10 +68,11 @@ import me.jerryokafor.core.ui.R
 private fun PeoplePosterPreview() {
     IheNkiriTheme {
         Column(
-            modifier = Modifier
-                .size(200.dp)
-                .aspectRatio(1F)
-                .background(IheNkiri.color.inverseOnSurface),
+            modifier =
+                Modifier
+                    .size(200.dp)
+                    .aspectRatio(1F)
+                    .background(IheNkiri.color.inverseOnSurface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PeoplePoster(
@@ -92,44 +93,50 @@ fun PeoplePoster(
     firstName: String,
     lastName: String,
     imageUrl: String,
-    textColor: Color = contentColorFor(
-        backgroundColor = IheNkiri.color.inverseOnSurface,
-    ),
+    textColor: Color =
+        contentColorFor(
+            backgroundColor = IheNkiri.color.inverseOnSurface,
+        ),
 ) {
     Column(
-        modifier = modifier
-            .width(size)
-            .wrapContentSize(),
+        modifier =
+            modifier
+                .width(size)
+                .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            modifier = modifier
-                .size(size)
-                .aspectRatio(1F),
+            modifier =
+                modifier
+                    .size(size)
+                    .aspectRatio(1F),
         ) {
             SubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-                    .border(
-                        width = 3.dp,
-                        color = IheNkiri.color.tertiaryContainer.copy(alpha = 0.5F),
-                        shape = CircleShape,
-                    )
-                    .clip(CircleShape),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center)
+                        .border(
+                            width = 3.dp,
+                            color = IheNkiri.color.tertiaryContainer.copy(alpha = 0.5F),
+                            shape = CircleShape,
+                        )
+                        .clip(CircleShape),
                 contentScale = ContentScale.Inside,
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
-                    .crossfade(true)
-                    .build(),
+                model =
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .crossfade(true)
+                        .build(),
                 contentDescription = firstName,
             ) {
                 when (painter.state) {
                     AsyncImagePainter.State.Empty, is AsyncImagePainter.State.Error -> {
                         Image(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(CircleShape),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape),
                             painter = painterResource(id = R.drawable.ic_avatar),
                             contentDescription = firstName,
                             contentScale = ContentScale.FillBounds,
@@ -138,10 +145,11 @@ fun PeoplePoster(
 
                     is AsyncImagePainter.State.Loading ->
                         CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .align(Alignment.Center)
-                                .padding(IheNkiri.spacing.twoAndaHalf),
+                            modifier =
+                                Modifier
+                                    .size(24.dp)
+                                    .align(Alignment.Center)
+                                    .padding(IheNkiri.spacing.twoAndaHalf),
                             strokeCap = StrokeCap.Round,
                             strokeWidth = 1.dp,
                         )

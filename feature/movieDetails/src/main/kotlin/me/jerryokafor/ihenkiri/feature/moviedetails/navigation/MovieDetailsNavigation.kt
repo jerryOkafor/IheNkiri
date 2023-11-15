@@ -70,7 +70,10 @@ internal class MovieDetailsArg(val movieId: Long) {
     )
 }
 
-fun NavController.navigateToMovieDetails(movieId: Long, navOptions: NavOptions? = null) {
+fun NavController.navigateToMovieDetails(
+    movieId: Long,
+    navOptions: NavOptions? = null,
+) {
     this.navigate(route = "movie/$movieId", navOptions = navOptions)
 }
 

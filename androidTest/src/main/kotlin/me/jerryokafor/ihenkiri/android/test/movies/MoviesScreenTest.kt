@@ -60,28 +60,29 @@ class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val testFilters = listOf(
-        MovieListFilterItem(
-            label = "Now Playing",
-            isSelected = true,
-            type = MovieListFilterItem.FilterType.NOW_PLAYING,
-        ),
-        MovieListFilterItem(
-            label = "Popular",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.POPULAR,
-        ),
-        MovieListFilterItem(
-            label = "Top Rated",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.TOP_RATED,
-        ),
-        MovieListFilterItem(
-            label = "Upcoming",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.UPCOMING,
-        ),
-    )
+    private val testFilters =
+        listOf(
+            MovieListFilterItem(
+                label = "Now Playing",
+                isSelected = true,
+                type = MovieListFilterItem.FilterType.NOW_PLAYING,
+            ),
+            MovieListFilterItem(
+                label = "Popular",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.POPULAR,
+            ),
+            MovieListFilterItem(
+                label = "Top Rated",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.TOP_RATED,
+            ),
+            MovieListFilterItem(
+                label = "Upcoming",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.UPCOMING,
+            ),
+        )
 
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0

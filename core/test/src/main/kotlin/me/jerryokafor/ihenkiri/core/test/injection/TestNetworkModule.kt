@@ -40,7 +40,6 @@ import me.jerryokafor.ihenkiri.core.test.test.network.FakeMoviesRemoteDataSource
     replaces = [NetworkModule::class],
 )
 abstract class TestNetworkModule {
-
     @Binds
     abstract fun bindAuthApi(authApi: FakeAuthApi): AuthApi
 

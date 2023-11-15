@@ -43,97 +43,102 @@ import me.jerryokafor.core.model.MovieListFilterItem
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(
-    private val moviesRepository: MovieListRepository,
-) : ViewModel() {
-    private val availableFilters = listOf(
-        MovieListFilterItem(
-            label = "Now Playing",
-            isSelected = true,
-            type = MovieListFilterItem.FilterType.NOW_PLAYING,
-        ),
-        MovieListFilterItem(
-            label = "Popular",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.POPULAR,
-        ),
-        MovieListFilterItem(
-            label = "Top Rated",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.TOP_RATED,
-        ),
-        MovieListFilterItem(
-            label = "Upcoming",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.UPCOMING,
-        ),
-        MovieListFilterItem(
-            label = "Discover",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.DISCOVER,
-        ),
-    )
+class MoviesViewModel
+    @Inject
+    constructor(
+        private val moviesRepository: MovieListRepository,
+    ) : ViewModel() {
+        private val availableFilters =
+            listOf(
+                MovieListFilterItem(
+                    label = "Now Playing",
+                    isSelected = true,
+                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
+                ),
+                MovieListFilterItem(
+                    label = "Popular",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.POPULAR,
+                ),
+                MovieListFilterItem(
+                    label = "Top Rated",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.TOP_RATED,
+                ),
+                MovieListFilterItem(
+                    label = "Upcoming",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.UPCOMING,
+                ),
+                MovieListFilterItem(
+                    label = "Discover",
+                    isSelected = false,
+                    type = MovieListFilterItem.FilterType.DISCOVER,
+                ),
+            )
 
-    private val _uiState = MutableStateFlow(UIState())
-    val uiState: StateFlow<UIState> = _uiState.asStateFlow()
+        private val _uiState = MutableStateFlow(UIState())
+        val uiState: StateFlow<UIState> = _uiState.asStateFlow()
 
-    private var currentFilter =
-        MutableStateFlow(MovieListFilterItem.FilterType.NOW_PLAYING)
+        private var currentFilter =
+            MutableStateFlow(MovieListFilterItem.FilterType.NOW_PLAYING)
 
-    val movies = currentFilter.flatMapLatest { viewFilter ->
-        Pager(
-            config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
-            initialKey = null,
-            pagingSourceFactory = {
-                MoviesListPagingSource { pageNumber ->
-                    val queryFilter =
-                        MoviesFilter(language = "en-Us", page = pageNumber, region = null)
+        val movies =
+            currentFilter.flatMapLatest { viewFilter ->
+                Pager(
+                    config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
+                    initialKey = null,
+                    pagingSourceFactory = {
+                        MoviesListPagingSource { pageNumber ->
+                            val queryFilter =
+                                MoviesFilter(language = "en-Us", page = pageNumber, region = null)
 
-                    when (viewFilter) {
-                        MovieListFilterItem.FilterType.NOW_PLAYING ->
-                            moviesRepository.nowPlayingMovies(queryFilter)
+                            when (viewFilter) {
+                                MovieListFilterItem.FilterType.NOW_PLAYING ->
+                                    moviesRepository.nowPlayingMovies(queryFilter)
 
-                        MovieListFilterItem.FilterType.POPULAR ->
-                            moviesRepository.popularMovies(queryFilter)
+                                MovieListFilterItem.FilterType.POPULAR ->
+                                    moviesRepository.popularMovies(queryFilter)
 
-                        MovieListFilterItem.FilterType.TOP_RATED ->
-                            moviesRepository.topRatedMovies(queryFilter)
+                                MovieListFilterItem.FilterType.TOP_RATED ->
+                                    moviesRepository.topRatedMovies(queryFilter)
 
-                        MovieListFilterItem.FilterType.UPCOMING ->
-                            moviesRepository.upcomingMovies(queryFilter)
+                                MovieListFilterItem.FilterType.UPCOMING ->
+                                    moviesRepository.upcomingMovies(queryFilter)
 
-                        MovieListFilterItem.FilterType.DISCOVER ->
-                            moviesRepository.upcomingMovies(queryFilter)
-                    }
+                                MovieListFilterItem.FilterType.DISCOVER ->
+                                    moviesRepository.upcomingMovies(queryFilter)
+                            }
+                        }
+                    },
+                ).flow
+                    .cachedIn(viewModelScope)
+            }
+
+        init {
+            _uiState.update { it.copy(availableFilters = availableFilters) }
+        }
+
+        fun onEvent(event: Event) {
+            when (event) {
+                is Event.OnFilterSelected -> {
+                    val updatedFilters =
+                        availableFilters.map {
+                            if (it.type == event.filter) it.copy(isSelected = true) else it.copy(isSelected = false)
+                        }
+                    _uiState.update { it.copy(availableFilters = updatedFilters) }
+                    currentFilter.update { event.filter }
                 }
-            },
-        ).flow
-            .cachedIn(viewModelScope)
-    }
-
-    init {
-        _uiState.update { it.copy(availableFilters = availableFilters) }
-    }
-
-    fun onEvent(event: Event) {
-        when (event) {
-            is Event.OnFilterSelected -> {
-                val updatedFilters = availableFilters.map {
-                    if (it.type == event.filter) it.copy(isSelected = true) else it.copy(isSelected = false)
-                }
-                _uiState.update { it.copy(availableFilters = updatedFilters) }
-                currentFilter.update { event.filter }
             }
         }
-    }
 
-    data class UIState(
-        val loading: Boolean = false,
-        val availableFilters: List<MovieListFilterItem> = emptyList(),
-        val movies: List<Movie> = emptyList(),
-    )
+        data class UIState(
+            val loading: Boolean = false,
+            val availableFilters: List<MovieListFilterItem> = emptyList(),
+            val movies: List<Movie> = emptyList(),
+        )
 
-    sealed interface Event {
-        data class OnFilterSelected(val filter: MovieListFilterItem.FilterType) : Event
+        sealed interface Event {
+            data class OnFilterSelected(val filter: MovieListFilterItem.FilterType) : Event
+        }
     }
-}

@@ -36,43 +36,44 @@ import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
-private val coverageExclusions = listOf(
-    // Android
-    "**/R.class",
-    "**/R\$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*",
-    "**/databinding/*Binding.*",
-    "**/R.class",
-    "**/R$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*",
-    "**/*Test*.*",
-    "android/**/*.*",
+private val coverageExclusions =
+    listOf(
+        // Android
+        "**/R.class",
+        "**/R\$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/databinding/*Binding.*",
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        // kotlin
+        "**/*MapperImpl*.*",
+        "**/*\$ViewInjector*.*",
+        "**/*\$ViewBinder*.*",
+        "**/BuildConfig.*",
+        "**/*Component*.*",
+        "**/*BR*.*",
+        "**/Manifest*.*",
+        "**/*\$Lambda$*.*",
+        "**/*Companion*.*",
+        "**/*Module*.*",
+        "**/*Dagger*.*",
+        "**/*Hilt*.*",
+        "**/*MembersInjector*.*",
+        "**/*_MembersInjector.class",
+        "**/*_Factory*.*",
+        "**/*_Provide*Factory*.*",
+        "**/*Extensions*.*",
+    )
 
-    // kotlin
-    "**/*MapperImpl*.*",
-    "**/*\$ViewInjector*.*",
-    "**/*\$ViewBinder*.*",
-    "**/BuildConfig.*",
-    "**/*Component*.*",
-    "**/*BR*.*",
-    "**/Manifest*.*",
-    "**/*\$Lambda$*.*",
-    "**/*Companion*.*",
-    "**/*Module*.*",
-    "**/*Dagger*.*",
-    "**/*Hilt*.*",
-    "**/*MembersInjector*.*",
-    "**/*_MembersInjector.class",
-    "**/*_Factory*.*",
-    "**/*_Provide*Factory*.*",
-    "**/*Extensions*.*",
-)
-
-private fun String.capitalize() = replaceFirstChar {
-    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-}
+private fun String.capitalize() =
+    replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+    }
 
 internal fun Project.configureJacoco(
     commonExtension: CommonExtension<*, *, *, *, *>,
@@ -84,10 +85,11 @@ internal fun Project.configureJacoco(
     }
 
     // parent tasks that depends on the sub tasks
-    val jacocoTestCoverageReport = tasks.create("jacocoTestCoverageReport") {
-        group = "Reporting"
-        description = "Generate Jacoco coverage reports for all variants after unit test"
-    }
+    val jacocoTestCoverageReport =
+        tasks.create("jacocoTestCoverageReport") {
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports for all variants after unit test"
+        }
 
 //    val jacocoTestCoverageVerification = tasks.create("jacocoTestCoverageVerification") {
 //        group = "Reporting"

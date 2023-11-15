@@ -124,17 +124,18 @@ const val MOVIE_DETAILS_BOTTOM_BAR = "movies_details_bottom_bar"
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
         MoviesDetails(
-            uiState = MoviesDetailViewModel.UIState(
-                title = "Fight Club",
+            uiState =
+                MoviesDetailViewModel.UIState(
+                    title = "Fight Club",
 //            overview = """
 //                A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
 //                 aggression into a shocking new form of therapy. Their concept catches on, with
 //                 underground \"fight clubs\" forming in every town, until an eccentric gets in the
 //                 way and ignites an out-of-control spiral toward oblivion.
 //            """.trimIndent(),
-                releaseDate = "2023/09/15",
-                runtime = "1hr 43m",
-            ),
+                    releaseDate = "2023/09/15",
+                    runtime = "1hr 43m",
+                ),
             onNavigateUp = {},
         )
     }
@@ -183,20 +184,22 @@ fun MoviesDetails(
     val secondaryTextColor = primaryTextColor.copy(0.7F)
     val state = rememberCollapsingToolbarScaffoldState()
     val enabled by remember { mutableStateOf(true) }
-    val colorStops = listOf(
-        Color(0x00000000),
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.1F),
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
-        IheNkiri.color.inverseOnSurface,
-    )
+    val colorStops =
+        listOf(
+            Color(0x00000000),
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.1F),
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
+            IheNkiri.color.inverseOnSurface,
+        )
 
-    val colorStops2 = listOf(
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
-        IheNkiri.color.inverseOnSurface.copy(alpha = 0.9F),
-        IheNkiri.color.inverseOnSurface,
-    )
+    val colorStops2 =
+        listOf(
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
+            IheNkiri.color.inverseOnSurface.copy(alpha = 0.9F),
+            IheNkiri.color.inverseOnSurface,
+        )
 
     Box(modifier = Modifier.fillMaxSize()) {
         CollapsingToolbarScaffold(
@@ -211,45 +214,51 @@ fun MoviesDetails(
                 // a dummy Spacer composable.
                 // You may replace it with TopAppBar or other preferred composable.
                 Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
                 )
 
                 @Suppress("MagicNumber")
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .parallax(0.5f)
-                        .height(400.dp)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .parallax(0.5f)
+                            .height(400.dp)
+                            .fillMaxWidth(),
                 ) {
                     AsyncImage(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .graphicsLayer {
-                                alpha = state.toolbarState.progress
-                            },
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(ImageUtil.buildImageUrl(uiState.postPath))
-                            .crossfade(true)
-                            .build(),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .graphicsLayer {
+                                    alpha = state.toolbarState.progress
+                                },
+                        model =
+                            ImageRequest.Builder(LocalContext.current)
+                                .data(ImageUtil.buildImageUrl(uiState.postPath))
+                                .crossfade(true)
+                                .build(),
                         placeholder = painterResource(R.drawable.sample_banner),
                         contentDescription = uiState.title,
                         contentScale = ContentScale.FillWidth,
                         onSuccess = {},
                     )
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Brush.verticalGradient(colorStops)),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .background(Brush.verticalGradient(colorStops)),
                     )
 
                     Column(modifier = Modifier.align(Alignment.BottomCenter)) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = IheNkiri.spacing.two),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = IheNkiri.spacing.two),
                             horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
                         ) {
                             MovieRating(modifier = Modifier.size(57.dp), rating = uiState.rating)
@@ -286,10 +295,11 @@ fun MoviesDetails(
 
                         TwoVerticalSpacer()
                         Divider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(1.dp)
-                                .background(secondaryTextColor.copy(alpha = 0.1F)),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(1.dp)
+                                    .background(secondaryTextColor.copy(alpha = 0.1F)),
                         )
                     }
 
@@ -320,20 +330,22 @@ fun MoviesDetails(
             },
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .matchParentSize()
-                    .background(Brush.verticalGradient(colorStops2))
-                    .testTag(MOVIE_DETAILS_COL),
-//                    .background(IheNkiri.color.inverseOnSurface),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .matchParentSize()
+                        .background(Brush.verticalGradient(colorStops2))
+                        .testTag(MOVIE_DETAILS_COL),
+                //                    .background(IheNkiri.color.inverseOnSurface),
             ) {
                 // Overview
                 item {
                     TwoVerticalSpacer()
                     Text(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_OVERVIEW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_OVERVIEW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         text = uiState.overview,
                         style = IheNkiri.typography.bodyMedium,
                         textAlign = TextAlign.Justify,
@@ -345,10 +357,11 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     TrailerButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .testTag(MOVIE_DETAILS_TRAILER_BUTTON)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .testTag(MOVIE_DETAILS_TRAILER_BUTTON)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         onClick = onWatchTrailerClick,
                     )
                 }
@@ -357,17 +370,19 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_MAIN_CAST)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_MAIN_CAST)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
                         text = stringResource(R.string.title_main_cast),
                     )
                     OneVerticalSpacer()
                     LazyRow(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
                         items(uiState.cast) {
@@ -377,10 +392,11 @@ fun MoviesDetails(
                                 size = 80.dp,
                                 firstName = firstName,
                                 lastName = lastName,
-                                imageUrl = ImageUtil.buildImageUrl(
-                                    path = it.profilePath ?: "",
-                                    size = ImageUtil.Size.Profile.H632,
-                                ),
+                                imageUrl =
+                                    ImageUtil.buildImageUrl(
+                                        path = it.profilePath ?: "",
+                                        size = ImageUtil.Size.Profile.H632,
+                                    ),
                             )
                         }
                     }
@@ -390,17 +406,19 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_CREW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_CREW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
                         text = stringResource(R.string.title_crew),
                     )
                     OneVerticalSpacer()
                     LazyRow(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_CREW_ROW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_CREW_ROW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
                         items(uiState.crew) {
@@ -410,10 +428,11 @@ fun MoviesDetails(
                                 size = 80.dp,
                                 firstName = firstName,
                                 lastName = lastName,
-                                imageUrl = ImageUtil.buildImageUrl(
-                                    path = it.profilePath ?: "",
-                                    size = ImageUtil.Size.Profile.H632,
-                                ),
+                                imageUrl =
+                                    ImageUtil.buildImageUrl(
+                                        path = it.profilePath ?: "",
+                                        size = ImageUtil.Size.Profile.H632,
+                                    ),
                             )
                         }
                     }
@@ -423,17 +442,19 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_CATEGORIES)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_CATEGORIES)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
                         text = stringResource(R.string.title_categories),
                     )
                     OneAndHalfVerticalSpacer()
                     LazyRow(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_CATEGORIES_ROW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_CATEGORIES_ROW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
                         items(uiState.categories) { GenreChip(text = it) }
@@ -444,17 +465,19 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_RECOMMENDATIONS)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_RECOMMENDATIONS)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
                         text = stringResource(R.string.title_recommendations),
                     )
                     OneVerticalSpacer()
                     LazyRow(
-                        modifier = Modifier
-                            .testTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW)
-                            .padding(horizontal = IheNkiri.spacing.two),
+                        modifier =
+                            Modifier
+                                .testTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW)
+                                .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                     ) {
                         items(uiState.recommendations) {
@@ -463,9 +486,10 @@ fun MoviesDetails(
 
                             @Suppress("MagicNumber")
                             MoviePoster(
-                                modifier = Modifier
-                                    .width(120.dp)
-                                    .aspectRatio(0.7F),
+                                modifier =
+                                    Modifier
+                                        .width(120.dp)
+                                        .aspectRatio(0.7F),
                                 path = path,
                                 contentDescription = it.title,
                                 shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window),
@@ -486,11 +510,13 @@ fun MoviesDetails(
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.BottomCenter),
             visible = showBottomAppBar,
-            enter = slideInVertically {
-                with(density) { -40.dp.roundToPx() }
-            } + expandHorizontally(
-                expandFrom = Alignment.End,
-            ),
+            enter =
+                slideInVertically {
+                    with(density) { -40.dp.roundToPx() }
+                } +
+                    expandHorizontally(
+                        expandFrom = Alignment.End,
+                    ),
             exit = fadeOut(),
         ) {
             BottomAppBar(

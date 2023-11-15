@@ -31,10 +31,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
-import me.jerryokafor.feature.movies.screen.MoviesScreen
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
+import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
-import me.jerryokafor.ihenkiri.ui.MoreScree
+import me.jerryokafor.ihenkiri.ui.MoreScreen
 import me.jerryokafor.ihenkiri.ui.PeopleScreen
 import me.jerryokafor.ihenkiri.ui.TvShowScreen
 
@@ -50,29 +54,23 @@ fun HomeNavGraph(
     val onNavigateUp: () -> Unit = {
         navController.navigateUp()
     }
+
+    val onMovieClick: (Long) -> Unit = {
+        navController.navigateToMovieDetails(
+            movieId = it,
+            navOptions =
+                navOptions {
+                    launchSingleTop = true
+                },
+        )
+    }
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = BottomNavItem.Movies.route,
     ) {
-        composable(
-            route = BottomNavItem.Movies.route,
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition,
-        ) {
-            MoviesScreen(
-                onMovieClick = {
-                    navController.navigateToMovieDetails(
-                        movieId = it,
-                        navOptions = navOptions {
-                            launchSingleTop = true
-                        },
-                    )
-                },
-            )
-        }
+        moviesScreen(onMovieClick = onMovieClick)
 
         composable(
             route = BottomNavItem.TVShows.route,
@@ -101,7 +99,7 @@ fun HomeNavGraph(
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            MoreScree()
+            MoreScreen()
         }
 
         movieDetailsScreen(onNavigateUp = onNavigateUp)

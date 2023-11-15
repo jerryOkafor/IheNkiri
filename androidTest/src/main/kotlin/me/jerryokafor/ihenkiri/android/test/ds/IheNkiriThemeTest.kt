@@ -50,7 +50,6 @@ import org.junit.Test
  * Tests [IheNkiriTheme] for dark and light team and dynamic color
  */
 class IheNkiriThemeTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -195,7 +194,10 @@ private fun assertColorSchemesEqual(
     assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
 }
 
-private fun assertEqualsShapesEqual(defaultShape: IhenkiriShape, shapes: Shapes) {
+private fun assertEqualsShapesEqual(
+    defaultShape: IhenkiriShape,
+    shapes: Shapes,
+) {
     val toMaterialShapes = defaultShape.toMaterialShapes()
     assertEquals(toMaterialShapes.small, shapes.small)
     assertEquals(toMaterialShapes.medium, shapes.medium)

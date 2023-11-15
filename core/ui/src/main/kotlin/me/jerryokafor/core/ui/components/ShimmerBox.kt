@@ -42,10 +42,11 @@ fun ShimmerBox(
     Box(modifier = modifier.background(Color.Transparent)) {
         if (showShimmer) {
             Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .shimmer(shimmer)
-                    .background(Color.Black.copy(alpha = 0.8f)),
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .shimmer(shimmer)
+                        .background(Color.Black.copy(alpha = 0.8f)),
             )
         } else {
             content()

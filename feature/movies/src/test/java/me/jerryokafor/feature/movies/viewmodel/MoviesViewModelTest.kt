@@ -41,12 +41,13 @@ class MoviesViewModelTest {
 
     private lateinit var moviesViewModel: MoviesViewModel
 
-    private val moviesRepository = mockk<MovieListRepository>(relaxed = true) {
-        coEvery { nowPlayingMovies(any()) } returns testMovies()
-        coEvery { popularMovies(any()) } returns testMovies()
-        coEvery { topRatedMovies(any()) } returns testMovies()
-        coEvery { upcomingMovies(any()) } returns testMovies()
-    }
+    private val moviesRepository =
+        mockk<MovieListRepository>(relaxed = true) {
+            coEvery { nowPlayingMovies(any()) } returns testMovies()
+            coEvery { popularMovies(any()) } returns testMovies()
+            coEvery { topRatedMovies(any()) } returns testMovies()
+            coEvery { upcomingMovies(any()) } returns testMovies()
+        }
 
     @Before
     fun setUp() {

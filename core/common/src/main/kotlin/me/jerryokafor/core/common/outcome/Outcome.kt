@@ -29,7 +29,10 @@ package me.jerryokafor.core.common.outcome
  * Success, with the requested data, or Failure, with an error response.
  */
 sealed class Outcome<out T> {
-    fun fold(onSuccess: (T) -> Unit, onFailure: (String) -> Unit) {
+    fun fold(
+        onSuccess: (T) -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
         when (this) {
             is Success -> onSuccess(data)
             is Failure -> onFailure(errorResponse)

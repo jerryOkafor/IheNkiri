@@ -35,7 +35,6 @@ import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.register
 
 class DetektConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target) {
             val detektVersion = libs.findVersion("detekt").get().toString()

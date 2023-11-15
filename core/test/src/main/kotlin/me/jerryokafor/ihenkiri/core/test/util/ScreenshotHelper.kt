@@ -42,10 +42,11 @@ import com.google.accompanist.testharness.TestHarness
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import org.robolectric.RuntimeEnvironment
 
-val DefaultRoborazziOptions = RoborazziOptions(
-    compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f), // Pixel-perfect matching
-    recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5), // Reduce the size of the PNGs
-)
+val DefaultRoborazziOptions =
+    RoborazziOptions(
+        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f), // Pixel-perfect matching
+        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5), // Reduce the size of the PNGs
+    )
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
     PHONE(
@@ -127,12 +128,13 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             ) {
                 // Keying is necessary in some cases (e.g. animations)
                 key(darkMode, dynamicTheming) {
-                    val description = generateDescription(
-                        shouldCompareDarkMode,
-                        darkMode,
-                        shouldCompareDynamicColor,
-                        dynamicTheming,
-                    )
+                    val description =
+                        generateDescription(
+                            shouldCompareDarkMode,
+                            darkMode,
+                            shouldCompareDynamicColor,
+                            dynamicTheming,
+                        )
                     content(description)
                 }
             }
@@ -165,15 +167,18 @@ private fun generateDescription(
     shouldCompareDynamicColor: Boolean,
     dynamicTheming: Boolean,
 ): String {
-    val description = "" + if (shouldCompareDarkMode) {
-        if (darkMode) "Dark" else "Light"
-    } else {
-        ""
-    } + if (shouldCompareDynamicColor) {
-        if (dynamicTheming) " Dynamic" else ""
-    } else {
-        ""
-    }
+    val description =
+        "" +
+            if (shouldCompareDarkMode) {
+                if (darkMode) "Dark" else "Light"
+            } else {
+                ""
+            } +
+            if (shouldCompareDynamicColor) {
+                if (dynamicTheming) " Dynamic" else ""
+            } else {
+                ""
+            }
 
     return description.trim()
 }
@@ -182,8 +187,9 @@ private fun generateDescription(
  * Extracts some properties from the spec string. Note that this function is not exhaustive.
  */
 private fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
-    val specs = deviceSpec.substringAfter("spec:").split(",").map { it.split("=") }
-        .associate { it[0] to it[1] }
+    val specs =
+        deviceSpec.substringAfter("spec:").split(",").map { it.split("=") }
+            .associate { it[0] to it[1] }
     val width = specs["width"]?.toInt() ?: 640
     val height = specs["height"]?.toInt() ?: 480
     val dpi = specs["dpi"]?.toInt() ?: 480

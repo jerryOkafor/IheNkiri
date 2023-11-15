@@ -37,7 +37,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class LandingScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 

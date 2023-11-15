@@ -98,35 +98,38 @@ const val GRID_ITEMS_TEST_TAG = "gridItems"
 const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 
-val testMovies = listOf(
-    Movie(
-        id = 667538,
-        title = "Transformers: Rise of the Beasts",
-        overview = """
-        When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
-        the Autobots must team up with a powerful faction known as the Maximals. With the 
-        fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
-        to help the Transformers as they engage in the ultimate battle to save Earth.
-        """.trimIndent(),
-        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
-        posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
-        voteAverage = 7.5,
-    ),
-    Movie(
-        id = 298618,
-        title = "The Flash",
-        overview = """
-            When his attempt to save his family inadvertently alters the future, 
-            Barry Allen becomes trapped in a reality in which General Zod has returned and 
-            there are no Super Heroes to turn to. In order to save the world that he is in and 
-            return to the future that he knows, Barry's only hope is to race for his life. But 
-            will making the ultimate sacrifice be enough to reset the universe
-        """.trimIndent(),
-        backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
-        posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
-        voteAverage = 7.0,
-    ),
-)
+val testMovies =
+    listOf(
+        Movie(
+            id = 667538,
+            title = "Transformers: Rise of the Beasts",
+            overview =
+                """
+                When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
+                the Autobots must team up with a powerful faction known as the Maximals. With the 
+                fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
+                to help the Transformers as they engage in the ultimate battle to save Earth.
+                """.trimIndent(),
+            backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
+            posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
+            voteAverage = 7.5,
+        ),
+        Movie(
+            id = 298618,
+            title = "The Flash",
+            overview =
+                """
+                When his attempt to save his family inadvertently alters the future, 
+                Barry Allen becomes trapped in a reality in which General Zod has returned and 
+                there are no Super Heroes to turn to. In order to save the world that he is in and 
+                return to the future that he knows, Barry's only hope is to race for his life. But 
+                will making the ultimate sacrifice be enough to reset the universe
+                """.trimIndent(),
+            backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
+            posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
+            voteAverage = 7.0,
+        ),
+    )
 
 @Suppress("MagicNumber")
 @ThemePreviews
@@ -136,33 +139,34 @@ fun MoviesScreenPreview() {
     IheNkiriTheme {
         MoviesScreen(
             movieLazyPagingItems = flowOf(PagingData.from(testMovies)).collectAsLazyPagingItems(),
-            filters = listOf(
-                MovieListFilterItem(
-                    label = "Discover",
-                    isSelected = true,
-                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
+            filters =
+                listOf(
+                    MovieListFilterItem(
+                        label = "Discover",
+                        isSelected = true,
+                        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+                    ),
+                    MovieListFilterItem(
+                        label = "Now Playing",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+                    ),
+                    MovieListFilterItem(
+                        label = "Popular",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.POPULAR,
+                    ),
+                    MovieListFilterItem(
+                        label = "Top Rated",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.TOP_RATED,
+                    ),
+                    MovieListFilterItem(
+                        label = "Upcoming",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.UPCOMING,
+                    ),
                 ),
-                MovieListFilterItem(
-                    label = "Now Playing",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
-                ),
-                MovieListFilterItem(
-                    label = "Popular",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.POPULAR,
-                ),
-                MovieListFilterItem(
-                    label = "Top Rated",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.TOP_RATED,
-                ),
-                MovieListFilterItem(
-                    label = "Upcoming",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.UPCOMING,
-                ),
-            ),
             onMovieClick = {},
         ) {}
     }
@@ -246,10 +250,11 @@ fun MoviesScreen(
                                         color = IheNkiri.color.onPrimary,
                                     )
                                 },
-                                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                    containerColor = Color.Transparent,
-                                    scrolledContainerColor = Color.Transparent,
-                                ),
+                                colors =
+                                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                        containerColor = Color.Transparent,
+                                        scrolledContainerColor = Color.Transparent,
+                                    ),
                                 actions = {
                                     Button(onClick = onSearchClick) {
                                         Icon(
@@ -266,10 +271,11 @@ fun MoviesScreen(
 
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalStaggeredGrid(
-                    modifier = Modifier
-                        .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
-                        .testTag(GRID_ITEMS_TEST_TAG)
-                        .fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
+                            .testTag(GRID_ITEMS_TEST_TAG)
+                            .fillMaxSize(),
                     columns = StaggeredGridCells.Fixed(2),
                     verticalItemSpacing = IheNkiri.spacing.oneAndHalf,
                     contentPadding = PaddingValues(bottom = IheNkiri.spacing.twoAndaHalf),
@@ -280,9 +286,10 @@ fun MoviesScreen(
                             val movie = movieLazyPagingItems[index]!!
                             val path = ImageUtil.buildImageUrl(movie.posterPath)
                             MoviePoster(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(ASPECT_RATIO),
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(ASPECT_RATIO),
                                 path = path,
                                 shimmer = shimmerInstance,
                                 contentDescription = movie.title,
@@ -293,14 +300,16 @@ fun MoviesScreen(
                         if (movieLazyPagingItems.loadState.append == LoadState.Loading) {
                             item(span = StaggeredGridItemSpan.FullLine) {
                                 Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentHeight(),
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight(),
                                 ) {
                                     CircularProgressIndicator(
-                                        modifier = Modifier
-                                            .align(Alignment.Center)
-                                            .padding(IheNkiri.spacing.oneAndHalf),
+                                        modifier =
+                                            Modifier
+                                                .align(Alignment.Center)
+                                                .padding(IheNkiri.spacing.oneAndHalf),
                                     )
                                 }
                             }
@@ -309,10 +318,11 @@ fun MoviesScreen(
                 )
 
                 MovieListFilter(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .fillMaxWidth()
-                        .testTag(CHIP_GROUP_TEST_TAG),
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopCenter)
+                            .fillMaxWidth()
+                            .testTag(CHIP_GROUP_TEST_TAG),
                     filters = filters,
                     onItemSelected = filterItemSelected,
                 )
@@ -332,21 +342,24 @@ fun SearchBarRow(
     onCancel: () -> Unit = {},
 ) {
     SearchBar(
-        modifier = Modifier
-            .testTag(SEARCH_TEST_TAG)
-            .semantics { traversalIndex = -1f },
+        modifier =
+            Modifier
+                .testTag(SEARCH_TEST_TAG)
+                .semantics { traversalIndex = -1f },
         query = query,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
         active = isSearchActive,
         onActiveChange = onActiveChange,
-        colors = SearchBarDefaults.colors(
-            containerColor = IheNkiri.color.primary,
-            inputFieldColors = TextFieldDefaults.colors(
-                focusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
-                unfocusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
+        colors =
+            SearchBarDefaults.colors(
+                containerColor = IheNkiri.color.primary,
+                inputFieldColors =
+                    TextFieldDefaults.colors(
+                        focusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
+                        unfocusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
+                    ),
             ),
-        ),
         placeholder = {
             Text(
                 text = "Search ....",
@@ -379,13 +392,14 @@ fun SearchBarRow(
                 headlineContent = { Text(resultText) },
                 supportingContent = { Text("Additional info") },
                 leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
-                modifier = Modifier
-                    .clickable {
-                        onQueryChange(resultText)
-                        onActiveChange(false)
-                    }
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                modifier =
+                    Modifier
+                        .clickable {
+                            onQueryChange(resultText)
+                            onActiveChange(false)
+                        }
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
             )
         }
     }

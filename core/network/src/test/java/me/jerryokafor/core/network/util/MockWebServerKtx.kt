@@ -30,7 +30,10 @@ import okio.buffer
 import okio.source
 import java.nio.charset.StandardCharsets
 
-internal fun MockWebServer.enqueueResponse(fileName: String, code: Int) {
+internal fun MockWebServer.enqueueResponse(
+    fileName: String,
+    code: Int,
+) {
     val inputStream = javaClass.classLoader?.getResourceAsStream("api-response/$fileName")
 
     val source = inputStream?.let { inputStream.source().buffer() }

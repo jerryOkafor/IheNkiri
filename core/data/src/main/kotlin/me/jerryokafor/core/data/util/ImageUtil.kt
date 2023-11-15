@@ -25,7 +25,6 @@
 package me.jerryokafor.core.data.util
 
 object ImageUtil {
-
     sealed interface Size {
         val value: String
 
@@ -71,6 +70,8 @@ object ImageUtil {
         }
     }
 
-    fun buildImageUrl(path: String?, size: Size = Size.Original): String =
-        "https://image.tmdb.org/t/p/${size.value}/$path"
+    fun buildImageUrl(
+        path: String?,
+        size: Size = Size.Original,
+    ): String = "https://image.tmdb.org/t/p/${size.value}/$path"
 }

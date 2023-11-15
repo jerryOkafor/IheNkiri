@@ -85,22 +85,25 @@ fun LandingScreen(
         )
 
         @Suppress("MagicNumber")
-        val colorStops = arrayOf(
-            0.0f to Color(0x000000000),
-            0.85f to Color(0xFF000000),
-        )
+        val colorStops =
+            arrayOf(
+                0.0f to Color(0x000000000),
+                0.85f to Color(0xFF000000),
+            )
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.verticalGradient(colorStops = colorStops)),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Brush.verticalGradient(colorStops = colorStops)),
         )
 
         Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(IheNkiri.spacing.twoAndaHalf),
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(IheNkiri.spacing.twoAndaHalf),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
@@ -113,12 +116,13 @@ fun LandingScreen(
             }
             TwoVerticalSpacer()
             Text(
-                text = buildAnnotatedString {
-                    append(stringResource(R.string.app_landing_text_everything_about))
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(stringResource(R.string.app_landing_text_extra))
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        append(stringResource(R.string.app_landing_text_everything_about))
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(stringResource(R.string.app_landing_text_extra))
+                        }
+                    },
                 color = Color.White,
                 style = IheNkiri.typography.headlineLarge,
             )
@@ -130,9 +134,10 @@ fun LandingScreen(
             )
             TwoVerticalSpacer()
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = IheNkiri.spacing.two),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = IheNkiri.spacing.two),
                 onClick = onSignInClick,
             ) {
                 Text(text = stringResource(R.string.app_sign_in))
@@ -140,9 +145,10 @@ fun LandingScreen(
             TwoVerticalSpacer()
 
             TextButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = IheNkiri.spacing.two),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = IheNkiri.spacing.two),
                 onClick = onContinueAsGuestClick,
             ) {
                 Text(

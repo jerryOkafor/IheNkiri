@@ -32,5 +32,4 @@ data class MoviesFilter(
     val region: String? = null,
 )
 
-fun MoviesFilter.toQuery() =
-    MoviesQuery(language = this.language, page = this.page, region = this.region)
+fun MoviesFilter.toQuery() = MoviesQuery(language = this.language, page = this.page, region = this.region)

@@ -55,74 +55,78 @@ class DefaultMoviesRemoteDataSourceTest {
     }
 
     @Test
-    fun `test nowPlayingMovies, returns list of movies`() = runTest {
-        val result = moviesRemoteDataSource.nowPlayingMovies(query)
+    fun `test nowPlayingMovies, returns list of movies`() =
+        runTest {
+            val result = moviesRemoteDataSource.nowPlayingMovies(query)
 
-        assertThat(result.size).isEqualTo(7)
-        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-            assertThat(it.second.equalsMovie(it.first)).isTrue()
-        }
+            assertThat(result.size).isEqualTo(7)
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
+                assertThat(it.second.equalsMovie(it.first)).isTrue()
+            }
 
-        coVerify {
-            moviesApi.nowPlaying(
-                withArg { assertEquals(query.language, it) },
-                withArg { assertEquals(query.page, it) },
-                withNullableArg { assertEquals(query.region, it) },
-            )
+            coVerify {
+                moviesApi.nowPlaying(
+                    withArg { assertEquals(query.language, it) },
+                    withArg { assertEquals(query.page, it) },
+                    withNullableArg { assertEquals(query.region, it) },
+                )
+            }
         }
-    }
 
     @Test
-    fun `test popularMovies, returns list of movies`() = runTest {
-        val result = moviesRemoteDataSource.popularMovies(query)
+    fun `test popularMovies, returns list of movies`() =
+        runTest {
+            val result = moviesRemoteDataSource.popularMovies(query)
 
-        assertThat(result.size).isEqualTo(7)
-        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-            assertThat(it.second.equalsMovie(it.first)).isTrue()
-        }
+            assertThat(result.size).isEqualTo(7)
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
+                assertThat(it.second.equalsMovie(it.first)).isTrue()
+            }
 
-        coVerify {
-            moviesApi.popular(
-                withArg { assertEquals(query.language, it) },
-                withArg { assertEquals(query.page, it) },
-                withNullableArg { assertEquals(query.region, it) },
-            )
+            coVerify {
+                moviesApi.popular(
+                    withArg { assertEquals(query.language, it) },
+                    withArg { assertEquals(query.page, it) },
+                    withNullableArg { assertEquals(query.region, it) },
+                )
+            }
         }
-    }
 
     @Test
-    fun `test topRatedMovies, returns list of movies`() = runTest {
-        val result = moviesRemoteDataSource.topRatedMovies(query)
+    fun `test topRatedMovies, returns list of movies`() =
+        runTest {
+            val result = moviesRemoteDataSource.topRatedMovies(query)
 
-        assertThat(result.size).isEqualTo(7)
-        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-            assertThat(it.second.equalsMovie(it.first)).isTrue()
-        }
+            assertThat(result.size).isEqualTo(7)
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
+                assertThat(it.second.equalsMovie(it.first)).isTrue()
+            }
 
-        coVerify {
-            moviesApi.topRated(
-                withArg { assertEquals(query.language, it) },
-                withArg { assertEquals(query.page, it) },
-                withNullableArg { assertEquals(query.region, it) },
-            )
+            coVerify {
+                moviesApi.topRated(
+                    withArg { assertEquals(query.language, it) },
+                    withArg { assertEquals(query.page, it) },
+                    withNullableArg { assertEquals(query.region, it) },
+                )
+            }
         }
-    }
 
     @Test
-    fun `test upcomingMovies, returns list of movies`() = runTest {
-        val result = moviesRemoteDataSource.upcomingMovies(query)
+    fun `test upcomingMovies, returns list of movies`() =
+        runTest {
+            val result = moviesRemoteDataSource.upcomingMovies(query)
 
-        assertThat(result.size).isEqualTo(7)
-        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-            assertThat(it.second.equalsMovie(it.first)).isTrue()
-        }
+            assertThat(result.size).isEqualTo(7)
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
+                assertThat(it.second.equalsMovie(it.first)).isTrue()
+            }
 
-        coVerify {
-            moviesApi.upcoming(
-                withArg { assertEquals(query.language, it) },
-                withArg { assertEquals(query.page, it) },
-                withNullableArg { assertEquals(query.region, it) },
-            )
+            coVerify {
+                moviesApi.upcoming(
+                    withArg { assertEquals(query.language, it) },
+                    withArg { assertEquals(query.page, it) },
+                    withNullableArg { assertEquals(query.region, it) },
+                )
+            }
         }
-    }
 }

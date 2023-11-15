@@ -42,7 +42,6 @@ import kotlinx.coroutines.CompletableDeferred
 
 @Suppress("UnusedPrivateMember")
 class FakeImageLoader(private val context: Context) : ImageLoader {
-
     override val defaults = DefaultRequestOptions()
     override val components = ComponentRegistry()
     override val memoryCache: MemoryCache? get() = null
@@ -56,6 +55,7 @@ class FakeImageLoader(private val context: Context) : ImageLoader {
         return object : Disposable {
             override val job = CompletableDeferred(newResult(request, result))
             override val isDisposed get() = true
+
             @Suppress("EmptyFunctionBlock")
             override fun dispose() {}
         }
@@ -65,7 +65,10 @@ class FakeImageLoader(private val context: Context) : ImageLoader {
         return newResult(request, ColorDrawable(Color.BLACK))
     }
 
-    private fun newResult(request: ImageRequest, drawable: Drawable): SuccessResult {
+    private fun newResult(
+        request: ImageRequest,
+        drawable: Drawable,
+    ): SuccessResult {
         return SuccessResult(
             drawable = drawable,
             request = request,

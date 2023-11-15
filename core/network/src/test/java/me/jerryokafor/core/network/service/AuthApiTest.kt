@@ -38,7 +38,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class AuthApiTest : BaseServiceTest() {
-
     private val authApi =
         createMockedService(mockWebServer, AuthApi::class.java)
 

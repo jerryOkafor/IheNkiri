@@ -109,5 +109,4 @@ class HomeScreenTest {
     }
 }
 
-private fun isBottomNavItemWithText(text: String): SemanticsMatcher =
-    hasText(text) and isSelectable() and hasClickAction()
+private fun isBottomNavItemWithText(text: String): SemanticsMatcher = hasText(text) and isSelectable() and hasClickAction()

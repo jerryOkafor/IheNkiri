@@ -74,17 +74,19 @@ class MissingExcludePreviewAnnotationDetector : Detector(), Detector.UastScanner
             "me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport"
 
         @JvmField
-        internal val ISSUE = Issue.create(
-            id = "MissingExcludePreviewAnnotationDetector",
-            briefDescription = "jetpack compose previews should be excluded from Jacoco report.",
-            explanation = "Any method annotated with @Preview or @ThemePreviews should also have @ExcludeFromGeneratedCoverageReport annotation to avoid being added in Jacoco test coverage report.",
-            category = Category.CUSTOM_LINT_CHECKS,
-            severity = Severity.ERROR,
-            implementation = Implementation(
-                MissingExcludePreviewAnnotationDetector::class.java,
-                Scope.JAVA_FILE_SCOPE,
-            ),
-            priority = 10,
-        )
+        internal val ISSUE =
+            Issue.create(
+                id = "MissingExcludePreviewAnnotationDetector",
+                briefDescription = "jetpack compose previews should be excluded from Jacoco report.",
+                explanation = "Any method annotated with @Preview or @ThemePreviews should also have @ExcludeFromGeneratedCoverageReport annotation to avoid being added in Jacoco test coverage report.",
+                category = Category.CUSTOM_LINT_CHECKS,
+                severity = Severity.ERROR,
+                implementation =
+                    Implementation(
+                        MissingExcludePreviewAnnotationDetector::class.java,
+                        Scope.JAVA_FILE_SCOPE,
+                    ),
+                priority = 10,
+            )
     }
 }

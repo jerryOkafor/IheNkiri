@@ -50,103 +50,109 @@ private const val ONE_HOUR_IN_MINUTES = 60
 private const val MAX_MOVIE_RATING = 10.0
 
 @HiltViewModel
-class MoviesDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val movieDetailsRepository: MovieDetailsRepository,
-) : ViewModel() {
-    private val movieId = MovieDetailsArg(savedStateHandle).movieId
+class MoviesDetailViewModel
+    @Inject
+    constructor(
+        savedStateHandle: SavedStateHandle,
+        private val movieDetailsRepository: MovieDetailsRepository,
+    ) : ViewModel() {
+        private val movieId = MovieDetailsArg(savedStateHandle).movieId
 
-    private val _uiState = MutableStateFlow(UIState())
-    val uiState: StateFlow<UIState> = _uiState.asStateFlow()
+        private val _uiState = MutableStateFlow(UIState())
+        val uiState: StateFlow<UIState> = _uiState.asStateFlow()
 
-    init {
-        loadDetails(movieId)
-    }
-
-    private fun loadDetails(movieId: Long) {
-        viewModelScope.launch {
-            _uiState.update { it.copy() }
-
-            val detailsJob = async {
-                movieDetailsRepository.movieDetails(movieId)
-                    .onSuccess { movieDetails ->
-                        val hours = movieDetails.runtime / ONE_HOUR_IN_MINUTES
-                        val minutes = movieDetails.runtime.rem(ONE_HOUR_IN_MINUTES)
-                        val formattedRuntime =
-                            "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
-                        _uiState.update {
-                            it.copy(
-                                title = movieDetails.title,
-                                overview = movieDetails.overview,
-                                categories = movieDetails.genres.map { genre -> genre.name },
-                                postPath = movieDetails.posterPath,
-                                releaseDate = movieDetails.releaseDate.formatDate(),
-                                runtime = formattedRuntime,
-                                rating = (movieDetails.voteAverage / MAX_MOVIE_RATING).toFloat(),
-                            )
-                        }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        Log.w("TestIng: ", "$throwable")
-                    }.collect()
-            }
-
-            val creditDetailsJob = async {
-                movieDetailsRepository.movieCredits(movieId)
-                    .onSuccess { movieCredit ->
-                        _uiState.update { state ->
-                            state.copy(
-                                cast = movieCredit.cast.distinctBy { it.name },
-                                crew = movieCredit.crew.distinctBy { it.name },
-                            )
-                        }
-                    }
-                    .onFailure { _, _, e ->
-                        Log.w("TestIng: ", "$e")
-                    }.collect()
-            }
-
-            val similarMovies = async {
-                movieDetailsRepository.similarMovies(movieId)
-                    .onSuccess { movies ->
-                        Log.d("TestIng: ", "Recommendations: $movies")
-                        _uiState.update { it.copy(recommendations = movies) }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        throwable?.printStackTrace()
-                        Log.w("TestIng: ", "$errorResponse")
-                    }.collect()
-            }
-
-            val videosJob = async {
-                movieDetailsRepository.movieVideos(movieId)
-                    .onSuccess { videos ->
-                        _uiState.update { it.copy(videos = videos) }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        Log.w("TestIng: ", "$throwable")
-                    }.collect()
-            }
-
-            detailsJob.await()
-            creditDetailsJob.join()
-            similarMovies.join()
-            videosJob.join()
+        init {
+            loadDetails(movieId)
         }
-    }
 
-    data class UIState(
-        val loading: Boolean = false,
-        val title: String = "",
-        val overview: String = "",
-        val postPath: String = "",
-        val releaseDate: String = "",
-        val runtime: String = "",
-        val rating: Float = 0F,
-        val cast: List<Cast> = listOf(),
-        val crew: List<Crew> = listOf(),
-        val categories: List<String> = listOf(),
-        val recommendations: List<Movie> = listOf(),
-        val videos: List<Video> = listOf(),
-    )
-}
+        private fun loadDetails(movieId: Long) {
+            viewModelScope.launch {
+                _uiState.update { it.copy() }
+
+                val detailsJob =
+                    async {
+                        movieDetailsRepository.movieDetails(movieId)
+                            .onSuccess { movieDetails ->
+                                val hours = movieDetails.runtime / ONE_HOUR_IN_MINUTES
+                                val minutes = movieDetails.runtime.rem(ONE_HOUR_IN_MINUTES)
+                                val formattedRuntime =
+                                    "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
+                                _uiState.update {
+                                    it.copy(
+                                        title = movieDetails.title,
+                                        overview = movieDetails.overview,
+                                        categories = movieDetails.genres.map { genre -> genre.name },
+                                        postPath = movieDetails.posterPath,
+                                        releaseDate = movieDetails.releaseDate.formatDate(),
+                                        runtime = formattedRuntime,
+                                        rating = (movieDetails.voteAverage / MAX_MOVIE_RATING).toFloat(),
+                                    )
+                                }
+                            }.onFailure { errorResponse, errorCode, throwable ->
+                                Log.w("TestIng: ", "$throwable")
+                            }.collect()
+                    }
+
+                val creditDetailsJob =
+                    async {
+                        movieDetailsRepository.movieCredits(movieId)
+                            .onSuccess { movieCredit ->
+                                _uiState.update { state ->
+                                    state.copy(
+                                        cast = movieCredit.cast.distinctBy { it.name },
+                                        crew = movieCredit.crew.distinctBy { it.name },
+                                    )
+                                }
+                            }
+                            .onFailure { _, _, e ->
+                                Log.w("TestIng: ", "$e")
+                            }.collect()
+                    }
+
+                val similarMovies =
+                    async {
+                        movieDetailsRepository.similarMovies(movieId)
+                            .onSuccess { movies ->
+                                Log.d("TestIng: ", "Recommendations: $movies")
+                                _uiState.update { it.copy(recommendations = movies) }
+                            }.onFailure { errorResponse, errorCode, throwable ->
+                                throwable?.printStackTrace()
+                                Log.w("TestIng: ", "$errorResponse")
+                            }.collect()
+                    }
+
+                val videosJob =
+                    async {
+                        movieDetailsRepository.movieVideos(movieId)
+                            .onSuccess { videos ->
+                                _uiState.update { it.copy(videos = videos) }
+                            }.onFailure { errorResponse, errorCode, throwable ->
+                                Log.w("TestIng: ", "$throwable")
+                            }.collect()
+                    }
+
+                detailsJob.await()
+                creditDetailsJob.join()
+                similarMovies.join()
+                videosJob.join()
+            }
+        }
+
+        data class UIState(
+            val loading: Boolean = false,
+            val title: String = "",
+            val overview: String = "",
+            val postPath: String = "",
+            val releaseDate: String = "",
+            val runtime: String = "",
+            val rating: Float = 0F,
+            val cast: List<Cast> = listOf(),
+            val crew: List<Crew> = listOf(),
+            val categories: List<String> = listOf(),
+            val recommendations: List<Movie> = listOf(),
+            val videos: List<Video> = listOf(),
+        )
+    }
 
 private fun String.formatDate(): String {
     return this.replace("-", "/")

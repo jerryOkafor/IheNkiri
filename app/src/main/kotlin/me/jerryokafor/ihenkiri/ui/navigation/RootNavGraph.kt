@@ -32,6 +32,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.screens.HomeScreen
 import me.jerryokafor.ihenkiri.ui.screens.LandingScreen

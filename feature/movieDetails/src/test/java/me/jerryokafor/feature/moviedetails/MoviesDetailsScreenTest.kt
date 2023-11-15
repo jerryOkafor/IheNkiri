@@ -71,20 +71,21 @@ internal class MoviesDetailsScreenTest {
     private var onNavigateUp = 0
     private var onWatchTrailerClick = 0
 
-    private val testUIState = MoviesDetailViewModel.UIState(
-        loading = false,
-        title = "Fight Club",
-        overview = "A ticking-time-bomb insomniac and a slippery",
-        postPath = "",
-        releaseDate = "1999/10/15",
-        runtime = "1hr 50m",
-        rating = 0.85F,
-        cast = MovieDetailsTestData.testMovieCredit(TEST_ID).cast,
-        crew = MovieDetailsTestData.testMovieCredit(TEST_ID).crew,
-        categories = listOf("Action", "Drama", "Adventure", "Animation"),
-        recommendations = listOf(),
-        videos = listOf(),
-    )
+    private val testUIState =
+        MoviesDetailViewModel.UIState(
+            loading = false,
+            title = "Fight Club",
+            overview = "A ticking-time-bomb insomniac and a slippery",
+            postPath = "",
+            releaseDate = "1999/10/15",
+            runtime = "1hr 50m",
+            rating = 0.85F,
+            cast = MovieDetailsTestData.testMovieCredit(TEST_ID).cast,
+            crew = MovieDetailsTestData.testMovieCredit(TEST_ID).crew,
+            categories = listOf("Action", "Drama", "Adventure", "Animation"),
+            recommendations = listOf(),
+            videos = listOf(),
+        )
 
     @Before
     @Throws(Exception::class)

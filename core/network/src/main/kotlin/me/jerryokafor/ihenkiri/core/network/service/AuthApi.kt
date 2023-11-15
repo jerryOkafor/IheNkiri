@@ -42,7 +42,9 @@ interface AuthApi {
      * @return request token response
      */
     @POST("${Config.TMDB_API_V4}/auth/request_token")
-    suspend fun createRequestToken(@Body requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse
+    suspend fun createRequestToken(
+        @Body requestBody: CreateRequestTokenRequest,
+    ): CreateRequestTokenResponse
 
     /**
      * This method will finish the user authentication flow and issue an official user access token.
@@ -53,5 +55,7 @@ interface AuthApi {
      * @return access token
      */
     @POST("${Config.TMDB_API_V4}/auth/access_token")
-    suspend fun createAccessToken(@Body requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse
+    suspend fun createAccessToken(
+        @Body requestBody: CreateAccessTokenRequest,
+    ): CreateAccessTokenResponse
 }

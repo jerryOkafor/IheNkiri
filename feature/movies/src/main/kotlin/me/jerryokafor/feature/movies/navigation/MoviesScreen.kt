@@ -22,22 +22,27 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.test.network
+package me.jerryokafor.feature.movies.navigation
 
-import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.test.util.testMovies
-import javax.inject.Inject
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
+import me.jerryokafor.feature.movies.screen.MoviesScreen
 
-class FakeMoviesRemoteDataSource
-    @Inject
-    constructor() : MoviesRemoteDataSource {
-        override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = testMovies()
+@Suppress("TopLevelPropertyNaming")
+const val moviesRoute = "/movies"
 
-        override suspend fun popularMovies(query: MoviesQuery): List<Movie> = testMovies()
-
-        override suspend fun topRatedMovies(query: MoviesQuery): List<Movie> = testMovies()
-
-        override suspend fun upcomingMovies(query: MoviesQuery): List<Movie> = testMovies()
+fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
+    composable(
+        route = moviesRoute,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
+    ) {
+        MoviesScreen(onMovieClick = onMovieClick)
     }
+}

@@ -34,7 +34,6 @@ import org.gradle.kotlin.dsl.named
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
 class KtLintConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target) {
             val version = libs.findVersion("ktlint").get().toString()

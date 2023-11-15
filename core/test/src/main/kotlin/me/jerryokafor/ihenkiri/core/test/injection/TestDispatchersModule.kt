@@ -46,7 +46,6 @@ import javax.inject.Singleton
     replaces = [DispatchersModule::class],
 )
 object TestDispatchersModule {
-
     @[Provides Singleton]
     fun providesTestDispatcher(): TestDispatcher = UnconfinedTestDispatcher()
 
@@ -59,8 +58,7 @@ object TestDispatchersModule {
 
     @DefaultDispatcher
     @[Provides Singleton]
-    fun providesDefaultDispatcher(testDispatcher: TestDispatcher): CoroutineDispatcher =
-        testDispatcher
+    fun providesDefaultDispatcher(testDispatcher: TestDispatcher): CoroutineDispatcher = testDispatcher
 
     @IoDispatcher
     @[Provides Singleton]

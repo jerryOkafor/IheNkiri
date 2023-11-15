@@ -49,50 +49,54 @@ class MoviesDetailViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var moviesDetailViewModel: MoviesDetailViewModel
-    private val savedStateHandle = SavedStateHandle().apply {
-        this[movieIdArg] = TEST_ID
-    }
+    private val savedStateHandle =
+        SavedStateHandle().apply {
+            this[movieIdArg] = TEST_ID
+        }
     private val testMovie = MovieDetailsTestData.testMovieDetails(TEST_ID)
     private val testMovieCredit = MovieDetailsTestData.testMovieCredit(TEST_ID)
     private val movieDetailsRepository = FakeMovieDetailsRepository()
 
     @Before
     fun init() {
-        moviesDetailViewModel = MoviesDetailViewModel(
-            savedStateHandle = savedStateHandle,
-            movieDetailsRepository = movieDetailsRepository,
-        )
+        moviesDetailViewModel =
+            MoviesDetailViewModel(
+                savedStateHandle = savedStateHandle,
+                movieDetailsRepository = movieDetailsRepository,
+            )
     }
 
     @Test
-    fun moviesDetailViewModel_init_loadsMovieDetails_using_turbine() = runTest {
-        assertEquals(savedStateHandle[movieIdArg], TEST_ID)
-        moviesDetailViewModel.uiState.test {
-            awaitItem().apply {
-                assertEquals(expected = testMovieCredit.crew, actual = crew)
-                assertEquals(expected = testMovieCredit.cast, actual = cast)
-                assertEquals(expected = testMovie.title, actual = title)
-                assertEquals(expected = testMovie.overview, actual = overview)
+    fun moviesDetailViewModel_init_loadsMovieDetails_using_turbine() =
+        runTest {
+            assertEquals(savedStateHandle[movieIdArg], TEST_ID)
+            moviesDetailViewModel.uiState.test {
+                awaitItem().apply {
+                    assertEquals(expected = testMovieCredit.crew, actual = crew)
+                    assertEquals(expected = testMovieCredit.cast, actual = cast)
+                    assertEquals(expected = testMovie.title, actual = title)
+                    assertEquals(expected = testMovie.overview, actual = overview)
+                }
+
+                // clean up
+                cancelAndIgnoreRemainingEvents()
             }
+        }
+
+    @Test
+    fun moviesDetailViewModel_init_loadsMovieDetails() =
+        runTest {
+            val uiStateJob =
+                launch(UnconfinedTestDispatcher()) { moviesDetailViewModel.uiState.collect() }
+            assertEquals(savedStateHandle[movieIdArg], TEST_ID)
+
+            val actualUiState = moviesDetailViewModel.uiState.value
+            assertEquals(expected = testMovieCredit.crew, actual = actualUiState.crew)
+            assertEquals(expected = testMovieCredit.cast, actual = actualUiState.cast)
+            assertEquals(expected = testMovie.title, actual = actualUiState.title)
+            assertEquals(expected = testMovie.overview, actual = actualUiState.overview)
 
             // clean up
-            cancelAndIgnoreRemainingEvents()
+            uiStateJob.cancel()
         }
-    }
-
-    @Test
-    fun moviesDetailViewModel_init_loadsMovieDetails() = runTest {
-        val uiStateJob =
-            launch(UnconfinedTestDispatcher()) { moviesDetailViewModel.uiState.collect() }
-        assertEquals(savedStateHandle[movieIdArg], TEST_ID)
-
-        val actualUiState = moviesDetailViewModel.uiState.value
-        assertEquals(expected = testMovieCredit.crew, actual = actualUiState.crew)
-        assertEquals(expected = testMovieCredit.cast, actual = actualUiState.cast)
-        assertEquals(expected = testMovie.title, actual = actualUiState.title)
-        assertEquals(expected = testMovie.overview, actual = actualUiState.overview)
-
-        // clean up
-        uiStateJob.cancel()
-    }
 }
