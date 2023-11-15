@@ -22,8 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.movies
+package me.jerryokafor.feature.movies.screen
 
+import android.os.Build
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
@@ -42,20 +43,22 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidTest
+import com.google.common.truth.Truth
 import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
-import me.jerryokafor.feature.movies.screen.CHIP_GROUP_TEST_TAG
-import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
-import me.jerryokafor.feature.movies.screen.MoviesScreen
-import me.jerryokafor.feature.movies.screen.SEARCH_TEST_TAG
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
 class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -125,7 +128,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -142,7 +145,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -159,7 +162,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -177,7 +180,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -197,7 +200,7 @@ class MoviesScreenTest {
             .assertHasClickAction()
             .performClick()
 
-        assertThat(onMovieClickCounter).isEqualTo(1)
+        Truth.assertThat(onMovieClickCounter).isEqualTo(1)
     }
 }
 

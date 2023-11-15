@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.moviedetails
+package me.jerryokafor.feature.moviedetails.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test

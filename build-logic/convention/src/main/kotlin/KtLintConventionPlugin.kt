@@ -87,7 +87,8 @@ class KtLintConventionPlugin : Plugin<Project> {
                 description = "Setup Android Studio to use the same code style as ktlint."
                 classpath = ktlint
                 mainClass.set("com.pinterest.ktlint.Main")
-                args = listOf("--android", "applyToIDEAProject", "-y")
+                args = listOf("--apply-to-idea-project", "-y")
+                workingDir(rootDir)
             }
         }
     }

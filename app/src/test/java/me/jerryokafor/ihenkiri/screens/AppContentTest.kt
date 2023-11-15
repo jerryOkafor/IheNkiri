@@ -22,8 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.app
+package me.jerryokafor.ihenkiri.screens
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
@@ -34,6 +35,7 @@ import androidx.navigation.testing.TestNavHostController
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.ihenkiri.ui.AppContent
 import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
@@ -42,7 +44,16 @@ import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    application = HiltTestApplication::class,
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
 @HiltAndroidTest
 class AppContentTest {
     @get:Rule(order = 0)

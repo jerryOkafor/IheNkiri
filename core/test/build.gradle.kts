@@ -58,6 +58,7 @@ dependencies {
     api(libs.com.google.truth)
     api(libs.androidx.hilt.android.testing)
     api(libs.org.jetbrains.kotlinx.coroutines.test)
+    api(libs.androidx.navigation.testing)
     api(libs.androidx.compose.ui.test.junit4)
     debugApi(libs.androidx.compose.ui.test.manifest)
 

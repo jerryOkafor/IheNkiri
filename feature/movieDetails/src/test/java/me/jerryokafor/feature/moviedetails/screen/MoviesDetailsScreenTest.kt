@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.moviedetails
+package me.jerryokafor.feature.moviedetails.screen
 
 import android.os.Build
 import androidx.compose.ui.test.assertCountEquals
@@ -37,6 +37,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.test.core.app.ApplicationProvider
 import coil.Coil
+import me.jerryokafor.feature.moviedetails.viewmodel.TEST_ID
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.FakeImageLoader
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
@@ -60,7 +61,7 @@ import kotlin.test.assertEquals
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
 )
-internal class MoviesDetailsScreenTest {
+class MoviesDetailsScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 

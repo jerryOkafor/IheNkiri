@@ -114,6 +114,6 @@ dependencies {
 
     implementation(libs.com.google.accompanist.systemuicontroller)
 
-    testImplementation(project(":core:test"))
-    androidTestImplementation(project(":core:test"))
+    testImplementation(projects.core.test)
+    androidTestImplementation(projects.core.test)
 }

@@ -22,8 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.app.screens
+package me.jerryokafor.ihenkiri.screens
 
+import android.os.Build
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
@@ -39,21 +40,22 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import me.jerryokafor.ihenkiri.ui.navigation.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.screens.HomeScreen
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@OptIn(ExperimentalTestApi::class)
-@HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
 class HomeScreenTest {
-    @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
-
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
@@ -61,7 +63,6 @@ class HomeScreenTest {
 
     @Before
     fun setUp() {
-        hiltRule.inject()
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
@@ -69,6 +70,7 @@ class HomeScreenTest {
         }
     }
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
     fun homeScreen_verifyNavMenus() {
         with(composeTestRule) {
@@ -109,4 +111,5 @@ class HomeScreenTest {
     }
 }
 
-private fun isBottomNavItemWithText(text: String): SemanticsMatcher = hasText(text) and isSelectable() and hasClickAction()
+private fun isBottomNavItemWithText(text: String): SemanticsMatcher =
+    hasText(text) and isSelectable() and hasClickAction()
