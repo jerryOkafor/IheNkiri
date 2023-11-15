@@ -52,11 +52,11 @@ class DefaultMovieDetailsRepositoryTest {
     @Before
     fun setUp() {
         coEvery { moviesDetailsRemoteDataSource.movieDetails(any()) } returns
-                MovieDetailsTestData.testMovieDetails(testMovieId)
+            MovieDetailsTestData.testMovieDetails(testMovieId)
         coEvery { moviesDetailsRemoteDataSource.movieCredits(any()) } returns
-                MovieDetailsTestData.testMovieCredit(testMovieId)
+            MovieDetailsTestData.testMovieCredit(testMovieId)
         coEvery { moviesDetailsRemoteDataSource.movieVideos(any()) } returns
-                MovieDetailsTestData.testMovieVideos(testMovieId)
+            MovieDetailsTestData.testMovieVideos(testMovieId)
         coEvery { moviesDetailsRemoteDataSource.similarMovies(any()) } returns testMovies()
 
         movieDetailsRepository =
@@ -64,114 +64,117 @@ class DefaultMovieDetailsRepositoryTest {
     }
 
     @Test
-    fun `test movieDetails() returns movie details`() = testScope.runTest {
-        movieDetailsRepository.movieDetails(testMovieId).test {
-            with((awaitItem() as Success).data) {
-                assertThat(title).isEqualTo("Fight Club")
-                assertThat(imdbId).isEqualTo("tt0137523")
-                assertThat(budget).isEqualTo(63000000)
-                assertThat(adult).isFalse()
-                assertThat(video).isFalse()
-                assertThat(voteAverage).isEqualTo(8.433)
-                assertThat(voteCount).isEqualTo(26280)
-            }
-
-            cancelAndIgnoreRemainingEvents()
-        }
-
-        coVerify(exactly = 1) {
-            moviesDetailsRemoteDataSource.movieDetails(
-                withArg { assertEquals(it, testMovieId) }
-            )
-        }
-    }
-
-    @Test
-    fun `test movieCredits() returns movie credit (Cases & Crew)`() = testScope.runTest {
-        movieDetailsRepository.movieCredits(testMovieId).test {
-            with((awaitItem() as Success).data) {
-                assertThat(cast.size).isEqualTo(2)
-                assertThat(crew.size).isEqualTo(2)
-
-                with(cast.first()) {
+    fun `test movieDetails() returns movie details`() =
+        testScope.runTest {
+            movieDetailsRepository.movieDetails(testMovieId).test {
+                with((awaitItem() as Success).data) {
+                    assertThat(title).isEqualTo("Fight Club")
+                    assertThat(imdbId).isEqualTo("tt0137523")
+                    assertThat(budget).isEqualTo(63000000)
                     assertThat(adult).isFalse()
-                    assertThat(character).isEqualTo("The Narrator")
-                    assertThat(name).isEqualTo("Edward Norton")
-                    assertThat(popularity).isEqualTo(26.99)
-                }
-
-                with(crew.last()) {
-                    assertThat(adult).isFalse()
-                    assertThat(department).isEqualTo("Costume & Make-Up")
-                    assertThat(name).isEqualTo("Michael Kaplan")
-                    assertThat(popularity).isEqualTo(4.294)
-                }
-            }
-
-            cancelAndIgnoreRemainingEvents()
-        }
-
-        coVerify(exactly = 1) {
-            moviesDetailsRemoteDataSource.movieCredits(
-                withArg { assertEquals(it, testMovieId) }
-            )
-        }
-    }
-
-    @Test
-    fun `test movieVideos() returns list of videos for the movie`() = testScope.runTest {
-        movieDetailsRepository.movieVideos(testMovieId).test {
-            with((awaitItem() as Success).data) {
-                assertThat(size).isEqualTo(2)
-
-                with(last()) {
-                    assertThat(id).isEqualTo("5c9294240e0a267cd516835f")
-                    assertThat(iso6391).isEqualTo("US")
-                    assertThat(name).isEqualTo("#TBT Trailer")
-                    assertThat(site).isEqualTo("YouTube")
-                    assertThat(type).isEqualTo("Trailer")
-                }
-            }
-
-            cancelAndIgnoreRemainingEvents()
-        }
-
-        coVerify(exactly = 1) {
-            moviesDetailsRemoteDataSource.movieVideos(
-                withArg { assertEquals(it, testMovieId) }
-            )
-        }
-    }
-
-    @Test
-    fun `test similarMovies() returns list of movies`() = testScope.runTest {
-        movieDetailsRepository.similarMovies(testMovieId).test {
-            with((awaitItem() as Success).data) {
-                assertThat(size).isEqualTo(4)
-
-                with(last()) {
-                    assertThat(id).isEqualTo(346698)
-                    assertThat(title).isEqualTo("Barbie")
-                    assertThat(overview).isEqualTo(
-                        """
-                Barbie and Ken are having the time of their lives in the colorful and seemingly 
-                perfect world of Barbie Land. However, when they get a chance to go to the real world, 
-                they soon discover the joys and perils of living among humans.
-                """.trimIndent()
-                    )
-                    assertThat(posterPath).isEqualTo("/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg")
-                    assertThat(voteAverage).isEqualTo(7.5)
+                    assertThat(video).isFalse()
+                    assertThat(voteAverage).isEqualTo(8.433)
+                    assertThat(voteCount).isEqualTo(26280)
                 }
 
                 cancelAndIgnoreRemainingEvents()
             }
 
-
             coVerify(exactly = 1) {
-                moviesDetailsRemoteDataSource.similarMovies(
-                    withArg { assertEquals(it, testMovieId) }
+                moviesDetailsRemoteDataSource.movieDetails(
+                    withArg { assertEquals(it, testMovieId) },
                 )
             }
         }
-    }
+
+    @Test
+    fun `test movieCredits() returns movie credit (Cases & Crew)`() =
+        testScope.runTest {
+            movieDetailsRepository.movieCredits(testMovieId).test {
+                with((awaitItem() as Success).data) {
+                    assertThat(cast.size).isEqualTo(2)
+                    assertThat(crew.size).isEqualTo(2)
+
+                    with(cast.first()) {
+                        assertThat(adult).isFalse()
+                        assertThat(character).isEqualTo("The Narrator")
+                        assertThat(name).isEqualTo("Edward Norton")
+                        assertThat(popularity).isEqualTo(26.99)
+                    }
+
+                    with(crew.last()) {
+                        assertThat(adult).isFalse()
+                        assertThat(department).isEqualTo("Costume & Make-Up")
+                        assertThat(name).isEqualTo("Michael Kaplan")
+                        assertThat(popularity).isEqualTo(4.294)
+                    }
+                }
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                moviesDetailsRemoteDataSource.movieCredits(
+                    withArg { assertEquals(it, testMovieId) },
+                )
+            }
+        }
+
+    @Test
+    fun `test movieVideos() returns list of videos for the movie`() =
+        testScope.runTest {
+            movieDetailsRepository.movieVideos(testMovieId).test {
+                with((awaitItem() as Success).data) {
+                    assertThat(size).isEqualTo(2)
+
+                    with(last()) {
+                        assertThat(id).isEqualTo("5c9294240e0a267cd516835f")
+                        assertThat(iso6391).isEqualTo("US")
+                        assertThat(name).isEqualTo("#TBT Trailer")
+                        assertThat(site).isEqualTo("YouTube")
+                        assertThat(type).isEqualTo("Trailer")
+                    }
+                }
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                moviesDetailsRemoteDataSource.movieVideos(
+                    withArg { assertEquals(it, testMovieId) },
+                )
+            }
+        }
+
+    @Test
+    fun `test similarMovies() returns list of movies`() =
+        testScope.runTest {
+            movieDetailsRepository.similarMovies(testMovieId).test {
+                with((awaitItem() as Success).data) {
+                    assertThat(size).isEqualTo(4)
+
+                    with(last()) {
+                        assertThat(id).isEqualTo(346698)
+                        assertThat(title).isEqualTo("Barbie")
+                        assertThat(overview).isEqualTo(
+                            """
+                            Barbie and Ken are having the time of their lives in the colorful and seemingly 
+                            perfect world of Barbie Land. However, when they get a chance to go to the real world, 
+                            they soon discover the joys and perils of living among humans.
+                            """.trimIndent(),
+                        )
+                        assertThat(posterPath).isEqualTo("/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg")
+                        assertThat(voteAverage).isEqualTo(7.5)
+                    }
+
+                    cancelAndIgnoreRemainingEvents()
+                }
+
+                coVerify(exactly = 1) {
+                    moviesDetailsRemoteDataSource.similarMovies(
+                        withArg { assertEquals(it, testMovieId) },
+                    )
+                }
+            }
+        }
 }
