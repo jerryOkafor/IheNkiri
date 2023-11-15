@@ -33,8 +33,8 @@ import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSo
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 import me.jerryokafor.ihenkiri.core.network.model.response.equalsMovie
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
-import me.jerryokafor.ihenkiri.core.test.util.testMoviesListResponse
 import me.jerryokafor.ihenkiri.core.test.util.testMoviesResponse
+import me.jerryokafor.ihenkiri.core.test.util.testNetworkMoviesListResponse
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -46,10 +46,10 @@ class DefaultMoviesRemoteDataSourceTest {
 
     @Before
     fun setUp() {
-        coEvery { moviesApi.nowPlaying(any(), any(), any()) } returns testMoviesListResponse()
-        coEvery { moviesApi.popular(any(), any(), any()) } returns testMoviesListResponse()
-        coEvery { moviesApi.topRated(any(), any(), any()) } returns testMoviesListResponse()
-        coEvery { moviesApi.upcoming(any(), any(), any()) } returns testMoviesListResponse()
+        coEvery { moviesApi.nowPlaying(any(), any(), any()) } returns testNetworkMoviesListResponse()
+        coEvery { moviesApi.popular(any(), any(), any()) } returns testNetworkMoviesListResponse()
+        coEvery { moviesApi.topRated(any(), any(), any()) } returns testNetworkMoviesListResponse()
+        coEvery { moviesApi.upcoming(any(), any(), any()) } returns testNetworkMoviesListResponse()
 
         moviesRemoteDataSource = DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
     }

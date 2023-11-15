@@ -27,5 +27,5 @@ package me.jerryokafor.ihenkiri.core.network.datasource
 data class MoviesQuery(
     val language: String,
     val page: Int,
-    val region: String? = null,
+    val region: String?,
 )

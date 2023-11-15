@@ -155,7 +155,7 @@ realistic) implementation with additional testing hooks. This results in less br
 exercise more production code quality, instead of just verifying specific calls against mocks.
 
 >[!IMPORTANT]
-
+>
 > **Test naming convention**
 > 
 >  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test function name:
