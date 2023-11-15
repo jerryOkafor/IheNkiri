@@ -72,13 +72,14 @@ internal fun AppContent(
     LaunchedEffect(key1 = viewModel.startDestination.value) {
         navController.navigate(
             route = viewModel.startDestination.value,
-            navOptions = navOptions {
-                navController.currentDestination?.route?.let {
-                    popUpTo(it) {
-                        inclusive = true
+            navOptions =
+                navOptions {
+                    navController.currentDestination?.route?.let {
+                        popUpTo(it) {
+                            inclusive = true
+                        }
                     }
-                }
-            },
+                },
         )
     }
 
@@ -143,10 +144,11 @@ fun TvShowScreen() {
                     )
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                    ),
             )
             TwoAndHalfHorizontalSpacer()
             Text(
@@ -161,7 +163,7 @@ fun TvShowScreen() {
 @Composable
 @ExcludeFromGeneratedCoverageReport
 fun PeopleScreen() {
-    Background() {
+    Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
                 modifier = Modifier.testTag(TITLE_TEST_TAG),
@@ -173,10 +175,11 @@ fun PeopleScreen() {
                     )
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                    ),
             )
             TwoAndHalfHorizontalSpacer()
             Text(
@@ -190,7 +193,7 @@ fun PeopleScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @ExcludeFromGeneratedCoverageReport
-fun MoreScree() {
+fun MoreScreen() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
@@ -203,10 +206,11 @@ fun MoreScree() {
                     )
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                    ),
             )
             TwoAndHalfHorizontalSpacer()
             Text(

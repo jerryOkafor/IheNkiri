@@ -34,7 +34,6 @@ import retrofit2.http.Path
 private const val V3 = "3"
 
 interface MovieDetailsApi {
-
     /**
      * Get the top level details of a movie by ID.
      *
@@ -42,7 +41,9 @@ interface MovieDetailsApi {
      * @return
      */
     @GET("$V3/movie/{movieId}")
-    suspend fun movieDetails(@Path("movieId") movieId: Long): NetworkMovieDetails
+    suspend fun movieDetails(
+        @Path("movieId") movieId: Long,
+    ): NetworkMovieDetails
 
     /**
      * Get the list of casts and crews of a movie by ID.
@@ -51,7 +52,9 @@ interface MovieDetailsApi {
      * @return
      */
     @GET("$V3/movie/{movieId}/credits")
-    suspend fun movieCredits(@Path("movieId") movieId: Long): NetworkMovieCredit
+    suspend fun movieCredits(
+        @Path("movieId") movieId: Long,
+    ): NetworkMovieCredit
 
     /**
      * Get videos of a movie by ID.
@@ -60,7 +63,9 @@ interface MovieDetailsApi {
      * @return
      */
     @GET("$V3/movie/{movieId}/videos")
-    suspend fun movieVideos(@Path("movieId") movieId: Long): NetworkVideos
+    suspend fun movieVideos(
+        @Path("movieId") movieId: Long,
+    ): NetworkVideos
 
     /**
      * Get the similar movies based on genres and keywords.
@@ -69,5 +74,7 @@ interface MovieDetailsApi {
      * @return
      */
     @GET("$V3/movie/{movieId}/similar")
-    suspend fun similar(@Path("movieId") movieId: Long): NetworkMovieList
+    suspend fun similar(
+        @Path("movieId") movieId: Long,
+    ): NetworkMovieList
 }

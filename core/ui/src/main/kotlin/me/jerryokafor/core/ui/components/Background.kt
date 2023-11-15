@@ -51,20 +51,23 @@ private fun BackgroundPreview() {
 @Composable
 fun Background(content: @Composable () -> Unit) {
     @Suppress("MagicNumber")
-    val colorStops = listOf(
-        IheNkiri.color.primary,
-        Color(0x00000000),
-    )
+    val colorStops =
+        listOf(
+            IheNkiri.color.primary,
+            Color(0x00000000),
+        )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(IheNkiri.color.surface),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(IheNkiri.color.surface),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.verticalGradient(colorStops)),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Brush.verticalGradient(colorStops)),
         )
         content()
     }

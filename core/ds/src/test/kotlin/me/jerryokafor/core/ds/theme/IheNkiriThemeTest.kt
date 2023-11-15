@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.ds
+package me.jerryokafor.core.ds.theme
 
 import android.os.Build
 import androidx.compose.material3.ColorScheme
@@ -33,24 +33,23 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createComposeRule
-import me.jerryokafor.core.ds.theme.DarkColors
-import me.jerryokafor.core.ds.theme.IheNkiriSpacing
-import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.core.ds.theme.IhenkiriShape
-import me.jerryokafor.core.ds.theme.LightColors
-import me.jerryokafor.core.ds.theme.LocalIheNkiriColorScheme
-import me.jerryokafor.core.ds.theme.LocalIheNkiriSpacing
-import me.jerryokafor.core.ds.theme.iheNKiriDarkColorScheme
-import me.jerryokafor.core.ds.theme.iheNKiriLightColorScheme
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Tests [IheNkiriTheme] for dark and light team and dynamic color
  */
-class IheNkiriThemeTest {
 
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
+class IheNkiriThemeTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -61,13 +60,13 @@ class IheNkiriThemeTest {
                 val expectedColorScheme = DarkColors
                 assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
 
-                assertEquals(
+                Assert.assertEquals(
                     iheNKiriDarkColorScheme().extraColor,
                     LocalIheNkiriColorScheme.current.extraColor,
                 )
 
                 // assert spacing
-                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+                Assert.assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
 
                 // assert shape
                 assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
@@ -82,13 +81,13 @@ class IheNkiriThemeTest {
                 val expectedColorScheme = LightColors
                 assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
 
-                assertEquals(
+                Assert.assertEquals(
                     iheNKiriLightColorScheme().extraColor,
                     LocalIheNkiriColorScheme.current.extraColor,
                 )
 
                 // assert spacing
-                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+                Assert.assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
 
                 // assert shape
                 assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
@@ -103,13 +102,13 @@ class IheNkiriThemeTest {
                 val expectedColorScheme = dynamicDarkColorSchemeWithFallback()
                 assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
 
-                assertEquals(
+                Assert.assertEquals(
                     iheNKiriLightColorScheme().extraColor,
                     LocalIheNkiriColorScheme.current.extraColor,
                 )
 
                 // assert spacing
-                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+                Assert.assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
 
                 // assert shape
                 assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
@@ -124,13 +123,13 @@ class IheNkiriThemeTest {
                 val expectedColorScheme = dynamicLightColorSchemeWithFallback()
                 assertColorSchemesEqual(expectedColorScheme, MaterialTheme.colorScheme)
 
-                assertEquals(
+                Assert.assertEquals(
                     iheNKiriLightColorScheme().extraColor,
                     LocalIheNkiriColorScheme.current.extraColor,
                 )
 
                 // assert spacing
-                assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
+                Assert.assertEquals(defaultSpacing(), LocalIheNkiriSpacing.current)
 
                 // assert shape
                 assertEqualsShapesEqual(defaultShape(), MaterialTheme.shapes)
@@ -165,39 +164,51 @@ private fun assertColorSchemesEqual(
     expectedColorScheme: ColorScheme,
     actualColorScheme: ColorScheme,
 ) {
-    assertEquals(expectedColorScheme.primary, actualColorScheme.primary)
-    assertEquals(expectedColorScheme.onPrimary, actualColorScheme.onPrimary)
-    assertEquals(expectedColorScheme.primaryContainer, actualColorScheme.primaryContainer)
-    assertEquals(expectedColorScheme.onPrimaryContainer, actualColorScheme.onPrimaryContainer)
-    assertEquals(expectedColorScheme.secondary, actualColorScheme.secondary)
-    assertEquals(expectedColorScheme.onSecondary, actualColorScheme.onSecondary)
-    assertEquals(expectedColorScheme.secondaryContainer, actualColorScheme.secondaryContainer)
-    assertEquals(
+    Assert.assertEquals(expectedColorScheme.primary, actualColorScheme.primary)
+    Assert.assertEquals(expectedColorScheme.onPrimary, actualColorScheme.onPrimary)
+    Assert.assertEquals(expectedColorScheme.primaryContainer, actualColorScheme.primaryContainer)
+    Assert.assertEquals(
+        expectedColorScheme.onPrimaryContainer,
+        actualColorScheme.onPrimaryContainer,
+    )
+    Assert.assertEquals(expectedColorScheme.secondary, actualColorScheme.secondary)
+    Assert.assertEquals(expectedColorScheme.onSecondary, actualColorScheme.onSecondary)
+    Assert.assertEquals(
+        expectedColorScheme.secondaryContainer,
+        actualColorScheme.secondaryContainer,
+    )
+    Assert.assertEquals(
         expectedColorScheme.onSecondaryContainer,
         actualColorScheme.onSecondaryContainer,
     )
-    assertEquals(expectedColorScheme.tertiary, actualColorScheme.tertiary)
-    assertEquals(expectedColorScheme.onTertiary, actualColorScheme.onTertiary)
-    assertEquals(expectedColorScheme.tertiaryContainer, actualColorScheme.tertiaryContainer)
-    assertEquals(expectedColorScheme.onTertiaryContainer, actualColorScheme.onTertiaryContainer)
-    assertEquals(expectedColorScheme.error, actualColorScheme.error)
-    assertEquals(expectedColorScheme.onError, actualColorScheme.onError)
-    assertEquals(expectedColorScheme.errorContainer, actualColorScheme.errorContainer)
-    assertEquals(expectedColorScheme.onErrorContainer, actualColorScheme.onErrorContainer)
-    assertEquals(expectedColorScheme.background, actualColorScheme.background)
-    assertEquals(expectedColorScheme.onBackground, actualColorScheme.onBackground)
-    assertEquals(expectedColorScheme.surface, actualColorScheme.surface)
-    assertEquals(expectedColorScheme.onSurface, actualColorScheme.onSurface)
-    assertEquals(expectedColorScheme.surfaceVariant, actualColorScheme.surfaceVariant)
-    assertEquals(expectedColorScheme.onSurfaceVariant, actualColorScheme.onSurfaceVariant)
-    assertEquals(expectedColorScheme.inverseSurface, actualColorScheme.inverseSurface)
-    assertEquals(expectedColorScheme.inverseOnSurface, actualColorScheme.inverseOnSurface)
-    assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
+    Assert.assertEquals(expectedColorScheme.tertiary, actualColorScheme.tertiary)
+    Assert.assertEquals(expectedColorScheme.onTertiary, actualColorScheme.onTertiary)
+    Assert.assertEquals(expectedColorScheme.tertiaryContainer, actualColorScheme.tertiaryContainer)
+    Assert.assertEquals(
+        expectedColorScheme.onTertiaryContainer,
+        actualColorScheme.onTertiaryContainer,
+    )
+    Assert.assertEquals(expectedColorScheme.error, actualColorScheme.error)
+    Assert.assertEquals(expectedColorScheme.onError, actualColorScheme.onError)
+    Assert.assertEquals(expectedColorScheme.errorContainer, actualColorScheme.errorContainer)
+    Assert.assertEquals(expectedColorScheme.onErrorContainer, actualColorScheme.onErrorContainer)
+    Assert.assertEquals(expectedColorScheme.background, actualColorScheme.background)
+    Assert.assertEquals(expectedColorScheme.onBackground, actualColorScheme.onBackground)
+    Assert.assertEquals(expectedColorScheme.surface, actualColorScheme.surface)
+    Assert.assertEquals(expectedColorScheme.onSurface, actualColorScheme.onSurface)
+    Assert.assertEquals(expectedColorScheme.surfaceVariant, actualColorScheme.surfaceVariant)
+    Assert.assertEquals(expectedColorScheme.onSurfaceVariant, actualColorScheme.onSurfaceVariant)
+    Assert.assertEquals(expectedColorScheme.inverseSurface, actualColorScheme.inverseSurface)
+    Assert.assertEquals(expectedColorScheme.inverseOnSurface, actualColorScheme.inverseOnSurface)
+    Assert.assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
 }
 
-private fun assertEqualsShapesEqual(defaultShape: IhenkiriShape, shapes: Shapes) {
+private fun assertEqualsShapesEqual(
+    defaultShape: IhenkiriShape,
+    shapes: Shapes,
+) {
     val toMaterialShapes = defaultShape.toMaterialShapes()
-    assertEquals(toMaterialShapes.small, shapes.small)
-    assertEquals(toMaterialShapes.medium, shapes.medium)
-    assertEquals(toMaterialShapes.large, shapes.large)
+    Assert.assertEquals(toMaterialShapes.small, shapes.small)
+    Assert.assertEquals(toMaterialShapes.medium, shapes.medium)
+    Assert.assertEquals(toMaterialShapes.large, shapes.large)
 }

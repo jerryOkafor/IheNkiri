@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.MovieListFilterItem
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme", showBackground = true)
@@ -47,28 +48,29 @@ import me.jerryokafor.core.model.MovieListFilterItem
 private fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(
-            filters = listOf(
-                MovieListFilterItem(
-                    label = "Now Playing",
-                    isSelected = true,
-                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
+            filters =
+                listOf(
+                    MovieListFilterItem(
+                        label = "Now Playing",
+                        isSelected = true,
+                        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+                    ),
+                    MovieListFilterItem(
+                        label = "Popular",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.POPULAR,
+                    ),
+                    MovieListFilterItem(
+                        label = "Top Rated",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.TOP_RATED,
+                    ),
+                    MovieListFilterItem(
+                        label = "Upcoming",
+                        isSelected = false,
+                        type = MovieListFilterItem.FilterType.UPCOMING,
+                    ),
                 ),
-                MovieListFilterItem(
-                    label = "Popular",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.POPULAR,
-                ),
-                MovieListFilterItem(
-                    label = "Top Rated",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.TOP_RATED,
-                ),
-                MovieListFilterItem(
-                    label = "Upcoming",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.UPCOMING,
-                ),
-            ),
         ) {}
     }
 }
@@ -84,19 +86,24 @@ fun MovieListFilter(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
     ) {
+        item { TwoAndHalfHorizontalSpacer() }
         items(filters) {
             FilterChip(
                 selected = it.isSelected,
                 onClick = { onItemSelected(it.type) },
                 label = { Text(text = it.label) },
                 shape = IheNkiri.shape.pill,
-                colors = FilterChipDefaults.filterChipColors(
-                    labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                ),
-                border = FilterChipDefaults.filterChipBorder(
-                    borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                ),
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        containerColor = IheNkiri.color.primary,
+                        labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                    ),
+                border =
+                    FilterChipDefaults.filterChipBorder(
+                        borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                    ),
             )
         }
+        item { TwoAndHalfHorizontalSpacer() }
     }
 }

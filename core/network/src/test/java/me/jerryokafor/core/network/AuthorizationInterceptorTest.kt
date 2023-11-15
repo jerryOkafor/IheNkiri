@@ -48,22 +48,25 @@ class AuthorizationInterceptorTest {
     private val authToken = "eyJhbGciOiJIUzI1NiJ9"
     private val authInterceptor = spyk(AuthorizationInterceptor(authToken))
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(1, TimeUnit.SECONDS)
-        .readTimeout(1, TimeUnit.SECONDS)
-        .writeTimeout(1, TimeUnit.SECONDS)
-        .addInterceptor(authInterceptor)
-        .build()
-    private val gson = GsonBuilder()
-        .setPrettyPrinting()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .create()
-    private val authApi = Retrofit.Builder()
-        .baseUrl(mockWebServer.url("/"))
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
-        .create(AuthApi::class.java)
+    private val client =
+        OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
+            .writeTimeout(1, TimeUnit.SECONDS)
+            .addInterceptor(authInterceptor)
+            .build()
+    private val gson =
+        GsonBuilder()
+            .setPrettyPrinting()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
+    private val authApi =
+        Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(AuthApi::class.java)
 
     @After
     fun tearDown() {

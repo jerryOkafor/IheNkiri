@@ -47,7 +47,10 @@ fun TrailerButtonPreview() {
 }
 
 @Composable
-fun TrailerButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun TrailerButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
     Button(modifier = modifier, onClick = onClick) {
         Row(horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two)) {
             Icon(

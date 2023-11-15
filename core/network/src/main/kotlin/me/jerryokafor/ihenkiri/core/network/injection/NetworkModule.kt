@@ -46,7 +46,7 @@ import me.jerryokafor.ihenkiri.core.network.datasource.MovieDetailsRemoteDataSou
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
-import me.jerryokafor.ihenkiri.core.network.service.MoviesApi
+import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -57,13 +57,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     @[Provides Singleton]
-    fun provideChuckerInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
+    fun provideChuckerInterceptor(
+        @ApplicationContext context: Context,
+    ): ChuckerInterceptor {
         // Create the Collector
-        val chuckerCollector = ChuckerCollector(
-            context = context,
-            showNotification = true,
-            retentionPeriod = RetentionManager.Period.ONE_HOUR,
-        )
+        val chuckerCollector =
+            ChuckerCollector(
+                context = context,
+                showNotification = true,
+                retentionPeriod = RetentionManager.Period.ONE_HOUR,
+            )
 
         // Create the Interceptor
         @Suppress("MagicNumber")
@@ -80,9 +83,10 @@ object NetworkModule {
     @[Provides Singleton AuthOkHttpClient]
     fun provideAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
         val authToken = BuildConfig.TMDB_API_KEY
-        val builder = OkHttpClient.Builder()
-            .addInterceptor(chuckerInterceptor)
-            .addInterceptor(AuthorizationInterceptor(authToken))
+        val builder =
+            OkHttpClient.Builder()
+                .addInterceptor(chuckerInterceptor)
+                .addInterceptor(AuthorizationInterceptor(authToken))
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -95,8 +99,9 @@ object NetworkModule {
 
     @[Provides Singleton NoAuthOkHttpClient]
     fun provideNoAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-            .addInterceptor(chuckerInterceptor)
+        val builder =
+            OkHttpClient.Builder()
+                .addInterceptor(chuckerInterceptor)
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -108,34 +113,34 @@ object NetworkModule {
     }
 
     @[Provides Singleton]
-    fun provideGson(): Gson = GsonBuilder().apply {
-        setPrettyPrinting()
-        setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-    }.create()
+    fun provideGson(): Gson =
+        GsonBuilder().apply {
+            setPrettyPrinting()
+            setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        }.create()
 
     @[Provides Singleton]
-    fun provideMoviesRemoteDataSource(
-        moviesApi: MoviesApi,
-    ): MoviesRemoteDataSource = DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
+    fun provideMoviesRemoteDataSource(moviesApi: MovieListApi): MoviesRemoteDataSource =
+        DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
     @[Provides Singleton]
-    fun provideMovieDetailsRemoteDataSource(
-        movieDetailsApi: MovieDetailsApi,
-    ): MovieDetailsRemoteDataSource =
+    fun provideMovieDetailsRemoteDataSource(movieDetailsApi: MovieDetailsApi): MovieDetailsRemoteDataSource =
         DefaultMovieDetailsRemoteDataSource(movieDetailsApi = movieDetailsApi)
 
     @[Provides Singleton]
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
     @[Provides Singleton]
-    fun provideMoviesApi(retrofit: Retrofit): MoviesApi = retrofit.create(MoviesApi::class.java)
+    fun provideMoviesApi(retrofit: Retrofit): MovieListApi = retrofit.create(MovieListApi::class.java)
 
     @[Provides Singleton]
-    fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi =
-        retrofit.create(MovieDetailsApi::class.java)
+    fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi = retrofit.create(MovieDetailsApi::class.java)
 
     @[Provides Singleton]
-    fun provideRetrofit(@AuthOkHttpClient okHttpClient: OkHttpClient, gson: Gson): Retrofit =
+    fun provideRetrofit(
+        @AuthOkHttpClient okHttpClient: OkHttpClient,
+        gson: Gson,
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.TMDB_BASE_URL)
             .client(okHttpClient)

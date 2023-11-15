@@ -57,7 +57,7 @@ fun HomeScreen(
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {
-            TopLevelDestinations.SearchView.route, TopLevelDestinations.MovieDetail.route ->
+            TopLevelDestinations.MovieDetail.route ->
                 bottomBarState.value = false
 
             else -> {
@@ -72,12 +72,14 @@ fun HomeScreen(
         bottomBar = { BottomNavigation(navController, bottomBarState.value) },
         content = { innerPadding ->
             Box(
-                modifier = Modifier.padding(
-                    bottom = max(
-                        a = 0.dp,
-                        b = innerPadding.calculateBottomPadding() - 40.dp,
+                modifier =
+                    Modifier.padding(
+                        bottom =
+                            max(
+                                a = 0.dp,
+                                b = innerPadding.calculateBottomPadding() - 40.dp,
+                            ),
                     ),
-                ),
             ) {
                 HomeNavGraph(navController = navController)
             }

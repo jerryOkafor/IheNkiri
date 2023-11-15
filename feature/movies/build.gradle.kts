@@ -75,6 +75,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    testImplementation(project(":core:test"))
-    androidTestImplementation(project(":core:test"))
+    testImplementation(projects.core.test)
+    androidTestImplementation(projects.core.test)
 }

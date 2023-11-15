@@ -29,7 +29,7 @@ import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieList
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MoviesApi {
+interface MovieListApi {
     /**
      * Get a list of movies that are currently in theatres.
      *

@@ -22,19 +22,27 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.feature.movies
+package me.jerryokafor.feature.movies.navigation
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
+import me.jerryokafor.feature.movies.screen.MoviesScreen
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
+const val moviesRoute = "/movies"
+
+fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
+    composable(
+        route = moviesRoute,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
+    ) {
+        MoviesScreen(onMovieClick = onMovieClick)
     }
 }

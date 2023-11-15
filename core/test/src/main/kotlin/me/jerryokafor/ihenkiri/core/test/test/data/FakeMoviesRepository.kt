@@ -24,20 +24,20 @@
 
 package me.jerryokafor.ihenkiri.core.test.test.data
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.data.repository.MoviesRepository
+import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
-class FakeMoviesRepository @Inject constructor() : MoviesRepository {
-    override fun nowPlayingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+class FakeMoviesRepository
+    @Inject
+    constructor() : MovieListRepository {
+        override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun popularMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+        override suspend fun popularMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun topRatedMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
+        override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> = testMovies()
 
-    override fun upcomingMovies(filter: MoviesFilter): Flow<List<Movie>> = flowOf(testMovies())
-}
+        override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> = testMovies()
+    }

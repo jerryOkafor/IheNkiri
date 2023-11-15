@@ -31,7 +31,6 @@ import me.jerryokafor.ihenkiri.tools.lint.composepreview.MissingExcludePreviewAn
 
 @Suppress("UnstableApiUsage")
 class IssueRegistry : IssueRegistry() {
-
     override val issues =
         listOf(MissingExcludePreviewAnnotationDetector.ISSUE)
 
@@ -40,9 +39,10 @@ class IssueRegistry : IssueRegistry() {
     @Suppress("MagicNumber")
     override val minApi: Int = 12
 
-    override val vendor: Vendor = Vendor(
-        vendorName = "Ihenkiri",
-        feedbackUrl = "",
-        contact = "",
-    )
+    override val vendor: Vendor =
+        Vendor(
+            vendorName = "Ihenkiri",
+            feedbackUrl = "",
+            contact = "",
+        )
 }

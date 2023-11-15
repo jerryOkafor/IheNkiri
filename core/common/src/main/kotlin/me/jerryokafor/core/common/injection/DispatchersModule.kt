@@ -42,7 +42,6 @@ annotation class ApplicationScope
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatchersModule {
-
     @Singleton
     @ApplicationScope
     @Provides

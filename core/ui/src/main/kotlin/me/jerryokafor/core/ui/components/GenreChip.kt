@@ -47,9 +47,10 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 private fun GenreChipPreview() {
     IheNkiriTheme {
         Box(
-            modifier = Modifier
-                .size(100.dp)
-                .background(IheNkiri.color.surface),
+            modifier =
+                Modifier
+                    .size(100.dp)
+                    .background(IheNkiri.color.surface),
         ) {
             GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
         }
@@ -57,18 +58,22 @@ private fun GenreChipPreview() {
 }
 
 @Composable
-fun GenreChip(modifier: Modifier = Modifier, text: String) {
+fun GenreChip(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
     Surface(
         modifier = modifier.wrapContentSize(),
         shape = IheNkiri.shape.pill,
         color = IheNkiri.color.tertiaryContainer,
         content = {
             Text(
-                modifier = Modifier
-                    .padding(
-                        vertical = IheNkiri.spacing.half,
-                        horizontal = IheNkiri.spacing.oneAndHalf,
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            vertical = IheNkiri.spacing.half,
+                            horizontal = IheNkiri.spacing.oneAndHalf,
+                        ),
                 text = text,
                 color = contentColorFor(IheNkiri.color.tertiaryContainer),
             )

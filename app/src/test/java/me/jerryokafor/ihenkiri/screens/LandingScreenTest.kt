@@ -22,8 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.app.screens
+package me.jerryokafor.ihenkiri.screens
 
+import android.os.Build
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -32,12 +33,19 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
 class LandingScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -63,7 +71,7 @@ class LandingScreenTest {
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("TMDB logo").assertIsDisplayed()
 
-        assertEquals(onContinueAsGuestClick, 1)
-        assertEquals(onSignInClick, 1)
+        Assert.assertEquals(onContinueAsGuestClick, 1)
+        Assert.assertEquals(onSignInClick, 1)
     }
 }

@@ -51,6 +51,11 @@ dependencies {
     implementation(projects.core.model)
     implementation(projects.core.network)
 
+    // Paging
+    api(libs.androidx.paging.runtime)
+    api(libs.androidx.paging.compose)
+    testImplementation(libs.androidx.paging.common)
+
     testImplementation(project(":core:test"))
     androidTestImplementation(project(":core:test"))
 }

@@ -47,19 +47,20 @@ data class NetworkCrew(
     val profilePath: String? = "",
 )
 
-fun NetworkCrew.asDomainObject(): Crew = Crew(
-    adult = adult,
-    creditId = creditId,
-    department = department,
-    gender = gender,
-    id = id,
-    job = job,
-    knownForDepartment = knownForDepartment,
-    name = name,
-    originalName = originalName,
-    popularity = popularity,
-    profilePath = profilePath,
-)
+fun NetworkCrew.asDomainObject(): Crew =
+    Crew(
+        adult = adult,
+        creditId = creditId,
+        department = department,
+        gender = gender,
+        id = id,
+        job = job,
+        knownForDepartment = knownForDepartment,
+        name = name,
+        originalName = originalName,
+        popularity = popularity,
+        profilePath = profilePath,
+    )
 
 data class NetworkCast(
     val adult: Boolean,
@@ -81,20 +82,21 @@ data class NetworkCast(
     val profilePath: String? = "",
 )
 
-fun NetworkCast.asDomainObject(): Cast = Cast(
-    adult = adult,
-    castId = castId,
-    character = character,
-    creditId = creditId,
-    gender = gender,
-    id = id,
-    knownForDepartment = knownForDepartment,
-    name = name,
-    order = order,
-    originalName = originalName,
-    popularity = popularity,
-    profilePath = profilePath,
-)
+fun NetworkCast.asDomainObject(): Cast =
+    Cast(
+        adult = adult,
+        castId = castId,
+        character = character,
+        creditId = creditId,
+        gender = gender,
+        id = id,
+        knownForDepartment = knownForDepartment,
+        name = name,
+        order = order,
+        originalName = originalName,
+        popularity = popularity,
+        profilePath = profilePath,
+    )
 
 data class NetworkMovieCredit(
     val id: Int,
@@ -102,8 +104,9 @@ data class NetworkMovieCredit(
     val crew: List<NetworkCrew> = listOf(),
 )
 
-fun NetworkMovieCredit.asDomainObject(): MovieCredit = MovieCredit(
-    id = id,
-    cast = cast.map { it.asDomainObject() },
-    crew = crew.map { it.asDomainObject() },
-)
+fun NetworkMovieCredit.asDomainObject(): MovieCredit =
+    MovieCredit(
+        id = id,
+        cast = cast.map { it.asDomainObject() },
+        crew = crew.map { it.asDomainObject() },
+    )

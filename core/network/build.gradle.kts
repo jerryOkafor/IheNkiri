@@ -72,7 +72,7 @@ dependencies {
     implementation(projects.core.model)
 
     // retrofit
-    implementation(libs.com.squareup.retrofit2)
+    api(libs.com.squareup.retrofit2)
     implementation(libs.com.google.code.gson)
     implementation(libs.com.squareup.retrofit2.converter.gson)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)

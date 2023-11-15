@@ -10,7 +10,6 @@ on:
   push:
     branches:
       - main
-
     paths:
       - "docs/**"
       - ".github/workflows/DeployDocumentation.yml"

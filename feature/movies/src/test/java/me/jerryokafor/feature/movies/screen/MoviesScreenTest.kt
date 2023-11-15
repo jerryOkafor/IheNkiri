@@ -22,8 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.movies
+package me.jerryokafor.feature.movies.screen
 
+import android.os.Build
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
@@ -40,59 +41,62 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
-import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidTest
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.common.truth.Truth
+import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
-import me.jerryokafor.feature.movies.screen.CHIP_GROUP_TEST_TAG
-import me.jerryokafor.feature.movies.screen.GRID_ITEMS_TEST_TAG
-import me.jerryokafor.feature.movies.screen.MoviesScreen
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-@HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(
+    sdk = [Build.VERSION_CODES.O],
+    instrumentedPackages = ["androidx.loader.content"],
+)
 class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val testFilters = listOf(
-        MovieListFilterItem(
-            label = "Now Playing",
-            isSelected = true,
-            type = MovieListFilterItem.FilterType.NOW_PLAYING,
-        ),
-        MovieListFilterItem(
-            label = "Popular",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.POPULAR,
-        ),
-        MovieListFilterItem(
-            label = "Top Rated",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.TOP_RATED,
-        ),
-        MovieListFilterItem(
-            label = "Upcoming",
-            isSelected = false,
-            type = MovieListFilterItem.FilterType.UPCOMING,
-        ),
-    )
+    private val testFilters =
+        listOf(
+            MovieListFilterItem(
+                label = "Now Playing",
+                isSelected = true,
+                type = MovieListFilterItem.FilterType.NOW_PLAYING,
+            ),
+            MovieListFilterItem(
+                label = "Popular",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.POPULAR,
+            ),
+            MovieListFilterItem(
+                label = "Top Rated",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.TOP_RATED,
+            ),
+            MovieListFilterItem(
+                label = "Upcoming",
+                isSelected = false,
+                type = MovieListFilterItem.FilterType.UPCOMING,
+            ),
+        )
 
-    private var onSearchClickCounter = 0
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0
 
     fun setUp(filters: List<MovieListFilterItem>) {
         composeTestRule.setContent {
             MoviesScreen(
-                loading = false,
                 filters = filters,
-                movies = testMovies(),
-                onSearchClick = { onSearchClickCounter++ },
+                movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
                 onMovieClick = { onMovieClickCounter++ },
-                onFilterItemSelected = { onFilterItemSelectedCounter++ },
-            )
+            ) { onFilterItemSelectedCounter++ }
         }
     }
 
@@ -104,7 +108,9 @@ class MoviesScreenTest {
             .assertIsDisplayed()
             .performClick()
 
-        assertThat(onSearchClickCounter).isEqualTo(1)
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
     }
 
     @Test
@@ -122,7 +128,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -139,7 +145,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -156,7 +162,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -174,7 +180,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -194,7 +200,7 @@ class MoviesScreenTest {
             .assertHasClickAction()
             .performClick()
 
-        assertThat(onMovieClickCounter).isEqualTo(1)
+        Truth.assertThat(onMovieClickCounter).isEqualTo(1)
     }
 }
 

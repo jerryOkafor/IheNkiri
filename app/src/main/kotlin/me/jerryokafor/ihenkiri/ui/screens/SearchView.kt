@@ -33,14 +33,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,12 +49,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
+import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 
 @ThemePreviews
@@ -78,9 +81,10 @@ fun SearchView() {
             .semantics { isTraversalGroup = true },
     ) {
         SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = -1f },
+            modifier =
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .semantics { traversalIndex = -1f },
             query = query,
             onQueryChange = { query = it },
             onSearch = { isActive = false },
@@ -88,9 +92,22 @@ fun SearchView() {
             onActiveChange = {
                 isActive = it
             },
+            colors = SearchBarDefaults.colors(containerColor = IheNkiri.color.primary),
             placeholder = { Text("Hinted search text") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
+                    contentDescription = null,
+                    tint = contentColorFor(IheNkiri.color.primary),
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = null,
+                    tint = contentColorFor(IheNkiri.color.primary),
+                )
+            },
         ) {
             @Suppress("MagicNumber")
             repeat(4) { idx ->
@@ -99,13 +116,14 @@ fun SearchView() {
                     headlineContent = { Text(resultText) },
                     supportingContent = { Text("Additional info") },
                     leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
-                    modifier = Modifier
-                        .clickable {
-                            query = resultText
-                            isActive = false
-                        }
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier =
+                        Modifier
+                            .clickable {
+                                query = resultText
+                                isActive = false
+                            }
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
                 )
             }
         }

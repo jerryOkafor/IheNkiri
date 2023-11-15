@@ -59,19 +59,22 @@ private const val SIZE_ASPECT_RATIO = 0.8F
 private fun PosterPreview() {
     IheNkiriTheme {
         Column(
-            modifier = Modifier
-                .padding(IheNkiri.spacing.twoAndaHalf)
-                .background(IheNkiri.color.inverseOnSurface),
+            modifier =
+                Modifier
+                    .padding(IheNkiri.spacing.twoAndaHalf)
+                    .background(IheNkiri.color.inverseOnSurface),
         ) {
             MoviePoster(
-                modifier = Modifier
-                    .width(100.dp)
-                    .aspectRatio(SIZE_ASPECT_RATIO),
+                modifier =
+                    Modifier
+                        .width(100.dp)
+                        .aspectRatio(SIZE_ASPECT_RATIO),
                 path = "https://example.com/image.jpg",
                 contentDescription = "Image",
-                shimmer = rememberShimmer(
-                    shimmerBounds = ShimmerBounds.Window,
-                ),
+                shimmer =
+                    rememberShimmer(
+                        shimmerBounds = ShimmerBounds.Window,
+                    ),
             ) {}
         }
     }
@@ -81,7 +84,7 @@ private fun PosterPreview() {
 @Composable
 fun MoviePoster(
     modifier: Modifier = Modifier,
-    path: String,
+    path: String?,
     contentDescription: String,
     shimmer: Shimmer,
     onClick: () -> Unit,
@@ -92,9 +95,10 @@ fun MoviePoster(
         shape = IheNkiri.shape.medium,
     ) {
         SubcomposeAsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(path)
-                .crossfade(true).build(),
+            model =
+                ImageRequest.Builder(LocalContext.current)
+                    .data(path)
+                    .crossfade(true).build(),
             contentScale = ContentScale.FillBounds,
             contentDescription = contentDescription,
         ) {

@@ -55,7 +55,9 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.feature.movies.navigation.moviesRoute
 import me.jerryokafor.ihenkiri.R
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsNavPattern
 
 const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
@@ -71,13 +73,17 @@ fun BottomNavigationPreview() {
 }
 
 @Composable
-fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
-    val items = listOf(
-        BottomNavItem.Movies,
-        BottomNavItem.TVShows,
-        BottomNavItem.People,
-        BottomNavItem.More,
-    )
+fun BottomNavigation(
+    navController: NavHostController,
+    show: Boolean = true,
+) {
+    val items =
+        listOf(
+            BottomNavItem.Movies,
+            BottomNavItem.TVShows,
+            BottomNavItem.People,
+            BottomNavItem.More,
+        )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -86,15 +92,18 @@ fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
 
     AnimatedVisibility(
         visible = show,
-        enter = slideInVertically {
-            // Slide in from 40 dp from the top.
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
-            // Expand from the top.
-            expandFrom = Alignment.Top,
-        ) + fadeIn(
-            initialAlpha = 0.3f,
-        ),
+        enter =
+            slideInVertically {
+                // Slide in from 40 dp from the top.
+                with(density) { -40.dp.roundToPx() }
+            } +
+                expandVertically(
+                    // Expand from the top.
+                    expandFrom = Alignment.Top,
+                ) +
+                fadeIn(
+                    initialAlpha = 0.3f,
+                ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
@@ -105,9 +114,10 @@ fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
                         onClick = {
                             navController.navigate(
                                 item.route,
-                                navOptions = navOptions {
-                                    launchSingleTop = true
-                                },
+                                navOptions =
+                                    navOptions {
+                                        launchSingleTop = true
+                                    },
                             )
                         },
                     )
@@ -118,9 +128,7 @@ fun BottomNavigation(navController: NavHostController, show: Boolean = true) {
 }
 
 sealed class TopLevelDestinations(val route: String) {
-    data object SearchView : TopLevelDestinations(route = "/search")
-
-    data object MovieDetail : TopLevelDestinations(route = "/movie/{movieId}")
+    data object MovieDetail : TopLevelDestinations(route = movieDetailsNavPattern)
 }
 
 sealed class BottomNavItem(
@@ -131,7 +139,7 @@ sealed class BottomNavItem(
     data object Movies : BottomNavItem(
         title = "Movies",
         icon = R.drawable.baseline_video_library_24,
-        route = "/movies",
+        route = moviesRoute,
     )
 
     data object TVShows : BottomNavItem(

@@ -52,46 +52,51 @@ interface MovieDetailsRepository {
 
 @Singleton
 class DefaultMovieDetailsRepository
-@Inject constructor(
-    private val remoteDataSource: MovieDetailsRemoteDataSource,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher,
-) :
+    @Inject
+    constructor(
+        private val remoteDataSource: MovieDetailsRemoteDataSource,
+        @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    ) :
     MovieDetailsRepository {
-    override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> = flow {
-        try {
-            val response = remoteDataSource.movieDetails(movieId)
-            emit(Success(response))
-        } catch (e: Throwable) {
-            emit(Failure(errorResponse = "Error loading movie details", throwable = e))
-        }
-    }.flowOn(dispatcher)
+        override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> =
+            flow {
+                try {
+                    val response = remoteDataSource.movieDetails(movieId)
+                    emit(Success(response))
+                } catch (e: Throwable) {
+                    emit(Failure(errorResponse = "Error loading movie details", throwable = e))
+                }
+            }.flowOn(dispatcher)
 
-    override fun movieCredits(movieId: Long): Flow<Outcome<MovieCredit>> = flow {
-        try {
-            val response = remoteDataSource.movieCredits(movieId)
-            emit(Success(response))
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            emit(Failure(errorResponse = "Error getting movie credits"))
-        }
-    }.flowOn(dispatcher)
+        override fun movieCredits(movieId: Long): Flow<Outcome<MovieCredit>> =
+            flow {
+                try {
+                    val response = remoteDataSource.movieCredits(movieId)
+                    emit(Success(response))
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    emit(Failure(errorResponse = "Error getting movie credits"))
+                }
+            }.flowOn(dispatcher)
 
-    override fun movieVideos(movieId: Long): Flow<Outcome<List<Video>>> = flow {
-        try {
-            val response = remoteDataSource.movieVideos(movieId)
-            emit(Success(response))
-        } catch (e: Throwable) {
-            emit(Failure(errorResponse = "Error getting movie credits"))
-        }
-    }.flowOn(dispatcher)
+        override fun movieVideos(movieId: Long): Flow<Outcome<List<Video>>> =
+            flow {
+                try {
+                    val response = remoteDataSource.movieVideos(movieId)
+                    emit(Success(response))
+                } catch (e: Throwable) {
+                    emit(Failure(errorResponse = "Error getting movie credits"))
+                }
+            }.flowOn(dispatcher)
 
-    override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> = flow {
-        try {
-            val response = remoteDataSource.similarVideos(movieId)
-            emit(Success(response))
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            emit(Failure(errorResponse = "Error getting recommended movies"))
-        }
-    }.flowOn(dispatcher)
-}
+        override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> =
+            flow {
+                try {
+                    val response = remoteDataSource.similarVideos(movieId)
+                    emit(Success(response))
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    emit(Failure(errorResponse = "Error getting recommended movies"))
+                }
+            }.flowOn(dispatcher)
+    }

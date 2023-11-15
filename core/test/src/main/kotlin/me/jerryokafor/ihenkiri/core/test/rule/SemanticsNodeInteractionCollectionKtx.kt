@@ -22,35 +22,19 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.android.test.app
+package me.jerryokafor.ihenkiri.core.test.rule
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import me.jerryokafor.ihenkiri.ui.MainActivity
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import androidx.compose.ui.test.SemanticsNodeInteractionCollection
+import androidx.compose.ui.test.assertIsDisplayed
 
-@HiltAndroidTest
-class MainActivityTest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
-    @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
-
-    @Before
-    fun init() {
-        hiltRule.inject()
+/**
+ * Asserts `IsDisplayed` for more than 2 items.
+ *
+ * @return
+ */
+fun SemanticsNodeInteractionCollection.assertAreDisplayed(): SemanticsNodeInteractionCollection {
+    fetchSemanticsNodes().forEachIndexed { index, _ ->
+        get(index).assertIsDisplayed()
     }
-
-    @Test
-    fun mainActivityStart() {
-        activityRule.scenario.onActivity {
-        }
-    }
+    return this
 }
-
-// more here :https://github.com/android/testing-samples/blob/main/ui/espresso/IntentsAdvancedSample/app/src/androidTest/java/com/example/android/testing/espresso/intents/AdvancedSample/ImageViewerActivityTest.java

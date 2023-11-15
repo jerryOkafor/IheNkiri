@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-
+    implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(projects.core.data)
     implementation(projects.core.network)
     implementation(libs.androidx.core.ktx)
@@ -79,8 +79,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    testImplementation(project(":core:test"))
-    androidTestImplementation(project(":core:test"))
-
-    implementation("me.onebone:toolbar-compose:2.3.5")
+    testImplementation(projects.core.test)
+    androidTestImplementation(projects.core.test)
 }

@@ -1,14 +1,14 @@
 [versions]
-androidGradlePlugin = "8.1.1"
+androidGradlePlugin = "8.1.2"
 kotlin = "1.9.10"
-androidDesugarJdkLibs = "2.0.3"
+androidDesugarJdkLibs = "2.0.4"
 ksp = "1.9.10-1.0.13"
 
 core-ktx = "1.12.0"
 lifecycle = "2.6.2"
-activity-compose = "1.7.2"
+activity-compose = "1.8.0"
 coreSplashscreen = "1.0.1"
-adroidXFragmentktx = "1.6.1"
+adroidXFragmentktx = "1.6.2"
 appcompat = "1.6.1"
 browser = "1.6.0"
 palette = "1.0.0"
@@ -21,28 +21,32 @@ retrofit = "2.9.0"
 gson = "2.10.1"
 okhttp3 = "4.11.0"
 
-material = "1.11.0-alpha03"
+material = "1.11.0-beta01"
 secrets = "2.0.1"
 # hilt
 hilt = "2.47"
-hiltExt = "1.0.0"
+hiltExt = "1.1.0"
 
 # navigation
-navigation = "2.7.3"
-androidxHiltNavigationCompose = "1.1.0-alpha01"
+navigation = "2.7.5"
+androidxHiltNavigationCompose = "1.1.0"
 
 # compose
-composeBom = "2023.09.01"
+composeBom = "2023.10.01"
 composeCompiler = "1.5.3"
 accompanist = "0.33.1-alpha"
 coil = "2.4.0"
 composeShimmer = "1.0.5"
 
+#Paging
+paging = "3.2.1"
+pagingCompose = "3.3.0-alpha02"
+
 # code quality
 detekt = "1.22.0"
-ktlint = "0.50.0"
+ktlint = "1.0.1"
 jacoco = "0.8.10"
-lint = "31.1.1"
+lint = "31.1.2"
 testParameterInjector = "1.12"
 
 # testing
@@ -57,7 +61,7 @@ testJunit = "1.1.5"
 testTruth = "1.5.0"
 testMonitor = "1.6.1"
 espressoCore = "3.5.1"
-uiautomator = "2.3.0-alpha04"
+uiautomator = "2.3.0-alpha05"
 googleTruth = "1.1.4"
 mockk = "1.13.7"
 
@@ -130,6 +134,11 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
+#Paging
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
+
 # coil
 io-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 com-valentinilk-compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "composeShimmer" }
@@ -174,6 +183,7 @@ jacoco-gradlePlugin = { group = "org.jacoco", name = "org.jacoco.core", version.
 #navigation-safe-args-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 com-google-devtools-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version = "2.7.5" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

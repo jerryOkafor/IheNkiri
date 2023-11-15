@@ -34,14 +34,13 @@ import org.gradle.kotlin.dsl.named
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
 class KtLintConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) {
         with(target) {
             val version = libs.findVersion("ktlint").get().toString()
             val ktlint by configurations.creating
 
             dependencies {
-                ktlint("com.pinterest:ktlint:$version") {
+                ktlint("com.pinterest.ktlint:ktlint-cli:$version") {
                     attributes {
                         attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
                     }
@@ -88,7 +87,8 @@ class KtLintConventionPlugin : Plugin<Project> {
                 description = "Setup Android Studio to use the same code style as ktlint."
                 classpath = ktlint
                 mainClass.set("com.pinterest.ktlint.Main")
-                args = listOf("--android", "applyToIDEAProject", "-y")
+                args = listOf("--apply-to-idea-project", "-y")
+                workingDir(rootDir)
             }
         }
     }

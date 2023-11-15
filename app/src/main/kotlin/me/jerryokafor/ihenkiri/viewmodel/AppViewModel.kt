@@ -38,34 +38,36 @@ import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
 import javax.inject.Inject
 
 @HiltViewModel
-class AppViewModel @Inject constructor() : ViewModel() {
+class AppViewModel
+    @Inject
+    constructor() : ViewModel() {
+        private val _isLoading = MutableStateFlow(true)
+        val isLoading = _isLoading.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
+        private val _startDestination: MutableState<String> = mutableStateOf(GraphRoute.AUTH)
+        val startDestination: MutableState<String> = _startDestination
 
-    private val _startDestination: MutableState<String> = mutableStateOf(GraphRoute.AUTH)
-    val startDestination: MutableState<String> = _startDestination
+        private val _uiState = MutableStateFlow(AppUIState())
+        val uiState: StateFlow<AppUIState> = _uiState
 
-    private val _uiState = MutableStateFlow(AppUIState())
-    val uiState: StateFlow<AppUIState> = _uiState
+        init {
+            viewModelScope.launch {
+                _isLoading.update { false }
+            }
+        }
 
-    init {
-        viewModelScope.launch {
-            _isLoading.update { false }
+        fun updateLoginState(loggedIn: Boolean) {
+            _uiState.update {
+                it.copy(isLoggedIn = loggedIn)
+            }
+            _startDestination.value =
+                if (loggedIn) {
+                    GraphRoute.HOME
+                } else {
+                    GraphRoute.AUTH
+                }
         }
     }
-
-    fun updateLoginState(loggedIn: Boolean) {
-        _uiState.update {
-            it.copy(isLoggedIn = loggedIn)
-        }
-        _startDestination.value = if (loggedIn) {
-            GraphRoute.HOME
-        } else {
-            GraphRoute.AUTH
-        }
-    }
-}
 
 data class AppUIState(
     val isLoggedIn: Boolean = true,
