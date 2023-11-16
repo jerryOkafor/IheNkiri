@@ -25,5 +25,5 @@
 package me.jerryokafor.core.common.annotation
 
 @Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
 annotation class ExcludeFromGeneratedCoverageReport

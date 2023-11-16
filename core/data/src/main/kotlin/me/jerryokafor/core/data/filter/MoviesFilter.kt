@@ -29,7 +29,7 @@ import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 data class MoviesFilter(
     val language: String,
     val page: Int,
-    val region: String? = null,
+    val region: String?,
 )
 
 fun MoviesFilter.toQuery() = MoviesQuery(language = this.language, page = this.page, region = this.region)

@@ -65,7 +65,7 @@ import me.jerryokafor.core.ui.R
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
-private fun PeoplePosterPreview() {
+fun PeoplePosterPreview() {
     IheNkiriTheme {
         Column(
             modifier =
