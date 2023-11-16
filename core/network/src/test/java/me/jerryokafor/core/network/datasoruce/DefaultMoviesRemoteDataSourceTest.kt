@@ -43,10 +43,55 @@ class DefaultMoviesRemoteDataSourceTest {
     private val moviesApi = mockk<MovieListApi>()
     private lateinit var moviesRemoteDataSource: DefaultMoviesRemoteDataSource
     private val query = MoviesQuery(language = "en-US", page = 1, region = null)
+    private val genreId =
+        listOf(
+            arrayListOf(
+                28,
+                12,
+                878,
+            ),
+            arrayListOf(
+                28,
+                12,
+                878,
+            ),
+            arrayListOf(
+                35,
+                10749,
+            ),
+            arrayListOf(
+                35,
+                12,
+                14,
+            ),
+            arrayListOf(
+                28,
+                878,
+                27,
+            ),
+            arrayListOf(
+                16,
+                35,
+                10751,
+                14,
+                10749,
+            ),
+            arrayListOf(
+                28,
+                27,
+                53,
+            ),
+        )
 
     @Before
     fun setUp() {
-        coEvery { moviesApi.nowPlaying(any(), any(), any()) } returns testNetworkMoviesListResponse()
+        coEvery {
+            moviesApi.nowPlaying(
+                any(),
+                any(),
+                any(),
+            )
+        } returns testNetworkMoviesListResponse()
         coEvery { moviesApi.popular(any(), any(), any()) } returns testNetworkMoviesListResponse()
         coEvery { moviesApi.topRated(any(), any(), any()) } returns testNetworkMoviesListResponse()
         coEvery { moviesApi.upcoming(any(), any(), any()) } returns testNetworkMoviesListResponse()
@@ -60,9 +105,12 @@ class DefaultMoviesRemoteDataSourceTest {
             val result = moviesRemoteDataSource.nowPlayingMovies(query)
 
             assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-                assertThat(it.second.equalsMovie(it.first)).isTrue()
-            }
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+                .forEachIndexed { index, pair ->
+                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
+                }
 
             coVerify {
                 moviesApi.nowPlaying(
@@ -79,9 +127,12 @@ class DefaultMoviesRemoteDataSourceTest {
             val result = moviesRemoteDataSource.popularMovies(query)
 
             assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-                assertThat(it.second.equalsMovie(it.first)).isTrue()
-            }
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+                .forEachIndexed { index, pair ->
+                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
+                }
 
             coVerify {
                 moviesApi.popular(
@@ -98,9 +149,12 @@ class DefaultMoviesRemoteDataSourceTest {
             val result = moviesRemoteDataSource.topRatedMovies(query)
 
             assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-                assertThat(it.second.equalsMovie(it.first)).isTrue()
-            }
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+                .forEachIndexed { index, pair ->
+                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
+                }
 
             coVerify {
                 moviesApi.topRated(
@@ -117,9 +171,12 @@ class DefaultMoviesRemoteDataSourceTest {
             val result = moviesRemoteDataSource.upcomingMovies(query)
 
             assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }.forEach {
-                assertThat(it.second.equalsMovie(it.first)).isTrue()
-            }
+            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+                .forEachIndexed { index, pair ->
+                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
+                }
 
             coVerify {
                 moviesApi.upcoming(

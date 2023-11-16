@@ -24,7 +24,7 @@
 
 package me.jerryokafor.core.network.service
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
@@ -41,7 +41,7 @@ class MoviesApiTest : BaseServiceTest() {
     fun `test nowPlaying(), returns list of movies when status = 200`() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
-        runBlocking {
+        runTest {
             val response = movieApi.nowPlaying(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
@@ -62,7 +62,7 @@ class MoviesApiTest : BaseServiceTest() {
     fun `test popular(), returns list of movies when status = 200`() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
-        runBlocking {
+        runTest {
             val response = movieApi.popular(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
@@ -83,7 +83,7 @@ class MoviesApiTest : BaseServiceTest() {
     fun `test topRated(), returns list of movies when status = 200`() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
-        runBlocking {
+        runTest {
             val response = movieApi.topRated(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
@@ -104,7 +104,7 @@ class MoviesApiTest : BaseServiceTest() {
     fun `test upcoming(), returns list of movies when status = 200`() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
-        runBlocking {
+        runTest {
             val response = movieApi.upcoming(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
