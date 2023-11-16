@@ -163,7 +163,7 @@ class MovieDetailsApiTest : BaseServiceTest() {
                 assertEquals(title, "Godzilla Raids Again")
                 assertEquals(
                     overview,
-                    "Two fishing scout pilots make a horrifying discovery when..."
+                    "Two fishing scout pilots make a horrifying discovery when...",
                 )
                 assertEquals(posterPath, "/bBYdh9tDCyLaArBOzE38QCA7C3y.jpg")
                 assertEquals(voteAverage, 5.9)
@@ -176,7 +176,8 @@ class MovieDetailsApiTest : BaseServiceTest() {
                 assertEquals(originalTitle, "Cannibal Holocaust")
                 assertEquals(title, "Cannibal Holocaust")
                 assertEquals(
-                    overview, "A New York University professor returns from a..."
+                    overview,
+                    "A New York University professor returns from a...",
                 )
                 assertEquals(posterPath, "/89vXjnQGdTR1DBrAjqfN5oPpmX3.jpg")
                 assertEquals(voteAverage, 6.302)
