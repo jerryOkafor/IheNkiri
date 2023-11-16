@@ -41,6 +41,9 @@ dependencies {
 
     implementation(libs.io.coil.compose)
 
+    // paging
+    api(libs.androidx.paging.testing)
+
     // retrofit
     api(libs.com.squareup.retrofit2)
     api(libs.com.google.code.gson)

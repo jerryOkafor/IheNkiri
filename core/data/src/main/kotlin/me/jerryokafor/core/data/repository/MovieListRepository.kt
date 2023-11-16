@@ -28,7 +28,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.data.filter.toQuery
@@ -77,7 +76,6 @@ class DefaultMovieListRepository
             }
     }
 
-@ExcludeFromGeneratedCoverageReport
 class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
     PagingSource<Int, Movie>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {

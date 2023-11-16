@@ -138,6 +138,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
+androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "paging" }
 
 # coil
 io-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
