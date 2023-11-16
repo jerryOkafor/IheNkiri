@@ -44,15 +44,30 @@ class MovieDetailsApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-details-200.json", 200)
 
         runTest {
-            val response = movieDetailsApi.movieDetails(testMovieId)
-            assertNotNull(response)
-            assertEquals(response.adult, false)
-            assertEquals(response.id, 1006462)
-            assertEquals(response.imdbId, "tt15670222")
-            assertEquals(response.revenue, 0)
-            assertEquals(response.runtime, 93)
-            assertEquals(response.voteAverage, 6.767)
-            assertEquals(response.voteCount, 217)
+            val networkMovieDetails = movieDetailsApi.movieDetails(testMovieId)
+            assertNotNull(networkMovieDetails)
+            assertEquals(networkMovieDetails.adult, false)
+            assertEquals(networkMovieDetails.id, 1006462)
+            assertEquals(networkMovieDetails.imdbId, "tt15670222")
+            assertEquals(networkMovieDetails.revenue, 0)
+            assertEquals(networkMovieDetails.runtime, 93)
+            assertEquals(networkMovieDetails.voteAverage, 6.767)
+            assertEquals(networkMovieDetails.voteCount, 217)
+            assertEquals(networkMovieDetails.originalLanguage, "en")
+            assertEquals(networkMovieDetails.originalTitle, "The Flood")
+            assertEquals(networkMovieDetails.backdropPath, "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg")
+            assertEquals(networkMovieDetails.posterPath, "/mvjqqklMpHwOxc40rn7dMhGT0Fc.jpg")
+
+            with(networkMovieDetails.spokenLanguages.first()) {
+                assertEquals(name, "English")
+                assertEquals(iso6391, "en")
+                assertEquals(englishName, "English")
+            }
+
+            with(networkMovieDetails.genres.first()) {
+                assertEquals(name, "Action")
+                assertEquals(id, 28)
+            }
 
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
@@ -67,45 +82,49 @@ class MovieDetailsApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-credits-200.json", 200)
 
         runTest {
-            val response = movieDetailsApi.movieCredits(testMovieId)
-            assertNotNull(response)
-            assertEquals(response.cast.size, 5)
-            assertEquals(response.crew.size, 7)
+            val networkMovieCredit = movieDetailsApi.movieCredits(testMovieId)
+            assertNotNull(networkMovieCredit)
+            assertEquals(networkMovieCredit.cast.size, 5)
+            assertEquals(networkMovieCredit.crew.size, 7)
 
-            with(response.cast.first()) {
+            with(networkMovieCredit.cast.first()) {
                 assertEquals(adult, false)
                 assertEquals(id, 212833)
                 assertEquals(gender, 1)
                 assertEquals(knownForDepartment, "Acting")
                 assertEquals(name, "Nicky Whelan")
                 assertEquals(popularity, 30.103)
+                assertEquals(profilePath, "/5uleEujk5NgfsSSGOacvQLJmlV9.jpg")
             }
 
-            with(response.cast.last()) {
+            with(networkMovieCredit.cast.last()) {
                 assertEquals(adult, false)
                 assertEquals(id, 84841)
                 assertEquals(gender, 2)
                 assertEquals(knownForDepartment, "Acting")
                 assertEquals(name, "Randy Wayne")
                 assertEquals(popularity, 6.532)
+                assertEquals(profilePath, "/p0SENcEiSxd3uy31ekcFF4xXvJP.jpg")
             }
 
-            with(response.crew.first()) {
+            with(networkMovieCredit.crew.first()) {
                 assertEquals(adult, false)
                 assertEquals(id, 2847)
                 assertEquals(gender, 0)
                 assertEquals(knownForDepartment, "Writing")
                 assertEquals(name, "Josh Ridgway")
                 assertEquals(popularity, 2.112)
+                assertEquals(profilePath, "/5SeQsIid1RLUx3HfH3NWPCYpZbB.jpg")
             }
 
-            with(response.crew.last()) {
+            with(networkMovieCredit.crew.last()) {
                 assertEquals(adult, false)
                 assertEquals(id, 1211636)
                 assertEquals(gender, 2)
                 assertEquals(knownForDepartment, "Writing")
                 assertEquals(name, "James Cullen Bressack")
                 assertEquals(popularity, 3.308)
+                assertEquals(profilePath, "/1s89cGaLByNuIyEyZG7rmFmSv0J.jpg")
             }
 
             val recordedRequest = mockWebServer.takeRequest()
@@ -120,11 +139,11 @@ class MovieDetailsApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-videos-200.json", 200)
 
         runTest {
-            val response = movieDetailsApi.movieVideos(testMovieId)
-            assertNotNull(response)
-            assertEquals(response.id, 1006462)
+            val networkVideos = movieDetailsApi.movieVideos(testMovieId)
+            assertNotNull(networkVideos)
+            assertEquals(networkVideos.id, 1006462)
 
-            with(response.results.first()) {
+            with(networkVideos.results.first()) {
                 assertEquals(id, "646e931c1130bd01ee7236c3")
                 assertEquals(iso31661, "US")
                 assertEquals(iso6391, "en")
@@ -149,14 +168,14 @@ class MovieDetailsApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-similar-200.json", 200)
 
         runTest {
-            val response = movieDetailsApi.similar(testMovieId)
-            assertNotNull(response)
-            assertEquals(response.page, 1)
-            assertEquals(response.totalPages, 5835)
-            assertEquals(response.totalResults, 116696)
-            assertEquals(response.results.size, 6)
+            val networkMovieList = movieDetailsApi.similar(testMovieId)
+            assertNotNull(networkMovieList)
+            assertEquals(networkMovieList.page, 1)
+            assertEquals(networkMovieList.totalPages, 5835)
+            assertEquals(networkMovieList.totalResults, 116696)
+            assertEquals(networkMovieList.results.size, 6)
 
-            with(response.results.first()) {
+            with(networkMovieList.results.first()) {
                 assertEquals(id, 1679)
                 assertEquals(adult, false)
                 assertEquals(originalTitle, "ゴジラの逆襲")
@@ -170,7 +189,7 @@ class MovieDetailsApiTest : BaseServiceTest() {
                 assertEquals(voteCount, 222)
             }
 
-            with(response.results.last()) {
+            with(networkMovieList.results.last()) {
                 assertEquals(id, 8689)
                 assertEquals(adult, false)
                 assertEquals(originalTitle, "Cannibal Holocaust")

@@ -32,8 +32,6 @@ import me.jerryokafor.ihenkiri.core.network.model.response.NetworkCrew
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkGenre
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieCredit
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieDetails
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkProductionCompany
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkProductionCountry
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkSpokenLanguage
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkVideo
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkVideos
@@ -44,7 +42,6 @@ object MovieDetailsTestData {
         NetworkMovieDetails(
             adult = false,
             backdropPath = "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg",
-            belongsToCollection = null,
             budget = 63000000,
             genres =
                 listOf(
@@ -66,28 +63,6 @@ object MovieDetailsTestData {
                 """.trimIndent(),
             popularity = 61.416,
             posterPath = "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
-            productionCompanies =
-                listOf(
-                    NetworkProductionCompany(
-                        id = 508,
-                        logoPath = "/7cxRWzi4LsVm4Utfpr1hfARNurT.png",
-                        name = "Regency Enterprises",
-                        originCountry = "US",
-                    ),
-                    NetworkProductionCompany(
-                        id = 711,
-                        logoPath = "/tEiIH5QesdheJmDAqQwvtN60727.png",
-                        name = "Fox 2000 Pictures",
-                        originCountry = "US",
-                    ),
-                ),
-            productionCountries =
-                listOf(
-                    NetworkProductionCountry(
-                        iso31661 = "US",
-                        "United States of America",
-                    ),
-                ),
             releaseDate = "1999-10-15",
             revenue = 100853753,
             runtime = 139,

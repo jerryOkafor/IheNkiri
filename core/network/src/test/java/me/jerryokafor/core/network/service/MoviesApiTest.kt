@@ -32,9 +32,10 @@ import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class MoviesApiTest : BaseServiceTest() {
-    private val movieApi =
+    private val movieListApi =
         MockWebServerUtil.createMockedService(mockWebServer, MovieListApi::class.java)
 
     @Test
@@ -42,11 +43,12 @@ class MoviesApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runTest {
-            val response = movieApi.nowPlaying(language = "en-US", page = 1)
+            val response = movieListApi.nowPlaying(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
             assertEquals(response.totalResults, 1570)
+            assertTrue(response.results.isNotEmpty())
             assertEquals(response.results.size, 7)
             assertEquals(response.results.first().id, 667538)
             assertEquals(response.results.last().id, 1006462)
@@ -63,11 +65,12 @@ class MoviesApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runTest {
-            val response = movieApi.popular(language = "en-US", page = 1)
+            val response = movieListApi.popular(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
             assertEquals(response.totalResults, 1570)
+            assertTrue(response.results.isNotEmpty())
             assertEquals(response.results.size, 7)
             assertEquals(response.results.first().id, 667538)
             assertEquals(response.results.last().id, 1006462)
@@ -84,11 +87,12 @@ class MoviesApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runTest {
-            val response = movieApi.topRated(language = "en-US", page = 1)
+            val response = movieListApi.topRated(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
             assertEquals(response.totalResults, 1570)
+            assertTrue(response.results.isNotEmpty())
             assertEquals(response.results.size, 7)
             assertEquals(response.results.first().id, 667538)
             assertEquals(response.results.last().id, 1006462)
@@ -105,12 +109,13 @@ class MoviesApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("movie-list-200.json", 200)
 
         runTest {
-            val response = movieApi.upcoming(language = "en-US", page = 1)
+            val response = movieListApi.upcoming(language = "en-US", page = 1)
             assertNotNull(response)
             assertEquals(response.page, 1)
             assertEquals(response.totalPages, 79)
             assertEquals(response.totalResults, 1570)
             assertEquals(response.results.size, 7)
+            assertTrue(response.results.isNotEmpty())
             assertEquals(response.results.first().id, 667538)
             assertEquals(response.results.last().id, 1006462)
 
