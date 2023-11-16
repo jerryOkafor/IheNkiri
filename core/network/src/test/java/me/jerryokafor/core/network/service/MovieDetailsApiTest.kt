@@ -163,13 +163,7 @@ class MovieDetailsApiTest : BaseServiceTest() {
                 assertEquals(title, "Godzilla Raids Again")
                 assertEquals(
                     overview,
-                    """
-                    Two fishing scout pilots make a horrifying discovery when they encounter 
-                    a second Godzilla alongside a new monster named Anguirus. Without the weapon 
-                    that killed the original, authorities attempt to lure Godzilla away from the 
-                    mainland. But Anguirus soon arrives and the two monsters make their way 
-                    towards Osaka as Japan braces for tragedy.
-                    """.trimIndent(),
+                    "Two fishing scout pilots make a horrifying discovery when..."
                 )
                 assertEquals(posterPath, "/bBYdh9tDCyLaArBOzE38QCA7C3y.jpg")
                 assertEquals(voteAverage, 5.9)
@@ -182,12 +176,7 @@ class MovieDetailsApiTest : BaseServiceTest() {
                 assertEquals(originalTitle, "Cannibal Holocaust")
                 assertEquals(title, "Cannibal Holocaust")
                 assertEquals(
-                    overview,
-                    """
-                    A New York University professor returns from a rescue mission to the Amazon 
-                    rainforest with the footage shot by a lost team of documentarians who were 
-                    making a film about the area's local cannibal tribes.
-                    """.trimIndent(),
+                    overview, "A New York University professor returns from a..."
                 )
                 assertEquals(posterPath, "/89vXjnQGdTR1DBrAjqfN5oPpmX3.jpg")
                 assertEquals(voteAverage, 6.302)
