@@ -44,7 +44,7 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
-private fun GenreChipPreview() {
+fun GenreChipPreview() {
     IheNkiriTheme {
         Box(
             modifier =

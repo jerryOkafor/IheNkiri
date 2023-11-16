@@ -93,10 +93,7 @@ fun PeoplePoster(
     firstName: String,
     lastName: String,
     imageUrl: String,
-    textColor: Color =
-        contentColorFor(
-            backgroundColor = IheNkiri.color.inverseOnSurface,
-        ),
+    textColor: Color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
 ) {
     Column(
         modifier =

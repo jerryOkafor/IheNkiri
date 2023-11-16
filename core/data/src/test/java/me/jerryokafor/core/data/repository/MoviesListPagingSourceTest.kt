@@ -105,7 +105,9 @@ class MoviesListPagingSourceTest {
 
             // after loading 4 pages, anchore position = (page count * pages) -1
             val anchorPosition = (4 * 4) - 1
-            assertThat(pagingSource.getRefreshKey(pager.getPagingState(anchorPosition))).isEqualTo(4)
+            val pagingState = pager.getPagingState(anchorPosition)
+            val refreshKey = pagingSource.getRefreshKey(pagingState)
+            assertThat(refreshKey).isEqualTo(4)
         }
 
         coVerify(exactly = 1) { fetchMovies(eq(1)) }
