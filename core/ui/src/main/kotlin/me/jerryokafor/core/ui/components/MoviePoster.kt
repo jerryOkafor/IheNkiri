@@ -56,7 +56,7 @@ private const val SIZE_ASPECT_RATIO = 0.8F
 @ExcludeFromGeneratedCoverageReport
 @ThemePreviews
 @Composable
-private fun PosterPreview() {
+fun PosterPreview() {
     IheNkiriTheme {
         Column(
             modifier =

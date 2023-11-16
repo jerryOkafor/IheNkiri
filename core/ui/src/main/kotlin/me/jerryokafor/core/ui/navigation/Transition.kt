@@ -29,11 +29,10 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavBackStackEntry
-import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
 private const val TWEEN_ANIM_DURATION = 300
 
-@ExcludeFromGeneratedCoverageReport
+// @ExcludeFromGeneratedCoverageReport
 val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -42,7 +41,7 @@ val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Ent
         )
     }
 
-@ExcludeFromGeneratedCoverageReport
+// @ExcludeFromGeneratedCoverageReport
 val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(
@@ -51,7 +50,7 @@ val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Exit
         )
     }
 
-@ExcludeFromGeneratedCoverageReport
+// @ExcludeFromGeneratedCoverageReport
 val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -60,7 +59,7 @@ val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> 
         )
     }
 
-@ExcludeFromGeneratedCoverageReport
+// @ExcludeFromGeneratedCoverageReport
 val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(

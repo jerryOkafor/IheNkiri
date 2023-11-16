@@ -26,7 +26,6 @@ package me.jerryokafor.core.ds.annotation
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview
-import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
 /**
  * Multi-preview annotation that represents light and dark themes. Add this annotation to a
@@ -35,5 +34,4 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_MASK, name = "Light theme", showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme", showBackground = true)
-@ExcludeFromGeneratedCoverageReport
 annotation class ThemePreviews

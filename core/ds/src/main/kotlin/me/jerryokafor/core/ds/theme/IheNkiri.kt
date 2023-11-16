@@ -37,7 +37,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
 @VisibleForTesting
@@ -130,12 +129,6 @@ object IheNkiri {
         get() = LocalIheNkiriColorScheme.current
 
     object Icons
-}
-
-@ExcludeFromGeneratedCoverageReport
-open class ThemePreviewProvider : PreviewParameterProvider<Boolean> {
-    override val values: Sequence<Boolean>
-        get() = sequenceOf(true, false)
 }
 
 @Composable

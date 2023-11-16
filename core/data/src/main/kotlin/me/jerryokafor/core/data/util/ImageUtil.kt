@@ -24,21 +24,16 @@
 
 package me.jerryokafor.core.data.util
 
-import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
-
 object ImageUtil {
-    @ExcludeFromGeneratedCoverageReport
     sealed interface Size {
         val value: String
 
-        @ExcludeFromGeneratedCoverageReport
         enum class BackDrop(override val value: String) : Size {
             W300("w300"),
             W780("w780"),
             W1280("w1280"),
         }
 
-        @ExcludeFromGeneratedCoverageReport
         enum class Logo(override val value: String) : Size {
             W45("w45"),
             W93("w92"),
@@ -48,7 +43,6 @@ object ImageUtil {
             W500("w500"),
         }
 
-        @ExcludeFromGeneratedCoverageReport
         enum class Poster(override val value: String) : Size {
             W92("w92"),
             W154("w154"),
@@ -58,28 +52,24 @@ object ImageUtil {
             W780("w780"),
         }
 
-        @ExcludeFromGeneratedCoverageReport
         enum class Profile(override val value: String) : Size {
             W45("w45"),
             W185("w185"),
             H632("h632"),
         }
 
-        @ExcludeFromGeneratedCoverageReport
         enum class Still(override val value: String) : Size {
             W92("w92"),
             W185("w185"),
             W300("w300"),
         }
 
-        @ExcludeFromGeneratedCoverageReport
         data object Original : Size {
             override val value: String
                 get() = "original"
         }
     }
 
-    @ExcludeFromGeneratedCoverageReport
     fun buildImageUrl(
         path: String?,
         size: Size = Size.Original,
