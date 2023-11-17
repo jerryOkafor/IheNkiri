@@ -1,0 +1,124 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/xbKFQCZNK14gp9k6cFCwgp2OCtU.jpg",
+      "genre_ids": [
+        878,
+        27,
+        28
+      ],
+      "id": 1679,
+      "original_language": "ja",
+      "original_title": "ゴジラの逆襲",
+      "overview": "Two fishing scout pilots make a horrifying discovery when...",
+      "popularity": 15.879,
+      "poster_path": "/bBYdh9tDCyLaArBOzE38QCA7C3y.jpg",
+      "release_date": "1955-04-24",
+      "title": "Godzilla Raids Again",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 222
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cxeCukcCiyd4irnicGngLlRyXG0.jpg",
+      "genre_ids": [
+        18,
+        9648
+      ],
+      "id": 933511,
+      "original_language": "en",
+      "original_title": "I was not murdered.",
+      "overview": "After two men find the corpse of a woman in their back garden tensions rise as they debate about what exactly they should do next.",
+      "popularity": 0.623,
+      "poster_path": "/xM1gzn0dYDncdwRNaztK7IGdCu1.jpg",
+      "release_date": "2021-09-02",
+      "title": "I was not murdered.",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xIUllvT7at1ua65O2HT7MUA9pVk.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 806,
+      "original_language": "en",
+      "original_title": "The Omen",
+      "overview": "A diplomatic couple adopts the son of the devil without knowing it. A remake of the classic horror film of the same name from 1976.",
+      "popularity": 22.94,
+      "poster_path": "/kf1Qq9b32jn4umll9qD2ue5ftnh.jpg",
+      "release_date": "2006-06-06",
+      "title": "The Omen",
+      "video": false,
+      "vote_average": 5.592,
+      "vote_count": 977
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3sF6AibdbTTkswfSRxXEGCt5w6s.jpg",
+      "genre_ids": [
+        28,
+        12,
+        14
+      ],
+      "id": 847,
+      "original_language": "en",
+      "original_title": "Willow",
+      "overview": "The evil Queen Bavmorda hunts the newborn princess Elora Danan, a child prophesied to bring about her downfall. When the royal infant is found by Willow, a timid farmer and aspiring sorcerer, he's entrusted with delivering her from evil.",
+      "popularity": 22.392,
+      "poster_path": "/d9xEILdvVRX8ZgFwPDbco6kKSaS.jpg",
+      "release_date": "1988-05-20",
+      "title": "Willow",
+      "video": false,
+      "vote_average": 7.022,
+      "vote_count": 1770
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/GDTwA5FBvVUOjCGKoNDMflbs3Z.jpg",
+      "genre_ids": [
+        14,
+        16,
+        878,
+        10751,
+        28
+      ],
+      "id": 8965,
+      "original_language": "en",
+      "original_title": "Atlantis: Milo's Return",
+      "overview": "Milo and Kida reunite with their friends to investigate strange occurances around the world that seem to have links to the secrets of Atlantis.",
+      "popularity": 26.782,
+      "poster_path": "/jrZEWzSlbQTlsJobDmzuFNzlxbh.jpg",
+      "release_date": "2003-02-25",
+      "title": "Atlantis: Milo's Return",
+      "video": false,
+      "vote_average": 6.336,
+      "vote_count": 3738
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/i7oL4aodmX5aXw8s9dpAYRjHMLF.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 8689,
+      "original_language": "it",
+      "original_title": "Cannibal Holocaust",
+      "overview": "A New York University professor returns from a...",
+      "popularity": 35.268,
+      "poster_path": "/89vXjnQGdTR1DBrAjqfN5oPpmX3.jpg",
+      "release_date": "1980-02-07",
+      "title": "Cannibal Holocaust",
+      "video": false,
+      "vote_average": 6.302,
+      "vote_count": 1484
+    }
+  ],
+  "total_pages": 5835,
+  "total_results": 116696
+}

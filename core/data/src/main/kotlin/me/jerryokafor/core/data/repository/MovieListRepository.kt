@@ -85,11 +85,7 @@ class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movi
             val prevKey = if (pageNumber > 1) pageNumber - 1 else null
             val nextKey = if (response.isNotEmpty()) pageNumber + 1 else null
 
-            LoadResult.Page(
-                data = response,
-                prevKey = prevKey,
-                nextKey = nextKey,
-            )
+            LoadResult.Page(data = response, prevKey = prevKey, nextKey = nextKey)
         } catch (e: IOException) {
             LoadResult.Error(e)
         } catch (e: HttpException) {

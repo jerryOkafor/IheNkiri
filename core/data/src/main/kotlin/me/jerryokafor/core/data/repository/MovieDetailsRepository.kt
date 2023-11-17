@@ -56,8 +56,7 @@ class DefaultMovieDetailsRepository
     constructor(
         private val remoteDataSource: MovieDetailsRemoteDataSource,
         @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    ) :
-    MovieDetailsRepository {
+    ) : MovieDetailsRepository {
         override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> =
             flow {
                 try {
@@ -85,14 +84,14 @@ class DefaultMovieDetailsRepository
                     val response = remoteDataSource.movieVideos(movieId)
                     emit(Success(response))
                 } catch (e: Throwable) {
-                    emit(Failure(errorResponse = "Error getting movie credits"))
+                    emit(Failure(errorResponse = "Error getting movie videos"))
                 }
             }.flowOn(dispatcher)
 
         override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> =
             flow {
                 try {
-                    val response = remoteDataSource.similarVideos(movieId)
+                    val response = remoteDataSource.similarMovies(movieId)
                     emit(Success(response))
                 } catch (e: Throwable) {
                     e.printStackTrace()

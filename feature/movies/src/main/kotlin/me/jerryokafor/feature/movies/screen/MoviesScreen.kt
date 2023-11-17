@@ -210,6 +210,7 @@ fun MoviesScreen(
             MovieListFilterItem.FilterType.DISCOVER -> {
                 showSearch = true
             }
+
             else -> {
                 showSearch = false
                 onFilterItemSelected(it)
@@ -240,6 +241,7 @@ fun MoviesScreen(
                                 },
                             )
                         }
+
                         else -> {
                             CenterAlignedTopAppBar(
                                 modifier = Modifier.testTag(TITLE_TEST_TAG),

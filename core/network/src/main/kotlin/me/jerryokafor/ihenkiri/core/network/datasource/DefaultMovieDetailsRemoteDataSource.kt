@@ -42,12 +42,8 @@ class DefaultMovieDetailsRemoteDataSource
         override suspend fun movieCredits(movieId: Long): MovieCredit = movieDetailsApi.movieCredits(movieId).asDomainObject()
 
         override suspend fun movieVideos(movieId: Long): List<Video> =
-            movieDetailsApi.movieVideos(
-                movieId,
-            ).results.map { it.asDomainObject() }
+            movieDetailsApi.movieVideos(movieId).results.map { it.asDomainObject() }
 
-        override suspend fun similarVideos(movieId: Long): List<Movie> =
-            movieDetailsApi.similar(
-                movieId,
-            ).results.map { it.asDomainObject() }
+        override suspend fun similarMovies(movieId: Long): List<Movie> =
+            movieDetailsApi.similar(movieId).results.map { it.asDomainObject() }
     }

@@ -27,9 +27,7 @@ package me.jerryokafor.ihenkiri.core.network.model.response
 import com.google.gson.annotations.SerializedName
 
 data class NetworkMovieList(
-    @SerializedName("page")
     val page: Int,
-    @SerializedName("results")
     val results: ArrayList<NetworkMovie> = arrayListOf(),
     @SerializedName("total_pages")
     val totalPages: Int,

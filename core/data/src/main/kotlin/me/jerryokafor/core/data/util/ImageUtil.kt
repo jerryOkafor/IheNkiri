@@ -36,8 +36,8 @@ object ImageUtil {
 
         enum class Logo(override val value: String) : Size {
             W45("w45"),
-            W93("w92"),
-            W154("w254"),
+            W92("w92"),
+            W154("w154"),
             W185("w185"),
             W300("w300"),
             W500("w500"),

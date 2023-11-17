@@ -24,7 +24,6 @@
 
 package me.jerryokafor.core.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -34,18 +33,17 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
+import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.MovieListFilterItem
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme", showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme", showBackground = true)
+@ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
-private fun MovieListFilterPreview() {
+fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(
             filters =

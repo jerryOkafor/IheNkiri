@@ -53,10 +53,10 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 const val MOVIE_POSTER_TEST_TAG = "movie_poster"
 private const val SIZE_ASPECT_RATIO = 0.8F
 
-@ExcludeFromGeneratedCoverageReport
 @ThemePreviews
 @Composable
-private fun PosterPreview() {
+@ExcludeFromGeneratedCoverageReport
+fun PosterPreview() {
     IheNkiriTheme {
         Column(
             modifier =

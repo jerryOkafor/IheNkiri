@@ -58,7 +58,7 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
-private fun MovieRatingPreview() {
+fun MovieRatingPreview() {
     IheNkiriTheme {
         Box(
             modifier =

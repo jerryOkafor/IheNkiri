@@ -32,6 +32,7 @@ import androidx.navigation.NavBackStackEntry
 
 private const val TWEEN_ANIM_DURATION = 300
 
+// @ExcludeFromGeneratedCoverageReport
 val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -39,6 +40,8 @@ val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Ent
             animationSpec = tween(TWEEN_ANIM_DURATION),
         )
     }
+
+// @ExcludeFromGeneratedCoverageReport
 val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(
@@ -46,6 +49,8 @@ val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Exit
             animationSpec = tween(TWEEN_ANIM_DURATION),
         )
     }
+
+// @ExcludeFromGeneratedCoverageReport
 val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -53,6 +58,8 @@ val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> 
             animationSpec = tween(TWEEN_ANIM_DURATION),
         )
     }
+
+// @ExcludeFromGeneratedCoverageReport
 val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(

@@ -22,61 +22,54 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.ui.components
+package me.jerryokafor.core.ui.widget
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
-import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
-import me.jerryokafor.core.ds.annotation.ThemePreviews
+import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
-import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
+import org.robolectric.annotation.LooperMode
 
-@ThemePreviews
-@Composable
-@ExcludeFromGeneratedCoverageReport
-fun GenreChipPreview() {
-    IheNkiriTheme {
-        Box(
-            modifier =
-                Modifier
-                    .size(100.dp)
-                    .background(IheNkiri.color.surface),
-        ) {
-            GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
-        }
-    }
-}
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(application = HiltTestApplication::class, sdk = [33], qualifiers = "480dpi")
+@LooperMode(LooperMode.Mode.PAUSED)
+class PeoplePosterScreenshotTest {
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-@Composable
-fun GenreChip(
-    modifier: Modifier = Modifier,
-    text: String,
-) {
-    Surface(
-        modifier = modifier.wrapContentSize(),
-        shape = IheNkiri.shape.pill,
-        color = IheNkiri.color.tertiaryContainer,
-        content = {
-            Text(
+    @Test
+    fun movieRating_multipleThemes() {
+        composeTestRule.captureMultiTheme("PeoplePoster") { desc: String ->
+            Box(
                 modifier =
                     Modifier
-                        .padding(
-                            vertical = IheNkiri.spacing.half,
-                            horizontal = IheNkiri.spacing.oneAndHalf,
-                        ),
-                text = text,
-                color = contentColorFor(IheNkiri.color.tertiaryContainer),
-            )
-        },
-    )
+                        .size(200.dp)
+                        .aspectRatio(1F)
+                        .background(IheNkiri.color.inverseOnSurface),
+            ) {
+                PeoplePoster(
+                    modifier = Modifier.align(Alignment.Center),
+                    size = 120.dp,
+                    firstName = "Sandra",
+                    lastName = "Bullock",
+                    imageUrl = "",
+                )
+            }
+        }
+    }
 }
