@@ -24,10 +24,11 @@
 
 package me.jerryokafor.ihenkiri.core.network.service
 
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieCredit
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieDetails
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieList
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkVideos
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -76,5 +77,5 @@ interface MovieDetailsApi {
     @GET("$V3/movie/{movieId}/similar")
     suspend fun similar(
         @Path("movieId") movieId: Long,
-    ): NetworkMovieList
+    ): PagedNetworkResponse<NetworkMovie>
 }

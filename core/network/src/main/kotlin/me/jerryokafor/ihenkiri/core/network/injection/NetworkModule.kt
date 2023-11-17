@@ -47,6 +47,7 @@ import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
+import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -55,6 +56,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+@Suppress("TooManyFunctions")
 object NetworkModule {
     @[Provides Singleton]
     fun provideChuckerInterceptor(
@@ -135,6 +137,9 @@ object NetworkModule {
 
     @[Provides Singleton]
     fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi = retrofit.create(MovieDetailsApi::class.java)
+
+    @[Provides Singleton]
+    fun providePeopleListsApi(retrofit: Retrofit): PeopleListsApi = retrofit.create(PeopleListsApi::class.java)
 
     @[Provides Singleton]
     fun provideRetrofit(

@@ -22,15 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.model.response
+package me.jerryokafor.ihenkiri.core.network.service
 
-import com.google.gson.annotations.SerializedName
+import me.jerryokafor.ihenkiri.core.network.Config
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkPerson
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-data class NetworkMovieList(
-    val page: Int,
-    val results: ArrayList<NetworkMovie> = arrayListOf(),
-    @SerializedName("total_pages")
-    val totalPages: Int,
-    @SerializedName("total_results")
-    val totalResults: Int,
-)
+interface PeopleListsApi {
+    @GET("${Config.TMDB_API_V3}/person/popular")
+    suspend fun popularPersons(
+        @Query("page") page: Int,
+    ): PagedNetworkResponse<NetworkPerson>
+}

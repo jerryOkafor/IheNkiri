@@ -16,16 +16,13 @@ and [Free Figma Design Template](https://www.figma.com/file/gbaO5pgTz0mOZXvFOPCe
 - Generates and upload Coverage report CodeCov using Jacoco Coverage report plugin
 - Enforcing code coverage metrics using Jacoco Coverage Verification
 
-https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture
-https://slackhq.github.io/circuit/
-
 ## Screenshots
 
 <p align="center">
-  <img src="doc/screenshots/auth.png" width="100" />
-  <img src="doc/screenshots/oauth-2.0.png" width="100" />
-  <img src="doc/screenshots/movies.png" width="100" />
-  <img src="doc/screenshots/movies_details.png" width="100" />
+  <img src="doc/screenshots/auth.png" width="200" />
+  <img src="doc/screenshots/oauth-2.0.png" width="200" />
+  <img src="doc/screenshots/movies.png" width="200" />
+  <img src="doc/screenshots/movies_details.png" width="200" />
 </p>
 
 # Development Environment
@@ -155,7 +152,7 @@ realistic) implementation with additional testing hooks. This results in less br
 exercise more production code quality, instead of just verifying specific calls against mocks.
 
 >[!IMPORTANT]
->
+
 > **Test naming convention**
 > 
 >  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test function name:
@@ -235,7 +232,8 @@ We use Roborazzi to achieve this screenshot testing.
 - [runComposeUiTest](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#runComposeUiTest(kotlin.coroutines.CoroutineContext,kotlin.Function1))
 - [Compose Performance](https://developer.android.com/jetpack/compose/performance#three-phases)
 - [Parallax effect](https://chrisbanes.me/posts/parallax-effect-compose/)
-- [Performance](https://www.droidcon.com/2023/11/15/android-app-performance-in-a-nutshell/)
+- [Better Android Apps Using MVVM With Clean Architecturesl](https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture)
+- [Slack Circuit](https://slackhq.github.io/circuit)
 
 # License
 

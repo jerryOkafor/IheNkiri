@@ -24,7 +24,7 @@
 
 package me.jerryokafor.core.network.service
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
@@ -45,7 +45,7 @@ class AuthApiTest : BaseServiceTest() {
     fun `test createRequestToken(), returns request token if response is 200`() {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
-        runBlocking {
+        runTest {
             val requestBody = createRequestToken()
             val response = authApi.createRequestToken(requestBody)
             val expected = createRequestTokenSuccessResponse()
@@ -64,7 +64,7 @@ class AuthApiTest : BaseServiceTest() {
     fun `test createAccessToken(), return access token if response is 200`() {
         mockWebServer.enqueueResponse("create-access-token-200.json", 200)
 
-        runBlocking {
+        runTest {
             val response = authApi.createAccessToken(createAccessTokenRequest())
             val expected = createAccessTokenSuccessResponse()
 

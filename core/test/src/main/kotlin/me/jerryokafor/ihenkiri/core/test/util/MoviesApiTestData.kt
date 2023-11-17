@@ -25,9 +25,9 @@
 package me.jerryokafor.ihenkiri.core.test.util
 
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieList
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 
-fun testNetworkMoviesListResponse() = NetworkMovieList(page = 1, results = testMoviesResponse(), totalResults = 7, totalPages = 1)
+fun testNetworkMoviesListResponse() = PagedNetworkResponse(page = 1, results = testMoviesResponse(), totalResults = 7, totalPages = 1)
 
 fun testMoviesResponse() =
     arrayListOf(

@@ -162,37 +162,6 @@ fun TvShowScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @ExcludeFromGeneratedCoverageReport
-fun PeopleScreen() {
-    Background {
-        Column(modifier = Modifier.fillMaxSize()) {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.testTag(TITLE_TEST_TAG),
-                title = {
-                    Text(
-                        text = "People",
-                        style = IheNkiri.typography.titleMedium,
-                        color = IheNkiri.color.onPrimary,
-                    )
-                },
-                windowInsets = TopAppBarDefaults.windowInsets,
-                colors =
-                    TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent,
-                        scrolledContainerColor = Color.Transparent,
-                    ),
-            )
-            TwoAndHalfHorizontalSpacer()
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Welcome to People screen, coming soon",
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-@ExcludeFromGeneratedCoverageReport
 fun MoreScreen() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
