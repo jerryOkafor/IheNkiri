@@ -29,66 +29,41 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import me.jerryokafor.core.common.injection.IoDispatcher
-import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.data.filter.toQuery
-import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.core.model.Person
+import me.jerryokafor.ihenkiri.core.network.datasource.PeopleListRemoteDataSource
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface MovieListRepository {
-    suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun popularMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun topRatedMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun upcomingMovies(filter: MoviesFilter): List<Movie>
+interface PeopleListRepository {
+    suspend fun popularPeople(page: Int): List<Person>
 }
 
 @Singleton
-class DefaultMovieListRepository
+class DefaultPeopleListRepository
     @Inject
     constructor(
-        private val moviesRemoteDataSource: MoviesRemoteDataSource,
-        @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    ) : MovieListRepository {
-        override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
-            }
-
-        override suspend fun popularMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.popularMovies(filter.toQuery())
-            }
-
-        override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.topRatedMovies(filter.toQuery())
-            }
-
-        override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.upcomingMovies(filter.toQuery())
-            }
+        private val peopleListRemoteDataSource: PeopleListRemoteDataSource,
+        @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    ) : PeopleListRepository {
+        override suspend fun popularPeople(page: Int): List<Person> =
+            withContext(dispatcher) { peopleListRemoteDataSource.popularPersons(page) }
     }
 
-class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
-    PagingSource<Int, Movie>() {
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+class PeopleListPagingSource(private val peopleListRepository: PeopleListRepository) :
+    PagingSource<Int, Person>() {
+    override fun getRefreshKey(state: PagingState<Int, Person>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Person> {
         return try {
             val pageNumber = params.key ?: 1
-            val response = fetchMovies(pageNumber)
+            val response = peopleListRepository.popularPeople(pageNumber)
             val prevKey = if (pageNumber > 1) pageNumber - 1 else null
             val nextKey = if (response.isNotEmpty()) pageNumber + 1 else null
 

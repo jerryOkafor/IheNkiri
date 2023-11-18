@@ -30,8 +30,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
 import me.jerryokafor.core.data.repository.DefaultMovieListRepository
+import me.jerryokafor.core.data.repository.DefaultPeopleListRepository
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
+import me.jerryokafor.core.data.repository.PeopleListRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,4 +43,7 @@ interface DataModule {
 
     @Binds
     fun provideMovieDetailsRepository(movieDetailsRepository: DefaultMovieDetailsRepository): MovieDetailsRepository
+
+    @Binds
+    fun providePeopleListRepository(peopleListRepository: DefaultPeopleListRepository): PeopleListRepository
 }

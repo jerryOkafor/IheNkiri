@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.feature.moviedetails
+package me.jerryokafor.ihenkiri.feature.moviedetails.ui
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -101,6 +101,8 @@ import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.TrailerButton
 import me.jerryokafor.core.ui.widget.MovieRating
 import me.jerryokafor.core.ui.widget.PeoplePoster
+import me.jerryokafor.ihenkiri.feature.moviedetails.R
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MoviesDetailViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState

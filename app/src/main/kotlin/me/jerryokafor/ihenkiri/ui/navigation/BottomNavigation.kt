@@ -58,6 +58,7 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.feature.movies.navigation.moviesRoute
 import me.jerryokafor.ihenkiri.R
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsNavPattern
+import me.jerryokafor.ihenkiri.feature.people.navigation.peopleNavPattern
 
 const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
@@ -149,7 +150,11 @@ sealed class BottomNavItem(
     )
 
     data object People :
-        BottomNavItem(title = "People", icon = R.drawable.baseline_people_24, route = "/people")
+        BottomNavItem(
+            title = "People",
+            icon = R.drawable.baseline_people_24,
+            route = peopleNavPattern,
+        )
 
     data object More :
         BottomNavItem(title = "More", icon = R.drawable.baseline_more_24, route = "/more")

@@ -38,9 +38,9 @@ import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
+import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
 import me.jerryokafor.ihenkiri.ui.MoreScreen
 import me.jerryokafor.ihenkiri.ui.TvShowScreen
-import me.jerryokafor.ihenkiri.ui.screens.PeopleScreen
 
 @Composable
 @ExcludeFromGeneratedCoverageReport
@@ -71,6 +71,8 @@ fun HomeNavGraph(
         startDestination = BottomNavItem.Movies.route,
     ) {
         moviesScreen(onMovieClick = onMovieClick)
+        movieDetailsScreen(onNavigateUp = onNavigateUp)
+        peopleScreen()
 
         composable(
             route = BottomNavItem.TVShows.route,
@@ -83,16 +85,6 @@ fun HomeNavGraph(
         }
 
         composable(
-            route = BottomNavItem.People.route,
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition,
-        ) {
-            PeopleScreen()
-        }
-
-        composable(
             route = BottomNavItem.More.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
@@ -101,7 +93,5 @@ fun HomeNavGraph(
         ) {
             MoreScreen()
         }
-
-        movieDetailsScreen(onNavigateUp = onNavigateUp)
     }
 }

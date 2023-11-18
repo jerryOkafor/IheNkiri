@@ -40,9 +40,9 @@ class PeopleListsApiTest : BaseServiceTest() {
     @Test
     fun `test popularPersons(), returns list of persons when response is 200`() {
         mockWebServer.enqueueResponse("people-list-200.json", 200)
-
+        val testPage = 1
         runTest {
-            val persons = peopleListsApi.popularPersons(1)
+            val persons = peopleListsApi.popularPersons(testPage)
             assertNotNull(persons)
             assertEquals(persons.results.size, 9)
 
@@ -75,7 +75,7 @@ class PeopleListsApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assertEquals("/${Config.TMDB_API_V3}/person/popular", recordedRequest.path)
+            assertEquals("/${Config.TMDB_API_V3}/person/popular?page=$testPage", recordedRequest.path)
         }
     }
 }

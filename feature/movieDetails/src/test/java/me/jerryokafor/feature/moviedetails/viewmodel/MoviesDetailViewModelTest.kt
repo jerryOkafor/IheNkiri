@@ -34,8 +34,8 @@ import kotlinx.coroutines.test.runTest
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMovieDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
-import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetailViewModel
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieIdArg
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MoviesDetailViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

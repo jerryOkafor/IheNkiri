@@ -22,33 +22,27 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.model.response
+package me.jerryokafor.ihenkiri.feature.people.navigation
 
-import com.google.gson.annotations.SerializedName
-import me.jerryokafor.core.model.Person
-import me.jerryokafor.core.model.PersonMovie
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
+import me.jerryokafor.ihenkiri.feature.people.ui.PeopleScreen
 
-data class NetworkPerson(
-    val id: Long,
-    val name: String,
-    val popularity: Double,
-    @SerializedName("profile_path")
-    val profilePath: String,
-    val knownFor: List<NetworkPersonMovie> = emptyList(),
-)
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
+const val peopleNavPattern = "/people"
 
-data class NetworkPersonMovie(
-    val id: Long,
-    val title: String?,
-)
-
-fun NetworkPersonMovie.toDomainModel(): PersonMovie = PersonMovie(id = this.id, title = this.title!!)
-
-fun NetworkPerson.toDomainModel(): Person =
-    Person(
-        id = this.id,
-        name = this.name,
-        popularity = this.popularity,
-        profilePath = this.profilePath,
-        knownFor = this.knownFor.filter { it.title != null }.mapNotNull { it.toDomainModel() },
-    )
+fun NavGraphBuilder.peopleScreen() {
+    composable(
+        route = peopleNavPattern,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
+    ) {
+        PeopleScreen()
+    }
+}

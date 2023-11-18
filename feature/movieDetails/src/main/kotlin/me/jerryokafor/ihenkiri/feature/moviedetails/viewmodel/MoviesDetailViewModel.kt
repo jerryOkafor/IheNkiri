@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.feature.moviedetails
+package me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -75,7 +75,8 @@ class MoviesDetailViewModel
                         movieDetailsRepository.movieDetails(movieId).onSuccess { movieDetails ->
                             val hours = movieDetails.runtime / ONE_HOUR_IN_MINUTES
                             val minutes = movieDetails.runtime.rem(ONE_HOUR_IN_MINUTES)
-                            val formattedRuntime = "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
+                            val formattedRuntime =
+                                "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
                             _uiState.update {
                                 it.copy(
                                     title = movieDetails.title,

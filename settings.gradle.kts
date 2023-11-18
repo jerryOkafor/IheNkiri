@@ -58,3 +58,4 @@ include(":lint")
 // Features
 include(":feature:movies")
 include(":feature:movieDetails")
+include(":feature:people")

@@ -319,6 +319,15 @@ fun MoviesScreen(
                     },
                 )
 
+                if (movieLazyPagingItems.loadState.refresh == LoadState.Loading) {
+                    CircularProgressIndicator(
+                        modifier =
+                            Modifier
+                                .align(Alignment.Center)
+                                .padding(IheNkiri.spacing.oneAndHalf),
+                    )
+                }
+
                 MovieListFilter(
                     modifier =
                         Modifier

@@ -57,7 +57,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetails
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")

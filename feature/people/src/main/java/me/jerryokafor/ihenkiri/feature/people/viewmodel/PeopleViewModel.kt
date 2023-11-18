@@ -22,33 +22,29 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.network.model.response
+package me.jerryokafor.ihenkiri.feature.people.viewmodel
 
-import com.google.gson.annotations.SerializedName
-import me.jerryokafor.core.model.Person
-import me.jerryokafor.core.model.PersonMovie
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import me.jerryokafor.core.data.repository.PeopleListPagingSource
+import me.jerryokafor.core.data.repository.PeopleListRepository
+import javax.inject.Inject
 
-data class NetworkPerson(
-    val id: Long,
-    val name: String,
-    val popularity: Double,
-    @SerializedName("profile_path")
-    val profilePath: String,
-    val knownFor: List<NetworkPersonMovie> = emptyList(),
-)
-
-data class NetworkPersonMovie(
-    val id: Long,
-    val title: String?,
-)
-
-fun NetworkPersonMovie.toDomainModel(): PersonMovie = PersonMovie(id = this.id, title = this.title!!)
-
-fun NetworkPerson.toDomainModel(): Person =
-    Person(
-        id = this.id,
-        name = this.name,
-        popularity = this.popularity,
-        profilePath = this.profilePath,
-        knownFor = this.knownFor.filter { it.title != null }.mapNotNull { it.toDomainModel() },
-    )
+@HiltViewModel
+class PeopleViewModel
+    @Inject
+    constructor(private val peopleListRepository: PeopleListRepository) :
+    ViewModel() {
+        val persons =
+            Pager(
+                config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
+                initialKey = null,
+                pagingSourceFactory = {
+                    PeopleListPagingSource(peopleListRepository = peopleListRepository)
+                },
+            ).flow.cachedIn(viewModelScope)
+    }
