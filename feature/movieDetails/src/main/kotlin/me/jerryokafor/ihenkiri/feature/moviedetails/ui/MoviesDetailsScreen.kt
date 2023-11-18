@@ -240,8 +240,7 @@ fun MoviesDetails(
                                 },
                         model =
                             ImageRequest.Builder(LocalContext.current)
-                                .data(ImageUtil.buildImageUrl(uiState.postPath))
-                                .crossfade(true)
+                                .data(ImageUtil.buildImageUrl(uiState.postPath)).crossfade(true)
                                 .build(),
                         placeholder = painterResource(R.drawable.sample_banner),
                         contentDescription = uiState.title,
