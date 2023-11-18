@@ -72,23 +72,19 @@ object NetworkModule {
 
         // Create the Interceptor
         @Suppress("MagicNumber")
-        return ChuckerInterceptor.Builder(context)
-            .apply {
-                collector(chuckerCollector)
-                maxContentLength(250_000L)
-                redactHeaders("Auth-Token", "Bearer")
-                alwaysReadResponseBody(true)
-                createShortcut(true)
-            }.build()
+        return ChuckerInterceptor.Builder(context).apply {
+            collector(chuckerCollector)
+            maxContentLength(250_000L)
+            redactHeaders("Auth-Token", "Bearer")
+            alwaysReadResponseBody(true)
+            createShortcut(true)
+        }.build()
     }
 
     @[Provides Singleton AuthOkHttpClient]
     fun provideAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
         val authToken = BuildConfig.TMDB_API_KEY
-        val builder =
-            OkHttpClient.Builder()
-                .addInterceptor(chuckerInterceptor)
-                .addInterceptor(AuthorizationInterceptor(authToken))
+        val builder = OkHttpClient.Builder().addInterceptor(chuckerInterceptor).addInterceptor(AuthorizationInterceptor(authToken))
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -101,9 +97,7 @@ object NetworkModule {
 
     @[Provides Singleton NoAuthOkHttpClient]
     fun provideNoAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
-        val builder =
-            OkHttpClient.Builder()
-                .addInterceptor(chuckerInterceptor)
+        val builder = OkHttpClient.Builder().addInterceptor(chuckerInterceptor)
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -115,11 +109,10 @@ object NetworkModule {
     }
 
     @[Provides Singleton]
-    fun provideGson(): Gson =
-        GsonBuilder().apply {
-            setPrettyPrinting()
-            setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        }.create()
+    fun provideGson(): Gson = GsonBuilder().apply {
+        setPrettyPrinting()
+        setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+    }.create()
 
     @[Provides Singleton]
     fun provideMoviesRemoteDataSource(moviesApi: MovieListApi): MoviesRemoteDataSource =
@@ -146,9 +139,6 @@ object NetworkModule {
         @AuthOkHttpClient okHttpClient: OkHttpClient,
         gson: Gson,
     ): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(BuildConfig.TMDB_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+        Retrofit.Builder().baseUrl(BuildConfig.TMDB_BASE_URL).client(okHttpClient).addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 }

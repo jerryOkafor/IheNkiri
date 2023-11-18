@@ -34,13 +34,13 @@ import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import javax.inject.Inject
 
 class FakeAuthApi
-    @Inject
-    constructor() : AuthApi {
-        override suspend fun createRequestToken(requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse {
-            return createRequestTokenSuccessResponse()
-        }
-
-        override suspend fun createAccessToken(requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse {
-            return createAccessTokenSuccessResponse()
-        }
+@Inject
+constructor() : AuthApi {
+    override suspend fun createRequestToken(requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse {
+        return createRequestTokenSuccessResponse()
     }
+
+    override suspend fun createAccessToken(requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse {
+        return createAccessTokenSuccessResponse()
+    }
+}

@@ -43,10 +43,10 @@ fun ShimmerBox(
         if (showShimmer) {
             Box(
                 modifier =
-                    Modifier
-                        .matchParentSize()
-                        .shimmer(shimmer)
-                        .background(Color.Black.copy(alpha = 0.8f)),
+                Modifier
+                    .matchParentSize()
+                    .shimmer(shimmer)
+                    .background(Color.Black.copy(alpha = 0.8f)),
             )
         } else {
             content()

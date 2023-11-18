@@ -60,21 +60,21 @@ fun PosterPreview() {
     IheNkiriTheme {
         Column(
             modifier =
-                Modifier
-                    .padding(IheNkiri.spacing.twoAndaHalf)
-                    .background(IheNkiri.color.inverseOnSurface),
+            Modifier
+                .padding(IheNkiri.spacing.twoAndaHalf)
+                .background(IheNkiri.color.inverseOnSurface),
         ) {
             MoviePoster(
                 modifier =
-                    Modifier
-                        .width(100.dp)
-                        .aspectRatio(SIZE_ASPECT_RATIO),
+                Modifier
+                    .width(100.dp)
+                    .aspectRatio(SIZE_ASPECT_RATIO),
                 path = "https://example.com/image.jpg",
                 contentDescription = "Image",
                 shimmer =
-                    rememberShimmer(
-                        shimmerBounds = ShimmerBounds.Window,
-                    ),
+                rememberShimmer(
+                    shimmerBounds = ShimmerBounds.Window,
+                ),
             ) {}
         }
     }
@@ -96,9 +96,9 @@ fun MoviePoster(
     ) {
         SubcomposeAsyncImage(
             model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data(path)
-                    .crossfade(true).build(),
+            ImageRequest.Builder(LocalContext.current)
+                .data(path)
+                .crossfade(true).build(),
             contentScale = ContentScale.FillBounds,
             contentDescription = contentDescription,
         ) {

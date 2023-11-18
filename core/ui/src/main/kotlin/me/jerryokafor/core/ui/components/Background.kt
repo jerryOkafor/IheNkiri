@@ -59,15 +59,15 @@ fun Background(content: @Composable () -> Unit) {
 
     Box(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .background(IheNkiri.color.surface),
+        Modifier
+            .fillMaxSize()
+            .background(IheNkiri.color.surface),
     ) {
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(colorStops)),
+            Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(colorStops)),
         )
         content()
     }

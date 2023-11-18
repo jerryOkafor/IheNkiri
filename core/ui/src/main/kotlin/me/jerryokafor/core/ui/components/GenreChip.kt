@@ -48,9 +48,9 @@ fun GenreChipPreview() {
     IheNkiriTheme {
         Box(
             modifier =
-                Modifier
-                    .size(100.dp)
-                    .background(IheNkiri.color.surface),
+            Modifier
+                .size(100.dp)
+                .background(IheNkiri.color.surface),
         ) {
             GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
         }
@@ -69,11 +69,11 @@ fun GenreChip(
         content = {
             Text(
                 modifier =
-                    Modifier
-                        .padding(
-                            vertical = IheNkiri.spacing.half,
-                            horizontal = IheNkiri.spacing.oneAndHalf,
-                        ),
+                Modifier
+                    .padding(
+                        vertical = IheNkiri.spacing.half,
+                        horizontal = IheNkiri.spacing.oneAndHalf,
+                    ),
                 text = text,
                 color = contentColorFor(IheNkiri.color.tertiaryContainer),
             )

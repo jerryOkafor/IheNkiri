@@ -34,8 +34,8 @@ interface PeopleListRemoteDataSource {
 }
 
 class DefaultPeopleListRemoteDataSource
-    @Inject
-    constructor(private val peopleListsApi: PeopleListsApi) : PeopleListRemoteDataSource {
-        override suspend fun popularPersons(page: Int): List<Person> =
-            peopleListsApi.popularPersons(page).results.map { it.toDomainModel() }
-    }
+@Inject
+constructor(private val peopleListsApi: PeopleListsApi) : PeopleListRemoteDataSource {
+    override suspend fun popularPersons(page: Int): List<Person> =
+        peopleListsApi.popularPersons(page).results.map { it.toDomainModel() }
+}

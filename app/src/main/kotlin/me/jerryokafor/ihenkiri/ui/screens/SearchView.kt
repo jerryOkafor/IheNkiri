@@ -82,9 +82,9 @@ fun SearchView() {
     ) {
         SearchBar(
             modifier =
-                Modifier
-                    .align(Alignment.TopCenter)
-                    .semantics { traversalIndex = -1f },
+            Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = -1f },
             query = query,
             onQueryChange = { query = it },
             onSearch = { isActive = false },
@@ -117,13 +117,13 @@ fun SearchView() {
                     supportingContent = { Text("Additional info") },
                     leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
                     modifier =
-                        Modifier
-                            .clickable {
-                                query = resultText
-                                isActive = false
-                            }
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                    Modifier
+                        .clickable {
+                            query = resultText
+                            isActive = false
+                        }
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
                 )
             }
         }

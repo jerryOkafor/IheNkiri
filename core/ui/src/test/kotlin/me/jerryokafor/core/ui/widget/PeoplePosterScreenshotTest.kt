@@ -57,10 +57,10 @@ class PeoplePosterScreenshotTest {
         composeTestRule.captureMultiTheme("PeoplePoster") { desc: String ->
             Box(
                 modifier =
-                    Modifier
-                        .size(200.dp)
-                        .aspectRatio(1F)
-                        .background(IheNkiri.color.inverseOnSurface),
+                Modifier
+                    .size(200.dp)
+                    .aspectRatio(1F)
+                    .background(IheNkiri.color.inverseOnSurface),
             ) {
                 PeoplePoster(
                     modifier = Modifier.align(Alignment.Center),

@@ -43,30 +43,28 @@ class AppViewModelTest {
     }
 
     @Test
-    fun appViewMode_verifyInitialState() =
-        runTest {
-            val actualValue = viewModel.uiState.value
-            val startDestination = viewModel.startDestination.value
-            assertThat(actualValue.isLoggedIn).isTrue()
-            assertThat(actualValue.isDarkTheme).isTrue()
-            assertThat(actualValue.isDynamicColor).isFalse()
-            assertThat(startDestination).isEqualTo("auth-graph")
-        }
+    fun appViewMode_verifyInitialState() = runTest {
+        val actualValue = viewModel.uiState.value
+        val startDestination = viewModel.startDestination.value
+        assertThat(actualValue.isLoggedIn).isTrue()
+        assertThat(actualValue.isDarkTheme).isTrue()
+        assertThat(actualValue.isDynamicColor).isFalse()
+        assertThat(startDestination).isEqualTo("auth-graph")
+    }
 
     @Test
-    fun appViewModel_verifyUpdateLogin() =
-        runTest {
-            viewModel.updateLoginState(loggedIn = false)
-            with(viewModel.uiState.value) {
-                assertThat(isLoggedIn).isFalse()
-            }
-            assertThat(viewModel.startDestination.value).isEqualTo("auth-graph")
-
-            viewModel.updateLoginState(loggedIn = true)
-            with(viewModel.uiState.value) {
-                assertThat(isLoggedIn).isTrue()
-            }
-
-            assertThat(viewModel.startDestination.value).isEqualTo("home-graph")
+    fun appViewModel_verifyUpdateLogin() = runTest {
+        viewModel.updateLoginState(loggedIn = false)
+        with(viewModel.uiState.value) {
+            assertThat(isLoggedIn).isFalse()
         }
+        assertThat(viewModel.startDestination.value).isEqualTo("auth-graph")
+
+        viewModel.updateLoginState(loggedIn = true)
+        with(viewModel.uiState.value) {
+            assertThat(isLoggedIn).isTrue()
+        }
+
+        assertThat(viewModel.startDestination.value).isEqualTo("home-graph")
+    }
 }

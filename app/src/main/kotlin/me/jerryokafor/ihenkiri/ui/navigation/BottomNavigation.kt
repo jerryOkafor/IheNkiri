@@ -94,17 +94,17 @@ fun BottomNavigation(
     AnimatedVisibility(
         visible = show,
         enter =
-            slideInVertically {
-                // Slide in from 40 dp from the top.
-                with(density) { -40.dp.roundToPx() }
-            } +
-                expandVertically(
-                    // Expand from the top.
-                    expandFrom = Alignment.Top,
-                ) +
-                fadeIn(
-                    initialAlpha = 0.3f,
-                ),
+        slideInVertically {
+            // Slide in from 40 dp from the top.
+            with(density) { -40.dp.roundToPx() }
+        } +
+            expandVertically(
+                // Expand from the top.
+                expandFrom = Alignment.Top,
+            ) +
+            fadeIn(
+                initialAlpha = 0.3f,
+            ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
@@ -116,9 +116,9 @@ fun BottomNavigation(
                             navController.navigate(
                                 item.route,
                                 navOptions =
-                                    navOptions {
-                                        launchSingleTop = true
-                                    },
+                                navOptions {
+                                    launchSingleTop = true
+                                },
                             )
                         },
                     )

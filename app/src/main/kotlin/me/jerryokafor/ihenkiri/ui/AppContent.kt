@@ -73,13 +73,13 @@ internal fun AppContent(
         navController.navigate(
             route = viewModel.startDestination.value,
             navOptions =
-                navOptions {
-                    navController.currentDestination?.route?.let {
-                        popUpTo(it) {
-                            inclusive = true
-                        }
+            navOptions {
+                navController.currentDestination?.route?.let {
+                    popUpTo(it) {
+                        inclusive = true
                     }
-                },
+                }
+            },
         )
     }
 
@@ -145,10 +145,10 @@ fun TvShowScreen() {
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
                 colors =
-                    TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent,
-                        scrolledContainerColor = Color.Transparent,
-                    ),
+                TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
             )
             TwoAndHalfHorizontalSpacer()
             Text(
@@ -176,10 +176,10 @@ fun MoreScreen() {
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
                 colors =
-                    TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent,
-                        scrolledContainerColor = Color.Transparent,
-                    ),
+                TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
             )
             TwoAndHalfHorizontalSpacer()
             Text(

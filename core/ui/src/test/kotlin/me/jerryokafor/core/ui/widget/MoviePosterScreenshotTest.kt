@@ -60,21 +60,21 @@ class MoviePosterScreenshotTest {
         composeTestRule.captureMultiTheme("MoviePoster") { desc: String ->
             Column(
                 modifier =
-                    Modifier
-                        .padding(IheNkiri.spacing.twoAndaHalf)
-                        .background(IheNkiri.color.inverseOnSurface),
+                Modifier
+                    .padding(IheNkiri.spacing.twoAndaHalf)
+                    .background(IheNkiri.color.inverseOnSurface),
             ) {
                 MoviePoster(
                     modifier =
-                        Modifier
-                            .width(100.dp)
-                            .aspectRatio(0.8F),
+                    Modifier
+                        .width(100.dp)
+                        .aspectRatio(0.8F),
                     path = "https://example.com/image.jpg",
                     contentDescription = "Image",
                     shimmer =
-                        rememberShimmer(
-                            shimmerBounds = ShimmerBounds.Window,
-                        ),
+                    rememberShimmer(
+                        shimmerBounds = ShimmerBounds.Window,
+                    ),
                 ) {}
             }
         }

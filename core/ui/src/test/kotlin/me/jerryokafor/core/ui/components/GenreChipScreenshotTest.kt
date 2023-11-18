@@ -56,9 +56,9 @@ class GenreChipScreenshotTest {
         composeTestRule.captureMultiTheme("GenreChip") { desc: String ->
             Box(
                 modifier =
-                    Modifier
-                        .size(100.dp)
-                        .background(IheNkiri.color.surface),
+                Modifier
+                    .size(100.dp)
+                    .background(IheNkiri.color.surface),
             ) {
                 GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
             }

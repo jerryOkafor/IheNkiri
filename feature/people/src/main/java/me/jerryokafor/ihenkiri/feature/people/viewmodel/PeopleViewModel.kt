@@ -36,15 +36,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PeopleViewModel
-    @Inject
-    constructor(private val peopleListRepository: PeopleListRepository) :
+@Inject
+constructor(private val peopleListRepository: PeopleListRepository) :
     ViewModel() {
-        val persons =
-            Pager(
-                config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
-                initialKey = null,
-                pagingSourceFactory = {
-                    PeopleListPagingSource(peopleListRepository = peopleListRepository)
-                },
-            ).flow.cachedIn(viewModelScope)
-    }
+    val persons =
+        Pager(
+            config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
+            initialKey = null,
+            pagingSourceFactory = {
+                PeopleListPagingSource(peopleListRepository = peopleListRepository)
+            },
+        ).flow.cachedIn(viewModelScope)
+}

@@ -96,36 +96,31 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
                     )
                 },
                 windowInsets = TopAppBarDefaults.windowInsets,
-                colors =
-                    TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent,
-                        scrolledContainerColor = Color.Transparent,
-                    ),
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
             )
             TwoAndHalfHorizontalSpacer()
 
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalGrid(
-                    modifier =
-                        Modifier
-                            .fillMaxSize(),
-                    contentPadding =
-                        PaddingValues(
-                            start = IheNkiri.spacing.twoAndaHalf,
-                            end = IheNkiri.spacing.twoAndaHalf,
-                            bottom = IheNkiri.spacing.six,
-                        ),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        start = IheNkiri.spacing.twoAndaHalf,
+                        end = IheNkiri.spacing.twoAndaHalf,
+                        bottom = IheNkiri.spacing.six,
+                    ),
                     horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
                     verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
                     columns = GridCells.Fixed(2),
                 ) {
                     items(count = persons.itemCount, key = persons.itemKey { it.id }) {
                         val person = persons[it]!!
-                        val path =
-                            ImageUtil.buildImageUrl(
-                                path = person.profilePath,
-                                size = ImageUtil.Size.Profile.H632,
-                            )
+                        val path = ImageUtil.buildImageUrl(
+                            path = person.profilePath,
+                            size = ImageUtil.Size.Profile.H632,
+                        )
                         PersonItemView(
                             modifier = Modifier,
                             name = person.name,
@@ -137,16 +132,14 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
                     if (persons.loadState.append == LoadState.Loading) {
                         item {
                             Box(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentHeight(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(),
                             ) {
                                 CircularProgressIndicator(
-                                    modifier =
-                                        Modifier
-                                            .align(Alignment.Center)
-                                            .padding(IheNkiri.spacing.oneAndHalf),
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(IheNkiri.spacing.oneAndHalf),
                                 )
                             }
                         }
@@ -155,10 +148,9 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
 
                 if (persons.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
-                        modifier =
-                            Modifier
-                                .align(Alignment.Center)
-                                .padding(IheNkiri.spacing.oneAndHalf),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(IheNkiri.spacing.oneAndHalf),
                     )
                 }
             }
@@ -166,114 +158,104 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
     }
 }
 
-fun testPersons(): List<Person> =
-    listOf(
-        Person(
-            id = 976,
-            name = "Jason Statham",
-            popularity = 199.055,
-            profilePath = "/whNwkEQYWLFJA8ij0WyOOAD5xhQ.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 107, title = "Snatch"),
-                    PersonMovie(id = 345940, title = "The Meg"),
-                    PersonMovie(id = 4108, title = "The Transporte"),
-                ),
+fun testPersons(): List<Person> = listOf(
+    Person(
+        id = 976,
+        name = "Jason Statham",
+        popularity = 199.055,
+        profilePath = "/whNwkEQYWLFJA8ij0WyOOAD5xhQ.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 107, title = "Snatch"),
+            PersonMovie(id = 345940, title = "The Meg"),
+            PersonMovie(id = 4108, title = "The Transporte"),
         ),
-        Person(
-            id = 3194176,
-            name = "Angeli Khang",
-            popularity = 190.975,
-            profilePath = "/7vrTWF8PxQogF6o9ORZprYQoDOr.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 931599, title = "Silip Sa Apoy"),
-                    PersonMovie(id = 1029446, title = "Selina's Gold"),
-                    PersonMovie(id = 893694, title = "Eva"),
-                ),
+    ),
+    Person(
+        id = 3194176,
+        name = "Angeli Khang",
+        popularity = 190.975,
+        profilePath = "/7vrTWF8PxQogF6o9ORZprYQoDOr.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 931599, title = "Silip Sa Apoy"),
+            PersonMovie(id = 1029446, title = "Selina's Gold"),
+            PersonMovie(id = 893694, title = "Eva"),
         ),
-        Person(
-            id = 974169,
-            name = "Jenna Ortega",
-            popularity = 172.889,
-            profilePath = "/q1NRzyZQlYkxLY07GO9NVPkQnu8.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 119051, title = "Wednesday"),
-                    PersonMovie(id = 646385, title = "Scream"),
-                    PersonMovie(id = 760104, title = "X"),
-                ),
+    ),
+    Person(
+        id = 974169,
+        name = "Jenna Ortega",
+        popularity = 172.889,
+        profilePath = "/q1NRzyZQlYkxLY07GO9NVPkQnu8.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 119051, title = "Wednesday"),
+            PersonMovie(id = 646385, title = "Scream"),
+            PersonMovie(id = 760104, title = "X"),
         ),
-        Person(
-            id = 3234630,
-            name = "Sangeeth Shobhan",
-            popularity = 166.186,
-            profilePath = "/7Vox31bH7XmgPNJzMKGa4uGyjW8.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 1187075, title = "MAD"),
-                    PersonMovie(id = 138179, title = "Oka Chinna Family Story"),
-                    PersonMovie(id = 1119091, title = "Prema Vimanam"),
-                ),
+    ),
+    Person(
+        id = 3234630,
+        name = "Sangeeth Shobhan",
+        popularity = 166.186,
+        profilePath = "/7Vox31bH7XmgPNJzMKGa4uGyjW8.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 1187075, title = "MAD"),
+            PersonMovie(id = 138179, title = "Oka Chinna Family Story"),
+            PersonMovie(id = 1119091, title = "Prema Vimanam"),
         ),
-        Person(
-            id = 27972,
-            name = "Josh Hutcherson",
-            popularity = 149.784,
-            profilePath = "/npowygg8rH7uJ4v7rAoDMsHBhNq.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 70160, title = "The Hunger Games"),
-                    PersonMovie(id = 101299, title = "The Hunger Games: Catching Fire"),
-                    PersonMovie(id = 131631, title = "The Hunger Games: Mockingjay - Part 1"),
-                ),
+    ),
+    Person(
+        id = 27972,
+        name = "Josh Hutcherson",
+        popularity = 149.784,
+        profilePath = "/npowygg8rH7uJ4v7rAoDMsHBhNq.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 70160, title = "The Hunger Games"),
+            PersonMovie(id = 101299, title = "The Hunger Games: Catching Fire"),
+            PersonMovie(id = 131631, title = "The Hunger Games: Mockingjay - Part 1"),
         ),
-        Person(
-            id = 224513,
-            name = "Florence Pugh",
-            popularity = 115.26,
-            profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 530385, title = "Midsommar"),
-                    PersonMovie(id = 497698, title = "Black Widow"),
-                    PersonMovie(id = 331482, title = "Little Women"),
-                ),
+    ),
+    Person(
+        id = 224513,
+        name = "Florence Pugh",
+        popularity = 115.26,
+        profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 530385, title = "Midsommar"),
+            PersonMovie(id = 497698, title = "Black Widow"),
+            PersonMovie(id = 331482, title = "Little Women"),
         ),
-        Person(
-            id = 18897,
-            name = "Jackie Chan",
-            popularity = 129.907,
-            profilePath = "/nraZoTzwJQPHspAVsKfgl3RXKKa.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 2109, title = "Rush Hour"),
-                    PersonMovie(id = 5175, title = "Rush Hour 2"),
-                    PersonMovie(id = 5174, title = "Rush Hour 3"),
-                ),
+    ),
+    Person(
+        id = 18897,
+        name = "Jackie Chan",
+        popularity = 129.907,
+        profilePath = "/nraZoTzwJQPHspAVsKfgl3RXKKa.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 2109, title = "Rush Hour"),
+            PersonMovie(id = 5175, title = "Rush Hour 2"),
+            PersonMovie(id = 5174, title = "Rush Hour 3"),
         ),
-        Person(
-            id = 2359226,
-            name = "Aya Asahina",
-            popularity = 117.261,
-            profilePath = "/dyqW1H1P56oEH2CmqfLvR39jfGA.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 110316, title = "Alice in Borderland"),
-                    PersonMovie(id = 677602, title = "Grand Blue"),
-                    PersonMovie(id = 91414, title = "Runway 24"),
-                ),
+    ),
+    Person(
+        id = 2359226,
+        name = "Aya Asahina",
+        popularity = 117.261,
+        profilePath = "/dyqW1H1P56oEH2CmqfLvR39jfGA.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 110316, title = "Alice in Borderland"),
+            PersonMovie(id = 677602, title = "Grand Blue"),
+            PersonMovie(id = 91414, title = "Runway 24"),
         ),
-        Person(
-            id = 1373737,
-            name = "Florence Pugh",
-            popularity = 115.26,
-            profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
-            knownFor =
-                listOf(
-                    PersonMovie(id = 530385, title = "Midsommar"),
-                    PersonMovie(id = 497698, title = "Black Widow"),
-                    PersonMovie(id = 331482, title = "Little Women"),
-                ),
+    ),
+    Person(
+        id = 1373737,
+        name = "Florence Pugh",
+        popularity = 115.26,
+        profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
+        knownFor = listOf(
+            PersonMovie(id = 530385, title = "Midsommar"),
+            PersonMovie(id = 497698, title = "Black Widow"),
+            PersonMovie(id = 331482, title = "Little Women"),
         ),
-    )
+    ),
+)

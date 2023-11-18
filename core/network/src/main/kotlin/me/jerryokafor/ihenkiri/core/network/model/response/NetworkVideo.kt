@@ -45,16 +45,15 @@ data class NetworkVideo(
 
 data class NetworkVideos(val id: Int, val results: List<NetworkVideo>)
 
-fun NetworkVideo.asDomainObject(): Video =
-    Video(
-        id = id,
-        iso31661 = iso31661,
-        iso6391 = iso6391,
-        key = key,
-        name = name,
-        official = official,
-        publishedAt = publishedAt,
-        site = site,
-        size = size,
-        type = type,
-    )
+fun NetworkVideo.asDomainObject(): Video = Video(
+    id = id,
+    iso31661 = iso31661,
+    iso6391 = iso6391,
+    key = key,
+    name = name,
+    official = official,
+    publishedAt = publishedAt,
+    site = site,
+    size = size,
+    type = type,
+)

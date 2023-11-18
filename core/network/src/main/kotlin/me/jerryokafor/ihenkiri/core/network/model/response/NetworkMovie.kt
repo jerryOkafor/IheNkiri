@@ -58,17 +58,15 @@ data class NetworkMovie(
     val voteCount: Int,
 )
 
-fun NetworkMovie.asDomainObject() =
-    Movie(
-        id = this.id,
-        title = this.title,
-        overview = this.overview,
-        backdropPath = this.backdropPath,
-        posterPath = this.posterPath,
-        voteAverage = this.voteAverage,
-    )
+fun NetworkMovie.asDomainObject() = Movie(
+    id = this.id,
+    title = this.title,
+    overview = this.overview,
+    backdropPath = this.backdropPath,
+    posterPath = this.posterPath,
+    voteAverage = this.voteAverage,
+)
 
-fun NetworkMovie.equalsMovie(movie: Movie): Boolean =
-    id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
-        backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
-        overview == movie.overview
+fun NetworkMovie.equalsMovie(movie: Movie): Boolean = id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
+    backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
+    overview == movie.overview

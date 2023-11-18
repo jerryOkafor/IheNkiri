@@ -32,8 +32,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.test.util.testMovies
+import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
@@ -42,19 +41,20 @@ import retrofit2.Response
 import java.io.IOException
 import kotlin.test.assertTrue
 
-class MoviesListPagingSourceTest {
-    private val fetchMovies = mockk<suspend (Int) -> List<Movie>>()
+class PeopleListPagingSourceTest {
+    private val peopleListRepo = mockk<PeopleListRepository>()
 
     @Test
     fun `test fresh load`() {
-        coEvery { fetchMovies(any()) } returns testMovies()
+        val testPage = 1
+        coEvery { peopleListRepo.popularPeople(any()) } returns PeopleListTestData.testPersons()
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager =
             TestPager(
                 config =
                 PagingConfig(
-                    pageSize = 4,
+                    pageSize = 9,
                     maxSize = 50,
                     enablePlaceholders = true,
                 ),
@@ -67,24 +67,25 @@ class MoviesListPagingSourceTest {
             assertThat(pagingSource.getRefreshKey(pager.getPagingState(0))).isEqualTo(1)
 
             assertThat(result.data)
-                .containsExactlyElementsIn(testMovies())
+                .containsExactlyElementsIn(PeopleListTestData.testPersons())
                 .inOrder()
         }
 
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(testPage)) }
     }
 
     @Test
     fun `test consecutive load`() {
-        coEvery { fetchMovies(any()) } returns testMovies()
+        val testPage = 1
+        coEvery { peopleListRepo.popularPeople(any()) } returns PeopleListTestData.testPersons()
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager =
             TestPager(
                 config =
                 PagingConfig(
-                    pageSize = 4,
-                    maxSize = 24,
+                    pageSize = 9,
+                    maxSize = 50,
                     enablePlaceholders = true,
                 ),
                 pagingSource = pagingSource,
@@ -98,34 +99,35 @@ class MoviesListPagingSourceTest {
                     append()
                     append()
                 } as PagingSource.LoadResult.Page
+
             assertThat(pager.getPages().size).isEqualTo(4)
             assertThat(result.data)
-                .containsExactlyElementsIn(testMovies())
+                .containsExactlyElementsIn(PeopleListTestData.testPersons())
                 .inOrder()
 
             // after loading 4 pages, anchore position = (page count * pages) -1
-            val anchorPosition = (4 * 4) - 1
+            val anchorPosition = (9 * 4) - 1
             val pagingState = pager.getPagingState(anchorPosition)
             val refreshKey = pagingSource.getRefreshKey(pagingState)
             assertThat(refreshKey).isEqualTo(4)
         }
 
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
-        coVerify(exactly = 1) { fetchMovies(eq(2)) }
-        coVerify(exactly = 1) { fetchMovies(eq(3)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(testPage)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(testPage + 1)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(testPage + 2)) }
     }
 
     @Test
     fun `test network error on refresh load`() {
-        coEvery { fetchMovies(any()) } throws IOException("No internet available")
+        coEvery { peopleListRepo.popularPeople(any()) } throws IOException("No internet available")
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager =
             TestPager(
                 config =
                 PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
+                    pageSize = 9,
+                    maxSize = 50,
                     enablePlaceholders = true,
                 ),
                 pagingSource = pagingSource,
@@ -138,26 +140,26 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(1)) }
     }
 
     @Test
     fun `test sever error on refresh load`() {
-        coEvery { fetchMovies(any()) } throws
+        coEvery { peopleListRepo.popularPeople(any()) } throws
             HttpException(
                 Response.error<Any>(
                     409,
-                    "Error loading movies".toResponseBody("plain/text".toMediaTypeOrNull()),
+                    "Error loading persons".toResponseBody("plain/text".toMediaTypeOrNull()),
                 ),
             )
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager =
             TestPager(
                 config =
                 PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
+                    pageSize = 9,
+                    maxSize = 50,
                     enablePlaceholders = true,
                 ),
                 pagingSource = pagingSource,
@@ -170,6 +172,6 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { peopleListRepo.popularPeople(eq(1)) }
     }
 }

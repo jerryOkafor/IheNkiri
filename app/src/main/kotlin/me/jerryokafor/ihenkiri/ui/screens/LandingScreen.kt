@@ -93,17 +93,17 @@ fun LandingScreen(
 
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(colorStops = colorStops)),
+            Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(colorStops = colorStops)),
         )
 
         Column(
             modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(IheNkiri.spacing.twoAndaHalf),
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(IheNkiri.spacing.twoAndaHalf),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
@@ -117,12 +117,12 @@ fun LandingScreen(
             TwoVerticalSpacer()
             Text(
                 text =
-                    buildAnnotatedString {
-                        append(stringResource(R.string.app_landing_text_everything_about))
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(stringResource(R.string.app_landing_text_extra))
-                        }
-                    },
+                buildAnnotatedString {
+                    append(stringResource(R.string.app_landing_text_everything_about))
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(stringResource(R.string.app_landing_text_extra))
+                    }
+                },
                 color = Color.White,
                 style = IheNkiri.typography.headlineLarge,
             )
@@ -135,9 +135,9 @@ fun LandingScreen(
             TwoVerticalSpacer()
             Button(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = IheNkiri.spacing.two),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = IheNkiri.spacing.two),
                 onClick = onSignInClick,
             ) {
                 Text(text = stringResource(R.string.app_sign_in))
@@ -146,9 +146,9 @@ fun LandingScreen(
 
             TextButton(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = IheNkiri.spacing.two),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = IheNkiri.spacing.two),
                 onClick = onContinueAsGuestClick,
             ) {
                 Text(

@@ -70,10 +70,9 @@ private val coverageExclusions =
         "**/*Extensions*.*",
     )
 
-private fun String.capitalize() =
-    replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-    }
+private fun String.capitalize() = replaceFirstChar {
+    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+}
 
 internal fun Project.configureJacoco(
     commonExtension: CommonExtension<*, *, *, *, *>,

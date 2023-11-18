@@ -83,10 +83,10 @@ class MissingExcludePreviewAnnotationDetector : Detector(), Detector.UastScanner
                 category = Category.CUSTOM_LINT_CHECKS,
                 severity = Severity.ERROR,
                 implementation =
-                    Implementation(
-                        MissingExcludePreviewAnnotationDetector::class.java,
-                        Scope.JAVA_FILE_SCOPE,
-                    ),
+                Implementation(
+                    MissingExcludePreviewAnnotationDetector::class.java,
+                    Scope.JAVA_FILE_SCOPE,
+                ),
                 priority = 10,
             )
     }

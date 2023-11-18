@@ -68,17 +68,17 @@ fun PersonItemViewPreview() {
     IheNkiriTheme {
         Column(
             modifier =
-                Modifier
-                    .wrapContentSize()
-                    .background(IheNkiri.color.inverseOnSurface),
+            Modifier
+                .wrapContentSize()
+                .background(IheNkiri.color.inverseOnSurface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OneVerticalSpacer()
             PersonItemView(
                 modifier =
-                    Modifier
-                        .width(250.dp)
-                        .padding(IheNkiri.spacing.twoAndaHalf),
+                Modifier
+                    .width(250.dp)
+                    .padding(IheNkiri.spacing.twoAndaHalf),
                 name = "Sandra Bullock",
                 knownFor = "Rush Hour, Rush Hour 2, and Rush Hour 3",
                 imageUrl = "",
@@ -107,34 +107,34 @@ fun PersonItemView(
         ) {
             Box(
                 modifier =
-                    modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1F),
+                modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1F),
             ) {
                 val contentDescription = "$name's profile"
                 SubcomposeAsyncImage(
                     modifier =
-                        Modifier
-                            .matchParentSize()
-                            .align(Alignment.Center)
-                            .clip(RoundedCornerShape(5.dp)),
+                    Modifier
+                        .matchParentSize()
+                        .align(Alignment.Center)
+                        .clip(RoundedCornerShape(5.dp)),
                     contentScale = ContentScale.FillWidth,
                     model =
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrl)
-                            .crossfade(true)
-                            .placeholder(R.drawable.ic_avatar)
-                            .fallback(R.drawable.ic_avatar)
-                            .build(),
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .crossfade(true)
+                        .placeholder(R.drawable.ic_avatar)
+                        .fallback(R.drawable.ic_avatar)
+                        .build(),
                     contentDescription = contentDescription,
                 ) {
                     when (painter.state) {
                         AsyncImagePainter.State.Empty, is AsyncImagePainter.State.Error -> {
                             Image(
                                 modifier =
-                                    Modifier
-                                        .matchParentSize()
-                                        .clip(RoundedCornerShape(5.dp)),
+                                Modifier
+                                    .matchParentSize()
+                                    .clip(RoundedCornerShape(5.dp)),
                                 painter = painterResource(id = R.drawable.ic_avatar),
                                 contentDescription = contentDescription,
                                 contentScale = ContentScale.FillBounds,
@@ -144,10 +144,10 @@ fun PersonItemView(
                         is AsyncImagePainter.State.Loading ->
                             CircularProgressIndicator(
                                 modifier =
-                                    Modifier
-                                        .size(24.dp)
-                                        .align(Alignment.Center)
-                                        .padding(IheNkiri.spacing.twoAndaHalf),
+                                Modifier
+                                    .size(24.dp)
+                                    .align(Alignment.Center)
+                                    .padding(IheNkiri.spacing.twoAndaHalf),
                                 strokeCap = StrokeCap.Round,
                                 strokeWidth = 1.dp,
                             )

@@ -62,16 +62,16 @@ fun MovieRatingPreview() {
     IheNkiriTheme {
         Box(
             modifier =
-                Modifier
-                    .size(200.dp)
-                    .aspectRatio(1F)
-                    .background(IheNkiri.color.inverseOnSurface),
+            Modifier
+                .size(200.dp)
+                .aspectRatio(1F)
+                .background(IheNkiri.color.inverseOnSurface),
         ) {
             MovieRating(
                 modifier =
-                    Modifier
-                        .size(100.dp)
-                        .align(Alignment.Center),
+                Modifier
+                    .size(100.dp)
+                    .align(Alignment.Center),
                 rating = 0.45F,
             )
         }
@@ -90,11 +90,11 @@ fun MovieRating(
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
         animationSpec =
-            tween(
-                durationMillis = 3000,
-                delayMillis = 100,
-                easing = FastOutSlowInEasing,
-            ),
+        tween(
+            durationMillis = 3000,
+            delayMillis = 100,
+            easing = FastOutSlowInEasing,
+        ),
         label = "progressAnimation",
     )
 

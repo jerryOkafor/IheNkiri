@@ -59,9 +59,9 @@ fun HomeNavGraph(
         navController.navigateToMovieDetails(
             movieId = it,
             navOptions =
-                navOptions {
-                    launchSingleTop = true
-                },
+            navOptions {
+                launchSingleTop = true
+            },
         )
     }
 

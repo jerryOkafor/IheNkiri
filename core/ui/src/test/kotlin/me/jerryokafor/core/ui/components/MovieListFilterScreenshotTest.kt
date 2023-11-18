@@ -52,28 +52,28 @@ class MovieListFilterScreenshotTest {
             Surface {
                 MovieListFilter(
                     filters =
-                        listOf(
-                            MovieListFilterItem(
-                                label = "Now Playing",
-                                isSelected = true,
-                                type = MovieListFilterItem.FilterType.NOW_PLAYING,
-                            ),
-                            MovieListFilterItem(
-                                label = "Popular",
-                                isSelected = false,
-                                type = MovieListFilterItem.FilterType.POPULAR,
-                            ),
-                            MovieListFilterItem(
-                                label = "Top Rated",
-                                isSelected = false,
-                                type = MovieListFilterItem.FilterType.TOP_RATED,
-                            ),
-                            MovieListFilterItem(
-                                label = "Upcoming",
-                                isSelected = false,
-                                type = MovieListFilterItem.FilterType.UPCOMING,
-                            ),
+                    listOf(
+                        MovieListFilterItem(
+                            label = "Now Playing",
+                            isSelected = true,
+                            type = MovieListFilterItem.FilterType.NOW_PLAYING,
                         ),
+                        MovieListFilterItem(
+                            label = "Popular",
+                            isSelected = false,
+                            type = MovieListFilterItem.FilterType.POPULAR,
+                        ),
+                        MovieListFilterItem(
+                            label = "Top Rated",
+                            isSelected = false,
+                            type = MovieListFilterItem.FilterType.TOP_RATED,
+                        ),
+                        MovieListFilterItem(
+                            label = "Upcoming",
+                            isSelected = false,
+                            type = MovieListFilterItem.FilterType.UPCOMING,
+                        ),
+                    ),
                 ) {}
             }
         }

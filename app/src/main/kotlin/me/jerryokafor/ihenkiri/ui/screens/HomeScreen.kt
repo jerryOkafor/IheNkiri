@@ -73,13 +73,13 @@ fun HomeScreen(
         content = { innerPadding ->
             Box(
                 modifier =
-                    Modifier.padding(
-                        bottom =
-                            max(
-                                a = 0.dp,
-                                b = innerPadding.calculateBottomPadding() - 40.dp,
-                            ),
+                Modifier.padding(
+                    bottom =
+                    max(
+                        a = 0.dp,
+                        b = innerPadding.calculateBottomPadding() - 40.dp,
                     ),
+                ),
             ) {
                 HomeNavGraph(navController = navController)
             }
