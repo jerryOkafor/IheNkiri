@@ -25,6 +25,10 @@ and [Free Figma Design Template](https://www.figma.com/file/gbaO5pgTz0mOZXvFOPCe
   <img src="doc/screenshots/movies_details.png" width="200" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/people.png" width="200" />
+</p>
+
 # Development Environment
 
 # Build
@@ -165,6 +169,10 @@ exercise more production code quality, instead of just verifying specific calls 
 > 
 > Example: `moviesViewModel_OnEvent_CorrectFilterIsSet()`
 
+Generate Lint baseline
+````bash
+./gradlew lintDebug -Dlint.baselines.continue=true
+``
 
 
 We have the following tests on **IheNkiri**
