@@ -22,32 +22,13 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.injection
+package me.jerryokafor.ihenkiri.core.test.test.data
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import me.jerryokafor.core.data.injection.DataModule
-import me.jerryokafor.core.data.repository.MovieDetailsRepository
-import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.PeopleListRepository
-import me.jerryokafor.ihenkiri.core.test.test.data.FakeMovieDetailsRepository
-import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
-import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleListRepository
+import me.jerryokafor.core.model.Person
+import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
+import javax.inject.Inject
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [DataModule::class],
-)
-abstract class TestDataModule {
-    @Binds
-    abstract fun provideFakeFakeMoviesRepository(repo: FakeMoviesRepository): MovieListRepository
-
-    @Binds
-    abstract fun provideMovieDetailsRepository(movieDetailsRepository: FakeMovieDetailsRepository): MovieDetailsRepository
-
-    @Binds
-    abstract fun providePeopleListRepository(peopleListRepository: FakePeopleListRepository): PeopleListRepository
+class FakePeopleListRepository @Inject constructor() : PeopleListRepository {
+    override suspend fun popularPeople(page: Int): List<Person> = PeopleListTestData.testPersons()
 }
