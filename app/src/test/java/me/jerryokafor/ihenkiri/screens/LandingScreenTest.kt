@@ -33,12 +33,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricTestRunner::class)
 @Config(
@@ -71,7 +71,7 @@ class LandingScreenTest {
         composeTestRule.onNodeWithText("Continue as Guest").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("TMDB logo").assertIsDisplayed()
 
-        Assert.assertEquals(onContinueAsGuestClick, 1)
-        Assert.assertEquals(onSignInClick, 1)
+        assertEquals(onContinueAsGuestClick, 1)
+        assertEquals(onSignInClick, 1)
     }
 }

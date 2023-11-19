@@ -120,31 +120,31 @@ const val MOVIE_DETAILS_RECOMMENDATIONS = "movies_details_recommendations"
 const val MOVIE_DETAILS_RECOMMENDATIONS_ROW = "movies_details_recommendations_row"
 const val MOVIE_DETAILS_BOTTOM_BAR = "movies_details_bottom_bar"
 
+@ExcludeFromGeneratedCoverageReport
+private fun testUIState() = MoviesDetailViewModel.UIState(
+    title = "Fight Club",
+    overview = """
+                A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
+                 aggression into a shocking new form of therapy. Their concept catches on, with
+                 underground \"fight clubs\" forming in every town, until an eccentric gets in the
+                 way and ignites an out-of-control spiral toward oblivion.
+    """.trimIndent(),
+    releaseDate = "2023/09/15",
+    runtime = "1hr 43m",
+)
+
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     IheNkiriTheme {
-        MoviesDetails(
-            uiState =
-            MoviesDetailViewModel.UIState(
-                title = "Fight Club",
-//            overview = """
-//                A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
-//                 aggression into a shocking new form of therapy. Their concept catches on, with
-//                 underground \"fight clubs\" forming in every town, until an eccentric gets in the
-//                 way and ignites an out-of-control spiral toward oblivion.
-//            """.trimIndent(),
-                releaseDate = "2023/09/15",
-                runtime = "1hr 43m",
-            ),
-            onNavigateUp = {},
-        )
+        MoviesDetails(uiState = testUIState(), onNavigateUp = {})
     }
 }
 
 @Composable
 @Suppress("UnusedPrivateMember")
+@ExcludeFromGeneratedCoverageReport
 fun MoviesDetails(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
     onBackPress: () -> Unit,

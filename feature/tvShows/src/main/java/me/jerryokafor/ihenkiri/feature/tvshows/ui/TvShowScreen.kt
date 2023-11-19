@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.feature.tvshows.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +39,8 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.ui.components.Background
-import me.jerryokafor.feature.movies.screen.TITLE_TEST_TAG
+
+const val TV_SHOWS_TITLE_TEST_TAG = "tv_shows_title"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +49,7 @@ fun TvShowScreen() {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
-                modifier = Modifier.testTag(TITLE_TEST_TAG),
+                modifier = Modifier.testTag(TV_SHOWS_TITLE_TEST_TAG),
                 title = {
                     Text(
                         text = "TV Shows",

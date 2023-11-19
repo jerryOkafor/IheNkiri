@@ -28,19 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
-import me.jerryokafor.core.ui.navigation.enterTransition
-import me.jerryokafor.core.ui.navigation.exitTransition
-import me.jerryokafor.core.ui.navigation.popEnterTransition
-import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
-import me.jerryokafor.ihenkiri.ui.screens.MoreScreen
-import me.jerryokafor.ihenkiri.ui.screens.TvShowScreen
+import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
+import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 
 @Composable
 @ExcludeFromGeneratedCoverageReport
@@ -71,27 +66,9 @@ fun HomeNavGraph(
         startDestination = BottomNavItem.Movies.route,
     ) {
         moviesScreen(onMovieClick = onMovieClick)
+        tvShowsScreen()
         movieDetailsScreen(onNavigateUp = onNavigateUp)
         peopleScreen()
-
-        composable(
-            route = BottomNavItem.TVShows.route,
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition,
-        ) {
-            TvShowScreen()
-        }
-
-        composable(
-            route = BottomNavItem.More.route,
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition,
-        ) {
-            MoreScreen()
-        }
+        settingsScreen()
     }
 }

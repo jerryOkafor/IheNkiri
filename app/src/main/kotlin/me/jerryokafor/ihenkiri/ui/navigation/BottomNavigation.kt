@@ -59,6 +59,8 @@ import me.jerryokafor.feature.movies.navigation.moviesRoute
 import me.jerryokafor.ihenkiri.R
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsNavPattern
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleNavPattern
+import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsNavPattern
+import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsNavPattern
 
 const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
@@ -146,7 +148,7 @@ sealed class BottomNavItem(
     data object TVShows : BottomNavItem(
         title = "TV Shows",
         icon = R.drawable.baseline_live_tv_24,
-        route = "/tv-shows",
+        route = tvShowsNavPattern,
     )
 
     data object People :
@@ -157,7 +159,11 @@ sealed class BottomNavItem(
         )
 
     data object More :
-        BottomNavItem(title = "More", icon = R.drawable.baseline_more_24, route = "/more")
+        BottomNavItem(
+            title = "More",
+            icon = R.drawable.baseline_more_24,
+            route = settingsNavPattern,
+        )
 }
 
 @Composable

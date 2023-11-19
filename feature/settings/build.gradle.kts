@@ -22,30 +22,19 @@
  * THE SOFTWARE.
  */
 
-import me.jerryokafor.ihenkiri.Config
-
 plugins {
-    id("me.jerryokafor.ihenkiri.android.application")
-    id("me.jerryokafor.ihenkiri.android.application.compose")
-    id("me.jerryokafor.ihenkiri.application.jacoco")
-    id("me.jerryokafor.ihenkiri.android.hilt")
+    id("me.jerryokafor.ihenkiri.android.feature")
+    id("me.jerryokafor.ihenkiri.android.library.compose")
     id("me.jerryokafor.ihenkiri.android.navigation")
-//    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-//    id("jacoco")
+    id("me.jerryokafor.ihenkiri.library.jacoco")
+    id("me.jerryokafor.ihenkiri.android.hilt")
 }
 
 android {
-    namespace = "me.jerryokafor.ihenkiri"
+    namespace = "me.jerryokafor.ihenkiri.feature.settings"
 
     defaultConfig {
-        applicationId = "me.jerryokafor.ihenkiri"
-        versionCode = Config.versionCode
-        versionName = Config.versionName
-
-        testInstrumentationRunner = "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -57,29 +46,12 @@ android {
             )
         }
     }
-
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            isReturnDefaultValues = true
-        }
-    }
 }
 
 dependencies {
-    implementation(projects.core.common)
-    implementation(projects.core.model)
-    implementation(projects.core.network)
-    implementation(projects.core.ds)
-    implementation(projects.core.ui)
     implementation(projects.core.data)
-
-    implementation(projects.feature.movies)
-    implementation(projects.feature.movieDetails)
-    implementation(projects.feature.people)
-    implementation(projects.feature.tvShows)
-    implementation(projects.feature.settings)
-    debugImplementation(projects.uiTestHiltManifest)
+    implementation(projects.core.network)
+    implementation(libs.androidx.core.ktx)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -87,21 +59,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.io.coil.compose)
+    implementation(libs.com.valentinilk.compose.shimmer)
 
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.com.google.android.material)
-
-    implementation(libs.androidx.browser)
-
-    // retrofit
-    implementation(libs.com.squareup.retrofit2)
-    implementation(libs.com.google.code.gson)
-    implementation(libs.com.squareup.retrofit2.converter.gson)
-    implementation(libs.com.squareup.okhttp3.logging.interceptor)
+    implementation(libs.androidx.palette)
+    implementation(libs.androidx.palette.ktx)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))
@@ -109,14 +71,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    implementation(libs.com.google.accompanist.systemuicontroller)
 
     testImplementation(projects.core.test)
     androidTestImplementation(projects.core.test)
