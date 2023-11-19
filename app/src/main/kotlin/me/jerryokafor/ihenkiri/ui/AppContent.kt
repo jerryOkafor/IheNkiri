@@ -25,30 +25,17 @@
 package me.jerryokafor.ihenkiri.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
-import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
-import me.jerryokafor.core.ui.components.Background
-import me.jerryokafor.feature.movies.screen.TITLE_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
 import me.jerryokafor.ihenkiri.ui.navigation.RootNavGraph
 import me.jerryokafor.ihenkiri.viewmodel.AppViewModel
@@ -125,67 +112,5 @@ fun AppContent(
             onContinueAsGuestClick = onContinueAsGuestClick,
             onSignInClick = onSignInClick,
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-@ExcludeFromGeneratedCoverageReport
-fun TvShowScreen() {
-    Background {
-        Column(modifier = Modifier.fillMaxSize()) {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.testTag(TITLE_TEST_TAG),
-                title = {
-                    Text(
-                        text = "More",
-                        style = IheNkiri.typography.titleMedium,
-                        color = IheNkiri.color.onPrimary,
-                    )
-                },
-                windowInsets = TopAppBarDefaults.windowInsets,
-                colors =
-                TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
-            )
-            TwoAndHalfHorizontalSpacer()
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Welcome to TV Shows, coming soon",
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-@ExcludeFromGeneratedCoverageReport
-fun MoreScreen() {
-    Background {
-        Column(modifier = Modifier.fillMaxSize()) {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.testTag(TITLE_TEST_TAG),
-                title = {
-                    Text(
-                        text = "More",
-                        style = IheNkiri.typography.titleMedium,
-                        color = IheNkiri.color.onPrimary,
-                    )
-                },
-                windowInsets = TopAppBarDefaults.windowInsets,
-                colors =
-                TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
-            )
-            TwoAndHalfHorizontalSpacer()
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Welcome to More Screen, coming soon",
-            )
-        }
     }
 }

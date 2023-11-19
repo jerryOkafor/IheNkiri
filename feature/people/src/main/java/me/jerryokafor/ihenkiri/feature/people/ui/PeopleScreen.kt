@@ -60,7 +60,7 @@ import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.Person
 import me.jerryokafor.core.model.PersonMovie
 import me.jerryokafor.core.ui.components.Background
-import me.jerryokafor.core.ui.widget.PersonItemView
+import me.jerryokafor.core.ui.components.PersonItemView
 import me.jerryokafor.ihenkiri.feature.people.viewmodel.PeopleViewModel
 
 const val PEOPLE_TITLE_TEST_TAG = "people_title"
@@ -78,6 +78,7 @@ fun PeopleScreenPreview() {
 }
 
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun PeopleScreen(viewModel: PeopleViewModel = hiltViewModel()) {
     val persons = viewModel.persons.collectAsLazyPagingItems()
     PeopleScreen(personLazyPagingItems = persons)
@@ -85,7 +86,6 @@ fun PeopleScreen(viewModel: PeopleViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@ExcludeFromGeneratedCoverageReport
 fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -171,6 +171,8 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
 }
 
 // More:https://medium.com/@kamal.lakhani56/paging-kmm-12acbaa053dd
+
+@ExcludeFromGeneratedCoverageReport
 private fun testPersons(): List<Person> = listOf(
     Person(
         id = 976,

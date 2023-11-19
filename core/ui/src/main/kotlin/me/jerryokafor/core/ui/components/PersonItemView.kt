@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.ui.widget
+package me.jerryokafor.core.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

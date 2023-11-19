@@ -72,10 +72,8 @@ fun HomeScreen(
         bottomBar = { BottomNavigation(navController, bottomBarState.value) },
         content = { innerPadding ->
             Box(
-                modifier =
-                Modifier.padding(
-                    bottom =
-                    max(
+                modifier = Modifier.padding(
+                    bottom = max(
                         a = 0.dp,
                         b = innerPadding.calculateBottomPadding() - 40.dp,
                     ),

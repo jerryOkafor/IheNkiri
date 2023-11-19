@@ -50,16 +50,15 @@ class PeopleListPagingSourceTest {
         coEvery { peopleListRepo.popularPeople(any()) } returns PeopleListTestData.testPersons()
 
         val pagingSource = PeopleListPagingSource(peopleListRepo)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 9,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pager = TestPager(
+            config =
+            PagingConfig(
+                pageSize = 9,
+                maxSize = 50,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh() as PagingSource.LoadResult.Page
@@ -80,25 +79,23 @@ class PeopleListPagingSourceTest {
         coEvery { peopleListRepo.popularPeople(any()) } returns PeopleListTestData.testPersons()
 
         val pagingSource = PeopleListPagingSource(peopleListRepo)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 9,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pager = TestPager(
+            config =
+            PagingConfig(
+                pageSize = 9,
+                maxSize = 50,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
-            val result =
-                with(pager) {
-                    pager.refresh()
-                    append()
-                    append()
-                    append()
-                } as PagingSource.LoadResult.Page
+            val result = with(pager) {
+                pager.refresh()
+                append()
+                append()
+                append()
+            } as PagingSource.LoadResult.Page
 
             assertThat(pager.getPages().size).isEqualTo(4)
             assertThat(result.data)
@@ -122,16 +119,15 @@ class PeopleListPagingSourceTest {
         coEvery { peopleListRepo.popularPeople(any()) } throws IOException("No internet available")
 
         val pagingSource = PeopleListPagingSource(peopleListRepo)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 9,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pager = TestPager(
+            config =
+            PagingConfig(
+                pageSize = 9,
+                maxSize = 50,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh()
@@ -154,16 +150,15 @@ class PeopleListPagingSourceTest {
             )
 
         val pagingSource = PeopleListPagingSource(peopleListRepo)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 9,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pager = TestPager(
+            config =
+            PagingConfig(
+                pageSize = 9,
+                maxSize = 50,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh()

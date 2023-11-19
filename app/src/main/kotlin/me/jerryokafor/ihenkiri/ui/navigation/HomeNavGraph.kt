@@ -39,8 +39,8 @@ import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
-import me.jerryokafor.ihenkiri.ui.MoreScreen
-import me.jerryokafor.ihenkiri.ui.TvShowScreen
+import me.jerryokafor.ihenkiri.ui.screens.MoreScreen
+import me.jerryokafor.ihenkiri.ui.screens.TvShowScreen
 
 @Composable
 @ExcludeFromGeneratedCoverageReport

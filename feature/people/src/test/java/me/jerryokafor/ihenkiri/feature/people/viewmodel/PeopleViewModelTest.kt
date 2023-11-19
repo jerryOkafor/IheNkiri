@@ -27,6 +27,7 @@ package me.jerryokafor.ihenkiri.feature.people.viewmodel
 import androidx.paging.testing.asSnapshot
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.PeopleListRepository
@@ -61,5 +62,9 @@ class PeopleViewModelTest {
         assertThat(itemsSnapshot.distinct())
             .containsExactlyElementsIn(PeopleListTestData.testPersons())
             .inOrder()
+
+        coVerify {
+            peopleListRepository.popularPeople(any())
+        }
     }
 }
