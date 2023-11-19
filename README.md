@@ -242,6 +242,7 @@ We use Roborazzi to achieve this screenshot testing.
 - [Parallax effect](https://chrisbanes.me/posts/parallax-effect-compose/)
 - [Better Android Apps Using MVVM With Clean Architecturesl](https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture)
 - [Slack Circuit](https://slackhq.github.io/circuit)
+- [Build adaptive apps with Jetpack Compose](https://codelabs.developers.google.com/jetpack-compose-adaptability#0)
 
 # License
 

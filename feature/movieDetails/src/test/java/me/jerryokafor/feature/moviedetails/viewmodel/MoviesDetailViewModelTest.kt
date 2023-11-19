@@ -26,7 +26,6 @@ package me.jerryokafor.feature.moviedetails.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -43,27 +42,24 @@ import kotlin.test.assertEquals
 
 const val TEST_ID = 0L
 
-@HiltAndroidTest
 class MoviesDetailViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var moviesDetailViewModel: MoviesDetailViewModel
-    private val savedStateHandle =
-        SavedStateHandle().apply {
-            this[movieIdArg] = TEST_ID
-        }
+    private val savedStateHandle = SavedStateHandle().apply {
+        this[movieIdArg] = TEST_ID
+    }
     private val testMovie = MovieDetailsTestData.testMovieDetails(TEST_ID)
     private val testMovieCredit = MovieDetailsTestData.testMovieCredit(TEST_ID)
     private val movieDetailsRepository = FakeMovieDetailsRepository()
 
     @Before
     fun init() {
-        moviesDetailViewModel =
-            MoviesDetailViewModel(
-                savedStateHandle = savedStateHandle,
-                movieDetailsRepository = movieDetailsRepository,
-            )
+        moviesDetailViewModel = MoviesDetailViewModel(
+            savedStateHandle = savedStateHandle,
+            movieDetailsRepository = movieDetailsRepository,
+        )
     }
 
     @Test

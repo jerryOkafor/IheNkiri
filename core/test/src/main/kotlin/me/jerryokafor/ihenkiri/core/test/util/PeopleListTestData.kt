@@ -35,15 +35,13 @@ object PeopleListTestData {
 
     fun testNetworkPersons(): PagedNetworkResponse<NetworkPerson> = PagedNetworkResponse(
         page = 1,
-        results =
-        arrayListOf(
+        results = arrayListOf(
             NetworkPerson(
                 id = 976,
                 name = "Jason Statham",
                 popularity = 199.055,
                 profilePath = "/whNwkEQYWLFJA8ij0WyOOAD5xhQ.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 107, title = "Snatch"),
                     NetworkPersonMovie(id = 345940, title = "The Meg"),
                     NetworkPersonMovie(id = 4108, title = "The Transporter"),
@@ -54,8 +52,7 @@ object PeopleListTestData {
                 name = "Angeli Khang",
                 popularity = 190.975,
                 profilePath = "/7vrTWF8PxQogF6o9ORZprYQoDOr.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 931599, title = "Silip Sa Apoy"),
                     NetworkPersonMovie(id = 1029446, title = "Selina's Gold"),
                     NetworkPersonMovie(id = 893694, title = "Eva"),
@@ -66,8 +63,7 @@ object PeopleListTestData {
                 name = "Jenna Ortega",
                 popularity = 172.889,
                 profilePath = "/q1NRzyZQlYkxLY07GO9NVPkQnu8.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 119051, title = "Wednesday"),
                     NetworkPersonMovie(id = 646385, title = "Scream"),
                     NetworkPersonMovie(id = 760104, title = "X"),
@@ -78,8 +74,7 @@ object PeopleListTestData {
                 name = "Sangeeth Shobhan",
                 popularity = 166.186,
                 profilePath = "/7Vox31bH7XmgPNJzMKGa4uGyjW8.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 1187075, title = "MAD"),
                     NetworkPersonMovie(id = 138179, title = "Oka Chinna Family Story"),
                     NetworkPersonMovie(id = 1119091, title = "Prema Vimanam"),
@@ -90,8 +85,7 @@ object PeopleListTestData {
                 name = "Josh Hutcherson",
                 popularity = 149.784,
                 profilePath = "/npowygg8rH7uJ4v7rAoDMsHBhNq.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 70160, title = "The Hunger Games"),
                     NetworkPersonMovie(id = 101299, title = "The Hunger Games: Catching Fire"),
                     NetworkPersonMovie(
@@ -105,8 +99,7 @@ object PeopleListTestData {
                 name = "Florence Pugh",
                 popularity = 115.26,
                 profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 530385, title = "Midsommar"),
                     NetworkPersonMovie(id = 497698, title = "Black Widow"),
                     NetworkPersonMovie(id = 331482, title = "Little Women"),
@@ -117,8 +110,7 @@ object PeopleListTestData {
                 name = "Jackie Chan",
                 popularity = 129.907,
                 profilePath = "/nraZoTzwJQPHspAVsKfgl3RXKKa.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 2109, title = "Rush Hour"),
                     NetworkPersonMovie(id = 5175, title = "Rush Hour 2"),
                     NetworkPersonMovie(id = 5174, title = "Rush Hour 3"),
@@ -129,8 +121,7 @@ object PeopleListTestData {
                 name = "Aya Asahina",
                 popularity = 117.261,
                 profilePath = "/dyqW1H1P56oEH2CmqfLvR39jfGA.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 110316, title = "Alice in Borderland"),
                     NetworkPersonMovie(id = 677602, title = "Grand Blue"),
                     NetworkPersonMovie(id = 91414, title = "Runway 24"),
@@ -141,8 +132,7 @@ object PeopleListTestData {
                 name = "Florence Pugh",
                 popularity = 115.26,
                 profilePath = "/fhEsn35uAwUZy37RKpLdwWyx2y5.jpg",
-                knownFor =
-                listOf(
+                knownFor = listOf(
                     NetworkPersonMovie(id = 530385, title = "Midsommar"),
                     NetworkPersonMovie(id = 497698, title = "Black Widow"),
                     NetworkPersonMovie(id = 331482, title = "Little Women"),

@@ -64,6 +64,9 @@ import me.jerryokafor.core.ui.widget.PersonItemView
 import me.jerryokafor.ihenkiri.feature.people.viewmodel.PeopleViewModel
 
 const val PEOPLE_TITLE_TEST_TAG = "people_title"
+const val REFRESH_PROGRESS_INDICATOR = "refresh_progress"
+const val APPEND_PROGRESS_INDICATOR = "append_progress"
+const val PEOPLE_LIST_TEST_TAG = "people_list"
 
 @Composable
 @ThemePreviews
@@ -77,13 +80,13 @@ fun PeopleScreenPreview() {
 @Composable
 fun PeopleScreen(viewModel: PeopleViewModel = hiltViewModel()) {
     val persons = viewModel.persons.collectAsLazyPagingItems()
-    PeopleScreen(persons = persons)
+    PeopleScreen(personLazyPagingItems = persons)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @ExcludeFromGeneratedCoverageReport
-fun PeopleScreen(persons: LazyPagingItems<Person>) {
+fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
@@ -105,7 +108,9 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
 
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalGrid(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(PEOPLE_LIST_TEST_TAG),
                     contentPadding = PaddingValues(
                         start = IheNkiri.spacing.twoAndaHalf,
                         end = IheNkiri.spacing.twoAndaHalf,
@@ -115,8 +120,11 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
                     verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
                     columns = GridCells.Fixed(2),
                 ) {
-                    items(count = persons.itemCount, key = persons.itemKey { it.id }) {
-                        val person = persons[it]!!
+                    items(
+                        count = personLazyPagingItems.itemCount,
+                        key = personLazyPagingItems.itemKey { it.id },
+                    ) {
+                        val person = personLazyPagingItems[it]!!
                         val path = ImageUtil.buildImageUrl(
                             path = person.profilePath,
                             size = ImageUtil.Size.Profile.H632,
@@ -129,10 +137,12 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
                         )
                     }
 
-                    if (persons.loadState.append == LoadState.Loading) {
+                    // append
+                    if (personLazyPagingItems.loadState.append == LoadState.Loading) {
                         item {
                             Box(
                                 modifier = Modifier
+                                    .testTag(APPEND_PROGRESS_INDICATOR)
                                     .fillMaxWidth()
                                     .wrapContentHeight(),
                             ) {
@@ -146,9 +156,11 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
                     }
                 }
 
-                if (persons.loadState.refresh == LoadState.Loading) {
+                // refreshing
+                if (personLazyPagingItems.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
+                            .testTag(REFRESH_PROGRESS_INDICATOR)
                             .align(Alignment.Center)
                             .padding(IheNkiri.spacing.oneAndHalf),
                     )
@@ -158,7 +170,8 @@ fun PeopleScreen(persons: LazyPagingItems<Person>) {
     }
 }
 
-fun testPersons(): List<Person> = listOf(
+// More:https://medium.com/@kamal.lakhani56/paging-kmm-12acbaa053dd
+private fun testPersons(): List<Person> = listOf(
     Person(
         id = 976,
         name = "Jason Statham",

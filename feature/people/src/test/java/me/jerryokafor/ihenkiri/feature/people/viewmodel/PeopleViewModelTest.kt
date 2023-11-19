@@ -24,27 +24,42 @@
 
 package me.jerryokafor.ihenkiri.feature.people.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import dagger.hilt.android.lifecycle.HiltViewModel
-import me.jerryokafor.core.data.repository.PeopleListPagingSource
+import androidx.paging.testing.asSnapshot
+import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.PeopleListRepository
-import javax.inject.Inject
+import me.jerryokafor.core.model.Person
+import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
+import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
-@HiltViewModel
-class PeopleViewModel
-@Inject
-constructor(
-    private val peopleListRepository: PeopleListRepository,
-) : ViewModel() {
-    val persons = Pager(
-        config = PagingConfig(pageSize = 4, maxSize = 200, enablePlaceholders = true),
-        initialKey = null,
-        pagingSourceFactory = {
-            PeopleListPagingSource(peopleListRepository = peopleListRepository)
-        },
-    ).flow.cachedIn(viewModelScope)
+class PeopleViewModelTest {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private lateinit var peopleViewModel: PeopleViewModel
+
+    private val peopleListRepository = mockk<PeopleListRepository>()
+
+    @Before
+    fun setUp() {
+        coEvery { peopleListRepository.popularPeople(any()) } returns PeopleListTestData.testPersons()
+        peopleViewModel = PeopleViewModel(peopleListRepository = peopleListRepository)
+    }
+
+    @Test
+    fun `peopleViewModel whenInitialized list of persons is shown`() = runTest {
+        val itemsSnapshot: List<Person> = peopleViewModel.persons.asSnapshot {
+            refresh()
+            appendScrollWhile { it.name == "Florence Pugh" }
+        }
+
+        assertThat(itemsSnapshot.distinct())
+            .containsExactlyElementsIn(PeopleListTestData.testPersons())
+            .inOrder()
+    }
 }

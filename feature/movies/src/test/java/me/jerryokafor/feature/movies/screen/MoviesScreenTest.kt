@@ -43,7 +43,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
@@ -128,7 +128,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -145,7 +145,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -162,7 +162,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -180,7 +180,7 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
@@ -200,7 +200,7 @@ class MoviesScreenTest {
             .assertHasClickAction()
             .performClick()
 
-        Truth.assertThat(onMovieClickCounter).isEqualTo(1)
+        assertThat(onMovieClickCounter).isEqualTo(1)
     }
 }
 
