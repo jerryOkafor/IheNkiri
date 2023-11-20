@@ -26,11 +26,12 @@
 package me.jerryokafor.feature.movies.screen
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,16 +42,15 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
@@ -81,9 +81,11 @@ import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
+import me.jerryokafor.core.ds.theme.FillingSpacer
 import me.jerryokafor.core.ds.theme.FiveVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.Background
@@ -210,6 +212,7 @@ fun MoviesScreen(
         when (it) {
             MovieListFilterItem.FilterType.DISCOVER -> {
                 showSearch = true
+                isSearchActive = true
             }
 
             else -> {
@@ -222,9 +225,9 @@ fun MoviesScreen(
     Background {
         Column(modifier = Modifier) {
             Column(modifier = Modifier.padding(horizontal = IheNkiri.spacing.twoAndaHalf)) {
-                Crossfade(targetState = showSearch, label = "toggleSearch") {
+                Crossfade(targetState = showSearch, label = "toggleSearch") { show ->
                     when {
-                        it -> {
+                        show -> {
                             SearchBarRow(
                                 isSearchActive = isSearchActive,
                                 query = query,
@@ -253,8 +256,7 @@ fun MoviesScreen(
                                         color = IheNkiri.color.onPrimary,
                                     )
                                 },
-                                colors =
-                                TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                     containerColor = Color.Transparent,
                                     scrolledContainerColor = Color.Transparent,
                                 ),
@@ -274,8 +276,7 @@ fun MoviesScreen(
 
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalStaggeredGrid(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
                         .testTag(GRID_ITEMS_TEST_TAG)
                         .fillMaxSize(),
@@ -289,8 +290,7 @@ fun MoviesScreen(
                             val movie = movieLazyPagingItems[index]!!
                             val path = ImageUtil.buildImageUrl(movie.posterPath)
                             MoviePoster(
-                                modifier =
-                                Modifier
+                                modifier = Modifier
                                     .fillMaxWidth()
                                     .aspectRatio(ASPECT_RATIO),
                                 posterUrl = path,
@@ -303,8 +303,7 @@ fun MoviesScreen(
                         if (movieLazyPagingItems.loadState.append == LoadState.Loading) {
                             item(span = StaggeredGridItemSpan.FullLine) {
                                 Box(
-                                    modifier =
-                                    Modifier
+                                    modifier = Modifier
                                         .fillMaxWidth()
                                         .wrapContentHeight(),
                                 ) {
@@ -322,16 +321,14 @@ fun MoviesScreen(
 
                 if (movieLazyPagingItems.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .align(Alignment.Center)
                             .padding(IheNkiri.spacing.oneAndHalf),
                     )
                 }
 
                 MovieListFilter(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .testTag(CHIP_GROUP_TEST_TAG),
@@ -353,21 +350,22 @@ fun SearchBarRow(
     onActiveChange: (Boolean) -> Unit = {},
     onCancel: () -> Unit = {},
 ) {
+    var includeAdult by rememberSaveable { mutableStateOf(false) }
+    var includeVideo by rememberSaveable { mutableStateOf(false) }
     SearchBar(
-        modifier =
-        Modifier
+        modifier = Modifier
             .testTag(SEARCH_TEST_TAG)
             .semantics { traversalIndex = -1f },
         query = query,
+        shape = IheNkiri.shape.small,
+        tonalElevation = SearchBarDefaults.Elevation,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
         active = isSearchActive,
         onActiveChange = onActiveChange,
-        colors =
-        SearchBarDefaults.colors(
+        colors = SearchBarDefaults.colors(
             containerColor = IheNkiri.color.primary,
-            inputFieldColors =
-            TextFieldDefaults.colors(
+            inputFieldColors = TextFieldDefaults.colors(
                 focusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
                 unfocusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
             ),
@@ -397,22 +395,51 @@ fun SearchBarRow(
             }
         },
     ) {
-        @Suppress("MagicNumber")
-        repeat(4) { idx ->
-            val resultText = "Suggestion $idx"
-            ListItem(
-                headlineContent = { Text(resultText) },
-                supportingContent = { Text("Additional info") },
-                leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
-                modifier =
-                Modifier
-                    .clickable {
-                        onQueryChange(resultText)
-                        onActiveChange(false)
-                    }
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+        TwoVerticalSpacer()
+        Row(
+            modifier = Modifier
+                .padding(
+                    horizontal = IheNkiri.spacing.two,
+                )
+                .border(
+                    1.dp,
+                    color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+                    shape = IheNkiri.shape.medium,
+                )
+                .padding(
+                    horizontal = IheNkiri.spacing.two,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.include_adult),
+                style = IheNkiri.typography.titleSmall,
             )
+            FillingSpacer()
+            Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
+        }
+        TwoVerticalSpacer()
+        Row(
+            modifier = Modifier
+                .padding(
+                    horizontal = IheNkiri.spacing.two,
+                )
+                .border(
+                    1.dp,
+                    color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+                    shape = IheNkiri.shape.medium,
+                )
+                .padding(
+                    horizontal = IheNkiri.spacing.two,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.include_video),
+                style = IheNkiri.typography.titleSmall,
+            )
+            FillingSpacer()
+            Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
         }
     }
 }

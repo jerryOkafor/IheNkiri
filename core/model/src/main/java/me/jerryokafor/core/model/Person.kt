@@ -28,7 +28,7 @@ data class Person(
     val id: Long,
     val name: String,
     val popularity: Double,
-    val profilePath: String,
+    val profilePath: String?,
     val knownFor: List<PersonMovie> = emptyList(),
 )
 

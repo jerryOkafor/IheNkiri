@@ -33,7 +33,7 @@ data class NetworkPerson(
     val name: String,
     val popularity: Double,
     @SerializedName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
     val knownFor: List<NetworkPersonMovie>,
 )
 
@@ -42,12 +42,13 @@ data class NetworkPersonMovie(
     val title: String?,
 )
 
-fun NetworkPersonMovie.toDomainModel(): PersonMovie = PersonMovie(id = this.id, title = this.title!!)
+fun NetworkPersonMovie.toDomainModel(): PersonMovie =
+    PersonMovie(id = this.id, title = this.title!!)
 
 fun NetworkPerson.toDomainModel(): Person = Person(
     id = this.id,
     name = this.name,
     popularity = this.popularity,
     profilePath = this.profilePath,
-    knownFor = this.knownFor.filter { it.title != null }.mapNotNull { it.toDomainModel() },
+    knownFor = this.knownFor.filter { it.title != null }.map { it.toDomainModel() },
 )

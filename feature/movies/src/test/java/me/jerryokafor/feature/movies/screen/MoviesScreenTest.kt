@@ -45,6 +45,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.flowOf
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
@@ -58,39 +59,16 @@ import org.robolectric.annotation.Config
 @Config(
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
+    qualifiers = "xlarge",
 )
 class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val testFilters =
-        listOf(
-            MovieListFilterItem(
-                label = "Now Playing",
-                isSelected = true,
-                type = MovieListFilterItem.FilterType.NOW_PLAYING,
-            ),
-            MovieListFilterItem(
-                label = "Popular",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.POPULAR,
-            ),
-            MovieListFilterItem(
-                label = "Top Rated",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.TOP_RATED,
-            ),
-            MovieListFilterItem(
-                label = "Upcoming",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.UPCOMING,
-            ),
-        )
-
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0
 
-    fun setUp(filters: List<MovieListFilterItem>) {
+    private fun setUp(filters: List<MovieListFilterItem>) {
         composeTestRule.setContent {
             MoviesScreen(
                 filters = filters,
@@ -102,7 +80,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_SearchButtonClick_SearchViewShown() {
-        setUp(testFilters)
+        setUp(testFilters())
         composeTestRule.onNodeWithContentDescription("Search")
             .assertExists()
             .assertIsDisplayed()
@@ -115,7 +93,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_NowPlayingMoviesFilterSelected_NowPlayingMoviesShown() {
-        setUp(testFilters.selectItem("Now Playing"))
+        setUp(testFilters().selectItem("Now Playing"))
 
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
@@ -133,7 +111,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_PopularMoviesFilterSelected_PopularMoviesShown() {
-        setUp(testFilters.selectItem("Popular"))
+        setUp(testFilters().selectItem("Popular"))
 
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
@@ -150,7 +128,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_TopRatedMoviesFilterSelected_TopRatedMoviesShown() {
-        setUp(testFilters.selectItem("Top Rated"))
+        setUp(testFilters().selectItem("Top Rated"))
 
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
@@ -167,7 +145,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_UpcomingMoviesFilterSelected_UpcomingMoviesShown() {
-        setUp(testFilters.selectItem("Upcoming"))
+        setUp(testFilters().selectItem("Upcoming"))
 
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
@@ -185,7 +163,7 @@ class MoviesScreenTest {
 
     @Test
     fun moviesScreen_MovieItemClick_MovieDetailsScreenShown() {
-        setUp(testFilters.selectItem("Now Playing"))
+        setUp(testFilters().selectItem("Now Playing"))
 
         composeTestRule.onNodeWithTag(GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
             .assertExists()
@@ -206,3 +184,27 @@ class MoviesScreenTest {
 
 private fun List<MovieListFilterItem>.selectItem(whereLabel: String) =
     map { if (it.label == whereLabel) it.copy(isSelected = true) else it.copy(isSelected = false) }
+
+@ExcludeFromGeneratedCoverageReport
+private fun testFilters() = listOf(
+    MovieListFilterItem(
+        label = "Now Playing",
+        isSelected = true,
+        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+    ),
+    MovieListFilterItem(
+        label = "Popular",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.POPULAR,
+    ),
+    MovieListFilterItem(
+        label = "Top Rated",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.TOP_RATED,
+    ),
+    MovieListFilterItem(
+        label = "Upcoming",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.UPCOMING,
+    ),
+)
