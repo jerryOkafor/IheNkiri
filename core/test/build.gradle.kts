@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.core.ds)
 
     implementation(libs.io.coil.compose)
+    api(libs.io.coil.test)
 
     // paging
     api(libs.androidx.paging.testing)

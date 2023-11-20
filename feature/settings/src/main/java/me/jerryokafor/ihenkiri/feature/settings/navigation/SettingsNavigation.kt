@@ -33,7 +33,7 @@ import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.ihenkiri.feature.settings.ui.MoreScreen
 
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val settingsNavPattern = "/more"
+const val settingsNavPattern = "/settings"
 
 fun NavGraphBuilder.settingsScreen() {
     composable(

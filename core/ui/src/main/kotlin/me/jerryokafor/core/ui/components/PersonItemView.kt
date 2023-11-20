@@ -29,9 +29,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +41,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,11 +52,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
@@ -96,66 +100,64 @@ fun PersonItemView(
     imageUrl: String,
     textColor: Color = contentColorFor(backgroundColor = IheNkiri.color.surfaceVariant),
 ) {
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
+    val isLocalInspection = LocalInspectionMode.current
+
+    val imageLoader = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .crossfade(true)
+            .build(),
+        contentScale = ContentScale.FillWidth,
+        onState = { state ->
+            isLoading = state is AsyncImagePainter.State.Loading
+            isError = state is AsyncImagePainter.State.Error
+        },
+    )
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(5.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
-                modifier =
-                modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1F),
             ) {
                 val contentDescription = "$name's profile"
-                SubcomposeAsyncImage(
-                    modifier =
-                    Modifier
-                        .matchParentSize()
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
                         .align(Alignment.Center)
                         .clip(RoundedCornerShape(5.dp)),
                     contentScale = ContentScale.FillWidth,
-                    model =
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(imageUrl)
-                        .crossfade(true)
-                        .placeholder(R.drawable.ic_avatar)
-                        .fallback(R.drawable.ic_avatar)
-                        .build(),
+                    painter = if (isError.not() && !isLocalInspection) {
+                        imageLoader
+                    } else {
+                        painterResource(R.drawable.ic_avatar)
+                    },
                     contentDescription = contentDescription,
-                ) {
-                    when (painter.state) {
-                        AsyncImagePainter.State.Empty, is AsyncImagePainter.State.Error -> {
-                            Image(
-                                modifier =
-                                Modifier
-                                    .matchParentSize()
-                                    .clip(RoundedCornerShape(5.dp)),
-                                painter = painterResource(id = R.drawable.ic_avatar),
-                                contentDescription = contentDescription,
-                                contentScale = ContentScale.FillBounds,
-                            )
-                        }
+                )
 
-                        is AsyncImagePainter.State.Loading ->
-                            CircularProgressIndicator(
-                                modifier =
-                                Modifier
-                                    .size(24.dp)
-                                    .align(Alignment.Center)
-                                    .padding(IheNkiri.spacing.twoAndaHalf),
-                                strokeCap = StrokeCap.Round,
-                                strokeWidth = 1.dp,
-                            )
-
-                        is AsyncImagePainter.State.Success -> SubcomposeAsyncImageContent()
-                    }
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .align(Alignment.Center)
+                            .padding(IheNkiri.spacing.three),
+                        strokeCap = StrokeCap.Round,
+                        strokeWidth = 1.dp,
+                    )
                 }
             }
+
             OneVerticalSpacer()
             Column(modifier = Modifier.padding(horizontal = IheNkiri.spacing.one)) {
                 Text(

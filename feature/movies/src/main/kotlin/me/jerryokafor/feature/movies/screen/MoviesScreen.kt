@@ -293,7 +293,7 @@ fun MoviesScreen(
                                 Modifier
                                     .fillMaxWidth()
                                     .aspectRatio(ASPECT_RATIO),
-                                path = path,
+                                posterUrl = path,
                                 shimmer = shimmerInstance,
                                 contentDescription = movie.title,
                                 onClick = { onMovieClick(movie.id) },

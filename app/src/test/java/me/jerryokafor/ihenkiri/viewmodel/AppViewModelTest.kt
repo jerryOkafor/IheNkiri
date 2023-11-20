@@ -65,6 +65,6 @@ class AppViewModelTest {
             assertThat(isLoggedIn).isTrue()
         }
 
-        assertThat(viewModel.startDestination.value).isEqualTo("home-graph")
+        assertThat(viewModel.startDestination.value).isEqualTo("/movies")
     }
 }

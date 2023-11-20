@@ -64,7 +64,7 @@ import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetails
 internal const val movieIdArg = "movieId"
 
 @Suppress("ktlint:standard:property-naming")
-const val movieDetailsNavPattern = "movie/{$movieIdArg}"
+const val movieDetailsRoutePattern = "movie/{$movieIdArg}"
 
 internal class MovieDetailsArg(val movieId: Long) {
     constructor(savedStateHandle: SavedStateHandle) : this(
@@ -81,7 +81,7 @@ fun NavController.navigateToMovieDetails(
 
 fun NavGraphBuilder.movieDetailsScreen(onNavigateUp: () -> Unit) {
     composable(
-        route = movieDetailsNavPattern,
+        route = movieDetailsRoutePattern,
         arguments = listOf(navArgument(movieIdArg) { type = NavType.LongType }),
     ) {
         MoviesDetails(onBackPress = onNavigateUp)

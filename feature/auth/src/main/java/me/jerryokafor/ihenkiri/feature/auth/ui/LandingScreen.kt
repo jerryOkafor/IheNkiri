@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.screens
+package me.jerryokafor.ihenkiri.feature.auth.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,7 +55,7 @@ import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
-import me.jerryokafor.ihenkiri.R
+import me.jerryokafor.ihenkiri.feature.auth.R
 
 @ThemePreviews
 @Composable

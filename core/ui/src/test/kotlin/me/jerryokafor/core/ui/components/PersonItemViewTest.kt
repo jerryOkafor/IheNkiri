@@ -24,6 +24,8 @@
 
 package me.jerryokafor.core.ui.components
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -31,9 +33,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.test.core.app.ApplicationProvider
+import coil.Coil
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.test.FakeImageLoaderEngine
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,6 +49,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowLog
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -50,18 +59,33 @@ class PersonItemViewTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    @OptIn(ExperimentalCoilApi::class)
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        val engine = FakeImageLoaderEngine.Builder()
+//            .intercept("https://www.example.com/image.jpg", ColorDrawable(Color.RED))
+            .intercept({ it is String && it.endsWith("image.jpg") }, ColorDrawable(Color.RED))
+            .default(ColorDrawable(Color.BLUE))
+            .build()
+        val imageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
+            .components { add(engine) }
+            .build()
+        Coil.setImageLoader(imageLoader)
+        ShadowLog.stream = System.out
+    }
+
     @Test
     fun trailerButton_multipleThemes() {
         composeTestRule.captureMultiTheme("PersonItemView") { desc: String ->
             Surface {
                 PersonItemView(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .width(250.dp)
                         .padding(IheNkiri.spacing.twoAndaHalf),
                     name = "Sandra Bullock",
                     knownFor = "Rush Hour, Rush Hour 2, and Rush Hour 3",
-                    imageUrl = "",
+                    imageUrl = "https://www.example.com/image.jpg",
                 )
             }
         }

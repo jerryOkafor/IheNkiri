@@ -36,12 +36,19 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.google.common.truth.Truth.assertThat
-import me.jerryokafor.ihenkiri.ui.navigation.BOTTOM_NAV_BAR_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.screens.HomeScreen
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
+import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
+import me.jerryokafor.ihenkiri.ui.GraphRoute
+import me.jerryokafor.ihenkiri.ui.IhenkiriApp
+import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
@@ -52,28 +59,43 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(
+    application = HiltTestApplication::class,
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
 )
-class HomeScreenTest {
+@HiltAndroidTest
+class IhenkiriAppTest {
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
+
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
+    private var onContinueAsGuestClick = 0
+    private var onSignInClick = 0
     private lateinit var navController: TestNavHostController
 
     @Before
     fun setUp() {
-        composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
-            HomeScreen(navController = navController, bottomNavDelay = 0L)
-        }
+        hiltRule.inject()
     }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun homeScreen_verifyNavMenus() {
+    fun bottomNavbar_verifyNavMenus() {
         with(composeTestRule) {
+            setContent {
+                navController = TestNavHostController(LocalContext.current)
+                navController.navigatorProvider.addNavigator(ComposeNavigator())
+
+                IhenkiriApp(
+                    navController = navController,
+                    startDestination = GraphRoute.HOME,
+                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
+                    onSignInClick = { onSignInClick++ },
+                )
+            }
+
             waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), 1)
 
             // Verify /movies
@@ -101,14 +123,58 @@ class HomeScreenTest {
             onNode(isBottomNavItemWithText("People")).assertIsSelected()
 
             // Verify route: /more
-            onNode(isBottomNavItemWithText("More")).assertHasClickAction()
+            onNode(isBottomNavItemWithText("Settings")).assertHasClickAction()
                 .assertIsDisplayed()
                 .performClick()
             val moreRtoue = navController.currentBackStackEntry?.destination?.route
-            assertThat(moreRtoue).isEqualTo("/more")
-            onNode(isBottomNavItemWithText("More")).assertIsSelected()
+            assertThat(moreRtoue).isEqualTo("/settings")
+            onNode(isBottomNavItemWithText("Settings")).assertIsSelected()
+        }
+    }
+
+    @Test
+    fun ihenkiriApp_verifyAuhStartDestination() {
+        with(composeTestRule) {
+            setContent {
+                navController = TestNavHostController(LocalContext.current)
+                navController.navigatorProvider.addNavigator(ComposeNavigator())
+
+                IhenkiriApp(
+                    navController = navController,
+                    startDestination = GraphRoute.AUTH,
+                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
+                    onSignInClick = { onSignInClick++ },
+                )
+            }
+
+            onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertExists()
+            val route = navController.currentBackStackEntry?.destination?.route
+            assertThat(route).isEqualTo("welcome")
+        }
+    }
+
+    @Test
+    fun ihenkiriApp_verifyHomeDestination() {
+        with(composeTestRule) {
+            setContent {
+                navController = TestNavHostController(LocalContext.current)
+                navController.navigatorProvider.addNavigator(ComposeNavigator())
+
+                IhenkiriApp(
+                    navController = navController,
+                    startDestination = GraphRoute.HOME,
+                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
+                    onSignInClick = { onSignInClick++ },
+                )
+            }
+
+            onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()
+            onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertIsDisplayed()
+            val route = navController.currentBackStackEntry?.destination?.route
+            assertThat(route).isEqualTo("/movies")
         }
     }
 }
 
-private fun isBottomNavItemWithText(text: String): SemanticsMatcher = hasText(text) and isSelectable() and hasClickAction()
+private fun isBottomNavItemWithText(text: String): SemanticsMatcher =
+    hasText(text) and isSelectable() and hasClickAction()

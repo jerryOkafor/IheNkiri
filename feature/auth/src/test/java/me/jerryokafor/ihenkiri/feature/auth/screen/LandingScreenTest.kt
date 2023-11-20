@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.screens
+package me.jerryokafor.ihenkiri.feature.auth.screen
 
 import android.os.Build
 import androidx.compose.ui.test.assertHasClickAction
@@ -32,7 +32,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
+import me.jerryokafor.ihenkiri.feature.auth.ui.LandingScreen
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -22,56 +22,37 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.navigation
+package me.jerryokafor.ihenkiri.feature.auth.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.ui.LANDING_SCREEN_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.screens.HomeScreen
-import me.jerryokafor.ihenkiri.ui.screens.LandingScreen
+import me.jerryokafor.ihenkiri.feature.auth.ui.LandingScreen
 
-@Composable
-fun RootNavGraph(
-    navHostController: NavHostController,
-    startDestination: String,
-    onContinueAsGuestClick: () -> Unit,
-    onSignInClick: () -> Unit,
-) {
-    NavHost(
-        navController = navHostController,
-        startDestination = startDestination,
-        route = GraphRoute.ROOT,
-    ) {
-        composable(
-            route = GraphRoute.HOME,
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition,
-            content = { HomeScreen() },
-        )
+const val LANDING_SCREEN_TEST_TAG = "landingScreen"
 
-        authNavGraph(onContinueAsGuestClick, onSignInClick)
-    }
-}
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
+const val authNavGraph = "auth-graph"
+
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
+const val loginRoutePattern = "welcome"
 
 fun NavGraphBuilder.authNavGraph(
     onContinueAsGuestClick: () -> Unit,
     onSignInClick: () -> Unit,
 ) {
-    navigation(route = GraphRoute.AUTH, startDestination = AuthScreens.LandingScreen.route) {
+    navigation(
+        route = authNavGraph,
+        startDestination = loginRoutePattern,
+    ) {
         composable(
-            route = AuthScreens.LandingScreen.route,
+            route = loginRoutePattern,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
@@ -84,14 +65,4 @@ fun NavGraphBuilder.authNavGraph(
             )
         }
     }
-}
-
-sealed class AuthScreens(val route: String) {
-    data object LandingScreen : AuthScreens(route = "welcome")
-}
-
-data object GraphRoute {
-    const val ROOT = "root-graph"
-    const val HOME = "home-graph"
-    const val AUTH = "auth-graph"
 }

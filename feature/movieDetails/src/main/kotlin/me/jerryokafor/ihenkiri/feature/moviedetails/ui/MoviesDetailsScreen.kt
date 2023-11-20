@@ -29,6 +29,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,6 +77,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -83,7 +85,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -186,22 +189,36 @@ fun MoviesDetails(
     val secondaryTextColor = primaryTextColor.copy(0.7F)
     val state = rememberCollapsingToolbarScaffoldState()
     val enabled by remember { mutableStateOf(true) }
-    val colorStops =
-        listOf(
-            Color(0x00000000),
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.1F),
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
-            IheNkiri.color.inverseOnSurface,
-        )
+    val colorStops = listOf(
+        Color(0x00000000),
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.1F),
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
+        IheNkiri.color.inverseOnSurface,
+    )
 
-    val colorStops2 =
-        listOf(
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
-            IheNkiri.color.inverseOnSurface.copy(alpha = 0.9F),
-            IheNkiri.color.inverseOnSurface,
-        )
+    val colorStops2 = listOf(
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.8F),
+        IheNkiri.color.inverseOnSurface.copy(alpha = 0.9F),
+        IheNkiri.color.inverseOnSurface,
+    )
+
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
+    val isLocalInspection = LocalInspectionMode.current
+
+    val posterImageLoader = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(ImageUtil.buildImageUrl(uiState.postPath))
+            .crossfade(true)
+            .build(),
+        contentScale = ContentScale.FillBounds,
+        onState = { state ->
+            isLoading = state is AsyncImagePainter.State.Loading
+            isError = state is AsyncImagePainter.State.Error
+        },
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         CollapsingToolbarScaffold(
@@ -216,48 +233,42 @@ fun MoviesDetails(
                 // a dummy Spacer composable.
                 // You may replace it with TopAppBar or other preferred composable.
                 Spacer(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
                 )
 
                 @Suppress("MagicNumber")
                 Box(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .parallax(0.5f)
-                        .height(400.dp)
+                        .height(450.dp)
                         .fillMaxWidth(),
                 ) {
-                    AsyncImage(
-                        modifier =
-                        Modifier
+                    Image(
+                        modifier = Modifier
                             .fillMaxSize()
                             .graphicsLayer {
                                 alpha = state.toolbarState.progress
                             },
-                        model =
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(ImageUtil.buildImageUrl(uiState.postPath)).crossfade(true)
-                            .build(),
-                        placeholder = painterResource(R.drawable.sample_banner),
+                        painter = if (isError.not() && !isLocalInspection) {
+                            posterImageLoader
+                        } else {
+                            painterResource(me.jerryokafor.core.ui.R.drawable.sample_poster)
+                        },
                         contentDescription = uiState.title,
                         contentScale = ContentScale.FillWidth,
-                        onSuccess = {},
                     )
                     Box(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .fillMaxSize()
                             .background(Brush.verticalGradient(colorStops)),
                     )
 
                     Column(modifier = Modifier.align(Alignment.BottomCenter)) {
                         Row(
-                            modifier =
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = IheNkiri.spacing.two),
                             horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
@@ -296,8 +307,7 @@ fun MoviesDetails(
 
                         TwoVerticalSpacer()
                         Divider(
-                            modifier =
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .height(1.dp)
                                 .background(secondaryTextColor.copy(alpha = 0.1F)),
@@ -331,8 +341,7 @@ fun MoviesDetails(
             },
         ) {
             LazyColumn(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .matchParentSize()
                     .background(Brush.verticalGradient(colorStops2))
@@ -343,8 +352,7 @@ fun MoviesDetails(
                 item {
                     TwoVerticalSpacer()
                     Text(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_OVERVIEW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         text = uiState.overview,
@@ -358,8 +366,7 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     TrailerButton(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .testTag(MOVIE_DETAILS_TRAILER_BUTTON)
                             .padding(horizontal = IheNkiri.spacing.two),
@@ -371,8 +378,7 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_MAIN_CAST)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
@@ -380,8 +386,7 @@ fun MoviesDetails(
                     )
                     OneVerticalSpacer()
                     LazyRow(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
@@ -393,8 +398,7 @@ fun MoviesDetails(
                                 size = 80.dp,
                                 firstName = firstName,
                                 lastName = lastName,
-                                imageUrl =
-                                ImageUtil.buildImageUrl(
+                                imageUrl = ImageUtil.buildImageUrl(
                                     path = it.profilePath ?: "",
                                     size = ImageUtil.Size.Profile.H632,
                                 ),
@@ -407,8 +411,7 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_CREW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
@@ -416,8 +419,7 @@ fun MoviesDetails(
                     )
                     OneVerticalSpacer()
                     LazyRow(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_CREW_ROW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
@@ -429,10 +431,9 @@ fun MoviesDetails(
                                 size = 80.dp,
                                 firstName = firstName,
                                 lastName = lastName,
-                                imageUrl =
-                                ImageUtil.buildImageUrl(
+                                imageUrl = ImageUtil.buildImageUrl(
                                     path = it.profilePath ?: "",
-                                    size = ImageUtil.Size.Profile.H632,
+                                    size = ImageUtil.Size.Profile.W185,
                                 ),
                             )
                         }
@@ -443,8 +444,7 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_CATEGORIES)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
@@ -452,8 +452,7 @@ fun MoviesDetails(
                     )
                     OneAndHalfVerticalSpacer()
                     LazyRow(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_CATEGORIES_ROW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
@@ -466,8 +465,7 @@ fun MoviesDetails(
                 item {
                     ThreeVerticalSpacer()
                     Text(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .testTag(MOVIE_DETAILS_RECOMMENDATIONS)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
@@ -487,11 +485,10 @@ fun MoviesDetails(
 
                             @Suppress("MagicNumber")
                             MoviePoster(
-                                modifier =
-                                Modifier
+                                modifier = Modifier
                                     .width(120.dp)
                                     .aspectRatio(0.7F),
-                                path = path,
+                                posterUrl = path,
                                 contentDescription = it.title,
                                 shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window),
                                 onClick = {},
@@ -526,19 +523,19 @@ fun MoviesDetails(
                     IconButton(onClick = onAddToWatchListClick) {
                         Icon(
                             imageVector = Icons.Filled.List,
-                            contentDescription = "Add to watch list",
+                            contentDescription = stringResource(R.string.add_to_watch_list),
                         )
                     }
                     IconButton(onClick = onAddToBookmarkClick) {
                         Icon(
                             painterResource(id = me.jerryokafor.core.ui.R.drawable.baseline_bookmark_add_24),
-                            contentDescription = "Add to bookmark",
+                            contentDescription = stringResource(R.string.add_to_bookmark),
                         )
                     }
                     IconButton(onClick = onRateItClick) {
                         Icon(
                             imageVector = Icons.Filled.Star,
-                            contentDescription = "Rate it",
+                            contentDescription = stringResource(R.string.rate_it),
                         )
                     }
                 },
@@ -550,7 +547,7 @@ fun MoviesDetails(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.FavoriteBorder,
-                            contentDescription = "Add to favourite",
+                            contentDescription = stringResource(R.string.add_to_favourite),
                         )
                     }
                 },

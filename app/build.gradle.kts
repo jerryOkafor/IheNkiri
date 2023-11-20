@@ -74,6 +74,7 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.data)
 
+    implementation(projects.feature.auth)
     implementation(projects.feature.movies)
     implementation(projects.feature.movieDetails)
     implementation(projects.feature.people)

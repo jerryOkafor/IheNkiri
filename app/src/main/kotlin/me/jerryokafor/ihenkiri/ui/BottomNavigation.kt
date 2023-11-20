@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui.navigation
+package me.jerryokafor.ihenkiri.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -46,7 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -55,9 +57,8 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.feature.movies.navigation.moviesRoute
+import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.ihenkiri.R
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsNavPattern
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleNavPattern
 import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsNavPattern
 import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsNavPattern
@@ -80,13 +81,12 @@ fun BottomNavigation(
     navController: NavHostController,
     show: Boolean = true,
 ) {
-    val items =
-        listOf(
-            BottomNavItem.Movies,
-            BottomNavItem.TVShows,
-            BottomNavItem.People,
-            BottomNavItem.More,
-        )
+    val items = listOf(
+        BottomNavItem.Movies,
+        BottomNavItem.TVShows,
+        BottomNavItem.People,
+        BottomNavItem.More,
+    )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -95,18 +95,15 @@ fun BottomNavigation(
 
     AnimatedVisibility(
         visible = show,
-        enter =
-        slideInVertically {
+        enter = slideInVertically {
             // Slide in from 40 dp from the top.
             with(density) { -40.dp.roundToPx() }
-        } +
-            expandVertically(
-                // Expand from the top.
-                expandFrom = Alignment.Top,
-            ) +
-            fadeIn(
-                initialAlpha = 0.3f,
-            ),
+        } + expandVertically(
+            // Expand from the top.
+            expandFrom = Alignment.Top,
+        ) + fadeIn(
+            initialAlpha = 0.3f,
+        ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
@@ -116,10 +113,15 @@ fun BottomNavigation(
                         selected = currentRoute == item.route,
                         onClick = {
                             navController.navigate(
-                                item.route,
-                                navOptions =
-                                navOptions {
+                                route = item.route,
+                                navOptions = navOptions {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+
                                     launchSingleTop = true
+
+                                    restoreState = true
                                 },
                             )
                         },
@@ -130,40 +132,52 @@ fun BottomNavigation(
     )
 }
 
-sealed class TopLevelDestinations(val route: String) {
-    data object MovieDetail : TopLevelDestinations(route = movieDetailsNavPattern)
-}
+sealed interface BottomNavItem {
+    val icon: Int
+    val route: String
 
-sealed class BottomNavItem(
-    val title: String,
-    val icon: Int,
-    val route: String,
-) {
-    data object Movies : BottomNavItem(
-        title = "Movies",
-        icon = R.drawable.baseline_video_library_24,
-        route = moviesRoute,
-    )
+    @Composable
+    fun title(): String
 
-    data object TVShows : BottomNavItem(
-        title = "TV Shows",
-        icon = R.drawable.baseline_live_tv_24,
-        route = tvShowsNavPattern,
-    )
+    data object Movies : BottomNavItem {
+        override val icon: Int
+            get() = R.drawable.baseline_video_library_24
+        override val route: String
+            get() = moviesRoutePattern
 
-    data object People :
-        BottomNavItem(
-            title = "People",
-            icon = R.drawable.baseline_people_24,
-            route = peopleNavPattern,
-        )
+        @Composable
+        override fun title(): String = stringResource(id = R.string.movies)
+    }
 
-    data object More :
-        BottomNavItem(
-            title = "More",
-            icon = R.drawable.baseline_more_24,
-            route = settingsNavPattern,
-        )
+    data object TVShows : BottomNavItem {
+        override val icon: Int
+            get() = R.drawable.baseline_live_tv_24
+        override val route: String
+            get() = tvShowsNavPattern
+
+        @Composable
+        override fun title(): String = stringResource(R.string.tv_shows)
+    }
+
+    data object People : BottomNavItem {
+        override val icon: Int
+            get() = R.drawable.baseline_people_24
+        override val route: String
+            get() = peopleNavPattern
+
+        @Composable
+        override fun title(): String = stringResource(R.string.people)
+    }
+
+    data object More : BottomNavItem {
+        override val icon: Int
+            get() = R.drawable.baseline_more_24
+        override val route: String
+            get() = settingsNavPattern
+
+        @Composable
+        override fun title(): String = stringResource(R.string.settings)
+    }
 }
 
 @Composable
@@ -173,11 +187,11 @@ private fun RowScope.AddItem(
     onClick: () -> Unit,
 ) {
     NavigationBarItem(
-        label = { Text(text = screen.title) },
+        label = { Text(text = screen.title()) },
         icon = {
             Icon(
                 painterResource(id = screen.icon),
-                contentDescription = screen.title,
+                contentDescription = screen.title(),
                 tint = IheNkiri.color.secondary,
             )
         },

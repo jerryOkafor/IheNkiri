@@ -33,11 +33,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.viewmodel.AppViewModel
@@ -64,10 +67,23 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            AppContent(
-                viewModel = appViewModel,
-                onSignInClick = ::onSignInClick,
-            )
+            val uiState by appViewModel.uiState.collectAsStateWithLifecycle()
+            val startDestination by appViewModel.startDestination
+
+            val onContinueAsGuestClick: () -> Unit = {
+                appViewModel.updateLoginState(true)
+            }
+
+            IheNkiriTheme(
+                isDarkTheme = uiState.isDarkTheme,
+                isDynamicColor = uiState.isDynamicColor,
+            ) {
+                IhenkiriApp(
+                    onContinueAsGuestClick = onContinueAsGuestClick,
+                    startDestination = startDestination,
+                    onSignInClick = ::onSignInClick,
+                )
+            }
         }
 
         val action: String? = intent?.action

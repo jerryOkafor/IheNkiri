@@ -56,15 +56,13 @@ class MovieRatingScreenshotTest {
     fun movieRating_multipleThemes() {
         composeTestRule.captureMultiTheme("MovieRating") { desc: String ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(200.dp)
                     .aspectRatio(1F)
                     .background(IheNkiri.color.inverseOnSurface),
             ) {
                 MovieRating(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .size(100.dp)
                         .align(Alignment.Center),
                     rating = 0.45F,

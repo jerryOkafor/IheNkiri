@@ -55,12 +55,14 @@ class GenreChipScreenshotTest {
     fun genreChip_multipleThemes() {
         composeTestRule.captureMultiTheme("GenreChip") { desc: String ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(100.dp)
                     .background(IheNkiri.color.surface),
             ) {
-                GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
+                GenreChip(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = "Drama",
+                )
             }
         }
     }

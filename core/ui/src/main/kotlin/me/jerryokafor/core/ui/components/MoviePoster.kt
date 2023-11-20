@@ -24,23 +24,29 @@
 
 package me.jerryokafor.core.ui.components
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
@@ -49,6 +55,7 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.ui.R
 
 const val MOVIE_POSTER_TEST_TAG = "movie_poster"
 private const val SIZE_ASPECT_RATIO = 0.8F
@@ -59,17 +66,14 @@ private const val SIZE_ASPECT_RATIO = 0.8F
 fun PosterPreview() {
     IheNkiriTheme {
         Column(
-            modifier =
-            Modifier
-                .padding(IheNkiri.spacing.twoAndaHalf)
-                .background(IheNkiri.color.inverseOnSurface),
+            modifier = Modifier.padding(IheNkiri.spacing.twoAndaHalf),
         ) {
             MoviePoster(
                 modifier =
                 Modifier
                     .width(100.dp)
                     .aspectRatio(SIZE_ASPECT_RATIO),
-                path = "https://example.com/image.jpg",
+                posterUrl = "https://example.com/image.jpg",
                 contentDescription = "Image",
                 shimmer =
                 rememberShimmer(
@@ -84,38 +88,48 @@ fun PosterPreview() {
 @Composable
 fun MoviePoster(
     modifier: Modifier = Modifier,
-    path: String?,
+    posterUrl: String?,
     contentDescription: String,
     shimmer: Shimmer,
     onClick: () -> Unit,
 ) {
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
+    val isLocalInspection = LocalInspectionMode.current
+
+    val imageLoader = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(posterUrl)
+            .crossfade(true)
+            .build(),
+        contentScale = ContentScale.FillBounds,
+        onState = { state ->
+            isLoading = state is AsyncImagePainter.State.Loading
+            isError = state is AsyncImagePainter.State.Error
+        },
+    )
+
     Card(
         modifier = modifier.testTag(MOVIE_POSTER_TEST_TAG),
         onClick = onClick,
-        shape = IheNkiri.shape.medium,
+        shape = IheNkiri.shape.small,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
-        SubcomposeAsyncImage(
-            model =
-            ImageRequest.Builder(LocalContext.current)
-                .data(path)
-                .crossfade(true).build(),
-            contentScale = ContentScale.FillBounds,
-            contentDescription = contentDescription,
+        ShimmerBox(
+            modifier = Modifier.fillMaxSize(),
+            shimmer = shimmer,
+            isLoading = isLoading,
         ) {
-            val state = painter.state
-            val showShimmer = state is AsyncImagePainter.State.Loading
-
-            ShimmerBox(
-                modifier = Modifier.fillMaxWidth(),
-                shimmer = shimmer,
-                showShimmer = showShimmer,
-            ) {
-                if (state !is AsyncImagePainter.State.Loading) {
-                    SubcomposeAsyncImageContent()
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = if (isError.not() && !isLocalInspection) {
+                    imageLoader
                 } else {
-                    // Show empty place holder here
-                }
-            }
+                    painterResource(R.drawable.sample_poster)
+                },
+                contentScale = ContentScale.FillBounds,
+                contentDescription = contentDescription,
+            )
         }
     }
 }

@@ -42,11 +42,10 @@ import com.google.accompanist.testharness.TestHarness
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import org.robolectric.RuntimeEnvironment
 
-val DefaultRoborazziOptions =
-    RoborazziOptions(
-        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f),
-        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5),
-    )
+val DefaultRoborazziOptions = RoborazziOptions(
+    compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0f),
+    recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5),
+)
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
     PHONE(
@@ -87,12 +86,8 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     RuntimeEnvironment.setQualifiers("w${width}dp-h${height}dp-${dpi}dpi")
 
     this.activity.setContent {
-        CompositionLocalProvider(
-            LocalInspectionMode provides true,
-        ) {
-            TestHarness(darkMode = darkMode) {
-                body()
-            }
+        CompositionLocalProvider(LocalInspectionMode provides true) {
+            TestHarness(darkMode = darkMode) { body() }
         }
     }
     this.onRoot().captureRoboImage(

@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
+import me.jerryokafor.ihenkiri.ui.GraphRoute
 import javax.inject.Inject
 
 @HiltViewModel
