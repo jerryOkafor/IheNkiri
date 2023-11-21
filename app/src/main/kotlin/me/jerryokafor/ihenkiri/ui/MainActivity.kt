@@ -50,10 +50,11 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     companion object {
         const val TAG = "MainActivity"
+        const val REDIRECT_URL = "https://ihenkiri.jerryokafor.me/auth"
     }
 
     @Inject
-    lateinit var theMovieDBAPI: AuthApi
+    lateinit var authApi: AuthApi
 
     private val appViewModel by viewModels<AppViewModel>()
 
@@ -85,26 +86,20 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-
-        val action: String? = intent?.action
-        val data: Uri? = intent?.data
-
-        Log.d(TAG, "onCreate() $data")
     }
 
     @VisibleForTesting
     private fun onSignInClick() {
         lifecycleScope.launch {
             try {
-                val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
-
-                val request =
-                    theMovieDBAPI.createRequestToken(CreateRequestTokenRequest(redirectTo = redirectTo))
+                val request = authApi.createRequestToken(
+                    CreateRequestTokenRequest(redirectTo = REDIRECT_URL),
+                )
                 Log.d("MainActivity", "Result: $request")
                 val requestToken = request.requestToken
 
                 val url =
-                    "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
+                    "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$REDIRECT_URL"
                 val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
                 intent.launchUrl(this@MainActivity, Uri.parse(url))
 
@@ -118,10 +113,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         val action: String? = intent?.action
         val data: Uri? = intent?.data
+        Log.d(TAG, "onNewIntent() ${data?.path}")
+        Log.d(TAG, "onNewIntent() ${data?.queryParameterNames}")
 
-        Log.d(TAG, "onNewIntent() $data")
+        if (data != null && data.path == REDIRECT_URL) {
+            // create session id here
+        }
     }
 }

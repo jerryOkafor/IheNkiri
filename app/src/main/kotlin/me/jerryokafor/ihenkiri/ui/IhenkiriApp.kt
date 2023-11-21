@@ -45,7 +45,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.delay
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
@@ -58,7 +57,6 @@ import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
 import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
-private const val BOTTOM_NAV_BAR_DISPLAY_DELAY = 400L
 
 @Composable
 fun IhenkiriApp(
@@ -66,7 +64,6 @@ fun IhenkiriApp(
     startDestination: String,
     onContinueAsGuestClick: () -> Unit,
     onSignInClick: () -> Unit,
-    bottomNavDelay: Long = BOTTOM_NAV_BAR_DISPLAY_DELAY,
 ) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -126,11 +123,7 @@ fun IhenkiriApp(
         when (navBackStackEntry?.destination?.route) {
             movieDetailsRoutePattern, loginRoutePattern ->
                 bottomBarState.value = false
-
-            else -> {
-                delay(bottomNavDelay)
-                bottomBarState.value = true
-            }
+            else -> bottomBarState.value = true
         }
     }
 

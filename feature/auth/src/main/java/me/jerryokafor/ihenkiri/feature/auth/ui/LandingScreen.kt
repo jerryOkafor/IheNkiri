@@ -49,6 +49,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.hilt.navigation.compose.hiltViewModel
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
@@ -56,6 +57,7 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.ihenkiri.feature.auth.R
+import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthViewModel
 
 @ThemePreviews
 @Composable
@@ -67,6 +69,18 @@ fun LandingScreenPreview() {
 }
 
 private const val HALF_WIDTH = 0.5F
+
+@Composable
+@Suppress("UnusedPrivateMember")
+fun LandingScreen(authViewModel: AuthViewModel = hiltViewModel()) {
+    val onSignInClick: () -> Unit = {}
+    val onContinueAsGuestClick: () -> Unit = {}
+
+    LandingScreen(
+        onSignInClick = onSignInClick,
+        onContinueAsGuestClick = onContinueAsGuestClick,
+    )
+}
 
 @Composable
 fun LandingScreen(

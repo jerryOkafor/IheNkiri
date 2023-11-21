@@ -95,7 +95,8 @@ tests using robolectric instead of a real device or an emulator
   parameterized test runner for Java.
 - [Roborazzi](https://github.com/takahirom/roborazzi) - helps to validate the app's appearance and
   functionality
-- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to Android
+- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to
+  Android
 - [Robolectric Shadows](https://robolectric.org/extending/) - use shadow objects to simulate Android
   behavior in a non-Android environment.
 
@@ -155,21 +156,23 @@ implement the same interface as the production code and also provides simplified
 realistic) implementation with additional testing hooks. This results in less brittle tests that may
 exercise more production code quality, instead of just verifying specific calls against mocks.
 
->[!IMPORTANT]
+> [!IMPORTANT]
 
 > **Test naming convention**
-> 
->  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test function name:
-> 
+>
+>  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test
+> function name:
+>
 > `thingUnderTest` e.g moviesViewModel
-> 
+>
 > `TriggerOfTest` e.g OnEvent
-> 
+>
 > `ResultOfTest` e.g CorrectFilterIsSet
-> 
+>
 > Example: `moviesViewModel_OnEvent_CorrectFilterIsSet()`
 
 Generate Lint baseline
+
 ````bash
 ./gradlew lintDebug -Dlint.baselines.continue=true
 ``
@@ -243,6 +246,12 @@ We use Roborazzi to achieve this screenshot testing.
 - [Better Android Apps Using MVVM With Clean Architecturesl](https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture)
 - [Slack Circuit](https://slackhq.github.io/circuit)
 - [Build adaptive apps with Jetpack Compose](https://codelabs.developers.google.com/jetpack-compose-adaptability#0)
+- [Best Practices for Android UI Testing](https://dev.to/rchugunov/best-practices-of-ui-testing-for-android-5756)
+- [Automate UI tests](https://developer.android.com/training/testing/instrumented-tests/ui-tests)
+- [AndroidX Test + Robolectric](https://robolectric.org/androidx_test/)
+- [Espresso-Intents](https://developer.android.com/training/testing/espresso/intents)
+- [Androidx IntentsRule](https://developer.android.com/reference/androidx/test/espresso/intent/rule/IntentsRule)
+
 
 # License
 

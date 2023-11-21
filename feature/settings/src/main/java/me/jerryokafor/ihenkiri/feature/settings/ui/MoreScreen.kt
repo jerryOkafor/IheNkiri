@@ -52,7 +52,7 @@ fun MoreScreen() {
                 modifier = Modifier.testTag(MORE_TITLE_TEST_TAG),
                 title = {
                     Text(
-                        text = "More",
+                        text = "Settings",
                         style = IheNkiri.typography.titleMedium,
                         color = IheNkiri.color.onPrimary,
                     )

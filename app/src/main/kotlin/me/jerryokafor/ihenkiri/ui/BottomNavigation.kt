@@ -25,6 +25,8 @@
 package me.jerryokafor.ihenkiri.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -43,11 +45,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -91,20 +91,18 @@ fun BottomNavigation(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val density = LocalDensity.current
-
     AnimatedVisibility(
         visible = show,
-        enter = slideInVertically {
-            // Slide in from 40 dp from the top.
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
-            // Expand from the top.
-            expandFrom = Alignment.Top,
-        ) + fadeIn(
-            initialAlpha = 0.3f,
-        ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut(),
+        enter = slideInVertically() +
+            expandVertically(expandFrom = Alignment.Top) +
+            fadeIn(
+                initialAlpha = 0.3f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioHighBouncy,
+                    stiffness = Spring.StiffnessMedium,
+                ),
+            ),
+        exit = slideOutVertically() + shrinkVertically(shrinkTowards = Alignment.Bottom) + fadeOut(),
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
                 items.forEach { item ->
@@ -118,9 +116,7 @@ fun BottomNavigation(
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
-
                                     launchSingleTop = true
-
                                     restoreState = true
                                 },
                             )
@@ -187,6 +183,7 @@ private fun RowScope.AddItem(
     onClick: () -> Unit,
 ) {
     NavigationBarItem(
+        modifier = Modifier.testTag("${screen.title().lowercase().replace(" ", "_")}_nav"),
         label = { Text(text = screen.title()) },
         icon = {
             Icon(

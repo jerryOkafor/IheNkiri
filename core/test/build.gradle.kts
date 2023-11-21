@@ -69,11 +69,14 @@ dependencies {
     api(libs.io.mockk.android)
     api(libs.io.mockk.agent)
 
+    api(libs.androidx.test.uiautomator)
     api(libs.org.robolectric)
     api(libs.org.robolectric.shadows)
     api(libs.io.github.takahirom.roborazzi)
     api(libs.com.google.accompanist.testharness)
 
     api(libs.androidx.test.ext.junit)
+    api(libs.androidx.test.ext.truth)
     api(libs.androidx.test.espresso.core)
+    api(libs.androidx.test.espresso.intents)
 }

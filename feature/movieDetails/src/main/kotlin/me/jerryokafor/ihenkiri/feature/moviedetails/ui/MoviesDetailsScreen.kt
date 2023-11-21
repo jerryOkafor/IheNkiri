@@ -382,6 +382,7 @@ fun MoviesDetails(
                             .testTag(MOVIE_DETAILS_MAIN_CAST)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
+                        color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
                         text = stringResource(R.string.title_main_cast),
                     )
                     OneVerticalSpacer()
@@ -415,6 +416,7 @@ fun MoviesDetails(
                             .testTag(MOVIE_DETAILS_CREW)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
+                        color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
                         text = stringResource(R.string.title_crew),
                     )
                     OneVerticalSpacer()
@@ -448,6 +450,7 @@ fun MoviesDetails(
                             .testTag(MOVIE_DETAILS_CATEGORIES)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
+                        color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
                         text = stringResource(R.string.title_categories),
                     )
                     OneAndHalfVerticalSpacer()
@@ -469,6 +472,7 @@ fun MoviesDetails(
                             .testTag(MOVIE_DETAILS_RECOMMENDATIONS)
                             .padding(horizontal = IheNkiri.spacing.two),
                         style = IheNkiri.typography.titleMedium,
+                        color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
                         text = stringResource(R.string.title_recommendations),
                     )
                     OneVerticalSpacer()
@@ -508,13 +512,7 @@ fun MoviesDetails(
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.BottomCenter),
             visible = showBottomAppBar,
-            enter =
-            slideInVertically {
-                with(density) { -40.dp.roundToPx() }
-            } +
-                expandHorizontally(
-                    expandFrom = Alignment.End,
-                ),
+            enter = slideInVertically() + expandHorizontally(expandFrom = Alignment.End),
             exit = fadeOut(),
         ) {
             BottomAppBar(

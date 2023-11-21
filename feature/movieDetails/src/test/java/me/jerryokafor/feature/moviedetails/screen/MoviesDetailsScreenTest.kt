@@ -35,11 +35,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
-import androidx.test.core.app.ApplicationProvider
-import coil.Coil
 import me.jerryokafor.feature.moviedetails.viewmodel.TEST_ID
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
-import me.jerryokafor.ihenkiri.core.test.util.FakeImageLoader
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_BOTTOM_BAR
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_COL
@@ -91,8 +88,7 @@ class MoviesDetailsScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        ShadowLog.stream = System.out // Redirect Logcat to console
-        Coil.setImageLoader(FakeImageLoader(ApplicationProvider.getApplicationContext()))
+        ShadowLog.stream = System.out
     }
 
     @Test

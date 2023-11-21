@@ -139,6 +139,7 @@ object NetworkModule {
         @AuthOkHttpClient okHttpClient: OkHttpClient,
         gson: Gson,
     ): Retrofit =
-        Retrofit.Builder().baseUrl(BuildConfig.TMDB_BASE_URL).client(okHttpClient).addConverterFactory(GsonConverterFactory.create(gson))
+        Retrofit.Builder().baseUrl(BuildConfig.TMDB_BASE_URL)
+            .client(okHttpClient).addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 }

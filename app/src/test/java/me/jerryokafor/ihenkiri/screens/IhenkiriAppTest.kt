@@ -62,6 +62,7 @@ import org.robolectric.annotation.Config
     application = HiltTestApplication::class,
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
+    qualifiers = "xlarge",
 )
 @HiltAndroidTest
 class IhenkiriAppTest {
@@ -96,7 +97,7 @@ class IhenkiriAppTest {
                 )
             }
 
-            waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), 1)
+            waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), count = 1, timeoutMillis = 400)
 
             // Verify /movies
             onNode(isBottomNavItemWithText("Movies")).assertHasClickAction()
