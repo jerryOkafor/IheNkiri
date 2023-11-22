@@ -24,6 +24,7 @@
 
 package me.jerryokafor.ihenkiri.feature.auth.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -52,6 +53,11 @@ class AuthViewModelTest {
     private val localStorage = mockk<LocalStorage>()
     private val authApi = mockk<AuthApi>()
 
+    private val savedStateHandle = SavedStateHandle().apply {
+        this[AuthViewModel.KEY_REQUEST_TOKEN] =
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0"
+    }
+
     @Before
     fun setup() {
         coEvery { localStorage.saveUserSession(any(), any()) } returns Unit
@@ -62,7 +68,11 @@ class AuthViewModelTest {
         coEvery { authApi.createGuestSession() } returns createGuestTokenResponse()
         coEvery { authApi.deleteSession() } returns Unit
 
-        authViewModel = AuthViewModel(localStorage = localStorage, authApi = authApi)
+        authViewModel = AuthViewModel(
+            localStorage = localStorage,
+            authApi = authApi,
+            savedStateHandle = savedStateHandle,
+        )
     }
 
     @Test
@@ -105,8 +115,7 @@ class AuthViewModelTest {
         authViewModel.authState.test {
             assertThat(awaitItem()).isEqualTo(AuthState.Default)
 
-            val requestToken = createAccessTokenRequest().requestToken
-            authViewModel.createSessionId(requestToken)
+            authViewModel.createSessionId()
 
             assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
             assertThat(awaitItem()).isEqualTo(AuthState.Default)
@@ -130,8 +139,7 @@ class AuthViewModelTest {
         authViewModel.authState.test {
             assertThat(awaitItem()).isEqualTo(AuthState.Default)
 
-            val requestToken = createAccessTokenRequest().requestToken
-            authViewModel.createSessionId(requestToken)
+            authViewModel.createSessionId()
 
             assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
             (awaitItem() as AuthState.Error).let {

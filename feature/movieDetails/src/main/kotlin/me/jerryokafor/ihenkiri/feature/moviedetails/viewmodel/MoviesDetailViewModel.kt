@@ -24,31 +24,24 @@
 
 package me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import me.jerryokafor.core.common.outcome.onFailure
-import me.jerryokafor.core.common.outcome.onSuccess
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import me.jerryokafor.core.common.outcome.Failure
+import me.jerryokafor.core.common.outcome.Success
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
-import me.jerryokafor.core.model.Cast
-import me.jerryokafor.core.model.Crew
 import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.MovieCredit
+import me.jerryokafor.core.model.MovieDetails
 import me.jerryokafor.core.model.Video
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetailsArg
 import javax.inject.Inject
-
-private const val ONE_HOUR_IN_MINUTES = 60
-private const val MAX_MOVIE_RATING = 10.0
 
 @HiltViewModel
 class MoviesDetailViewModel
@@ -59,93 +52,83 @@ constructor(
 ) : ViewModel() {
     private val movieId = MovieDetailsArg(savedStateHandle).movieId
 
-    private val _uiState = MutableStateFlow(UIState())
-    val uiState: StateFlow<UIState> = _uiState.asStateFlow()
-
-    init {
-        loadDetails(movieId)
-    }
-
-    private fun loadDetails(movieId: Long) {
-        viewModelScope.launch {
-            _uiState.update { it.copy() }
-
-            val detailsJob =
-                async {
-                    movieDetailsRepository.movieDetails(movieId).onSuccess { movieDetails ->
-                        val hours = movieDetails.runtime / ONE_HOUR_IN_MINUTES
-                        val minutes = movieDetails.runtime.rem(ONE_HOUR_IN_MINUTES)
-                        val formattedRuntime =
-                            "${hours}${if (hours > 1) "hr(s)" else "hr"} ${minutes}m"
-                        _uiState.update {
-                            it.copy(
-                                title = movieDetails.title,
-                                overview = movieDetails.overview,
-                                categories = movieDetails.genres.map { genre -> genre.name },
-                                postPath = movieDetails.posterPath,
-                                releaseDate = movieDetails.releaseDate.formatDate(),
-                                runtime = formattedRuntime,
-                                rating = (movieDetails.voteAverage / MAX_MOVIE_RATING).toFloat(),
-                            )
-                        }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        Log.w("TestIng: ", "$throwable")
-                    }.collect()
-                }
-
-            val creditDetailsJob =
-                async {
-                    movieDetailsRepository.movieCredits(movieId).onSuccess { movieCredit ->
-                        _uiState.update { state ->
-                            state.copy(
-                                cast = movieCredit.cast.distinctBy { it.name },
-                                crew = movieCredit.crew.distinctBy { it.name },
-                            )
-                        }
-                    }.onFailure { _, _, e ->
-                        Log.w("TestIng: ", "$e")
-                    }.collect()
-                }
-
-            val similarMovies =
-                async {
-                    movieDetailsRepository.similarMovies(movieId).onSuccess { movies ->
-                        Log.d("TestIng: ", "Recommendations: $movies")
-                        _uiState.update { it.copy(recommendations = movies) }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        throwable?.printStackTrace()
-                        Log.w("TestIng: ", "$errorResponse")
-                    }.collect()
-                }
-
-            val videosJob =
-                async {
-                    movieDetailsRepository.movieVideos(movieId).onSuccess { videos ->
-                        _uiState.update { it.copy(videos = videos) }
-                    }.onFailure { errorResponse, errorCode, throwable ->
-                        Log.w("TestIng: ", "$throwable")
-                    }.collect()
-                }
-            awaitAll(detailsJob, creditDetailsJob, similarMovies, videosJob)
+    @Suppress("MagicNumber")
+    val movieDetailsUiState: StateFlow<MovieDetailsUiState> = movieId.flatMapLatest {
+        movieDetailsRepository.movieDetails(it)
+    }.map {
+        when (it) {
+            is Failure -> MovieDetailsUiState.LoadFailed(it.errorResponse)
+            is Success -> MovieDetailsUiState.Success(it.data)
         }
-    }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = MovieDetailsUiState.Loading,
+    )
 
-    data class UIState(
-        val loading: Boolean = false,
-        val title: String = "",
-        val overview: String = "",
-        val postPath: String = "",
-        val releaseDate: String = "",
-        val runtime: String = "",
-        val rating: Float = 0F,
-        val cast: List<Cast> = listOf(),
-        val crew: List<Crew> = listOf(),
-        val categories: List<String> = listOf(),
-        val recommendations: List<Movie> = listOf(),
-        val videos: List<Video> = listOf(),
+    @Suppress("MagicNumber")
+    val movieCreditUiState: StateFlow<MovieCreditUiState> = movieId.flatMapLatest {
+        movieDetailsRepository.movieCredits(it)
+    }.map {
+        when (it) {
+            is Failure -> MovieCreditUiState.LoadFailed(it.errorResponse)
+            is Success -> MovieCreditUiState.Success(it.data)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = MovieCreditUiState.Loading,
+    )
+
+    @Suppress("MagicNumber")
+    val similarMoviesUiState: StateFlow<SimilarMoviesUiState> = movieId.flatMapLatest {
+        movieDetailsRepository.similarMovies(it)
+    }.map {
+        when (it) {
+            is Failure -> SimilarMoviesUiState.LoadFailed(it.errorResponse)
+            is Success -> SimilarMoviesUiState.Success(it.data)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = SimilarMoviesUiState.Loading,
+    )
+
+    @Suppress("MagicNumber")
+    val moviesVideoUiState: StateFlow<MoviesVideoUiState> = movieId.flatMapLatest {
+        movieDetailsRepository.movieVideos(it)
+    }.map {
+        when (it) {
+            is Failure -> MoviesVideoUiState.LoadFailed(it.errorResponse)
+            is Success -> MoviesVideoUiState.Success(it.data)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = MoviesVideoUiState.Loading,
     )
 }
 
-private fun String.formatDate(): String {
-    return this.replace("-", "/")
+sealed interface MoviesVideoUiState {
+    data object Loading : MoviesVideoUiState
+    data class Success(val videos: List<Video>) : MoviesVideoUiState
+    data class LoadFailed(val message: String) : MoviesVideoUiState
+}
+
+sealed interface SimilarMoviesUiState {
+    data object Loading : SimilarMoviesUiState
+    data class Success(val movies: List<Movie>) : SimilarMoviesUiState
+    data class LoadFailed(val message: String) : SimilarMoviesUiState
+}
+
+sealed interface MovieCreditUiState {
+    data object Loading : MovieCreditUiState
+    data class Success(val movieCredit: MovieCredit) : MovieCreditUiState
+    data class LoadFailed(val message: String) : MovieCreditUiState
+}
+
+sealed interface MovieDetailsUiState {
+    data object Loading : MovieDetailsUiState
+    data class Success(val movieDetails: MovieDetails) : MovieDetailsUiState
+    data class LoadFailed(val message: String) : MovieDetailsUiState
 }

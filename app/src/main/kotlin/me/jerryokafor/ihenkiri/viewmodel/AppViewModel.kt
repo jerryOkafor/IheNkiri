@@ -39,6 +39,7 @@ import javax.inject.Inject
 class AppViewModel
 @Inject
 constructor(localStorage: LocalStorage) : ViewModel() {
+    @Suppress("MagicNumber")
     val uiState: StateFlow<AppUiState> = localStorage.isLoggedIn()
         .map { isLoggedIn ->
             Log.d("Testing: ", "isLoggedIn: $isLoggedIn")

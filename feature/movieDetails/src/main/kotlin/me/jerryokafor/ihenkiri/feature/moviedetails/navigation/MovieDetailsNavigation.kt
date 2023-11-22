@@ -57,6 +57,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import kotlinx.coroutines.flow.StateFlow
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetails
 
 @VisibleForTesting
@@ -66,9 +67,9 @@ internal const val movieIdArg = "movieId"
 @Suppress("ktlint:standard:property-naming")
 const val movieDetailsRoutePattern = "movie/{$movieIdArg}"
 
-internal class MovieDetailsArg(val movieId: Long) {
+internal class MovieDetailsArg(val movieId: StateFlow<Long>) {
     constructor(savedStateHandle: SavedStateHandle) : this(
-        movieId = checkNotNull(savedStateHandle[movieIdArg]),
+        movieId = checkNotNull(savedStateHandle.getStateFlow(movieIdArg, 0L)),
     )
 }
 

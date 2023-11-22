@@ -58,7 +58,6 @@ import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.injection.LocalStorageModule
 import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
-import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.hamcrest.Matchers.not
@@ -126,12 +125,10 @@ class MainActivityTest {
                 onNodeWithText("Sign In").assertExists().assertIsDisplayed().performClick()
             }
         }
-        val fakeRequest = createRequestTokenSuccessResponse()
-        val requestToken = fakeRequest.requestToken
-        val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
-        val url =
-            "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
-
+//        val fakeRequest = createRequestTokenSuccessResponse()
+//        val requestToken = fakeRequest.requestToken
+//        val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
+//        val url = "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
         // verify that the correct intent was sent
 //        intended(allOf(hasAction(Intent.ACTION_VIEW), hasData(url)))
 

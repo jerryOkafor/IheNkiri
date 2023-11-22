@@ -35,7 +35,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
-import me.jerryokafor.feature.moviedetails.viewmodel.TEST_ID
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_BOTTOM_BAR
@@ -43,20 +43,23 @@ import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_COL
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_MAIN_CAST
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_OVERVIEW
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetails
-import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MoviesDetailViewModel
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MovieCreditUiState
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MovieDetailsUiState
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MoviesVideoUiState
+import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.SimilarMoviesUiState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.test.assertEquals
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 @Config(
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
+    qualifiers = "xlarge",
 )
 class MoviesDetailsScreenTest {
     @get:Rule
@@ -69,22 +72,6 @@ class MoviesDetailsScreenTest {
     private var onNavigateUp = 0
     private var onWatchTrailerClick = 0
 
-    private val testUIState =
-        MoviesDetailViewModel.UIState(
-            loading = false,
-            title = "Fight Club",
-            overview = "A ticking-time-bomb insomniac and a slippery",
-            postPath = "",
-            releaseDate = "1999/10/15",
-            runtime = "1hr 50m",
-            rating = 0.85F,
-            cast = MovieDetailsTestData.testMovieCredit(TEST_ID).cast,
-            crew = MovieDetailsTestData.testMovieCredit(TEST_ID).crew,
-            categories = listOf("Action", "Drama", "Adventure", "Animation"),
-            recommendations = listOf(),
-            videos = listOf(),
-        )
-
     @Before
     @Throws(Exception::class)
     fun setUp() {
@@ -96,7 +83,12 @@ class MoviesDetailsScreenTest {
         with(composeTestRule) {
             setContent {
                 MoviesDetails(
-                    uiState = testUIState,
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
                     onAddToWatchListClick = { onAddToWatchListClick++ },
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },

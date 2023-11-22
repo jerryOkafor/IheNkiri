@@ -252,6 +252,8 @@ We use Roborazzi to achieve this screenshot testing.
 - [Espresso-Intents](https://developer.android.com/training/testing/espresso/intents)
 - [Androidx IntentsRule](https://developer.android.com/reference/androidx/test/espresso/intent/rule/IntentsRule)
 - [Testing Kotlin flows on Android](https://developer.android.com/kotlin/flow/test)
+- [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
+- [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
 
 
 # License

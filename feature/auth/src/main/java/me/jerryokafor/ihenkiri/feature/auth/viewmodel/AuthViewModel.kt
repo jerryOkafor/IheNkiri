@@ -24,6 +24,7 @@
 
 package me.jerryokafor.ihenkiri.feature.auth.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,7 +46,12 @@ class AuthViewModel
 constructor(
     private val localStorage: LocalStorage,
     private val authApi: AuthApi,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+    companion object {
+        const val KEY_REQUEST_TOKEN = "request_token"
+    }
+
     private val _authState = MutableStateFlow<AuthState>(AuthState.Default)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
@@ -57,7 +63,10 @@ constructor(
                 val request = authApi.createRequestToken(
                     CreateRequestTokenRequest(redirectTo = Constants.AUTH_REDIRECT_URL),
                 )
-                _authState.update { AuthState.RequestTokenCreated(request.requestToken) }
+
+                val requestToken = request.requestToken
+                savedStateHandle[KEY_REQUEST_TOKEN] = requestToken
+                _authState.update { AuthState.RequestTokenCreated(requestToken) }
             } catch (e: Exception) {
                 val error = "Error : ${e.message}, please try again"
                 _authState.update { AuthState.Error(error) }
@@ -66,7 +75,8 @@ constructor(
         }
     }
 
-    fun createSessionId(requestToken: String?) {
+    fun createSessionId() {
+        val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)
         viewModelScope.launch {
             requestToken?.let { token ->
                 try {

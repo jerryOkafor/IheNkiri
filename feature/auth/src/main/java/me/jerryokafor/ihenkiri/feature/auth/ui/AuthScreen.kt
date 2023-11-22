@@ -43,8 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -106,7 +104,6 @@ fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
         onContinueAsGuestClick = onContinueAsGuestClick,
     )
 
-    var requestToken by rememberSaveable { mutableStateOf<String?>("") }
     val context = LocalContext.current
     val activity = (context.getActivity() as ComponentActivity)
 
@@ -115,7 +112,7 @@ fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
             val data: Uri? = it?.data
             if (data != null && data.path == "/auth") {
                 // create session id here
-                authViewModel.createSessionId(requestToken)
+                authViewModel.createSessionId()
             }
         }
         activity.addOnNewIntentListener(listener)
@@ -131,7 +128,6 @@ fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
         when (authState) {
             is AuthState.RequestTokenCreated -> {
                 val token = (authState as AuthState.RequestTokenCreated).requestToken
-                requestToken = token
                 val uri = Uri.parse(Constants.TMDB_BASE_AUTH_URL).buildUpon()
                     .appendQueryParameter("request_token", token)
                     .appendQueryParameter("redirect_to", Constants.AUTH_REDIRECT_URL)

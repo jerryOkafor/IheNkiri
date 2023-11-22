@@ -91,11 +91,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun checkForRedirectionsOnColdBoot(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
+//    private fun checkForRedirectionsOnColdBoot(savedInstanceState: Bundle?) {
+//        if (savedInstanceState == null) {
 //            navigator.onListenForRedirections(intent)
-        }
-    }
+//        }
+//    }
 }
 
 /**

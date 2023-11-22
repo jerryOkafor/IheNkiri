@@ -85,7 +85,7 @@ object MovieDetailsTestData {
         testNetworkMovieDetails(movieId = movieId).asDomainObject()
 
     fun testNetworkMovieCredit(movieId: Long): NetworkMovieCredit = NetworkMovieCredit(
-        id = 7296,
+        id = movieId.toInt(),
         cast = listOf(
             NetworkCast(
                 adult = false,
@@ -150,9 +150,8 @@ object MovieDetailsTestData {
     fun testMovieCredit(movieId: Long): MovieCredit =
         testNetworkMovieCredit(movieId).asDomainObject()
 
-    @Suppress("UnusedPrivateMember")
     fun testNetworkMovieVideos(movieId: Long): NetworkVideos = NetworkVideos(
-        id = 550,
+        id = movieId.toInt(),
         results = listOf(
             NetworkVideo(
                 id = "639d5326be6d88007f170f44",
