@@ -24,35 +24,32 @@
 
 package me.jerryokafor.ihenkiri.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.VisibleForTesting
-import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.viewmodel.AppUiState
 import me.jerryokafor.ihenkiri.viewmodel.AppViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    companion object {
-        const val TAG = "MainActivity"
-        const val REDIRECT_URL = "https://ihenkiri.jerryokafor.me/auth"
-    }
-
     @Inject
     lateinit var authApi: AuthApi
 
@@ -61,65 +58,60 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        splashScreen.setKeepOnScreenCondition { appViewModel.isLoading.value }
+        var uiState: AppUiState by mutableStateOf(AppUiState.Loading)
+
+        // Update the uiState
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appViewModel.uiState.onEach { uiState = it }.collect()
+            }
+        }
+
+        splashScreen.setKeepOnScreenCondition {
+            when (uiState) {
+                AppUiState.Loading -> true
+                is AppUiState.Success -> false
+            }
+        }
 
         // Turn off the decor fitting system windows, which allows us to handle insets,
         // including IME animations
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val uiState by appViewModel.uiState.collectAsStateWithLifecycle()
-            val startDestination by appViewModel.startDestination
-
-            val onContinueAsGuestClick: () -> Unit = {
-                appViewModel.updateLoginState(true)
-            }
+            val isDarkTheme = shouldUseDarkTheme(uiState = uiState)
+            val isLoggedIn = rememberUserSession(uiState = uiState)
 
             IheNkiriTheme(
-                isDarkTheme = uiState.isDarkTheme,
-                isDynamicColor = uiState.isDynamicColor,
+                isDarkTheme = isDarkTheme,
+                isDynamicColor = false,
             ) {
-                IhenkiriApp(
-                    onContinueAsGuestClick = onContinueAsGuestClick,
-                    startDestination = startDestination,
-                    onSignInClick = ::onSignInClick,
-                )
+                IhenkiriApp(isLoggedIn = isLoggedIn)
             }
         }
     }
 
-    @VisibleForTesting
-    private fun onSignInClick() {
-        lifecycleScope.launch {
-            try {
-                val request = authApi.createRequestToken(
-                    CreateRequestTokenRequest(redirectTo = REDIRECT_URL),
-                )
-                Log.d("MainActivity", "Result: $request")
-                val requestToken = request.requestToken
-
-                val url =
-                    "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$REDIRECT_URL"
-                val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
-                intent.launchUrl(this@MainActivity, Uri.parse(url))
-
-                // after approval, you can then use the request token to
-                // get an access token and save for future use
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error: ${e.localizedMessage}")
-            }
+    private fun checkForRedirectionsOnColdBoot(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+//            navigator.onListenForRedirections(intent)
         }
     }
+}
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        val action: String? = intent?.action
-        val data: Uri? = intent?.data
-        Log.d(TAG, "onNewIntent() ${data?.path}")
-        Log.d(TAG, "onNewIntent() ${data?.queryParameterNames}")
+/**
+ * Returns `true` if dark theme should be used, as a function of the [uiState] and the
+ * current system context.
+ */
+@Composable
+private fun shouldUseDarkTheme(
+    uiState: AppUiState,
+): Boolean = when (uiState) {
+    AppUiState.Loading -> isSystemInDarkTheme()
+    else -> isSystemInDarkTheme()
+}
 
-        if (data != null && data.path == REDIRECT_URL) {
-            // create session id here
-        }
-    }
+@Composable
+private fun rememberUserSession(uiState: AppUiState): Boolean = when (uiState) {
+    AppUiState.Loading -> false
+    is AppUiState.Success -> uiState.userPreference.isLoggedIn
 }

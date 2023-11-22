@@ -106,7 +106,7 @@ fun BottomNavigation(
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
                 items.forEach { item ->
-                    AddItem(
+                    addNavBarItem(
                         screen = item,
                         selected = currentRoute == item.route,
                         onClick = {
@@ -177,7 +177,7 @@ sealed interface BottomNavItem {
 }
 
 @Composable
-private fun RowScope.AddItem(
+private fun RowScope.addNavBarItem(
     screen: BottomNavItem,
     selected: Boolean,
     onClick: () -> Unit,

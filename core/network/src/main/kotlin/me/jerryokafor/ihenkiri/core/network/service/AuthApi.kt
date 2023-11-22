@@ -28,8 +28,11 @@ import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -58,4 +61,26 @@ interface AuthApi {
     suspend fun createAccessToken(
         @Body requestBody: CreateAccessTokenRequest,
     ): CreateAccessTokenResponse
+
+    /**
+     * Log out of a session.
+     *
+     * @return
+     */
+    @DELETE("${Config.TMDB_API_V4}/auth/access_token")
+    suspend fun deleteSession()
+
+    /**
+     * Creates a session for a guest user
+     * Guest sessions are a special kind of session that give you some of the functionality
+     * of an account, but not all. For example, some of the things you can do with a
+     * guest session are; maintain a rated list, a watchlist and a favourite list.
+     *
+     * Guest sessions will automatically be deleted if they are not used
+     * within 60 minutes of it being issued.
+     *
+     * @return
+     */
+    @GET("${Config.TMDB_API_V3}/authentication/guest_session/new")
+    suspend fun createGuestSession(): CreateGuestTokenResponse
 }

@@ -24,16 +24,17 @@
 
 package me.jerryokafor.ihenkiri.feature.auth.navigation
 
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import android.util.Log
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.auth.ui.LandingScreen
+import me.jerryokafor.ihenkiri.feature.auth.ui.AuthScreen
 
 const val LANDING_SCREEN_TEST_TAG = "landingScreen"
 
@@ -43,10 +44,20 @@ const val authNavGraph = "auth-graph"
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val loginRoutePattern = "welcome"
 
-fun NavGraphBuilder.authNavGraph(
-    onContinueAsGuestClick: () -> Unit,
-    onSignInClick: () -> Unit,
-) {
+fun NavController.navigateToAuth() {
+    Log.d("testing: ", "Current route: ${currentDestination?.route}")
+    if (currentDestination?.route == loginRoutePattern) return
+
+    this.navigate(
+        route = authNavGraph,
+        navOptions = navOptions {
+            launchSingleTop = true
+            popUpTo(graph.id) { inclusive = true }
+        },
+    )
+}
+
+fun NavGraphBuilder.authNavGraph() {
     navigation(
         route = authNavGraph,
         startDestination = loginRoutePattern,
@@ -58,11 +69,7 @@ fun NavGraphBuilder.authNavGraph(
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            LandingScreen(
-                modifier = Modifier.testTag(LANDING_SCREEN_TEST_TAG),
-                onContinueAsGuestClick = onContinueAsGuestClick,
-                onSignInClick = onSignInClick,
-            )
+            AuthScreen()
         }
     }
 }

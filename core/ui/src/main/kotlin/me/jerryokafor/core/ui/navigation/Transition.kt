@@ -30,7 +30,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavBackStackEntry
 
-private const val TWEEN_ANIM_DURATION = 300
+private const val TWEEN_ANIM_DURATION = 200
 
 // @ExcludeFromGeneratedCoverageReport
 val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =

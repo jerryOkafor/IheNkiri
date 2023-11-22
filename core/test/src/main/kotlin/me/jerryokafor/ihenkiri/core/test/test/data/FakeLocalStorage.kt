@@ -22,36 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.viewmodel
+package me.jerryokafor.ihenkiri.core.test.test.data
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.repository.LocalStorage
 import javax.inject.Inject
 
-@HiltViewModel
-class AppViewModel
-@Inject
-constructor(localStorage: LocalStorage) : ViewModel() {
-    val uiState: StateFlow<AppUiState> = localStorage.isLoggedIn()
-        .map { isLoggedIn ->
-            Log.d("Testing: ", "isLoggedIn: $isLoggedIn")
-            AppUiState.Success(UserPreference(isLoggedIn = isLoggedIn))
-        }.stateIn(
-            scope = viewModelScope,
-            initialValue = AppUiState.Loading,
-            started = SharingStarted.WhileSubscribed(5_000),
-        )
-}
+class FakeLocalStorage @Inject constructor() : LocalStorage {
+    override fun isLoggedIn(): Flow<Boolean> = flowOf(true)
 
-data class UserPreference(
-    val isLoggedIn: Boolean = false,
-    val isDarkTheme: Boolean = true,
-    val isDynamicColor: Boolean = false,
-)
+    override suspend fun saveUserSession(accountId: String, accessToken: String) = Unit
+
+    override suspend fun saveGuestSession(guestSessionId: String) = Unit
+}

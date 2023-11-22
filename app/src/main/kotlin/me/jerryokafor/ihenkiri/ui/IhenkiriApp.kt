@@ -45,10 +45,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
+import me.jerryokafor.feature.movies.navigation.navigateToMoviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
+import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
@@ -60,10 +61,8 @@ const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
 fun IhenkiriApp(
+    isLoggedIn: Boolean = false,
     navController: NavHostController = rememberNavController(),
-    startDestination: String,
-    onContinueAsGuestClick: () -> Unit,
-    onSignInClick: () -> Unit,
 ) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -106,14 +105,21 @@ fun IhenkiriApp(
                 NavHost(
                     modifier = Modifier,
                     navController = navController,
-                    startDestination = startDestination,
+                    startDestination = authNavGraph,
                 ) {
-                    authNavGraph(onContinueAsGuestClick, onSignInClick)
+                    authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
                     tvShowsScreen()
                     movieDetailsScreen(onNavigateUp = onNavigateUp)
                     peopleScreen()
                     settingsScreen()
+                }
+
+                LaunchedEffect(isLoggedIn) {
+                    when (isLoggedIn) {
+                        true -> navController.navigateToMoviesScreen()
+                        false -> navController.navigateToAuth()
+                    }
                 }
             }
         },
@@ -123,23 +129,8 @@ fun IhenkiriApp(
         when (navBackStackEntry?.destination?.route) {
             movieDetailsRoutePattern, loginRoutePattern ->
                 bottomBarState.value = false
+
             else -> bottomBarState.value = true
         }
     }
-
-//    LaunchedEffect(key1 = startDestination) {
-//        navController.navigate(
-//            route = startDestination,
-//            navOptions = navOptions {
-//                navController.currentDestination?.route?.let {
-//                    popUpTo(it) { inclusive = true }
-//                }
-//            },
-//        )
-//    }
-}
-
-data object GraphRoute {
-    const val HOME = moviesRoutePattern
-    const val AUTH = authNavGraph
 }

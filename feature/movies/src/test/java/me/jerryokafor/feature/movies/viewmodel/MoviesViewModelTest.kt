@@ -32,8 +32,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.model.Movie
@@ -49,8 +48,6 @@ class MoviesViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val testDispatcher = UnconfinedTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
     private lateinit var moviesViewModel: MoviesViewModel
 
     private val movieListRepository = mockk<MovieListRepository> {
@@ -64,12 +61,12 @@ class MoviesViewModelTest {
     fun setUp() {
         moviesViewModel = MoviesViewModel(
             movieListRepository = movieListRepository,
-            dispatcher = testDispatcher,
+            dispatcher = StandardTestDispatcher(),
         )
     }
 
     @Test
-    fun moviesViewModel_init_defaultAvailableFiltersSet() = testScope.runTest {
+    fun moviesViewModel_init_defaultAvailableFiltersSet() = runTest {
         moviesViewModel.uiState.test {
             with(awaitItem()) {
                 assertThat(availableFilters).isNotEmpty()
@@ -146,7 +143,7 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun moviesViewModel_NowPlayingFilterSelected_ShowNowPlayingMovies() = testScope.runTest {
+    fun moviesViewModel_NowPlayingFilterSelected_ShowNowPlayingMovies() = runTest {
         moviesViewModel.onEvent(OnFilterSelected(FilterType.NOW_PLAYING))
         val items: Flow<PagingData<Movie>> = moviesViewModel.movies
         val itemsSnapshot: List<Movie> = items.asSnapshot {
@@ -161,7 +158,7 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun moviesViewModel_PopularFilterSelected_ShowPopularMovies() = testScope.runTest {
+    fun moviesViewModel_PopularFilterSelected_ShowPopularMovies() = runTest {
         moviesViewModel.onEvent(OnFilterSelected(FilterType.POPULAR))
         val items: Flow<PagingData<Movie>> = moviesViewModel.movies
         val itemsSnapshot: List<Movie> = items.asSnapshot {
@@ -176,7 +173,7 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun moviesViewModel_TopRatedFilterSelected_ShowTopRatedMovies() = testScope.runTest {
+    fun moviesViewModel_TopRatedFilterSelected_ShowTopRatedMovies() = runTest {
         moviesViewModel.onEvent(OnFilterSelected(FilterType.TOP_RATED))
         val items: Flow<PagingData<Movie>> = moviesViewModel.movies
         val itemsSnapshot: List<Movie> = items.asSnapshot {
@@ -191,7 +188,7 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun moviesViewModel_UpcomingFilterSelected_ShowUpcomingMovies() = testScope.runTest {
+    fun moviesViewModel_UpcomingFilterSelected_ShowUpcomingMovies() = runTest {
         moviesViewModel.onEvent(OnFilterSelected(FilterType.UPCOMING))
         val items: Flow<PagingData<Movie>> = moviesViewModel.movies
         val itemsSnapshot: List<Movie> = items.asSnapshot {
@@ -206,7 +203,7 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun moviesViewModel_DiscoverFilterSelected_ShowDiscoverMovies() = testScope.runTest {
+    fun moviesViewModel_DiscoverFilterSelected_ShowDiscoverMovies() = runTest {
         moviesViewModel.onEvent(OnFilterSelected(FilterType.DISCOVER))
         val items: Flow<PagingData<Movie>> = moviesViewModel.movies
         val itemsSnapshot: List<Movie> = items.asSnapshot {

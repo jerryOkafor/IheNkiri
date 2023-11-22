@@ -40,13 +40,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.GraphRoute
 import me.jerryokafor.ihenkiri.ui.IhenkiriApp
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
@@ -54,10 +54,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 @Config(
     application = HiltTestApplication::class,
     sdk = [Build.VERSION_CODES.O],
@@ -72,8 +71,6 @@ class IhenkiriAppTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    private var onContinueAsGuestClick = 0
-    private var onSignInClick = 0
     private lateinit var navController: TestNavHostController
 
     @Before
@@ -86,15 +83,10 @@ class IhenkiriAppTest {
     fun bottomNavbar_verifyNavMenus() {
         with(composeTestRule) {
             setContent {
-                navController = TestNavHostController(LocalContext.current)
-                navController.navigatorProvider.addNavigator(ComposeNavigator())
-
-                IhenkiriApp(
-                    navController = navController,
-                    startDestination = GraphRoute.HOME,
-                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
-                    onSignInClick = { onSignInClick++ },
-                )
+                navController = TestNavHostController(LocalContext.current).apply {
+                    navigatorProvider.addNavigator(ComposeNavigator())
+                }
+                IhenkiriApp(isLoggedIn = true, navController = navController)
             }
 
             waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), count = 1, timeoutMillis = 400)
@@ -140,12 +132,7 @@ class IhenkiriAppTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                IhenkiriApp(
-                    navController = navController,
-                    startDestination = GraphRoute.AUTH,
-                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
-                    onSignInClick = { onSignInClick++ },
-                )
+                IhenkiriApp(isLoggedIn = false, navController = navController)
             }
 
             onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertExists()
@@ -161,12 +148,7 @@ class IhenkiriAppTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                IhenkiriApp(
-                    navController = navController,
-                    startDestination = GraphRoute.HOME,
-                    onContinueAsGuestClick = { onContinueAsGuestClick++ },
-                    onSignInClick = { onSignInClick++ },
-                )
+                IhenkiriApp(isLoggedIn = true, navController = navController)
             }
 
             onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()

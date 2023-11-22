@@ -81,13 +81,12 @@ object MovieDetailsTestData {
         voteCount = 26280,
     )
 
-    fun testMovieDetails(movieId: Long): MovieDetails = testNetworkMovieDetails(movieId = movieId).asDomainObject()
+    fun testMovieDetails(movieId: Long): MovieDetails =
+        testNetworkMovieDetails(movieId = movieId).asDomainObject()
 
-    @Suppress("UnusedPrivateMember")
     fun testNetworkMovieCredit(movieId: Long): NetworkMovieCredit = NetworkMovieCredit(
         id = 7296,
-        cast =
-        listOf(
+        cast = listOf(
             NetworkCast(
                 adult = false,
                 castId = 4,
@@ -148,13 +147,13 @@ object MovieDetailsTestData {
         ),
     )
 
-    fun testMovieCredit(movieId: Long): MovieCredit = testNetworkMovieCredit(movieId).asDomainObject()
+    fun testMovieCredit(movieId: Long): MovieCredit =
+        testNetworkMovieCredit(movieId).asDomainObject()
 
     @Suppress("UnusedPrivateMember")
     fun testNetworkMovieVideos(movieId: Long): NetworkVideos = NetworkVideos(
         id = 550,
-        results =
-        listOf(
+        results = listOf(
             NetworkVideo(
                 id = "639d5326be6d88007f170f44",
                 iso31661 = "en",
@@ -182,5 +181,6 @@ object MovieDetailsTestData {
         ),
     )
 
-    fun testMovieVideos(movieId: Long): List<Video> = testNetworkMovieVideos(movieId).results.map { it.asDomainObject() }
+    fun testMovieVideos(movieId: Long): List<Video> =
+        testNetworkMovieVideos(movieId).results.map { it.asDomainObject() }
 }

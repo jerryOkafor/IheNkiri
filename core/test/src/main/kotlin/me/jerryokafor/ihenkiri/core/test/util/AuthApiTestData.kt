@@ -27,6 +27,7 @@ package me.jerryokafor.ihenkiri.core.test.util
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 
 fun createRequestToken() = CreateRequestTokenRequest("https://ihenkiri.jerryokafor.me/auth")
@@ -48,4 +49,10 @@ fun createAccessTokenSuccessResponse() = CreateAccessTokenResponse(
     statusMessage = "Success.",
     statusCode = 1,
     success = true,
+)
+
+fun createGuestTokenResponse() = CreateGuestTokenResponse(
+    guestSessionId = "e25304417c5c67f66b7838517257a3e9",
+    success = true,
+    expiresAt = "2023-11-22 21:06:30 UT",
 )

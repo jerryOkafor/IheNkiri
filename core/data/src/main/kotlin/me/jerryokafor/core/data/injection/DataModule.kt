@@ -28,9 +28,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import me.jerryokafor.core.data.repository.DefaultLocalStorage
 import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
 import me.jerryokafor.core.data.repository.DefaultMovieListRepository
 import me.jerryokafor.core.data.repository.DefaultPeopleListRepository
+import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.PeopleListRepository
@@ -46,4 +48,11 @@ interface DataModule {
 
     @Binds
     fun providePeopleListRepository(peopleListRepository: DefaultPeopleListRepository): PeopleListRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface LocalStorageModule {
+    @Binds
+    fun provideLocalStorage(storage: DefaultLocalStorage): LocalStorage
 }

@@ -22,36 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.viewmodel
+package me.jerryokafor.core.common.util
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import me.jerryokafor.core.data.repository.LocalStorage
-import javax.inject.Inject
-
-@HiltViewModel
-class AppViewModel
-@Inject
-constructor(localStorage: LocalStorage) : ViewModel() {
-    val uiState: StateFlow<AppUiState> = localStorage.isLoggedIn()
-        .map { isLoggedIn ->
-            Log.d("Testing: ", "isLoggedIn: $isLoggedIn")
-            AppUiState.Success(UserPreference(isLoggedIn = isLoggedIn))
-        }.stateIn(
-            scope = viewModelScope,
-            initialValue = AppUiState.Loading,
-            started = SharingStarted.WhileSubscribed(5_000),
-        )
+object Constants {
+    const val AUTH_REDIRECT_URL = "https://ihenkiri.jerryokafor.me/auth"
+    const val TMDB_BASE_AUTH_URL = "https://www.themoviedb.org/auth/access"
 }
-
-data class UserPreference(
-    val isLoggedIn: Boolean = false,
-    val isDarkTheme: Boolean = true,
-    val isDynamicColor: Boolean = false,
-)
