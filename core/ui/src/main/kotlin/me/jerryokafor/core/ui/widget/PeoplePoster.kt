@@ -161,6 +161,8 @@ fun PeoplePoster(
             text = "$firstName \n$lastName",
             style = IheNkiri.typography.labelMedium,
             color = textColor,
+            minLines = 2,
+            maxLines = 2,
             textAlign = TextAlign.Center,
         )
     }

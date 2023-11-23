@@ -58,7 +58,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import kotlinx.coroutines.flow.StateFlow
-import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetails
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetailsScreen
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")
@@ -85,6 +85,6 @@ fun NavGraphBuilder.movieDetailsScreen(onNavigateUp: () -> Unit) {
         route = movieDetailsRoutePattern,
         arguments = listOf(navArgument(movieIdArg) { type = NavType.LongType }),
     ) {
-        MoviesDetails(onBackPress = onNavigateUp)
+        MoviesDetailsScreen(onBackPress = onNavigateUp)
     }
 }

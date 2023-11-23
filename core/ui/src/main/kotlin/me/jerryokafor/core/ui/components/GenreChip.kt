@@ -35,6 +35,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
@@ -47,12 +48,14 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 fun GenreChipPreview() {
     IheNkiriTheme {
         Box(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .size(100.dp)
                 .background(IheNkiri.color.surface),
         ) {
-            GenreChip(modifier = Modifier.align(Alignment.Center), text = "Drama")
+            GenreChip(
+                modifier = Modifier.align(Alignment.Center),
+                text = "Drama",
+            )
         }
     }
 }
@@ -63,13 +66,14 @@ fun GenreChip(
     text: String,
 ) {
     Surface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier
+            .wrapContentSize()
+            .semantics(mergeDescendants = true) { },
         shape = IheNkiri.shape.pill,
         color = IheNkiri.color.tertiaryContainer,
         content = {
             Text(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .padding(
                         vertical = IheNkiri.spacing.half,
                         horizontal = IheNkiri.spacing.oneAndHalf,

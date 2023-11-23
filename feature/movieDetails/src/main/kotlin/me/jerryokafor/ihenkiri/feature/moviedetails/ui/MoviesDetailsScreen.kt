@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+@file:Suppress("TooManyFunctions")
 
 package me.jerryokafor.ihenkiri.feature.moviedetails.ui
 
@@ -62,6 +63,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -73,15 +75,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -144,7 +147,7 @@ const val MOVIE_DETAILS_BOTTOM_BAR = "movies_details_bottom_bar"
 fun MoviesDetailsPreview() {
     val testMovieCredit = testNetworkMovieCredit(0L).asDomainObject()
     IheNkiriTheme {
-        MoviesDetails(
+        MoviesDetailsScreen(
             movieDetailsUiState = MovieDetailsUiState.Success(
                 movieDetails = testNetworkMovieDetails(0L).asDomainObject(),
             ),
@@ -162,7 +165,7 @@ private const val MAX_MOVIE_RATING = 10.0
 @Composable
 @Suppress("UnusedPrivateMember")
 @ExcludeFromGeneratedCoverageReport
-fun MoviesDetails(
+fun MoviesDetailsScreen(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
     onBackPress: () -> Unit,
 ) {
@@ -178,7 +181,7 @@ fun MoviesDetails(
     val onWatchTrailerClick: (List<Video>) -> Unit = {
     }
 
-    MoviesDetails(
+    MoviesDetailsScreen(
         movieDetailsUiState = movieDetailsUiState,
         movieCreditUiState = movieCreditUiState,
         similarMoviesUiState = similarMoviesUiState,
@@ -194,7 +197,7 @@ fun MoviesDetails(
 
 @Composable
 @Suppress("UnusedPrivateMember", "CyclomaticComplexMethod")
-fun MoviesDetails(
+fun MoviesDetailsScreen(
     movieDetailsUiState: MovieDetailsUiState,
     movieCreditUiState: MovieCreditUiState,
     similarMoviesUiState: SimilarMoviesUiState,
@@ -204,7 +207,7 @@ fun MoviesDetails(
     onAddToFavorite: () -> Unit = {},
     onRateItClick: () -> Unit = {},
     onWatchTrailerClick: (List<Video>) -> Unit = {},
-    onNavigateUp: () -> Unit,
+    onNavigateUp: () -> Unit = {},
 ) {
     var showBottomAppBar by remember { mutableStateOf(false) }
     val primaryTextColor = contentColorFor(IheNkiri.color.inverseOnSurface)
@@ -381,7 +384,6 @@ fun MoviesDetails(
                             .matchParentSize()
                             .background(Brush.verticalGradient(colorStops2))
                             .testTag(MOVIE_DETAILS_COL),
-                        //                    .background(IheNkiri.color.inverseOnSurface),
                     ) {
                         // Overview
                         item {
@@ -434,13 +436,29 @@ fun MoviesDetails(
                             OneVerticalSpacer()
                             LazyRow(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                                horizontalArrangement = if (movieCreditUiState is MovieCreditUiState.Success) {
+                                    Arrangement.spacedBy(IheNkiri.spacing.one)
+                                } else {
+                                    Arrangement.Center
+                                },
                             ) {
                                 when (movieCreditUiState) {
-                                    is MovieCreditUiState.LoadFailed -> {}
-                                    MovieCreditUiState.Loading -> {}
+                                    is MovieCreditUiState.LoadFailed -> {
+                                        item {
+                                            MovieDetailsLoadFailed(
+                                                message = "Error, please try again!",
+                                                onClick = {},
+                                            )
+                                        }
+                                    }
+
+                                    MovieCreditUiState.Loading -> {
+                                        item { MovieDetailsItemLoading() }
+                                    }
+
                                     is MovieCreditUiState.Success -> {
                                         items(movieCreditUiState.movieCredit.cast.distinctBy { it.name }) {
                                             val (firstName, lastName) = it.name.split(" ")
@@ -474,13 +492,29 @@ fun MoviesDetails(
                             OneVerticalSpacer()
                             LazyRow(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_CREW_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                                horizontalArrangement = if (movieCreditUiState is MovieCreditUiState.Success) {
+                                    Arrangement.spacedBy(IheNkiri.spacing.one)
+                                } else {
+                                    Arrangement.Center
+                                },
                             ) {
                                 when (movieCreditUiState) {
-                                    is MovieCreditUiState.LoadFailed -> {}
-                                    MovieCreditUiState.Loading -> {}
+                                    is MovieCreditUiState.LoadFailed -> {
+                                        item {
+                                            MovieDetailsLoadFailed(
+                                                message = "Error, please try again!",
+                                                onClick = {},
+                                            )
+                                        }
+                                    }
+
+                                    MovieCreditUiState.Loading -> {
+                                        item { MovieDetailsItemLoading() }
+                                    }
+
                                     is MovieCreditUiState.Success -> {
                                         items(movieCreditUiState.movieCredit.crew.distinctBy { it.name }) {
                                             val (firstName, lastName) = it.name.split(" ")
@@ -514,6 +548,7 @@ fun MoviesDetails(
                             OneAndHalfVerticalSpacer()
                             LazyRow(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_CATEGORIES_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
@@ -537,15 +572,30 @@ fun MoviesDetails(
                             )
                             OneVerticalSpacer()
                             LazyRow(
-                                modifier =
-                                Modifier
+                                modifier = Modifier
+                                    .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                                horizontalArrangement = if (similarMoviesUiState is SimilarMoviesUiState.Success) {
+                                    Arrangement.spacedBy(IheNkiri.spacing.one)
+                                } else {
+                                    Arrangement.Center
+                                },
                             ) {
                                 when (similarMoviesUiState) {
-                                    is SimilarMoviesUiState.LoadFailed -> {}
-                                    SimilarMoviesUiState.Loading -> {}
+                                    is SimilarMoviesUiState.LoadFailed -> {
+                                        item {
+                                            MovieDetailsLoadFailed(
+                                                message = "Error, please try again!",
+                                                onClick = {},
+                                            )
+                                        }
+                                    }
+
+                                    SimilarMoviesUiState.Loading -> {
+                                        item { MovieDetailsItemLoading() }
+                                    }
+
                                     is SimilarMoviesUiState.Success -> {
                                         items(similarMoviesUiState.movies) {
                                             val path = ImageUtil.buildImageUrl(it.posterPath)
@@ -573,13 +623,19 @@ fun MoviesDetails(
                 }
             }
 
-            is MovieDetailsUiState.LoadFailed -> {}
-            MovieDetailsUiState.Loading -> CircularProgressIndicator(
+            is MovieDetailsUiState.LoadFailed -> {
+                MovieDetailsLoadFailed(
+                    modifier = Modifier.align(Alignment.Center),
+                    message = "Error loading movie details, please try again!",
+                    onClick = {},
+                )
+            }
+
+            MovieDetailsUiState.Loading -> MovieDetailsItemLoading(
                 modifier = Modifier.align(Alignment.Center),
             )
         }
 
-        val density = LocalDensity.current
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.BottomCenter),
             visible = showBottomAppBar,
@@ -631,6 +687,36 @@ fun MoviesDetails(
 
 private fun String.formatDate(): String {
     return this.replace("-", "/")
+}
+
+@Composable
+private fun MovieDetailsItemLoading(modifier: Modifier = Modifier) {
+    CircularProgressIndicator(
+        modifier = modifier
+            .size(30.dp)
+            .padding(vertical = IheNkiri.spacing.one),
+        strokeWidth = 1.dp,
+        strokeCap = StrokeCap.Round,
+    )
+}
+
+@Composable
+@Preview
+private fun MovieDetailsLoadFailedPreview() {
+    IheNkiriTheme {
+        MovieDetailsLoadFailed(message = "Error, please try again", onClick = {})
+    }
+}
+
+@Composable
+private fun MovieDetailsLoadFailed(
+    modifier: Modifier = Modifier,
+    message: String,
+    onClick: () -> Unit,
+) {
+    TextButton(modifier = modifier, onClick = onClick) {
+        Text(text = message)
+    }
 }
 
 @ExcludeFromGeneratedCoverageReport

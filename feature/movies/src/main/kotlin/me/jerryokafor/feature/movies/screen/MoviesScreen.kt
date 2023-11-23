@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -63,6 +64,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -141,8 +143,7 @@ fun MoviesScreenPreview() {
     IheNkiriTheme {
         MoviesScreen(
             movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
-            filters =
-            listOf(
+            filters = listOf(
                 MovieListFilterItem(
                     label = "Discover",
                     isSelected = true,
@@ -231,18 +232,10 @@ fun MoviesScreen(
                             SearchBarRow(
                                 isSearchActive = isSearchActive,
                                 query = query,
-                                onQueryChange = {
-                                    query = it
-                                },
-                                onSearch = {
-                                    isSearchActive = false
-                                },
-                                onActiveChange = {
-                                    showSearch = it
-                                },
-                                onCancel = {
-                                    showSearch = false
-                                },
+                                onQueryChange = { query = it },
+                                onSearch = { isSearchActive = false },
+                                onActiveChange = { showSearch = it },
+                                onCancel = { showSearch = false },
                             )
                         }
 
@@ -308,8 +301,7 @@ fun MoviesScreen(
                                         .wrapContentHeight(),
                                 ) {
                                     CircularProgressIndicator(
-                                        modifier =
-                                        Modifier
+                                        modifier = Modifier
                                             .align(Alignment.Center)
                                             .padding(IheNkiri.spacing.oneAndHalf),
                                     )
@@ -323,7 +315,10 @@ fun MoviesScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .padding(IheNkiri.spacing.oneAndHalf),
+                            .size(30.dp)
+                            .padding(vertical = IheNkiri.spacing.one),
+                        strokeWidth = 1.dp,
+                        strokeCap = StrokeCap.Round,
                     )
                 }
 
