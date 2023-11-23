@@ -41,7 +41,6 @@ import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.MoviesListPagingSource
-import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.MovieListFilterItem
 import javax.inject.Inject
 
@@ -53,7 +52,7 @@ constructor(
     @IoDispatcher
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val availableFilters =
+    private val _availableFilters = MutableStateFlow(
         listOf(
             MovieListFilterItem(
                 label = "Now Playing",
@@ -80,10 +79,10 @@ constructor(
                 isSelected = false,
                 type = MovieListFilterItem.FilterType.DISCOVER,
             ),
-        )
+        ),
+    )
 
-    private val _uiState = MutableStateFlow(UIState())
-    val uiState: StateFlow<UIState> = _uiState.asStateFlow()
+    val availableFilters: StateFlow<List<MovieListFilterItem>> = _availableFilters.asStateFlow()
 
     private var currentFilter = MutableStateFlow(MovieListFilterItem.FilterType.NOW_PLAYING)
 
@@ -120,14 +119,10 @@ constructor(
         ).flow.cachedIn(viewModelScope)
     }.flowOn(dispatcher)
 
-    init {
-        _uiState.update { it.copy(availableFilters = availableFilters) }
-    }
-
     fun onEvent(event: Event) {
         when (event) {
             is Event.OnFilterSelected -> {
-                val updatedFilters = availableFilters.map { filterItem ->
+                val updatedFilters = _availableFilters.value.map { filterItem ->
                     if (filterItem.type == event.filter) {
                         filterItem.copy(isSelected = true)
                     } else {
@@ -135,16 +130,10 @@ constructor(
                     }
                 }
                 currentFilter.update { event.filter }
-                _uiState.update { it.copy(availableFilters = updatedFilters) }
+                _availableFilters.update { updatedFilters }
             }
         }
     }
-
-    data class UIState(
-        val loading: Boolean = false,
-        val availableFilters: List<MovieListFilterItem> = emptyList(),
-        val movies: List<Movie> = emptyList(),
-    )
 
     sealed interface Event {
         data class OnFilterSelected(val filter: MovieListFilterItem.FilterType) : Event

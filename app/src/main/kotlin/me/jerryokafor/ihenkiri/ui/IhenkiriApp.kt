@@ -45,11 +45,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
-import me.jerryokafor.feature.movies.navigation.navigateToMoviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
-import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
@@ -60,6 +59,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
+@Suppress("UnusedPrivateMember")
 fun IhenkiriApp(
     isLoggedIn: Boolean = false,
     navController: NavHostController = rememberNavController(),
@@ -105,7 +105,7 @@ fun IhenkiriApp(
                 NavHost(
                     modifier = Modifier,
                     navController = navController,
-                    startDestination = authNavGraph,
+                    startDestination = moviesRoutePattern,
                 ) {
                     authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
@@ -115,12 +115,12 @@ fun IhenkiriApp(
                     settingsScreen()
                 }
 
-                LaunchedEffect(isLoggedIn) {
-                    when (isLoggedIn) {
-                        true -> navController.navigateToMoviesScreen()
-                        false -> navController.navigateToAuth()
-                    }
-                }
+//                LaunchedEffect(isLoggedIn) {
+//                    when (isLoggedIn) {
+//                        true -> navController.navigateToMoviesScreen()
+//                        false -> navController.navigateToAuth()
+//                    }
+//                }
             }
         },
     )

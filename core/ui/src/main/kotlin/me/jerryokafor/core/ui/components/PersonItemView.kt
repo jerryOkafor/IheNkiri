@@ -74,7 +74,7 @@ fun PersonItemViewPreview() {
             modifier =
             Modifier
                 .wrapContentSize()
-                .background(IheNkiri.color.inverseOnSurface),
+                .background(IheNkiri.color.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OneVerticalSpacer()

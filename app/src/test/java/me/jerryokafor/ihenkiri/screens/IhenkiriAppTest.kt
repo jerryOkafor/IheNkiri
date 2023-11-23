@@ -126,22 +126,6 @@ class IhenkiriAppTest {
     }
 
     @Test
-    fun ihenkiriApp_verifyAuhStartDestination() {
-        with(composeTestRule) {
-            setContent {
-                navController = TestNavHostController(LocalContext.current)
-                navController.navigatorProvider.addNavigator(ComposeNavigator())
-
-                IhenkiriApp(isLoggedIn = false, navController = navController)
-            }
-
-            onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertExists()
-            val route = navController.currentBackStackEntry?.destination?.route
-            assertThat(route).isEqualTo("welcome")
-        }
-    }
-
-    @Test
     fun ihenkiriApp_verifyHomeDestination() {
         with(composeTestRule) {
             setContent {

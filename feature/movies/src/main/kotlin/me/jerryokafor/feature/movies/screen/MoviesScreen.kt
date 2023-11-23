@@ -128,7 +128,7 @@ fun MoviesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
     onMovieClick: (movieId: Long) -> Unit,
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val availableFilters by viewModel.availableFilters.collectAsStateWithLifecycle()
     val movieLazyPagingItems = viewModel.movies.collectAsLazyPagingItems()
     val onItemSelected: (MovieListFilterItem.FilterType) -> Unit = {
         viewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(it))
@@ -136,7 +136,7 @@ fun MoviesScreen(
 
     MoviesScreen(
         movieLazyPagingItems = movieLazyPagingItems,
-        filters = uiState.value.availableFilters,
+        filters = availableFilters,
         onMovieClick = onMovieClick,
         onFilterItemSelected = onItemSelected,
     )

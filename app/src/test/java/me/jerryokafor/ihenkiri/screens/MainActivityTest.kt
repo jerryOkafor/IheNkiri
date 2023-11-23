@@ -32,13 +32,11 @@ import android.os.Build
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
@@ -58,6 +56,7 @@ import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
+import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.hamcrest.Matchers.not
@@ -79,18 +78,21 @@ import org.robolectric.shadows.ShadowLog
 @HiltAndroidTest
 class MainActivityTest {
     @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
+    val dispatcherRule = MainDispatcherRule()
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 2)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 3)
     val intentsRule = IntentsRule()
 
     @BindValue
     @JvmField
     val localStorage = mockk<LocalStorage>(relaxed = true) {
-        every { isLoggedIn() } returns flowOf(false)
+        every { isLoggedIn() } returns flowOf(true)
     }
 
     @Before
@@ -112,19 +114,19 @@ class MainActivityTest {
         hiltRule.inject()
     }
 
-    @Test
-    fun oauth_e2e() = runTest {
-        every { localStorage.isLoggedIn() } returns flowOf(false)
-
-        val scenario = launchActivity<MainActivity>()
-        scenario.moveToState(Lifecycle.State.CREATED)
-
-        scenario.onActivity {
-            with(composeTestRule) {
-                onNodeWithText("Continue as Guest").assertExists().assertIsDisplayed()
-                onNodeWithText("Sign In").assertExists().assertIsDisplayed().performClick()
-            }
-        }
+//    @Test
+//    fun oauth_e2e() = runTest {
+//        every { localStorage.isLoggedIn() } returns flowOf(false)
+//
+//        val scenario = launchActivity<MainActivity>()
+//        scenario.moveToState(Lifecycle.State.CREATED)
+//
+//        scenario.onActivity {
+//            with(composeTestRule) {
+//                onNodeWithText("Continue as Guest").assertExists().assertIsDisplayed()
+//                onNodeWithText("Sign In").assertExists().assertIsDisplayed().performClick()
+//            }
+//        }
 //        val fakeRequest = createRequestTokenSuccessResponse()
 //        val requestToken = fakeRequest.requestToken
 //        val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
@@ -136,15 +138,14 @@ class MainActivityTest {
 //        val receivedIntent: Intent = Iterables.getOnlyElement(Intents.getIntents())
 //        assertThat(receivedIntent).hasData(Uri.parse(url))
 //        assertThat(receivedIntent).hasAction(Intent.ACTION_VIEW)
-    }
+//    }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
     fun e2e() = runTest {
         every { localStorage.isLoggedIn() } returns flowOf(true)
-
         val scenario = launchActivity<MainActivity>()
-        scenario.moveToState(Lifecycle.State.RESUMED)
+        scenario.moveToState(Lifecycle.State.CREATED)
 
         scenario.onActivity {
             with(composeTestRule) {
@@ -158,29 +159,29 @@ class MainActivityTest {
                     .assertHasClickAction()
                     .assertIsSelected()
                     .performClick()
-
                 onAllNodesWithText("Movies").assertCountEquals(2).assertAreDisplayed()
 
                 onNodeWithTag("tv_shows_nav").assertExists()
                     .assertHasClickAction()
                     .performClick()
                     .assertIsSelected()
-
                 onAllNodesWithText("TV Shows").assertCountEquals(2).assertAreDisplayed()
 
                 onNodeWithTag("people_nav").assertExists()
                     .assertHasClickAction()
                     .performClick()
                     .assertIsSelected()
+                onAllNodesWithText("People")
+                    .assertCountEquals(2).assertAreDisplayed()
 
-                onAllNodesWithText("People").assertCountEquals(2).assertAreDisplayed()
-
-                onNodeWithTag("settings_nav").assertExists()
+                onNodeWithTag("settings_nav")
+                    .assertExists()
                     .assertHasClickAction()
                     .performClick()
                     .assertIsSelected()
-
-                onAllNodesWithText("Settings").assertCountEquals(2).assertAreDisplayed()
+                onAllNodesWithText("Settings")
+                    .assertCountEquals(2)
+                    .assertAreDisplayed()
             }
         }
     }

@@ -67,47 +67,46 @@ class MoviesViewModelTest {
 
     @Test
     fun moviesViewModel_init_defaultAvailableFiltersSet() = runTest {
-        moviesViewModel.uiState.test {
-            with(awaitItem()) {
-                assertThat(availableFilters).isNotEmpty()
-                assertThat(availableFilters.size).isEqualTo(5)
+        moviesViewModel.availableFilters.test {
+            val availableFilters = awaitItem()
+            assertThat(availableFilters).isNotEmpty()
+            assertThat(availableFilters.size).isEqualTo(5)
 
-                with(availableFilters[0]) {
-                    assertThat(label).isEqualTo("Now Playing")
-                    assertThat(isSelected).isTrue()
-                    assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
-                }
-
-                with(availableFilters[1]) {
-                    assertThat(label).isEqualTo("Popular")
-                    assertThat(isSelected).isFalse()
-                    assertThat(type).isEqualTo(FilterType.POPULAR)
-                }
-
-                with(availableFilters[2]) {
-                    assertThat(label).isEqualTo("Top Rated")
-                    assertThat(isSelected).isFalse()
-                    assertThat(type).isEqualTo(FilterType.TOP_RATED)
-                }
-
-                with(availableFilters[3]) {
-                    assertThat(label).isEqualTo("Upcoming")
-                    assertThat(isSelected).isFalse()
-                    assertThat(type).isEqualTo(FilterType.UPCOMING)
-                }
-
-                cancelAndIgnoreRemainingEvents()
+            with(availableFilters[0]) {
+                assertThat(label).isEqualTo("Now Playing")
+                assertThat(isSelected).isTrue()
+                assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
             }
+
+            with(availableFilters[1]) {
+                assertThat(label).isEqualTo("Popular")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.POPULAR)
+            }
+
+            with(availableFilters[2]) {
+                assertThat(label).isEqualTo("Top Rated")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.TOP_RATED)
+            }
+
+            with(availableFilters[3]) {
+                assertThat(label).isEqualTo("Upcoming")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.UPCOMING)
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun moviesViewModel_OnEvent_CorrectFilterIsSet() {
-        val currentUIState = moviesViewModel.uiState.value
-        assertThat(currentUIState.availableFilters).isNotEmpty()
-        assertThat(currentUIState.availableFilters.size).isEqualTo(5)
+        val availableFilters = moviesViewModel.availableFilters.value
+        assertThat(availableFilters).isNotEmpty()
+        assertThat(availableFilters.size).isEqualTo(5)
 
-        with(currentUIState.availableFilters[0]) {
+        with(availableFilters[0]) {
             assertThat(label).isEqualTo("Now Playing")
             assertThat(isSelected).isTrue()
             assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
@@ -115,28 +114,28 @@ class MoviesViewModelTest {
 
         moviesViewModel.onEvent(OnFilterSelected(FilterType.POPULAR))
         assertThat(
-            moviesViewModel.uiState.value.availableFilters.first {
+            moviesViewModel.availableFilters.value.first {
                 it.type == FilterType.POPULAR
             }.isSelected,
         ).isTrue()
 
         moviesViewModel.onEvent(OnFilterSelected(FilterType.TOP_RATED))
         assertThat(
-            moviesViewModel.uiState.value.availableFilters.first {
+            moviesViewModel.availableFilters.value.first {
                 it.type == FilterType.TOP_RATED
             }.isSelected,
         ).isTrue()
 
         moviesViewModel.onEvent(OnFilterSelected(FilterType.UPCOMING))
         assertThat(
-            moviesViewModel.uiState.value.availableFilters.first {
+            moviesViewModel.availableFilters.value.first {
                 it.type == FilterType.UPCOMING
             }.isSelected,
         ).isTrue()
 
         moviesViewModel.onEvent(OnFilterSelected(FilterType.NOW_PLAYING))
         assertThat(
-            moviesViewModel.uiState.value.availableFilters.first {
+            moviesViewModel.availableFilters.value.first {
                 it.type == FilterType.NOW_PLAYING
             }.isSelected,
         ).isTrue()
