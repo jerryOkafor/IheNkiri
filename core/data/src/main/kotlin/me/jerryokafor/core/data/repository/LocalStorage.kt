@@ -24,14 +24,10 @@
 
 package me.jerryokafor.core.data.repository
 
-import android.content.Context
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
-import androidx.datastore.dataStoreFile
 import com.google.protobuf.InvalidProtocolBufferException
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -52,7 +48,7 @@ interface LocalStorage {
     suspend fun saveGuestSession(guestSessionId: String)
 }
 
-object UserPreferencesSerializer : Serializer<UserPreferences> {
+class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
     override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
     override suspend fun readFrom(input: InputStream): UserPreferences {
         try {
@@ -67,21 +63,14 @@ object UserPreferencesSerializer : Serializer<UserPreferences> {
 
 @Singleton
 class DefaultLocalStorage @Inject constructor(
-    @ApplicationContext
-    private val context: Context,
     @IoDispatcher
     private val dispatcher: CoroutineDispatcher,
+    private val userPreferences: DataStore<UserPreferences>,
 ) : LocalStorage {
 
     companion object {
-        private const val DATA_STORE_FILE_NAME = "auth_user.pb"
+        const val DATA_STORE_FILE_NAME = "auth_user.pb"
     }
-
-    private val userPreferences: DataStore<UserPreferences> =
-        DataStoreFactory.create(
-            serializer = UserPreferencesSerializer,
-            produceFile = { context.dataStoreFile(DATA_STORE_FILE_NAME) },
-        )
 
     override fun isLoggedIn(): Flow<Boolean> = userPreferences.data.map {
         it.accessToken.isNullOrBlank().not() || it.guestSessionId.isNullOrBlank().not()

@@ -55,7 +55,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import me.jerryokafor.core.data.injection.LocalStorageModule
+import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
@@ -75,7 +75,7 @@ import org.robolectric.shadows.ShadowLog
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-@UninstallModules(LocalStorageModule::class)
+@UninstallModules(LocalStorageBinding::class)
 @HiltAndroidTest
 class MainActivityTest {
     @get:Rule(order = 0)

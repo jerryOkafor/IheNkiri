@@ -308,6 +308,33 @@ class MoviesScreenTest {
     }
 
     @Test
+    fun moviesScreen_SearchButtonClick_SearchViewShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription("click to search")
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
+        // wait for dialog to open
+        composeTestRule.mainClock.autoAdvance = true
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
+    }
+
+    @Test
     fun moviesScreen_movieItemClick_movieDetailsScreenShown() {
         composeTestRule.setContent {
             MoviesScreen(

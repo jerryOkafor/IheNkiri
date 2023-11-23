@@ -22,10 +22,9 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.repository
+package me.jerryokafor.core.data.util
 
 import com.google.common.truth.Truth.assertThat
-import me.jerryokafor.core.data.util.ImageUtil
 import org.junit.Test
 
 class ImageUtilTest {

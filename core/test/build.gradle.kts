@@ -39,6 +39,9 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.ds)
 
+    // datastore
+    implementation(libs.datastore)
+
     implementation(libs.io.coil.compose)
     api(libs.io.coil.test)
 
