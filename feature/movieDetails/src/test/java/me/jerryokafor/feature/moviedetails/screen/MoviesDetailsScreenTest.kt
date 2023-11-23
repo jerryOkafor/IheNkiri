@@ -31,7 +31,9 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasProgressBarRangeInfo
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -48,13 +50,17 @@ import androidx.compose.ui.test.swipeUp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
+import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_BOTTOM_BAR
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CATEGORIES
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CATEGORIES_ROW
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_COL
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CREW
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CREW_ROW
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_MAIN_CAST
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_MAIN_CAST_ROW
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_OVERVIEW
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_RECOMMENDATIONS_ROW
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MovieCreditUiState
 import me.jerryokafor.ihenkiri.feature.moviedetails.viewmodel.MovieDetailsUiState
@@ -84,6 +90,7 @@ class MoviesDetailsScreenTest {
     private var onRateItClick = 0
     private var onNavigateUp = 0
     private var onWatchTrailerClick = 0
+    private var onMovieItemClick = 0
 
     @Before
     @Throws(Exception::class)
@@ -164,6 +171,79 @@ class MoviesDetailsScreenTest {
     }
 
     @Test
+    fun moviesDetailsScreen_movieCreditsLoaded_showMainCastsAndCrew() {
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Success(
+                        movieCredit = MovieDetailsTestData.testMovieCredit(0L),
+                    ),
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
+                )
+            }
+
+            onNodeWithTag(MOVIE_DETAILS_COL).assertExists()
+                .performTouchInput { swipeUp() }
+
+            // assert main casts
+            onNodeWithTag(MOVIE_DETAILS_MAIN_CAST_ROW).assertExists()
+                .assertIsDisplayed()
+                .assert(hasScrollAction())
+                .onChildren()
+                .assertCountEquals(2)
+                .onFirst()
+                .assert(hasContentDescription("Edward Norton"))
+                .assert(hasText("Edward \nNorton"))
+
+            onNodeWithTag(MOVIE_DETAILS_CREW_ROW).assertExists()
+                .assertIsDisplayed()
+                .assert(hasScrollAction())
+                .onChildren()
+                .assertCountEquals(2)
+                .onFirst()
+                .assert(hasContentDescription("Arnon Milchan"))
+                .assert(hasText("Arnon \nMilchan"))
+        }
+    }
+
+    @Test
+    fun moviesDetailsScreen_similarMoviesLoaded_showSimilar() {
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Success(testMovies()),
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
+                    onMovieItemClick = { onMovieItemClick++ },
+                )
+            }
+
+            onNodeWithTag(MOVIE_DETAILS_COL).assertExists()
+                .performTouchInput { swipeUp() }
+
+            // assert main casts
+            onNodeWithTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW).assertExists()
+                .assertIsDisplayed()
+                .assert(hasScrollAction())
+                .onChildren()
+                .assertCountEquals(4)
+                .onFirst()
+                .assert(hasContentDescription("Transformers: Rise of the Beasts"))
+                .assertHasClickAction()
+                .performClick()
+
+            assertEquals(expected = 1, actual = onMovieItemClick)
+        }
+    }
+
+    @Test
     fun moviesDetailsScreen_onAddToWatchListClick_addToWatchList() {
         with(composeTestRule) {
             setContent {
@@ -175,11 +255,6 @@ class MoviesDetailsScreenTest {
                     similarMoviesUiState = SimilarMoviesUiState.Loading,
                     moviesVideoUiState = MoviesVideoUiState.Loading,
                     onAddToWatchListClick = { onAddToWatchListClick++ },
-                    onAddToBookmarkClick = { onAddToBookmarkClick++ },
-                    onAddToFavorite = { onAddToFavorite++ },
-                    onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
-                    onNavigateUp = { onNavigateUp++ },
                 )
             }
             onNodeWithTag(MOVIE_DETAILS_BOTTOM_BAR).assertExists()
@@ -283,6 +358,84 @@ class MoviesDetailsScreenTest {
                 .assertHasClickAction()
                 .performClick()
             assertEquals(1, onAddToFavorite)
+        }
+    }
+
+    @Test
+    fun moviesDetailsScreen_onWatchTrailerClick_showMovieTrailer() {
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Success(
+                        MovieDetailsTestData.testMovieVideos(
+                            0L,
+                        ),
+                    ),
+                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                )
+            }
+
+            onNodeWithTag(MOVIE_DETAILS_BOTTOM_BAR).assertExists()
+                .assertIsDisplayed()
+
+            onNodeWithText("Watch Trailer").assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+            assertEquals(1, onWatchTrailerClick)
+        }
+    }
+
+    @Test
+    fun moviesDetailsScreen_movieVideosEmpty_hideMovieTrailer() {
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Success(emptyList()),
+                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                )
+            }
+
+            onNodeWithTag(MOVIE_DETAILS_BOTTOM_BAR).assertExists()
+                .assertIsDisplayed()
+
+            onNodeWithText("Watch Trailer").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun moviesDetailsScreen_onNavigateUp_backPress() {
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
+                    onNavigateUp = { onNavigateUp++ },
+                )
+            }
+
+            onNodeWithTag(MOVIE_DETAILS_BOTTOM_BAR).assertExists()
+                .assertIsDisplayed()
+
+            onNodeWithContentDescription("Back").assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+            assertEquals(1, onNavigateUp)
         }
     }
 

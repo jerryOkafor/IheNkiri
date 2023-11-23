@@ -83,10 +83,10 @@ fun IhenkiriApp(
         navController.navigateUp()
     }
 
-    val onMovieClick: (Long) -> Unit = {
+    val onMovieClick: (Long) -> Unit = { movieId ->
         navController.navigateToMovieDetails(
-            movieId = it,
-            navOptions = navOptions { launchSingleTop = true },
+            movieId = movieId,
+            navOptions = navOptions {},
         )
     }
 
@@ -110,7 +110,7 @@ fun IhenkiriApp(
                     authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
                     tvShowsScreen()
-                    movieDetailsScreen(onNavigateUp = onNavigateUp)
+                    movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
                     peopleScreen()
                     settingsScreen()
                 }

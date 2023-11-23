@@ -116,8 +116,7 @@ object MovieDetailsTestData {
                 profilePath = "/DDeITcCpnBd0CkAIRPhggy9bt5.jpg",
             ),
         ),
-        crew =
-        listOf(
+        crew = listOf(
             NetworkCrew(
                 adult = false,
                 creditId = "55731b8192514111610027d7",

@@ -25,6 +25,7 @@
 
 package me.jerryokafor.feature.movies.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -35,8 +36,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -49,6 +52,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Switch
@@ -101,39 +105,8 @@ const val CHIP_GROUP_TEST_TAG = "chips"
 const val GRID_ITEMS_TEST_TAG = "gridItems"
 const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
-
-@ExcludeFromGeneratedCoverageReport
-private fun testMovies() = listOf(
-    Movie(
-        id = 667538,
-        title = "Transformers: Rise of the Beasts",
-        overview =
-        """
-                When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
-                the Autobots must team up with a powerful faction known as the Maximals. With the 
-                fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
-                to help the Transformers as they engage in the ultimate battle to save Earth.
-        """.trimIndent(),
-        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
-        posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
-        voteAverage = 7.5,
-    ),
-    Movie(
-        id = 298618,
-        title = "The Flash",
-        overview =
-        """
-                When his attempt to save his family inadvertently alters the future, 
-                Barry Allen becomes trapped in a reality in which General Zod has returned and 
-                there are no Super Heroes to turn to. In order to save the world that he is in and 
-                return to the future that he knows, Barry's only hope is to race for his life. But 
-                will making the ultimate sacrifice be enough to reset the universe
-        """.trimIndent(),
-        backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
-        posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
-        voteAverage = 7.0,
-    ),
-)
+const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
+const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
 
 @Suppress("MagicNumber")
 @ThemePreviews
@@ -143,33 +116,7 @@ fun MoviesScreenPreview() {
     IheNkiriTheme {
         MoviesScreen(
             movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
-            filters = listOf(
-                MovieListFilterItem(
-                    label = "Discover",
-                    isSelected = true,
-                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
-                ),
-                MovieListFilterItem(
-                    label = "Now Playing",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.NOW_PLAYING,
-                ),
-                MovieListFilterItem(
-                    label = "Popular",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.POPULAR,
-                ),
-                MovieListFilterItem(
-                    label = "Top Rated",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.TOP_RATED,
-                ),
-                MovieListFilterItem(
-                    label = "Upcoming",
-                    isSelected = false,
-                    type = MovieListFilterItem.FilterType.UPCOMING,
-                ),
-            ),
+            filters = testFilters(),
             onMovieClick = {},
         ) {}
     }
@@ -207,7 +154,10 @@ fun MoviesScreen(
     var query by rememberSaveable { mutableStateOf("") }
     var showSearch by rememberSaveable { mutableStateOf(false) }
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
-    val onSearchClick: () -> Unit = { showSearch = true }
+    val onSearchClick: () -> Unit = {
+        showSearch = true
+        isSearchActive = true
+    }
 
     val filterItemSelected: (MovieListFilterItem.FilterType) -> Unit = {
         when (it) {
@@ -230,6 +180,7 @@ fun MoviesScreen(
                     when {
                         show -> {
                             SearchBarRow(
+                                modifier = Modifier.statusBarsPadding(),
                                 isSearchActive = isSearchActive,
                                 query = query,
                                 onQueryChange = { query = it },
@@ -302,6 +253,7 @@ fun MoviesScreen(
                                 ) {
                                     CircularProgressIndicator(
                                         modifier = Modifier
+                                            .testTag(APPEND_LOAD_PROGRESS_TEST_TAG)
                                             .align(Alignment.Center)
                                             .padding(IheNkiri.spacing.oneAndHalf),
                                     )
@@ -314,6 +266,7 @@ fun MoviesScreen(
                 if (movieLazyPagingItems.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
+                            .testTag(FRESH_LOAD_PROGRESS_TEST_TAG)
                             .align(Alignment.Center)
                             .size(30.dp)
                             .padding(vertical = IheNkiri.spacing.one),
@@ -338,7 +291,9 @@ fun MoviesScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarRow(
+    modifier: Modifier = Modifier,
     isSearchActive: Boolean = false,
+    isSearching: Boolean = false,
     query: String = "",
     onQueryChange: (String) -> Unit = {},
     onSearch: (String) -> Unit = {},
@@ -347,12 +302,13 @@ fun SearchBarRow(
 ) {
     var includeAdult by rememberSaveable { mutableStateOf(false) }
     var includeVideo by rememberSaveable { mutableStateOf(false) }
+
     SearchBar(
-        modifier = Modifier
+        modifier = modifier
             .testTag(SEARCH_TEST_TAG)
             .semantics { traversalIndex = -1f },
         query = query,
-        shape = IheNkiri.shape.small,
+        shape = IheNkiri.shape.large,
         tonalElevation = SearchBarDefaults.Elevation,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
@@ -375,7 +331,7 @@ fun SearchBarRow(
             IconButton(onClick = { onSearch(query) }) {
                 Icon(
                     painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
-                    contentDescription = null,
+                    contentDescription = "perform search",
                     tint = contentColorFor(IheNkiri.color.primary),
                 )
             }
@@ -384,57 +340,132 @@ fun SearchBarRow(
             IconButton(onClick = onCancel) {
                 Icon(
                     Icons.Default.Close,
-                    contentDescription = null,
+                    contentDescription = "close search",
                     tint = contentColorFor(IheNkiri.color.primary),
                 )
             }
         },
     ) {
-        TwoVerticalSpacer()
-        Row(
-            modifier = Modifier
-                .padding(
-                    horizontal = IheNkiri.spacing.two,
-                )
-                .border(
-                    1.dp,
-                    color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
-                    shape = IheNkiri.shape.medium,
-                )
-                .padding(
-                    horizontal = IheNkiri.spacing.two,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.include_adult),
-                style = IheNkiri.typography.titleSmall,
+        AnimatedVisibility(visible = isSearching) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth(),
+                strokeCap = StrokeCap.Round,
             )
-            FillingSpacer()
-            Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
         }
+
         TwoVerticalSpacer()
-        Row(
-            modifier = Modifier
-                .padding(
-                    horizontal = IheNkiri.spacing.two,
+        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+            Row(
+                modifier = Modifier
+                    .padding(
+                        horizontal = IheNkiri.spacing.two,
+                    )
+                    .border(
+                        1.dp,
+                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+                        shape = IheNkiri.shape.medium,
+                    )
+                    .padding(
+                        horizontal = IheNkiri.spacing.two,
+                    )
+                    .weight(1F),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.include_adult),
+                    style = IheNkiri.typography.titleSmall,
                 )
-                .border(
-                    1.dp,
-                    color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
-                    shape = IheNkiri.shape.medium,
+                FillingSpacer()
+                Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(
+                        horizontal = IheNkiri.spacing.two,
+                    )
+                    .border(
+                        1.dp,
+                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+                        shape = IheNkiri.shape.medium,
+                    )
+                    .padding(
+                        horizontal = IheNkiri.spacing.two,
+                    )
+                    .weight(1F),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.include_video),
+                    style = IheNkiri.typography.titleSmall,
                 )
-                .padding(
-                    horizontal = IheNkiri.spacing.two,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.include_video),
-                style = IheNkiri.typography.titleSmall,
-            )
-            FillingSpacer()
-            Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
+                FillingSpacer()
+                Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
+            }
         }
     }
 }
+
+@ExcludeFromGeneratedCoverageReport
+private fun testFilters() = listOf(
+    MovieListFilterItem(
+        label = "Discover",
+        isSelected = true,
+        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+    ),
+    MovieListFilterItem(
+        label = "Now Playing",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+    ),
+    MovieListFilterItem(
+        label = "Popular",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.POPULAR,
+    ),
+    MovieListFilterItem(
+        label = "Top Rated",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.TOP_RATED,
+    ),
+    MovieListFilterItem(
+        label = "Upcoming",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.UPCOMING,
+    ),
+)
+
+@ExcludeFromGeneratedCoverageReport
+private fun testMovies() = listOf(
+    Movie(
+        id = 667538,
+        title = "Transformers: Rise of the Beasts",
+        overview =
+        """
+                When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
+                the Autobots must team up with a powerful faction known as the Maximals. With the 
+                fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
+                to help the Transformers as they engage in the ultimate battle to save Earth.
+        """.trimIndent(),
+        backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
+        posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
+        voteAverage = 7.5,
+    ),
+    Movie(
+        id = 298618,
+        title = "The Flash",
+        overview =
+        """
+                When his attempt to save his family inadvertently alters the future, 
+                Barry Allen becomes trapped in a reality in which General Zod has returned and 
+                there are no Super Heroes to turn to. In order to save the world that he is in and 
+                return to the future that he knows, Barry's only hope is to race for his life. But 
+                will making the ultimate sacrifice be enough to reset the universe
+        """.trimIndent(),
+        backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
+        posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
+        voteAverage = 7.0,
+    ),
+)

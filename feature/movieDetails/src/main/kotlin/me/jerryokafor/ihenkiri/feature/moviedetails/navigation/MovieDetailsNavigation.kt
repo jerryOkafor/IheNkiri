@@ -80,11 +80,14 @@ fun NavController.navigateToMovieDetails(
     this.navigate(route = "movie/$movieId", navOptions = navOptions)
 }
 
-fun NavGraphBuilder.movieDetailsScreen(onNavigateUp: () -> Unit) {
+fun NavGraphBuilder.movieDetailsScreen(onMovieItemClick: (Long) -> Unit, onNavigateUp: () -> Unit) {
     composable(
         route = movieDetailsRoutePattern,
         arguments = listOf(navArgument(movieIdArg) { type = NavType.LongType }),
     ) {
-        MoviesDetailsScreen(onBackPress = onNavigateUp)
+        MoviesDetailsScreen(
+            onMovieItemClick = onMovieItemClick,
+            onBackPress = onNavigateUp,
+        )
     }
 }

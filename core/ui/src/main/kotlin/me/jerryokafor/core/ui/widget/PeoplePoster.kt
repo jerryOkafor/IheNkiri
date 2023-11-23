@@ -53,6 +53,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -117,6 +119,9 @@ fun PeoplePoster(
 
     Column(
         modifier = modifier
+            .semantics(mergeDescendants = true) {
+                contentDescription = "$firstName $lastName"
+            }
             .width(size)
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -142,7 +147,7 @@ fun PeoplePoster(
                     painterResource(R.drawable.ic_avatar)
                 },
                 contentScale = ContentScale.Inside,
-                contentDescription = firstName,
+                contentDescription = null,
             )
 
             if (isLoading) {

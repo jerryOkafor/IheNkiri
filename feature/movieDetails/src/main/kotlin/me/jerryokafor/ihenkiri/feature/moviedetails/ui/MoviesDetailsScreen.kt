@@ -132,7 +132,7 @@ const val MOVIE_DETAILS_COL = "movies_details_col"
 const val MOVIE_DETAILS_OVERVIEW = "movies_details_overview"
 const val MOVIE_DETAILS_TRAILER_BUTTON = "movies_details_trailer_button"
 const val MOVIE_DETAILS_MAIN_CAST = "movies_details_main_cast"
-const val MOVIE_DETAILS_MAIN_CAST_ROW = "movies_details_main_cast_roe"
+const val MOVIE_DETAILS_MAIN_CAST_ROW = "movies_details_main_cast_row"
 const val MOVIE_DETAILS_CREW = "movies_details_bottom_crew"
 const val MOVIE_DETAILS_CREW_ROW = "movies_details_bottom_crew_row"
 const val MOVIE_DETAILS_CATEGORIES = "movies_details_categories"
@@ -154,6 +154,7 @@ fun MoviesDetailsPreview() {
             movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit),
             similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies()),
             moviesVideoUiState = MoviesVideoUiState.Success(videos = testNetworkMovieVideos(0L).results.map { it.asDomainObject() }),
+            onMovieItemClick = {},
             onNavigateUp = {},
         )
     }
@@ -167,6 +168,7 @@ private const val MAX_MOVIE_RATING = 10.0
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsScreen(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
+    onMovieItemClick: (Long) -> Unit,
     onBackPress: () -> Unit,
 ) {
     val movieDetailsUiState by viewModel.movieDetailsUiState.collectAsStateWithLifecycle()
@@ -191,6 +193,7 @@ fun MoviesDetailsScreen(
         onAddToFavorite = onAddToFavorite,
         onRateItClick = onRateItClick,
         onWatchTrailerClick = onWatchTrailerClick,
+        onMovieItemClick = onMovieItemClick,
         onNavigateUp = onBackPress,
     )
 }
@@ -207,6 +210,7 @@ fun MoviesDetailsScreen(
     onAddToFavorite: () -> Unit = {},
     onRateItClick: () -> Unit = {},
     onWatchTrailerClick: (List<Video>) -> Unit = {},
+    onMovieItemClick: (Long) -> Unit = {},
     onNavigateUp: () -> Unit = {},
 ) {
     var showBottomAppBar by remember { mutableStateOf(false) }
@@ -607,7 +611,7 @@ fun MoviesDetailsScreen(
                                                 posterUrl = path,
                                                 contentDescription = it.title,
                                                 shimmer = shimmer,
-                                                onClick = {},
+                                                onClick = { onMovieItemClick(it.id) },
                                             )
                                         }
                                     }
@@ -702,6 +706,7 @@ private fun MovieDetailsItemLoading(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
+@ExcludeFromGeneratedCoverageReport
 private fun MovieDetailsLoadFailedPreview() {
     IheNkiriTheme {
         MovieDetailsLoadFailed(message = "Error, please try again", onClick = {})
