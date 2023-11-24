@@ -46,7 +46,6 @@ import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.PeopleListRepository
 import me.jerryokafor.core.data.repository.TVShowsRepository
 import me.jerryokafor.core.data.repository.UserPreferencesSerializer
-import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSource
 import javax.inject.Singleton
 
 @Module

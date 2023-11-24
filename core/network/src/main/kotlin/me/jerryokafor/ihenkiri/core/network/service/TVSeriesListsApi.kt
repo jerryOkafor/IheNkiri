@@ -25,7 +25,6 @@
 package me.jerryokafor.ihenkiri.core.network.service
 
 import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkTvShow
 import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import retrofit2.http.GET

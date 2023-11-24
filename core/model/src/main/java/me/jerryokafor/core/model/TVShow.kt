@@ -24,7 +24,6 @@
 
 package me.jerryokafor.core.model
 
-
 data class TVShow(
     val id: Long,
     val name: String,

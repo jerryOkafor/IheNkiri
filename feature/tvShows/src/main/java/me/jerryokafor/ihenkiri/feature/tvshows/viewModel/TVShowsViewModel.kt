@@ -39,8 +39,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.data.repository.MovieListRepository
-import me.jerryokafor.core.data.repository.MoviesListPagingSource
 import me.jerryokafor.core.data.repository.TVShowsListPagingSource
 import me.jerryokafor.core.data.repository.TVShowsRepository
 import me.jerryokafor.core.model.TVShowsFilterItem

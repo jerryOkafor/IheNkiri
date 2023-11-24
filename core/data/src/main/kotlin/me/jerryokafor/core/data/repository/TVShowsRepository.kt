@@ -27,7 +27,6 @@ package me.jerryokafor.core.data.repository
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.TVShow
 import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
 import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
@@ -41,7 +40,6 @@ interface TVShowsRepository {
     suspend fun popular(filter: MoviesFilter): List<TVShow>
     suspend fun topRated(filter: MoviesFilter): List<TVShow>
 }
-
 
 class DefaultTVShowsRepository
 @Inject
@@ -70,9 +68,7 @@ constructor(private val tvSeriesListsApi: TVSeriesListsApi) : TVShowsRepository 
         filter.page,
         filter.region,
     ).results.map { it.asDomainObject() }
-
 }
-
 
 class TVShowsListPagingSource(private val fetchMovies: suspend (Int) -> List<TVShow>) :
     PagingSource<Int, TVShow>() {

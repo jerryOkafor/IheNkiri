@@ -42,5 +42,3 @@ interface PeopleListsApi {
         @Query("page") page: Int,
     ): PagedNetworkResponse<NetworkPerson>
 }
-
-
