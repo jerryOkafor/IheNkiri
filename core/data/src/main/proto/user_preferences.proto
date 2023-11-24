@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "theme_config.proto";
 
 option java_package = "me.jerryokafor.core.data";
 option java_multiple_files = true;
@@ -8,6 +9,10 @@ message UserPreferences {
   string access_token = 2;
   string guest_session_id = 3;
 
-  // NEXT AVAILABLE ID: 4
+  //Theme
+  ThemeConfigProto theme_config = 4;
+  bool use_dynamic_color = 5;
+
+  // NEXT AVAILABLE ID: 6
 }
 

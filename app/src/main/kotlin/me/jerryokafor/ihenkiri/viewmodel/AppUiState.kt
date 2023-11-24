@@ -24,7 +24,9 @@
 
 package me.jerryokafor.ihenkiri.viewmodel
 
+import me.jerryokafor.core.model.UserEditableSettings
+
 sealed interface AppUiState {
     data object Loading : AppUiState
-    data class Success(val userPreference: UserPreference) : AppUiState
+    data class Success(val userPreference: UserEditableSettings) : AppUiState
 }

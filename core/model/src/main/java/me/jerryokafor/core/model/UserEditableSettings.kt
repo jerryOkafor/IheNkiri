@@ -22,27 +22,12 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.feature.settings.navigation
+package me.jerryokafor.core.model
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import me.jerryokafor.core.ui.navigation.enterTransition
-import me.jerryokafor.core.ui.navigation.exitTransition
-import me.jerryokafor.core.ui.navigation.popEnterTransition
-import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.settings.ui.SettingsScreen
+data class UserEditableSettings(
+    val isLoggedIn: Boolean = false,
+    val themeConfig: ThemeConfig = ThemeConfig.DARK,
+    val isDynamicColor: Boolean = false,
+)
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val settingsNavPattern = "/settings"
 
-fun NavGraphBuilder.settingsScreen(onLogin: () -> Unit) {
-    composable(
-        route = settingsNavPattern,
-        enterTransition = enterTransition,
-        exitTransition = exitTransition,
-        popEnterTransition = popEnterTransition,
-        popExitTransition = popExitTransition,
-    ) {
-        SettingsScreen(onLogin = onLogin)
-    }
-}

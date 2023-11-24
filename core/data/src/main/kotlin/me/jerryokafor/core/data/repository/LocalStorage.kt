@@ -34,7 +34,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import me.jerryokafor.core.common.injection.IoDispatcher
+import me.jerryokafor.core.data.ThemeConfigProto
 import me.jerryokafor.core.data.UserPreferences
+import me.jerryokafor.core.model.ThemeConfig
+import me.jerryokafor.core.model.UserData
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -43,9 +46,15 @@ import javax.inject.Singleton
 interface LocalStorage {
     fun isLoggedIn(): Flow<Boolean>
 
+    fun userData(): Flow<UserData>
+
     suspend fun saveUserSession(accountId: String, accessToken: String)
 
     suspend fun saveGuestSession(guestSessionId: String)
+    suspend fun setThemeConfig(config: ThemeConfig)
+    suspend fun setUseDynamicColor(useDynamicColor: Boolean)
+    suspend fun logout()
+
 }
 
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
@@ -76,6 +85,27 @@ class DefaultLocalStorage @Inject constructor(
         it.accessToken.isNullOrBlank().not() || it.guestSessionId.isNullOrBlank().not()
     }.flowOn(dispatcher)
 
+    override fun userData(): Flow<UserData> = userPreferences.data.map {
+        UserData(
+            accountId = it.accountId,
+            isLoggedIn = it.accessToken.isNullOrBlank().not()
+                || it.guestSessionId.isNullOrBlank().not(),
+            themeConfig = when (it.themeConfig) {
+                ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM -> ThemeConfig.FOLLOW_SYSTEM
+                ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
+                ThemeConfigProto.THEME_CONFIG_UNSPECIFIED,
+                ThemeConfigProto.UNRECOGNIZED,
+                ThemeConfigProto.THEME_CONFIG_DARK,
+                -> ThemeConfig.DARK
+
+                else -> ThemeConfig.DARK
+            },
+            usDynamicColor = it.useDynamicColor,
+            name = null,
+            userName = "",
+        )
+    }.flowOn(dispatcher)
+
     override suspend fun saveUserSession(accountId: String, accessToken: String) {
         withContext(dispatcher) {
             userPreferences.updateData {
@@ -92,6 +122,42 @@ class DefaultLocalStorage @Inject constructor(
                 it.toBuilder()
                     .setGuestSessionId(guestSessionId)
                     .build()
+            }
+        }
+    }
+
+    override suspend fun setThemeConfig(config: ThemeConfig) {
+        withContext(dispatcher) {
+            userPreferences.updateData {
+                it.toBuilder()
+                    .setThemeConfig(
+                        when (config) {
+                            ThemeConfig.FOLLOW_SYSTEM -> ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM
+                            ThemeConfig.LIGHT -> ThemeConfigProto.THEME_CONFIG_LIGHT
+                            ThemeConfig.DARK -> ThemeConfigProto.THEME_CONFIG_DARK
+                        },
+                    )
+                    .build()
+            }
+        }
+    }
+
+    override suspend fun setUseDynamicColor(useDynamicColor: Boolean) {
+        withContext(dispatcher) {
+            userPreferences.updateData {
+                it.toBuilder()
+                    .setUseDynamicColor(useDynamicColor)
+                    .build()
+            }
+        }
+    }
+
+    override suspend fun logout() {
+        withContext(dispatcher) {
+            userPreferences.updateData {
+                it.toBuilder()
+                    .clearAccessToken()
+                    .clearAccountId().build()
             }
         }
     }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "me.jerryokafor.core.data";
+option java_multiple_files = true;
+
+message Avatar{
+  string gravatar_hash = 1;
+  string tmbd_avatar_path = 2;
+}
