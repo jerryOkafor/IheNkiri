@@ -109,7 +109,7 @@ fun IhenkiriApp(
                 ) {
                     authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
-                    tvShowsScreen()
+                    tvShowsScreen(onTVShowClick = onMovieClick)
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
                     peopleScreen()
                     settingsScreen()

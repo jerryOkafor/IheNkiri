@@ -280,8 +280,8 @@ fun MoviesScreen(
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .testTag(CHIP_GROUP_TEST_TAG),
-                    filters = filters,
-                    onItemSelected = filterItemSelected,
+                    items = filters.map { Pair(it.label, it.isSelected) },
+                    onItemSelected = { filterItemSelected(filters[it].type) },
                 )
             }
         }

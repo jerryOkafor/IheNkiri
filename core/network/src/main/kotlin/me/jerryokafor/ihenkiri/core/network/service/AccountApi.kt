@@ -22,27 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.feature.settings.navigation
+package me.jerryokafor.ihenkiri.core.network.service
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import me.jerryokafor.core.ui.navigation.enterTransition
-import me.jerryokafor.core.ui.navigation.exitTransition
-import me.jerryokafor.core.ui.navigation.popEnterTransition
-import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.settings.ui.SettingsScreen
+import me.jerryokafor.ihenkiri.core.network.Config
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkPerson
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val settingsNavPattern = "/settings"
-
-fun NavGraphBuilder.settingsScreen() {
-    composable(
-        route = settingsNavPattern,
-        enterTransition = enterTransition,
-        exitTransition = exitTransition,
-        popEnterTransition = popEnterTransition,
-        popExitTransition = popExitTransition,
-    ) {
-        SettingsScreen()
-    }
+interface AccountApi {
+    @GET("${Config.TMDB_API_V3}/account/{accountId}")
+    suspend fun popularPersons(
+        @Path("accountId") accountId: String,
+    ): PagedNetworkResponse<NetworkPerson>
 }

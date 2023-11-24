@@ -27,6 +27,7 @@ package me.jerryokafor.core.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -70,7 +71,7 @@ private fun testFilters() = listOf(
 fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(
-            filters = testFilters(),
+            items = testFilters().map { Pair(it.label, it.isSelected) },
         ) {}
     }
 }
@@ -79,19 +80,19 @@ fun MovieListFilterPreview() {
 @Composable
 fun MovieListFilter(
     modifier: Modifier = Modifier,
-    filters: List<MovieListFilterItem>,
-    onItemSelected: (MovieListFilterItem.FilterType) -> Unit,
+    items: List<Pair<String, Boolean>>,
+    onItemSelected: (Int) -> Unit,
 ) {
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
     ) {
         item { TwoAndHalfHorizontalSpacer() }
-        items(filters) {
+        itemsIndexed(items) { index, item ->
             FilterChip(
-                selected = it.isSelected,
-                onClick = { onItemSelected(it.type) },
-                label = { Text(text = it.label) },
+                selected = item.second,
+                onClick = { onItemSelected(index) },
+                label = { Text(text = item.first) },
                 shape = IheNkiri.shape.pill,
                 colors =
                 FilterChipDefaults.filterChipColors(
