@@ -22,11 +22,25 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.viewmodel
+package me.jerryokafor.ihenkiri.core.test.test.data
 
-import me.jerryokafor.core.model.UserEditableSettings
+import me.jerryokafor.core.data.filter.MoviesFilter
+import me.jerryokafor.core.data.repository.TVShowsRepository
+import me.jerryokafor.core.model.TVShow
+import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
+import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData
+import javax.inject.Inject
 
-sealed interface AppUiState {
-    data object Loading : AppUiState
-    data class Success(val settings: UserEditableSettings) : AppUiState
+class FakeTVShowsRepository @Inject constructor() : TVShowsRepository {
+    override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
+        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+
+    override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> =
+        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+
+    override suspend fun popular(filter: MoviesFilter): List<TVShow> =
+        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+
+    override suspend fun topRated(filter: MoviesFilter): List<TVShow> =
+        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
 }

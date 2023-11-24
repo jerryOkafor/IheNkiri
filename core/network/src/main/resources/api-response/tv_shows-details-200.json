@@ -1,0 +1,819 @@
+{
+  "adult": false,
+  "backdrop_path": "/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg",
+  "created_by": [],
+  "episode_run_time": [
+    15
+  ],
+  "first_air_date": "1952-12-26",
+  "genres": [
+    {
+      "id": 10763,
+      "name": "News"
+    }
+  ],
+  "homepage": "https://www.tagesschau.de/",
+  "id": 94722,
+  "in_production": true,
+  "languages": [
+    "de"
+  ],
+  "last_air_date": "2023-11-23",
+  "last_episode_to_air": {
+    "id": 4533199,
+    "name": "Episode 327",
+    "overview": "",
+    "vote_average": 0,
+    "vote_count": 0,
+    "air_date": "2023-11-23",
+    "episode_number": 327,
+    "episode_type": "standard",
+    "production_code": "",
+    "runtime": 15,
+    "season_number": 72,
+    "show_id": 94722,
+    "still_path": null
+  },
+  "name": "Tagesschau",
+  "next_episode_to_air": {
+    "id": 4533200,
+    "name": "Episode 328",
+    "overview": "",
+    "vote_average": 0,
+    "vote_count": 0,
+    "air_date": "2023-11-24",
+    "episode_number": 328,
+    "episode_type": "standard",
+    "production_code": "",
+    "runtime": 15,
+    "season_number": 72,
+    "show_id": 94722,
+    "still_path": null
+  },
+  "networks": [
+    {
+      "id": 308,
+      "logo_path": "/nGl2dDGonksWY4fTzPPdkK3oNyq.png",
+      "name": "Das Erste",
+      "origin_country": "DE"
+    }
+  ],
+  "number_of_episodes": 20839,
+  "number_of_seasons": 72,
+  "origin_country": [
+    "DE"
+  ],
+  "original_language": "de",
+  "original_name": "Tagesschau",
+  "overview": "German daily news program, the oldest still existing program on German television.",
+  "popularity": 3358.743,
+  "poster_path": "/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg",
+  "production_companies": [
+    {
+      "id": 7201,
+      "logo_path": "/ljV8ZT3CIYCEIEDlTyBliXJVCZr.png",
+      "name": "NDR",
+      "origin_country": "DE"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "DE",
+      "name": "Germany"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "1952-12-26",
+      "episode_count": 6,
+      "id": 134441,
+      "name": "Season 1952",
+      "overview": "",
+      "poster_path": "/lEOhLYxSlqYcAlSSunb0fbXkKM5.jpg",
+      "season_number": 1,
+      "vote_average": 3.5
+    },
+    {
+      "air_date": "1953-01-01",
+      "episode_count": 1,
+      "id": 170277,
+      "name": "Season 1953",
+      "overview": "",
+      "poster_path": "/irxJNLAXFNwkoARq62Aj4MBRxoG.jpg",
+      "season_number": 2,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1954-01-01",
+      "episode_count": 1,
+      "id": 170278,
+      "name": "Season 1954",
+      "overview": "",
+      "poster_path": "/1rltcJ60qGJhCVavjLxU6pnBgda.jpg",
+      "season_number": 3,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1955-01-01",
+      "episode_count": 1,
+      "id": 170279,
+      "name": "Season 1955",
+      "overview": "",
+      "poster_path": "/efXlmRCWwvJgeTyVrbMGkiTQdKw.jpg",
+      "season_number": 4,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1956-01-01",
+      "episode_count": 1,
+      "id": 170280,
+      "name": "Season 1956",
+      "overview": "",
+      "poster_path": "/dXEXqPsyzKmXf055cX4EQxaAkpU.jpg",
+      "season_number": 5,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1957-01-01",
+      "episode_count": 1,
+      "id": 170281,
+      "name": "Season 1957",
+      "overview": "",
+      "poster_path": "/1yli38KN1RlPWbf6PFacEYvynjx.jpg",
+      "season_number": 6,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1958-01-01",
+      "episode_count": 1,
+      "id": 170282,
+      "name": "Season 1958",
+      "overview": "",
+      "poster_path": "/29RPG4xnaELzYygPEhcrirywMpg.jpg",
+      "season_number": 7,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1959-01-01",
+      "episode_count": 1,
+      "id": 170283,
+      "name": "Season 1959",
+      "overview": "",
+      "poster_path": "/3SqVCtdjuWZMiZCJiDKePelxeiU.jpg",
+      "season_number": 8,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1960-01-01",
+      "episode_count": 1,
+      "id": 170284,
+      "name": "Season 1960",
+      "overview": "",
+      "poster_path": "/cYWhJUTOLhG3vy7esupVjObD9Qj.jpg",
+      "season_number": 9,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1961-01-01",
+      "episode_count": 1,
+      "id": 170285,
+      "name": "Season 1961",
+      "overview": "",
+      "poster_path": "/dxKp1LGNuRhIS8gTAiDfa1VKEYc.jpg",
+      "season_number": 10,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1962-01-01",
+      "episode_count": 1,
+      "id": 170286,
+      "name": "Season 1962",
+      "overview": "",
+      "poster_path": "/ujnEVEtl5TZRUyYL33CHhUFxir3.jpg",
+      "season_number": 11,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1963-01-01",
+      "episode_count": 1,
+      "id": 170287,
+      "name": "Season 1963",
+      "overview": "",
+      "poster_path": "/z4FdJH8QIFMkcr3vNSxxGjeB4WM.jpg",
+      "season_number": 12,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1964-01-01",
+      "episode_count": 1,
+      "id": 170288,
+      "name": "Season 1964",
+      "overview": "",
+      "poster_path": "/tC4hRgLakMBzB85JgpKG7fCohYU.jpg",
+      "season_number": 13,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1965-01-01",
+      "episode_count": 1,
+      "id": 170289,
+      "name": "Season 1965",
+      "overview": "",
+      "poster_path": "/oAO67W18ttbvZE0OYaDHb5rsWc7.jpg",
+      "season_number": 14,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1966-01-01",
+      "episode_count": 1,
+      "id": 170290,
+      "name": "Season 1966",
+      "overview": "",
+      "poster_path": "/eBIZQAnb0o1aloNmoPoNKZX8fCf.jpg",
+      "season_number": 15,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1967-01-01",
+      "episode_count": 365,
+      "id": 170291,
+      "name": "Season 1967",
+      "overview": "",
+      "poster_path": "/lUAhQNO8bzjQP7wd1o10EuhGTNV.jpg",
+      "season_number": 16,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1968-01-01",
+      "episode_count": 366,
+      "id": 170292,
+      "name": "Season 1968",
+      "overview": "",
+      "poster_path": "/5AM8lpT176wJydmdOJcIn1HMaH0.jpg",
+      "season_number": 17,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1969-01-01",
+      "episode_count": 365,
+      "id": 170293,
+      "name": "Season 1969",
+      "overview": "",
+      "poster_path": "/q8UmYymc9ZvyphASxjzZyGQ9eEA.jpg",
+      "season_number": 18,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1970-01-01",
+      "episode_count": 365,
+      "id": 170294,
+      "name": "Season 1970",
+      "overview": "",
+      "poster_path": "/2EcTKYF3gJBLNkw9WDoWd8G8G19.jpg",
+      "season_number": 19,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1971-01-01",
+      "episode_count": 365,
+      "id": 170295,
+      "name": "Season 1971",
+      "overview": "",
+      "poster_path": "/9xb0D64IJ2wBfRiuJVbV1UOAUki.jpg",
+      "season_number": 20,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1972-01-01",
+      "episode_count": 366,
+      "id": 170296,
+      "name": "Season 1972",
+      "overview": "",
+      "poster_path": "/vK8Q2G8O7UBQkixUboAr4jpgx0T.jpg",
+      "season_number": 21,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1973-01-01",
+      "episode_count": 365,
+      "id": 170297,
+      "name": "Season 1973",
+      "overview": "",
+      "poster_path": "/zNaXZquXXCTuH5xFnuP25Z1oeBq.jpg",
+      "season_number": 22,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1974-01-01",
+      "episode_count": 365,
+      "id": 170298,
+      "name": "Season 1974",
+      "overview": "",
+      "poster_path": "/z4HZVlRkttSqvqaT0Yrbw6u3Lgv.jpg",
+      "season_number": 23,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1975-01-01",
+      "episode_count": 365,
+      "id": 170299,
+      "name": "Season 1975",
+      "overview": "",
+      "poster_path": "/5Q3etzc9zNcIoNlJfypw5JkrbeE.jpg",
+      "season_number": 24,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1976-01-01",
+      "episode_count": 366,
+      "id": 170300,
+      "name": "Season 1976",
+      "overview": "",
+      "poster_path": "/mWc6kgXPVhktOh10piIgtupMzpE.jpg",
+      "season_number": 25,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1977-01-01",
+      "episode_count": 365,
+      "id": 170301,
+      "name": "Season 1977",
+      "overview": "",
+      "poster_path": "/3bEcwyhLm4XXzMa7mtRdnx0aRK7.jpg",
+      "season_number": 26,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1978-01-01",
+      "episode_count": 365,
+      "id": 170302,
+      "name": "Season 1978",
+      "overview": "",
+      "poster_path": "/fjS4j2C8XcLsWX7RjvNLXPcC5q6.jpg",
+      "season_number": 27,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1979-01-01",
+      "episode_count": 365,
+      "id": 170303,
+      "name": "Season 1979",
+      "overview": "",
+      "poster_path": "/aQECejNWupivGSks0sY39E79APg.jpg",
+      "season_number": 28,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1980-01-01",
+      "episode_count": 366,
+      "id": 170304,
+      "name": "Season 1980",
+      "overview": "",
+      "poster_path": "/1Prmqai0IHTESy0287PFhS43iHU.jpg",
+      "season_number": 29,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1981-01-01",
+      "episode_count": 365,
+      "id": 170305,
+      "name": "Season 1981",
+      "overview": "",
+      "poster_path": "/L8aq3NI5LqpmYUcBLZjVokIdex.jpg",
+      "season_number": 30,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1982-01-01",
+      "episode_count": 365,
+      "id": 170306,
+      "name": "Season 1982",
+      "overview": "",
+      "poster_path": "/sV0Ajdw80UwoCTaUvUU0rB0Ctaf.jpg",
+      "season_number": 31,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1983-01-01",
+      "episode_count": 365,
+      "id": 170307,
+      "name": "Season 1983",
+      "overview": "",
+      "poster_path": "/1DKgb0bPmaYk9q3ZNCQlvuL7N6k.jpg",
+      "season_number": 32,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1984-01-01",
+      "episode_count": 366,
+      "id": 170308,
+      "name": "Season 1984",
+      "overview": "",
+      "poster_path": "/b8DGfCh3hivg0TyJPGScUgAGL5d.jpg",
+      "season_number": 33,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1985-01-01",
+      "episode_count": 365,
+      "id": 170309,
+      "name": "Season 1985",
+      "overview": "",
+      "poster_path": "/hntwDFaqNPdIr1qcntas7lN0jQP.jpg",
+      "season_number": 34,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1986-01-01",
+      "episode_count": 365,
+      "id": 170310,
+      "name": "Season 1986",
+      "overview": "",
+      "poster_path": "/wcuXSYQNa1j79FR7OUBGul03NmK.jpg",
+      "season_number": 35,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1987-01-01",
+      "episode_count": 365,
+      "id": 170311,
+      "name": "Season 1987",
+      "overview": "",
+      "poster_path": "/nnIr3mJNvDd25QYNgS639mjzDva.jpg",
+      "season_number": 36,
+      "vote_average": 10
+    },
+    {
+      "air_date": "1988-01-01",
+      "episode_count": 366,
+      "id": 170312,
+      "name": "Season 1988",
+      "overview": "",
+      "poster_path": "/aVWVbZkO1MEE9lgnZCap83JtAD0.jpg",
+      "season_number": 37,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1989-01-01",
+      "episode_count": 365,
+      "id": 170313,
+      "name": "Season 1989",
+      "overview": "",
+      "poster_path": "/rUrwedb18bv15C82YxXWkVDpC0E.jpg",
+      "season_number": 38,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1990-01-01",
+      "episode_count": 365,
+      "id": 170314,
+      "name": "Season 1990",
+      "overview": "",
+      "poster_path": "/kLF3KAbDhkFO4Mc1SFWMAU8dT7d.jpg",
+      "season_number": 39,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1991-01-01",
+      "episode_count": 365,
+      "id": 170315,
+      "name": "Season 1991",
+      "overview": "",
+      "poster_path": "/mf3iRRLUEJrwsM5bU6Px2rN2WdV.jpg",
+      "season_number": 40,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1992-01-01",
+      "episode_count": 366,
+      "id": 170316,
+      "name": "Season 1992",
+      "overview": "",
+      "poster_path": "/7dAkMFUI7D0GvP6LA9aOHXM3qIl.jpg",
+      "season_number": 41,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1993-01-01",
+      "episode_count": 365,
+      "id": 170317,
+      "name": "Season 1993",
+      "overview": "",
+      "poster_path": "/AvLRNvuLFfD13KlCH6mhFtSZu5A.jpg",
+      "season_number": 42,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1994-01-01",
+      "episode_count": 365,
+      "id": 170318,
+      "name": "Season 1994",
+      "overview": "",
+      "poster_path": "/gWT0DUce5tH6PBXYPXLd9gT5Trn.jpg",
+      "season_number": 43,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1995-01-01",
+      "episode_count": 365,
+      "id": 170319,
+      "name": "Season 1995",
+      "overview": "",
+      "poster_path": "/ulNoJxJLobvyHEStNb1mfTA6t2d.jpg",
+      "season_number": 44,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1996-01-01",
+      "episode_count": 366,
+      "id": 170320,
+      "name": "Season 1996",
+      "overview": "",
+      "poster_path": "/yuOFRDtKlbirc19u4fuTKFaVTX.jpg",
+      "season_number": 45,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1997-01-01",
+      "episode_count": 365,
+      "id": 170321,
+      "name": "Season 1997",
+      "overview": "",
+      "poster_path": "/xnnusmryTKLwrPv4L13PbAvQW8a.jpg",
+      "season_number": 46,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1998-01-01",
+      "episode_count": 365,
+      "id": 170322,
+      "name": "Season 1998",
+      "overview": "",
+      "poster_path": "/P1tgezvaWD7XRSuvBXof8VBOqe.jpg",
+      "season_number": 47,
+      "vote_average": 0
+    },
+    {
+      "air_date": "1999-01-01",
+      "episode_count": 365,
+      "id": 170323,
+      "name": "Season 1999",
+      "overview": "",
+      "poster_path": "/mgwzR0kh5gESF735L1RnFI4LBCQ.jpg",
+      "season_number": 48,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2000-01-01",
+      "episode_count": 366,
+      "id": 170324,
+      "name": "Season 2000",
+      "overview": "",
+      "poster_path": "/cGdW1nIGpGxKqWpStk6jdHcVxBl.jpg",
+      "season_number": 49,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2001-01-01",
+      "episode_count": 365,
+      "id": 170325,
+      "name": "Season 2001",
+      "overview": "",
+      "poster_path": "/tSsU3MBeHDIc2eBJXGpj55h9Cb9.jpg",
+      "season_number": 50,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2002-01-01",
+      "episode_count": 365,
+      "id": 170326,
+      "name": "Season 2002",
+      "overview": "",
+      "poster_path": "/pqPI01dhU1sBuS9AaQV2j51gQmY.jpg",
+      "season_number": 51,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2003-01-01",
+      "episode_count": 365,
+      "id": 170327,
+      "name": "Season 2003",
+      "overview": "",
+      "poster_path": "/vKnO8vuXtOwk5woCB7xNLUAyiNa.jpg",
+      "season_number": 52,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2004-01-01",
+      "episode_count": 366,
+      "id": 170328,
+      "name": "Season 2004",
+      "overview": "",
+      "poster_path": "/963AZmFZ2O6XgEe6pAhPb6MtcIL.jpg",
+      "season_number": 53,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2005-01-01",
+      "episode_count": 365,
+      "id": 170329,
+      "name": "Season 2005",
+      "overview": "",
+      "poster_path": "/zm7cevbKSwgB1QZTTR9OJMmuQoC.jpg",
+      "season_number": 54,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2006-01-01",
+      "episode_count": 365,
+      "id": 170330,
+      "name": "Season 2006",
+      "overview": "",
+      "poster_path": "/ssLsnZCrhfHdUAMOhlJePgUudgq.jpg",
+      "season_number": 55,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2007-01-01",
+      "episode_count": 365,
+      "id": 170331,
+      "name": "Season 2007",
+      "overview": "",
+      "poster_path": "/paXDiaj53sFZZ2qatzus5UkuwMa.jpg",
+      "season_number": 56,
+      "vote_average": 8
+    },
+    {
+      "air_date": "2008-01-01",
+      "episode_count": 366,
+      "id": 170332,
+      "name": "Season 2008",
+      "overview": "",
+      "poster_path": "/q7d9AFjCxcufTcVHW1zSOHGkQWl.jpg",
+      "season_number": 57,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2009-01-01",
+      "episode_count": 365,
+      "id": 170333,
+      "name": "Season 2009",
+      "overview": "",
+      "poster_path": "/a4AGwp7UfzlC6P6i6zwWNfvRDcb.jpg",
+      "season_number": 58,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2010-01-01",
+      "episode_count": 365,
+      "id": 170334,
+      "name": "Season 2010",
+      "overview": "",
+      "poster_path": "/aKMkj0hjVp65Pn47zgdD28HXd6Z.jpg",
+      "season_number": 59,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2011-01-01",
+      "episode_count": 365,
+      "id": 170335,
+      "name": "Season 2011",
+      "overview": "",
+      "poster_path": "/zcV7amrmdowNxad0OtuPNgK58LK.jpg",
+      "season_number": 60,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2012-01-01",
+      "episode_count": 366,
+      "id": 170336,
+      "name": "Season 2012",
+      "overview": "",
+      "poster_path": "/fdUEY5ZG65uyPUI7NZfWKUMkA5E.jpg",
+      "season_number": 61,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2013-01-01",
+      "episode_count": 365,
+      "id": 170337,
+      "name": "Season 2013",
+      "overview": "",
+      "poster_path": "/cEqDDPZy8ixeC2xGKSAsdnXItia.jpg",
+      "season_number": 62,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2014-01-01",
+      "episode_count": 365,
+      "id": 170338,
+      "name": "Season 2014",
+      "overview": "",
+      "poster_path": "/jPYS4475MKauMDGFMmzpPUm6mIt.jpg",
+      "season_number": 63,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2015-01-01",
+      "episode_count": 365,
+      "id": 170339,
+      "name": "Season 2015",
+      "overview": "",
+      "poster_path": "/kChxTruYOX76zmRP8mrANbq30yC.jpg",
+      "season_number": 64,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2016-01-01",
+      "episode_count": 366,
+      "id": 170340,
+      "name": "Season 2016",
+      "overview": "",
+      "poster_path": "/fYUES0AeaN5Kw88ZRGlIpqGYlW8.jpg",
+      "season_number": 65,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2017-01-01",
+      "episode_count": 365,
+      "id": 170341,
+      "name": "Season 2017",
+      "overview": "",
+      "poster_path": "/tceLH5bcBXVEXUZzdjGkDJJoo9b.jpg",
+      "season_number": 66,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2018-01-01",
+      "episode_count": 365,
+      "id": 170342,
+      "name": "Season 2018",
+      "overview": "",
+      "poster_path": "/w4GgThRplEFX8L3unETiZb8wgRw.jpg",
+      "season_number": 67,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2019-01-01",
+      "episode_count": 365,
+      "id": 170343,
+      "name": "Season 2019",
+      "overview": "",
+      "poster_path": "/v7q2U0vxMxUkjMXQExiIIZGqTBY.jpg",
+      "season_number": 68,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2020-01-01",
+      "episode_count": 366,
+      "id": 170344,
+      "name": "Season 2020",
+      "overview": "",
+      "poster_path": "/ooAAgXmRyVvCotda2fmwBjqEfA6.jpg",
+      "season_number": 69,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2021-01-01",
+      "episode_count": 365,
+      "id": 174386,
+      "name": "Season 2021",
+      "overview": "",
+      "poster_path": "/ryQwRK3f6K06UJuMK9oVH1WhZdA.jpg",
+      "season_number": 70,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2022-01-01",
+      "episode_count": 365,
+      "id": 345700,
+      "name": "Season 71",
+      "overview": "",
+      "poster_path": null,
+      "season_number": 71,
+      "vote_average": 0
+    },
+    {
+      "air_date": "2023-01-01",
+      "episode_count": 365,
+      "id": 345701,
+      "name": "Season 72",
+      "overview": "",
+      "poster_path": null,
+      "season_number": 72,
+      "vote_average": 0
+    }
+  ],
+  "spoken_languages": [
+    {
+      "english_name": "German",
+      "iso_639_1": "de",
+      "name": "Deutsch"
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "",
+  "type": "News",
+  "vote_average": 7.131,
+  "vote_count": 168
+}

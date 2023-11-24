@@ -108,7 +108,7 @@ private fun shouldUseDarkTheme(
     uiState: AppUiState,
 ): Boolean = when (uiState) {
     AppUiState.Loading -> isSystemInDarkTheme()
-    is AppUiState.Success -> when (uiState.userPreference.themeConfig) {
+    is AppUiState.Success -> when (uiState.settings.themeConfig) {
         ThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
         ThemeConfig.LIGHT -> false
         ThemeConfig.DARK -> true
@@ -120,5 +120,5 @@ private fun shouldUseDynamicColor(
     uiState: AppUiState,
 ): Boolean = when (uiState) {
     AppUiState.Loading -> false
-    is AppUiState.Success -> uiState.userPreference.isDynamicColor
+    is AppUiState.Success -> uiState.settings.isDynamicColor
 }

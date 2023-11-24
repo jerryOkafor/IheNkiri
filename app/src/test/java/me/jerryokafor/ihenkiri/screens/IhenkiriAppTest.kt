@@ -86,7 +86,7 @@ class IhenkiriAppTest {
                 navController = TestNavHostController(LocalContext.current).apply {
                     navigatorProvider.addNavigator(ComposeNavigator())
                 }
-                IhenkiriApp(isLoggedIn = true, navController = navController)
+                IhenkiriApp(navController = navController)
             }
 
             waitUntilNodeCount(hasTestTag(BOTTOM_NAV_BAR_TEST_TAG), count = 1, timeoutMillis = 400)
@@ -132,7 +132,7 @@ class IhenkiriAppTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                IhenkiriApp(isLoggedIn = true, navController = navController)
+                IhenkiriApp(navController = navController)
             }
 
             onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()

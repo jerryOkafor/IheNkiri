@@ -32,9 +32,11 @@ import me.jerryokafor.core.data.injection.DataModule
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.PeopleListRepository
+import me.jerryokafor.core.data.repository.TVShowsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMovieDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleListRepository
+import me.jerryokafor.ihenkiri.core.test.test.data.FakeTVShowsRepository
 
 @Module
 @TestInstallIn(
@@ -50,4 +52,7 @@ abstract class TestDataModule {
 
     @Binds
     abstract fun providePeopleListRepository(peopleListRepository: FakePeopleListRepository): PeopleListRepository
+
+    @Binds
+    abstract fun provideTVShowsRepository(repo: FakeTVShowsRepository): TVShowsRepository
 }

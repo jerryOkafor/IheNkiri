@@ -22,32 +22,36 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.injection
+package me.jerryokafor.ihenkiri.core.test.test.network
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.network.injection.NetworkModule
-import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkTvShow
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApi
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeMoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeTVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData
+import javax.inject.Inject
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [NetworkModule::class],
-)
-abstract class TestNetworkModule {
-    @Binds
-    abstract fun bindAuthApi(authApi: FakeAuthApi): AuthApi
+class FakeTVSeriesListsApi @Inject constructor() : TVSeriesListsApi {
+    override suspend fun airingToday(
+        language: String,
+        page: Int,
+        region: String?,
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
 
-    @Binds
-    abstract fun MoviesRemoteDataSource(datasource: FakeMoviesRemoteDataSource): MoviesRemoteDataSource
+    override suspend fun onTheAir(
+        language: String,
+        page: Int,
+        region: String?,
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
 
-    @Binds
-    abstract fun provideTVSeriesListsApi(repo: FakeTVSeriesListsApi): TVSeriesListsApi
+    override suspend fun popular(
+        language: String,
+        page: Int,
+        region: String?,
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
+
+    override suspend fun topRated(
+        language: String,
+        page: Int,
+        region: String?,
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
 }

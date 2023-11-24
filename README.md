@@ -178,7 +178,7 @@ Generate Lint baseline
 
 ````bash
 ./gradlew lintDebug -Dlint.baselines.continue=true
-``
+````
 
 
 We have the following tests on **IheNkiri**
