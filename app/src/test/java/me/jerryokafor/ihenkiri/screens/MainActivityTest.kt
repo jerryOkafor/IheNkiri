@@ -131,10 +131,10 @@ class MainActivityTest {
 //        val requestToken = fakeRequest.requestToken
 //        val redirectTo = "https://ihenkiri.jerryokafor.me/auth"
 //        val url = "https://www.themoviedb.org/auth/access?request_token=$requestToken&redirect_to=$redirectTo"
-        // verify that the correct intent was sent
+    // verify that the correct intent was sent
 //        intended(allOf(hasAction(Intent.ACTION_VIEW), hasData(url)))
 
-        // verify that the correct intent was sent using truth assertions
+    // verify that the correct intent was sent using truth assertions
 //        val receivedIntent: Intent = Iterables.getOnlyElement(Intents.getIntents())
 //        assertThat(receivedIntent).hasData(Uri.parse(url))
 //        assertThat(receivedIntent).hasAction(Intent.ACTION_VIEW)
