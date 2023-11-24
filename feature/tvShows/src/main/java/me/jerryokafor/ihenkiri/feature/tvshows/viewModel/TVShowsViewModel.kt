@@ -41,6 +41,8 @@ import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.data.repository.MoviesListPagingSource
+import me.jerryokafor.core.data.repository.TVShowsListPagingSource
+import me.jerryokafor.core.data.repository.TVShowsRepository
 import me.jerryokafor.core.model.TVShowsFilterItem
 import javax.inject.Inject
 
@@ -48,10 +50,11 @@ import javax.inject.Inject
 class TVShowsViewModel
 @Inject
 constructor(
-    private val movieListRepository: MovieListRepository,
+    private val tvShowsRepository: TVShowsRepository,
     @IoDispatcher
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
+    @Suppress("ktlint:standard:property-naming")
     private val _tvShowFilters = MutableStateFlow(
         listOf(
             TVShowsFilterItem(
@@ -92,7 +95,7 @@ constructor(
             config = PagingConfig(pageSize = 20, maxSize = 200, enablePlaceholders = true),
             initialKey = null,
             pagingSourceFactory = {
-                MoviesListPagingSource { page ->
+                TVShowsListPagingSource { page ->
                     val queryFilter = MoviesFilter(
                         language = "en-Us",
                         page = page,
@@ -101,19 +104,19 @@ constructor(
 
                     when (filter) {
                         TVShowsFilterItem.FilterType.AIRING_TODAY ->
-                            movieListRepository.nowPlayingMovies(queryFilter)
+                            tvShowsRepository.airingToday(queryFilter)
 
                         TVShowsFilterItem.FilterType.ON_THE_AIR ->
-                            movieListRepository.popularMovies(queryFilter)
+                            tvShowsRepository.onTheAir(queryFilter)
 
                         TVShowsFilterItem.FilterType.POPULAR ->
-                            movieListRepository.topRatedMovies(queryFilter)
+                            tvShowsRepository.popular(queryFilter)
 
                         TVShowsFilterItem.FilterType.TOP_RATED ->
-                            movieListRepository.upcomingMovies(queryFilter)
+                            tvShowsRepository.topRated(queryFilter)
 
                         TVShowsFilterItem.FilterType.DISCOVER ->
-                            movieListRepository.upcomingMovies(queryFilter)
+                            tvShowsRepository.airingToday(queryFilter)
                     }
                 }
             },

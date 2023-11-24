@@ -112,18 +112,11 @@ fun IhenkiriApp(
                 ) {
                     authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
-                    tvShowsScreen(onTVShowClick = onMovieClick)
+                    tvShowsScreen(onTVShowClick = {})
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
                     peopleScreen()
                     settingsScreen(onLogin = onLogin)
                 }
-
-//                LaunchedEffect(isLoggedIn) {
-//                    when (isLoggedIn) {
-//                        true -> navController.navigateToMoviesScreen()
-//                        false -> navController.navigateToAuth()
-//                    }
-//                }
             }
         },
     )

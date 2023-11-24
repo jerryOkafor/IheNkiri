@@ -26,66 +26,64 @@ package me.jerryokafor.core.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.core.data.filter.toQuery
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.core.model.TVShow
+import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
+import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Singleton
 
-interface MovieListRepository {
-    suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun popularMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun topRatedMovies(filter: MoviesFilter): List<Movie>
-
-    suspend fun upcomingMovies(filter: MoviesFilter): List<Movie>
+interface TVShowsRepository {
+    suspend fun airingToday(filter: MoviesFilter): List<TVShow>
+    suspend fun onTheAir(filter: MoviesFilter): List<TVShow>
+    suspend fun popular(filter: MoviesFilter): List<TVShow>
+    suspend fun topRated(filter: MoviesFilter): List<TVShow>
 }
 
-@Singleton
-class DefaultMovieListRepository
+
+class DefaultTVShowsRepository
 @Inject
-constructor(
-    private val moviesRemoteDataSource: MoviesRemoteDataSource,
-    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
-) : MovieListRepository {
-    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
-            moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
-        }
+constructor(private val tvSeriesListsApi: TVSeriesListsApi) : TVShowsRepository {
+    override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
+        tvSeriesListsApi.airingToday(
+            filter.language,
+            filter.page,
+            filter.region,
+        ).results.map { it.asDomainObject() }
 
-    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
-            moviesRemoteDataSource.popularMovies(filter.toQuery())
-        }
+    override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.onTheAir(
+        filter.language,
+        filter.page,
+        filter.region,
+    ).results.map { it.asDomainObject() }
 
-    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
-            moviesRemoteDataSource.topRatedMovies(filter.toQuery())
-        }
+    override suspend fun popular(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.popular(
+        filter.language,
+        filter.page,
+        filter.region,
+    ).results.map { it.asDomainObject() }
 
-    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
-            moviesRemoteDataSource.upcomingMovies(filter.toQuery())
-        }
+    override suspend fun topRated(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.topRated(
+        filter.language,
+        filter.page,
+        filter.region,
+    ).results.map { it.asDomainObject() }
+
 }
 
-class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
-    PagingSource<Int, Movie>() {
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+
+class TVShowsListPagingSource(private val fetchMovies: suspend (Int) -> List<TVShow>) :
+    PagingSource<Int, TVShow>() {
+    override fun getRefreshKey(state: PagingState<Int, TVShow>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVShow> {
         return try {
             val pageNumber = params.key ?: 1
             val response = fetchMovies(pageNumber)

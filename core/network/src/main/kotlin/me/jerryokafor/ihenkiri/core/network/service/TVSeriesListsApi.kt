@@ -26,6 +26,7 @@ package me.jerryokafor.ihenkiri.core.network.service
 
 import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkTvShow
 import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -45,7 +46,7 @@ interface TVSeriesListsApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): PagedNetworkResponse<NetworkMovie>
+    ): PagedNetworkResponse<NetworkTvShow>
 
     /**
      * Get a list of TV shows that air in the next 7 days.
@@ -60,7 +61,7 @@ interface TVSeriesListsApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): PagedNetworkResponse<NetworkMovie>
+    ): PagedNetworkResponse<NetworkTvShow>
 
     /**
      * Get a list of TV shows ordered by popularity.
@@ -75,7 +76,7 @@ interface TVSeriesListsApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): PagedNetworkResponse<NetworkMovie>
+    ): PagedNetworkResponse<NetworkTvShow>
 
     /**
      * Get a list of TV shows ordered by rating.
@@ -90,5 +91,5 @@ interface TVSeriesListsApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): PagedNetworkResponse<NetworkMovie>
+    ): PagedNetworkResponse<NetworkTvShow>
 }

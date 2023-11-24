@@ -22,18 +22,14 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.filter
+package me.jerryokafor.core.model
 
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 
-data class MoviesFilter(
-    val language: String,
-    val page: Int,
-    val region: String?,
-)
-
-fun MoviesFilter.toQuery() = MoviesQuery(
-    language = this.language,
-    page = this.page,
-    region = this.region,
+data class TVShow(
+    val id: Long,
+    val name: String,
+    val overview: String,
+    val backdropPath: String? = null,
+    val posterPath: String? = null,
+    val voteAverage: Double,
 )

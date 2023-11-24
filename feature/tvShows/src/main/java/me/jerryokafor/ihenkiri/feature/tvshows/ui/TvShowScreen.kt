@@ -92,7 +92,7 @@ import me.jerryokafor.core.ds.theme.FiveVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
-import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.TVShow
 import me.jerryokafor.core.model.TVShowsFilterItem
 import me.jerryokafor.core.ui.components.Background
 import me.jerryokafor.core.ui.components.MovieListFilter
@@ -115,7 +115,7 @@ const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
 fun TVShowsScreenPreview() {
     IheNkiriTheme {
         TVShowsScreen(
-            movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
+            movieLazyPagingItems = flowOf(PagingData.from(testTvShows())).collectAsLazyPagingItems(),
             filters = testFilters(),
             onTVShowClick = {},
         ) {}
@@ -145,7 +145,7 @@ fun TVShowsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TVShowsScreen(
-    movieLazyPagingItems: LazyPagingItems<Movie>,
+    movieLazyPagingItems: LazyPagingItems<TVShow>,
     filters: List<TVShowsFilterItem> = emptyList(),
     onTVShowClick: (movieId: Long) -> Unit,
     onFilterItemSelected: (TVShowsFilterItem.FilterType) -> Unit = {},
@@ -231,16 +231,16 @@ fun TVShowsScreen(
                     content = {
                         item(span = StaggeredGridItemSpan.FullLine) { FiveVerticalSpacer() }
                         items(count = movieLazyPagingItems.itemCount) { index ->
-                            val movie = movieLazyPagingItems[index]!!
-                            val path = ImageUtil.buildImageUrl(movie.posterPath)
+                            val tvShow = movieLazyPagingItems[index]!!
+                            val path = ImageUtil.buildImageUrl(tvShow.posterPath)
                             MoviePoster(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .aspectRatio(ASPECT_RATIO),
                                 posterUrl = path,
                                 shimmer = shimmerInstance,
-                                contentDescription = movie.title,
-                                onClick = { onTVShowClick(movie.id) },
+                                contentDescription = tvShow.name,
+                                onClick = { onTVShowClick(tvShow.id) },
                             )
                         }
 
@@ -438,10 +438,10 @@ private fun testFilters() = listOf(
 )
 
 @ExcludeFromGeneratedCoverageReport
-private fun testMovies() = listOf(
-    Movie(
+private fun testTvShows() = listOf(
+    TVShow(
         id = 667538,
-        title = "Transformers: Rise of the Beasts",
+        name = "Transformers: Rise of the Beasts",
         overview =
         """
                 When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
@@ -453,9 +453,9 @@ private fun testMovies() = listOf(
         posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         voteAverage = 7.5,
     ),
-    Movie(
+    TVShow(
         id = 298618,
-        title = "The Flash",
+        name = "The Flash",
         overview =
         """
                 When his attempt to save his family inadvertently alters the future, 
@@ -466,6 +466,6 @@ private fun testMovies() = listOf(
         """.trimIndent(),
         backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
-        voteAverage = 7.0,
+        voteAverage = 6.5,
     ),
 )

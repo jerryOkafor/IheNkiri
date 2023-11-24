@@ -22,18 +22,54 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.data.filter
+package me.jerryokafor.ihenkiri.core.network.model.response
 
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesQuery
 
-data class MoviesFilter(
-    val language: String,
-    val page: Int,
-    val region: String?,
+import com.google.gson.annotations.SerializedName
+import me.jerryokafor.core.model.TVShow
+
+data class NetworkTvShow(
+    @SerializedName("backdrop_path")
+    val backdropPath: String,
+
+    @SerializedName("first_air_date")
+    val firstAirDate: String,
+
+    @SerializedName("genre_ids")
+    val genreIds: List<Int>,
+
+    val id: Long,
+
+    val name: String,
+
+    @SerializedName("origin_country")
+    val originCountry: List<String>,
+
+    @SerializedName("original_language")
+    val originalLanguage: String,
+
+    @SerializedName("original_name")
+    val originalName: String,
+
+    val overview: String,
+
+    val popularity: Double,
+
+    @SerializedName("poster_path")
+    val posterPath: String,
+
+    @SerializedName("vote_average")
+    val voteAverage: Double,
+
+    @SerializedName("vote_count")
+    val voteCount: Int,
 )
 
-fun MoviesFilter.toQuery() = MoviesQuery(
-    language = this.language,
-    page = this.page,
-    region = this.region,
+fun NetworkTvShow.asDomainObject() = TVShow(
+    id = this.id,
+    name = this.name,
+    overview = this.overview,
+    backdropPath = this.backdropPath,
+    posterPath = this.posterPath,
+    voteAverage = this.voteAverage,
 )
