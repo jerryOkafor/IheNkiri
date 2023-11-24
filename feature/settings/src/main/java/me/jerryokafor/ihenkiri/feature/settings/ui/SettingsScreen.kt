@@ -190,7 +190,6 @@ fun SettingsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-
                             item { UserDetails(profilePath = "") }
                             item { MovieAndTVScore() }
                             item { UserAccountStat() }
@@ -258,7 +257,6 @@ fun SettingsScreen(
             }
         }
     }
-
 }
 
 @Composable
@@ -306,7 +304,6 @@ private fun ColumnScope.SettingsPanel(
     }
 }
 
-
 @Composable
 private fun SettingsDialogSectionTitle(text: String) {
     Text(
@@ -315,7 +312,6 @@ private fun SettingsDialogSectionTitle(text: String) {
         modifier = Modifier.padding(top = IheNkiri.spacing.two, bottom = IheNkiri.spacing.half),
     )
 }
-
 
 @Composable
 private fun ChangeThemeButton(onClick: () -> Unit) {

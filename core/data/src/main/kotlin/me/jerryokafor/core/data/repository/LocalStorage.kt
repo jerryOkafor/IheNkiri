@@ -54,7 +54,6 @@ interface LocalStorage {
     suspend fun setThemeConfig(config: ThemeConfig)
     suspend fun setUseDynamicColor(useDynamicColor: Boolean)
     suspend fun logout()
-
 }
 
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
@@ -88,8 +87,8 @@ class DefaultLocalStorage @Inject constructor(
     override fun userData(): Flow<UserData> = userPreferences.data.map {
         UserData(
             accountId = it.accountId,
-            isLoggedIn = it.accessToken.isNullOrBlank().not()
-                || it.guestSessionId.isNullOrBlank().not(),
+            isLoggedIn = it.accessToken.isNullOrBlank().not() ||
+                it.guestSessionId.isNullOrBlank().not(),
             themeConfig = when (it.themeConfig) {
                 ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM -> ThemeConfig.FOLLOW_SYSTEM
                 ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT

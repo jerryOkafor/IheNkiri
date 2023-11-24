@@ -30,6 +30,6 @@ data class UserData(
     val themeConfig: ThemeConfig,
     val usDynamicColor: Boolean,
     val name: String?,
-    val userName:String?,
+    val userName: String?,
 
 )

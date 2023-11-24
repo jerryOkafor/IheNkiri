@@ -25,5 +25,7 @@
 package me.jerryokafor.core.model
 
 enum class ThemeConfig {
-    FOLLOW_SYSTEM, LIGHT, DARK
+    FOLLOW_SYSTEM,
+    LIGHT,
+    DARK,
 }

@@ -74,10 +74,8 @@ constructor(private val localStorage: LocalStorage) : ViewModel() {
         viewModelScope.launch {
             localStorage.setUseDynamicColor(useDynamicColor)
         }
-
     }
 }
-
 
 sealed interface SettingsUiState {
     data object Loading : SettingsUiState
