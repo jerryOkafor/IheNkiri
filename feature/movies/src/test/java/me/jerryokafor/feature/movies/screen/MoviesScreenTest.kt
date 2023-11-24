@@ -25,133 +25,182 @@
 package me.jerryokafor.feature.movies.screen
 
 import android.os.Build
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isToggleable
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeLeft
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
+import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 
 @RunWith(RobolectricTestRunner::class)
 @Config(
     sdk = [Build.VERSION_CODES.O],
     instrumentedPackages = ["androidx.loader.content"],
+    qualifiers = "xlarge",
 )
 class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val testFilters =
-        listOf(
-            MovieListFilterItem(
-                label = "Now Playing",
-                isSelected = true,
-                type = MovieListFilterItem.FilterType.NOW_PLAYING,
-            ),
-            MovieListFilterItem(
-                label = "Popular",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.POPULAR,
-            ),
-            MovieListFilterItem(
-                label = "Top Rated",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.TOP_RATED,
-            ),
-            MovieListFilterItem(
-                label = "Upcoming",
-                isSelected = false,
-                type = MovieListFilterItem.FilterType.UPCOMING,
-            ),
-        )
-
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0
 
-    fun setUp(filters: List<MovieListFilterItem>) {
-        composeTestRule.setContent {
-            MoviesScreen(
-                filters = filters,
-                movieLazyPagingItems = flowOf(PagingData.from(testMovies())).collectAsLazyPagingItems(),
-                onMovieClick = { onMovieClickCounter++ },
-            ) { onFilterItemSelectedCounter++ }
-        }
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        ShadowLog.stream = System.out
     }
 
     @Test
-    fun moviesScreen_SearchButtonClick_SearchViewShown() {
-        setUp(testFilters)
-        composeTestRule.onNodeWithContentDescription("Search")
+    fun moviesScreen_moviesLoading_showLoadingProgress() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(
+                        data = emptyList<Movie>(),
+                        sourceLoadStates = LoadStates(
+                            refresh = LoadState.Loading,
+                            append = LoadState.NotLoading(false),
+                            prepend = LoadState.NotLoading(false),
+                        ),
+                    ),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(FRESH_LOAD_PROGRESS_TEST_TAG)
             .assertExists()
+            .assert(hasProgressBarRangeInfo(ProgressBarRangeInfo.Indeterminate))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun moviesScreen_appendMoviesLoading_showAppendLoadingProgress() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(
+                        data = emptyList<Movie>(),
+                        sourceLoadStates = LoadStates(
+                            refresh = LoadState.NotLoading(false),
+                            append = LoadState.Loading,
+                            prepend = LoadState.NotLoading(false),
+                        ),
+                    ),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(APPEND_LOAD_PROGRESS_TEST_TAG)
+            .assertExists()
+            .assert(hasProgressBarRangeInfo(ProgressBarRangeInfo.Indeterminate))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun moviesScreen_nowPlayingMoviesFilterSelected_nowPlayingMoviesShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+        composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
+
+        composeTestRule.onNode(hasText("Now Playing") and hasClickAction())
+            .assertExists()
+            .assertIsSelected()
             .assertIsDisplayed()
             .performClick()
 
-        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
-            .assertExists()
-            .assertIsDisplayed()
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
-    fun moviesScreen_NowPlayingMoviesFilterSelected_NowPlayingMoviesShown() {
-        setUp(testFilters.selectItem("Now Playing"))
-
+    fun moviesScreen_popularMoviesFilterSelected_popularMoviesShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters().selectItem("Popular"),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
+            .assert(hasScrollAction())
             .assertIsDisplayed()
 
-        with(composeTestRule.onNode(hasText("Now Playing") and hasClickAction())) {
-            assertExists()
-            assertIsSelected()
-            assertIsDisplayed()
-            performClick()
-        }
-
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
-    }
-
-    @Test
-    fun moviesScreen_PopularMoviesFilterSelected_PopularMoviesShown() {
-        setUp(testFilters.selectItem("Popular"))
-
-        composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
+        composeTestRule.onNode(hasText("Popular") and hasClickAction())
             .assertExists()
+            .assertIsSelected()
             .assertIsDisplayed()
-        with(composeTestRule.onNode(hasText("Popular") and hasClickAction())) {
-            assertExists()
-            assertIsSelected()
-            assertIsDisplayed()
-            performClick()
-        }
+            .performClick()
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
-    fun moviesScreen_TopRatedMoviesFilterSelected_TopRatedMoviesShown() {
-        setUp(testFilters.selectItem("Top Rated"))
-
+    fun moviesScreen_topRatedMoviesFilterSelected_topRatedMoviesShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters().selectItem("Top Rated"),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
             .assertIsDisplayed()
@@ -162,17 +211,26 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
-    fun moviesScreen_UpcomingMoviesFilterSelected_UpcomingMoviesShown() {
-        setUp(testFilters.selectItem("Upcoming"))
-
+    fun moviesScreen_upcomingMoviesFilterSelected_upcomingMoviesShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters().selectItem("Upcoming"),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
             .assertExists()
             .assertIsDisplayed()
-            .performScrollToIndex(3)
+            .performTouchInput { swipeLeft() }
+
         with(composeTestRule.onNode(hasText("Upcoming") and hasClickAction())) {
             assertExists()
             assertIsSelected()
@@ -180,13 +238,114 @@ class MoviesScreenTest {
             performClick()
         }
 
-        Truth.assertThat(onFilterItemSelectedCounter).isEqualTo(1)
+        assertThat(onFilterItemSelectedCounter).isEqualTo(1)
     }
 
     @Test
-    fun moviesScreen_MovieItemClick_MovieDetailsScreenShown() {
-        setUp(testFilters.selectItem("Now Playing"))
+    fun moviesScreen_discoverMoviesFilterSelected_searchViewIsShown() = runTest {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters().selectItem("Discover"),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+        composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
+            .performTouchInput { swipeLeft() }
 
+        composeTestRule.onNode(hasText("Discover") and hasClickAction())
+            .assertExists()
+            .assertIsSelected()
+            .assertIsDisplayed()
+            .performClick()
+
+        // wait for dialog to open
+        composeTestRule.mainClock.autoAdvance = true
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Adult")
+            .assertExists()
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Video")
+            .assertExists()
+            .assertIsDisplayed()
+
+        composeTestRule.onAllNodes(isToggleable())
+            .assertCountEquals(2)
+            .onFirst()
+            .performClick()
+
+        composeTestRule.onAllNodes(isToggleable())
+            .assertCountEquals(2)
+            .onLast()
+            .performClick()
+
+        composeTestRule.onNodeWithContentDescription("perform search")
+            .assertExists()
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithContentDescription("close search")
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
+        // wait for dialog to open
+        composeTestRule.mainClock.autoAdvance = true
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun moviesScreen_SearchButtonClick_SearchViewShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription("click to search")
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
+        // wait for dialog to open
+        composeTestRule.mainClock.autoAdvance = true
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
+            .assertExists()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun moviesScreen_movieItemClick_movieDetailsScreenShown() {
+        composeTestRule.setContent {
+            MoviesScreen(
+                filters = testFilters(),
+                movieLazyPagingItems = flowOf(
+                    PagingData.from(data = testMovies()),
+                ).collectAsLazyPagingItems(),
+                onMovieClick = { onMovieClickCounter++ },
+                onFilterItemSelected = { onFilterItemSelectedCounter++ },
+            )
+        }
         composeTestRule.onNodeWithTag(GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
             .assertExists()
             .assertIsDisplayed()
@@ -200,9 +359,38 @@ class MoviesScreenTest {
             .assertHasClickAction()
             .performClick()
 
-        Truth.assertThat(onMovieClickCounter).isEqualTo(1)
+        assertThat(onMovieClickCounter).isEqualTo(1)
     }
 }
 
 private fun List<MovieListFilterItem>.selectItem(whereLabel: String) =
     map { if (it.label == whereLabel) it.copy(isSelected = true) else it.copy(isSelected = false) }
+
+@ExcludeFromGeneratedCoverageReport
+private fun testFilters() = listOf(
+    MovieListFilterItem(
+        label = "Now Playing",
+        isSelected = true,
+        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+    ),
+    MovieListFilterItem(
+        label = "Popular",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.POPULAR,
+    ),
+    MovieListFilterItem(
+        label = "Top Rated",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.TOP_RATED,
+    ),
+    MovieListFilterItem(
+        label = "Upcoming",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.UPCOMING,
+    ),
+    MovieListFilterItem(
+        label = "Discover",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.DISCOVER,
+    ),
+)

@@ -24,6 +24,8 @@
 
 package me.jerryokafor.core.ui.widget
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,9 +35,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
+import androidx.test.core.app.ApplicationProvider
+import coil.Coil
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.test.FakeImageLoaderEngine
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,6 +51,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowLog
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -52,22 +61,37 @@ class PeoplePosterScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    @OptIn(ExperimentalCoilApi::class)
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        val engine = FakeImageLoaderEngine.Builder()
+//            .intercept("https://www.example.com/image.jpg", ColorDrawable(Color.RED))
+            .intercept({ it is String && it.endsWith("jpg") }, ColorDrawable(Color.GREEN))
+            .default(ColorDrawable(Color.BLUE))
+            .build()
+        val imageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
+            .components { add(engine) }
+            .build()
+        Coil.setImageLoader(imageLoader)
+        ShadowLog.stream = System.out
+    }
+
     @Test
-    fun movieRating_multipleThemes() {
+    fun peoplePoster_multipleThemes() {
         composeTestRule.captureMultiTheme("PeoplePoster") { desc: String ->
             Box(
-                modifier =
-                    Modifier
-                        .size(200.dp)
-                        .aspectRatio(1F)
-                        .background(IheNkiri.color.inverseOnSurface),
+                modifier = Modifier
+                    .size(200.dp)
+                    .aspectRatio(1F)
+                    .background(IheNkiri.color.inverseOnSurface),
             ) {
                 PeoplePoster(
                     modifier = Modifier.align(Alignment.Center),
                     size = 120.dp,
                     firstName = "Sandra",
                     lastName = "Bullock",
-                    imageUrl = "",
+                    imageUrl = "https://www.example.com/image.jpg",
                 )
             }
         }

@@ -42,6 +42,8 @@ android {
         versionCode = Config.versionCode
         versionName = Config.versionName
 
+        resourceConfigurations.addAll(listOf("en"))
+
         testInstrumentationRunner = "me.jerryokafor.ihenkiri.core.test.IheNkiriTestRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -50,7 +52,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -68,13 +71,18 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.model)
     implementation(projects.core.network)
     implementation(projects.core.ds)
     implementation(projects.core.ui)
     implementation(projects.core.data)
 
+    implementation(projects.feature.auth)
     implementation(projects.feature.movies)
     implementation(projects.feature.movieDetails)
+    implementation(projects.feature.people)
+    implementation(projects.feature.tvShows)
+    implementation(projects.feature.settings)
     debugImplementation(projects.uiTestHiltManifest)
 
     // lifecycle
@@ -90,8 +98,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
-
-    implementation(libs.androidx.browser)
 
     // retrofit
     implementation(libs.com.squareup.retrofit2)

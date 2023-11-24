@@ -50,34 +50,37 @@ interface MovieListRepository {
 
 @Singleton
 class DefaultMovieListRepository
-    @Inject
-    constructor(
-        private val moviesRemoteDataSource: MoviesRemoteDataSource,
-        @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    ) : MovieListRepository {
-        override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
-            }
-
-        override suspend fun popularMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.popularMovies(filter.toQuery())
-            }
-
-        override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.topRatedMovies(filter.toQuery())
-            }
-
-        override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> =
-            withContext(defaultDispatcher) {
-                moviesRemoteDataSource.upcomingMovies(filter.toQuery())
-            }
+@Inject
+constructor(
+    private val moviesRemoteDataSource: MoviesRemoteDataSource,
+    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
+) : MovieListRepository {
+    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
+        moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
     }
+
+    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
+        moviesRemoteDataSource.popularMovies(filter.toQuery())
+    }
+
+    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
+        moviesRemoteDataSource.topRatedMovies(filter.toQuery())
+    }
+
+    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
+        moviesRemoteDataSource.upcomingMovies(filter.toQuery())
+    }
+}
 
 class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
     PagingSource<Int, Movie>() {
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        return state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
+        }
+    }
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val pageNumber = params.key ?: 1
@@ -90,13 +93,6 @@ class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movi
             LoadResult.Error(e)
         } catch (e: HttpException) {
             LoadResult.Error(e)
-        }
-    }
-
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        return state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 }

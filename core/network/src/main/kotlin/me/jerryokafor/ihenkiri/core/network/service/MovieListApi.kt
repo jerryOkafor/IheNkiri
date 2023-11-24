@@ -25,7 +25,8 @@
 package me.jerryokafor.ihenkiri.core.network.service
 
 import me.jerryokafor.ihenkiri.core.network.Config
-import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieList
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
+import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -43,7 +44,7 @@ interface MovieListApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): NetworkMovieList
+    ): PagedNetworkResponse<NetworkMovie>
 
     /**
      * Get a list of movies ordered by popularity.
@@ -58,7 +59,7 @@ interface MovieListApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): NetworkMovieList
+    ): PagedNetworkResponse<NetworkMovie>
 
     /**
      * Get a list of movies ordered by rating.
@@ -73,7 +74,7 @@ interface MovieListApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): NetworkMovieList
+    ): PagedNetworkResponse<NetworkMovie>
 
     /**
      * Get a list of movies that are being released soon.
@@ -88,5 +89,5 @@ interface MovieListApi {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String? = null,
-    ): NetworkMovieList
+    ): PagedNetworkResponse<NetworkMovie>
 }

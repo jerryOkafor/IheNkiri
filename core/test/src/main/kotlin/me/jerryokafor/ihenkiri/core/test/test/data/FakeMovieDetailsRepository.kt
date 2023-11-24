@@ -38,13 +38,13 @@ import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
 class FakeMovieDetailsRepository
-    @Inject
-    constructor() : MovieDetailsRepository {
-        override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> = flowOf(Success(MovieDetailsTestData.testMovieDetails(0L)))
+@Inject
+constructor() : MovieDetailsRepository {
+    override fun movieDetails(movieId: Long): Flow<Outcome<MovieDetails>> = flowOf(Success(MovieDetailsTestData.testMovieDetails(0L)))
 
-        override fun movieCredits(movieId: Long): Flow<Outcome<MovieCredit>> = flowOf(Success(MovieDetailsTestData.testMovieCredit(0L)))
+    override fun movieCredits(movieId: Long): Flow<Outcome<MovieCredit>> = flowOf(Success(MovieDetailsTestData.testMovieCredit(0L)))
 
-        override fun movieVideos(movieId: Long): Flow<Outcome<List<Video>>> = flowOf(Success(MovieDetailsTestData.testMovieVideos(0L)))
+    override fun movieVideos(movieId: Long): Flow<Outcome<List<Video>>> = flowOf(Success(MovieDetailsTestData.testMovieVideos(0L)))
 
-        override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> = flowOf(Success(testMovies()))
-    }
+    override fun similarMovies(movieId: Long): Flow<Outcome<List<Movie>>> = flowOf(Success(testMovies()))
+}

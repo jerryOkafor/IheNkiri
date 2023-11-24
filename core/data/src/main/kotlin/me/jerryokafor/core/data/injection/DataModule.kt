@@ -24,14 +24,27 @@
 
 package me.jerryokafor.core.data.injection
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import me.jerryokafor.core.data.UserPreferences
+import me.jerryokafor.core.data.repository.DefaultLocalStorage
 import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
 import me.jerryokafor.core.data.repository.DefaultMovieListRepository
+import me.jerryokafor.core.data.repository.DefaultPeopleListRepository
+import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
+import me.jerryokafor.core.data.repository.PeopleListRepository
+import me.jerryokafor.core.data.repository.UserPreferencesSerializer
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,4 +54,25 @@ interface DataModule {
 
     @Binds
     fun provideMovieDetailsRepository(movieDetailsRepository: DefaultMovieDetailsRepository): MovieDetailsRepository
+
+    @Binds
+    fun providePeopleListRepository(peopleListRepository: DefaultPeopleListRepository): PeopleListRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object LocalStorageModule {
+    @[Singleton Provides]
+    fun provideUserPreferencesDatastore(@ApplicationContext context: Context): DataStore<UserPreferences> =
+        DataStoreFactory.create(
+            serializer = UserPreferencesSerializer(),
+            produceFile = { context.dataStoreFile(DefaultLocalStorage.DATA_STORE_FILE_NAME) },
+        )
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface LocalStorageBinding {
+    @Binds
+    fun provideLocalStorage(storage: DefaultLocalStorage): LocalStorage
 }

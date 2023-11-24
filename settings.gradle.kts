@@ -35,6 +35,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
     }
 }
 
@@ -58,3 +59,7 @@ include(":lint")
 // Features
 include(":feature:movies")
 include(":feature:movieDetails")
+include(":feature:people")
+include(":feature:tvShows")
+include(":feature:settings")
+include(":feature:auth")

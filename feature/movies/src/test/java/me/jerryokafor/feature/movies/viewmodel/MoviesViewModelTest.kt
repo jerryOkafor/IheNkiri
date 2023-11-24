@@ -24,11 +24,20 @@
 
 package me.jerryokafor.feature.movies.viewmodel
 
+import androidx.paging.PagingData
+import androidx.paging.testing.asSnapshot
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.MovieListRepository
-import me.jerryokafor.core.model.MovieListFilterItem
+import me.jerryokafor.core.model.Movie
+import me.jerryokafor.core.model.MovieListFilterItem.FilterType
+import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel.Event.OnFilterSelected
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Before
@@ -41,83 +50,169 @@ class MoviesViewModelTest {
 
     private lateinit var moviesViewModel: MoviesViewModel
 
-    private val moviesRepository =
-        mockk<MovieListRepository>(relaxed = true) {
-            coEvery { nowPlayingMovies(any()) } returns testMovies()
-            coEvery { popularMovies(any()) } returns testMovies()
-            coEvery { topRatedMovies(any()) } returns testMovies()
-            coEvery { upcomingMovies(any()) } returns testMovies()
-        }
+    private val movieListRepository = mockk<MovieListRepository> {
+        coEvery { nowPlayingMovies(any()) } returns testMovies()
+        coEvery { popularMovies(any()) } returns testMovies()
+        coEvery { topRatedMovies(any()) } returns testMovies()
+        coEvery { upcomingMovies(any()) } returns testMovies()
+    }
 
     @Before
     fun setUp() {
-        moviesViewModel = MoviesViewModel(moviesRepository)
+        moviesViewModel = MoviesViewModel(
+            movieListRepository = movieListRepository,
+            dispatcher = StandardTestDispatcher(),
+        )
     }
 
     @Test
-    fun moviesViewModel_init_defaultAvailableFiltersSet() {
-        val currentUIState = moviesViewModel.uiState.value
-        assertThat(currentUIState.availableFilters).isNotEmpty()
-        assertThat(currentUIState.availableFilters.size).isEqualTo(5)
-        with(currentUIState.availableFilters[0]) {
-            assertThat(label).isEqualTo("Now Playing")
-            assertThat(isSelected).isTrue()
-            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.NOW_PLAYING)
-        }
+    fun moviesViewModel_init_defaultAvailableFiltersSet() = runTest {
+        moviesViewModel.availableFilters.test {
+            val availableFilters = awaitItem()
+            assertThat(availableFilters).isNotEmpty()
+            assertThat(availableFilters.size).isEqualTo(5)
 
-        with(currentUIState.availableFilters[1]) {
-            assertThat(label).isEqualTo("Popular")
-            assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.POPULAR)
-        }
+            with(availableFilters[0]) {
+                assertThat(label).isEqualTo("Now Playing")
+                assertThat(isSelected).isTrue()
+                assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
+            }
 
-        with(currentUIState.availableFilters[2]) {
-            assertThat(label).isEqualTo("Top Rated")
-            assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.TOP_RATED)
-        }
+            with(availableFilters[1]) {
+                assertThat(label).isEqualTo("Popular")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.POPULAR)
+            }
 
-        with(currentUIState.availableFilters[3]) {
-            assertThat(label).isEqualTo("Upcoming")
-            assertThat(isSelected).isFalse()
-            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.UPCOMING)
+            with(availableFilters[2]) {
+                assertThat(label).isEqualTo("Top Rated")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.TOP_RATED)
+            }
+
+            with(availableFilters[3]) {
+                assertThat(label).isEqualTo("Upcoming")
+                assertThat(isSelected).isFalse()
+                assertThat(type).isEqualTo(FilterType.UPCOMING)
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun moviesViewModel_OnEvent_CorrectFilterIsSet() {
-        val currentUIState = moviesViewModel.uiState.value
-        assertThat(currentUIState.availableFilters).isNotEmpty()
-        assertThat(currentUIState.availableFilters.size).isEqualTo(5)
+        val availableFilters = moviesViewModel.availableFilters.value
+        assertThat(availableFilters).isNotEmpty()
+        assertThat(availableFilters.size).isEqualTo(5)
 
-        with(currentUIState.availableFilters[0]) {
+        with(availableFilters[0]) {
             assertThat(label).isEqualTo("Now Playing")
             assertThat(isSelected).isTrue()
-            assertThat(type).isEqualTo(MovieListFilterItem.FilterType.NOW_PLAYING)
+            assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
         }
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.POPULAR))
-        with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.POPULAR }.isSelected).isTrue()
-        }
-//        coVerify(exactly = 1) { moviesRepository.popularMovies(any()) }
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.POPULAR))
+        assertThat(
+            moviesViewModel.availableFilters.value.first {
+                it.type == FilterType.POPULAR
+            }.isSelected,
+        ).isTrue()
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.TOP_RATED))
-        with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.TOP_RATED }.isSelected).isTrue()
-        }
-//        coVerify(exactly = 1) { moviesRepository.topRatedMovies(any()) }
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.TOP_RATED))
+        assertThat(
+            moviesViewModel.availableFilters.value.first {
+                it.type == FilterType.TOP_RATED
+            }.isSelected,
+        ).isTrue()
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.UPCOMING))
-        with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.UPCOMING }.isSelected).isTrue()
-        }
-//        coVerify(exactly = 1) { moviesRepository.upcomingMovies(any()) }
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.UPCOMING))
+        assertThat(
+            moviesViewModel.availableFilters.value.first {
+                it.type == FilterType.UPCOMING
+            }.isSelected,
+        ).isTrue()
 
-        moviesViewModel.onEvent(MoviesViewModel.Event.OnFilterSelected(MovieListFilterItem.FilterType.NOW_PLAYING))
-        with(moviesViewModel.uiState.value) {
-            assertThat(availableFilters.first { it.type == MovieListFilterItem.FilterType.NOW_PLAYING }.isSelected).isTrue()
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.NOW_PLAYING))
+        assertThat(
+            moviesViewModel.availableFilters.value.first {
+                it.type == FilterType.NOW_PLAYING
+            }.isSelected,
+        ).isTrue()
+    }
+
+    @Test
+    fun moviesViewModel_NowPlayingFilterSelected_ShowNowPlayingMovies() = runTest {
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.NOW_PLAYING))
+        val items: Flow<PagingData<Movie>> = moviesViewModel.movies
+        val itemsSnapshot: List<Movie> = items.asSnapshot {
+            // scroll one page length
+            scrollTo(index = 20)
         }
-//        coVerify(exactly = 2) { moviesRepository.nowPlayingMovies(any()) }
+
+        assertThat(itemsSnapshot).containsAtLeastElementsIn(testMovies())
+            .inOrder()
+
+        coVerify { movieListRepository.nowPlayingMovies(any()) }
+    }
+
+    @Test
+    fun moviesViewModel_PopularFilterSelected_ShowPopularMovies() = runTest {
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.POPULAR))
+        val items: Flow<PagingData<Movie>> = moviesViewModel.movies
+        val itemsSnapshot: List<Movie> = items.asSnapshot {
+            // scroll one page length
+            scrollTo(index = 20)
+        }
+
+        assertThat(itemsSnapshot).containsAtLeastElementsIn(testMovies())
+            .inOrder()
+
+        coVerify { movieListRepository.popularMovies(any()) }
+    }
+
+    @Test
+    fun moviesViewModel_TopRatedFilterSelected_ShowTopRatedMovies() = runTest {
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.TOP_RATED))
+        val items: Flow<PagingData<Movie>> = moviesViewModel.movies
+        val itemsSnapshot: List<Movie> = items.asSnapshot {
+            // scroll one page length
+            scrollTo(index = 20)
+        }
+
+        assertThat(itemsSnapshot).containsAtLeastElementsIn(testMovies())
+            .inOrder()
+
+        coVerify { movieListRepository.topRatedMovies(any()) }
+    }
+
+    @Test
+    fun moviesViewModel_UpcomingFilterSelected_ShowUpcomingMovies() = runTest {
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.UPCOMING))
+        val items: Flow<PagingData<Movie>> = moviesViewModel.movies
+        val itemsSnapshot: List<Movie> = items.asSnapshot {
+            // scroll one page length
+            scrollTo(index = 20)
+        }
+
+        assertThat(itemsSnapshot).containsAtLeastElementsIn(testMovies())
+            .inOrder()
+
+        coVerify { movieListRepository.upcomingMovies(any()) }
+    }
+
+    @Test
+    fun moviesViewModel_DiscoverFilterSelected_ShowDiscoverMovies() = runTest {
+        moviesViewModel.onEvent(OnFilterSelected(FilterType.DISCOVER))
+        val items: Flow<PagingData<Movie>> = moviesViewModel.movies
+        val itemsSnapshot: List<Movie> = items.asSnapshot {
+            // scroll one page length
+            scrollTo(index = 20)
+        }
+
+        assertThat(itemsSnapshot).containsAtLeastElementsIn(testMovies())
+            .inOrder()
+
+        coVerify { movieListRepository.upcomingMovies(any()) }
     }
 }

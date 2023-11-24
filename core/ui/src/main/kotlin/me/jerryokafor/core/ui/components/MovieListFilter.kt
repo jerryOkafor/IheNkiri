@@ -40,35 +40,37 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.MovieListFilterItem
 
+@ExcludeFromGeneratedCoverageReport
+private fun testFilters() = listOf(
+    MovieListFilterItem(
+        label = "Now Playing",
+        isSelected = true,
+        type = MovieListFilterItem.FilterType.NOW_PLAYING,
+    ),
+    MovieListFilterItem(
+        label = "Popular",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.POPULAR,
+    ),
+    MovieListFilterItem(
+        label = "Top Rated",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.TOP_RATED,
+    ),
+    MovieListFilterItem(
+        label = "Upcoming",
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.UPCOMING,
+    ),
+)
+
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
 fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(
-            filters =
-                listOf(
-                    MovieListFilterItem(
-                        label = "Now Playing",
-                        isSelected = true,
-                        type = MovieListFilterItem.FilterType.NOW_PLAYING,
-                    ),
-                    MovieListFilterItem(
-                        label = "Popular",
-                        isSelected = false,
-                        type = MovieListFilterItem.FilterType.POPULAR,
-                    ),
-                    MovieListFilterItem(
-                        label = "Top Rated",
-                        isSelected = false,
-                        type = MovieListFilterItem.FilterType.TOP_RATED,
-                    ),
-                    MovieListFilterItem(
-                        label = "Upcoming",
-                        isSelected = false,
-                        type = MovieListFilterItem.FilterType.UPCOMING,
-                    ),
-                ),
+            filters = testFilters(),
         ) {}
     }
 }
@@ -92,14 +94,14 @@ fun MovieListFilter(
                 label = { Text(text = it.label) },
                 shape = IheNkiri.shape.pill,
                 colors =
-                    FilterChipDefaults.filterChipColors(
-                        containerColor = IheNkiri.color.primary,
-                        labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                    ),
+                FilterChipDefaults.filterChipColors(
+                    containerColor = IheNkiri.color.primary,
+                    labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                ),
                 border =
-                    FilterChipDefaults.filterChipBorder(
-                        borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                    ),
+                FilterChipDefaults.filterChipBorder(
+                    borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                ),
             )
         }
         item { TwoAndHalfHorizontalSpacer() }

@@ -27,20 +27,23 @@ package me.jerryokafor.ihenkiri.core.test.test.network
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenSuccessResponse
+import me.jerryokafor.ihenkiri.core.test.util.createGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import javax.inject.Inject
 
 class FakeAuthApi
-    @Inject
-    constructor() : AuthApi {
-        override suspend fun createRequestToken(requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse {
-            return createRequestTokenSuccessResponse()
-        }
+@Inject
+constructor() : AuthApi {
+    override suspend fun createRequestToken(requestBody: CreateRequestTokenRequest): CreateRequestTokenResponse =
+        createRequestTokenSuccessResponse()
 
-        override suspend fun createAccessToken(requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse {
-            return createAccessTokenSuccessResponse()
-        }
-    }
+    override suspend fun createAccessToken(requestBody: CreateAccessTokenRequest): CreateAccessTokenResponse =
+        createAccessTokenSuccessResponse()
+
+    override suspend fun createGuestSession(): CreateGuestTokenResponse = createGuestTokenResponse()
+    override suspend fun deleteSession() = Unit
+}

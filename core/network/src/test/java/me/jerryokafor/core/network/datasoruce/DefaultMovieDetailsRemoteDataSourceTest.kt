@@ -58,100 +58,96 @@ class DefaultMovieDetailsRemoteDataSourceTest {
     }
 
     @Test
-    fun `test movieDetails, returns movies details`() =
-        runTest {
-            val result = moviesDetailsRemoteDataSource.movieDetails(testMovieId)
+    fun `test movieDetails, returns movies details`() = runTest {
+        val result = moviesDetailsRemoteDataSource.movieDetails(testMovieId)
 
-            with(result) {
-                assertThat(title).isEqualTo("Fight Club")
-                assertThat(imdbId).isEqualTo("tt0137523")
-                assertThat(budget).isEqualTo(63000000)
-                assertThat(adult).isFalse()
-                assertThat(video).isFalse()
-                assertThat(voteAverage).isEqualTo(8.433)
-                assertThat(voteCount).isEqualTo(26280)
-            }
-
-            coVerify(exactly = 1) {
-                movieDetailsApi.movieDetails(
-                    withArg { assertEquals(0L, it) },
-                )
-            }
+        with(result) {
+            assertThat(title).isEqualTo("Fight Club")
+            assertThat(imdbId).isEqualTo("tt0137523")
+            assertThat(budget).isEqualTo(63000000)
+            assertThat(adult).isFalse()
+            assertThat(video).isFalse()
+            assertThat(voteAverage).isEqualTo(8.433)
+            assertThat(voteCount).isEqualTo(26280)
         }
+
+        coVerify(exactly = 1) {
+            movieDetailsApi.movieDetails(
+                withArg { assertEquals(0L, it) },
+            )
+        }
+    }
 
     @Test
-    fun `test movieCredits, returns list of movie credits (cast & crew)`() =
-        runTest {
-            val result = moviesDetailsRemoteDataSource.movieCredits(testMovieId)
+    fun `test movieCredits, returns list of movie credits (cast & crew)`() = runTest {
+        val result = moviesDetailsRemoteDataSource.movieCredits(testMovieId)
 
-            assertThat(result.cast.size).isEqualTo(2)
-            assertThat(result.crew.size).isEqualTo(2)
+        assertThat(result.cast.size).isEqualTo(2)
+        assertThat(result.crew.size).isEqualTo(2)
 
-            with(result.cast.first()) {
-                assertThat(adult).isFalse()
-                assertThat(character).isEqualTo("The Narrator")
-                assertThat(name).isEqualTo("Edward Norton")
-                assertThat(popularity).isEqualTo(26.99)
-            }
-
-            with(result.crew.last()) {
-                assertThat(adult).isFalse()
-                assertThat(department).isEqualTo("Costume & Make-Up")
-                assertThat(name).isEqualTo("Michael Kaplan")
-                assertThat(popularity).isEqualTo(4.294)
-            }
-
-            coVerify(exactly = 1) {
-                movieDetailsApi.movieCredits(
-                    withArg { assertEquals(0L, it) },
-                )
-            }
+        with(result.cast.first()) {
+            assertThat(adult).isFalse()
+            assertThat(character).isEqualTo("The Narrator")
+            assertThat(name).isEqualTo("Edward Norton")
+            assertThat(popularity).isEqualTo(26.99)
         }
+
+        with(result.crew.last()) {
+            assertThat(adult).isFalse()
+            assertThat(department).isEqualTo("Costume & Make-Up")
+            assertThat(name).isEqualTo("Michael Kaplan")
+            assertThat(popularity).isEqualTo(4.294)
+        }
+
+        coVerify(exactly = 1) {
+            movieDetailsApi.movieCredits(
+                withArg { assertEquals(0L, it) },
+            )
+        }
+    }
 
     @Test
-    fun `test movieVideos,returns list of movie videos`() =
-        runTest {
-            val result = moviesDetailsRemoteDataSource.movieVideos(testMovieId)
-            assertThat(result.size).isEqualTo(2)
+    fun `test movieVideos,returns list of movie videos`() = runTest {
+        val result = moviesDetailsRemoteDataSource.movieVideos(testMovieId)
+        assertThat(result.size).isEqualTo(2)
 
-            with(result.last()) {
-                assertThat(id).isEqualTo("5c9294240e0a267cd516835f")
-                assertThat(iso6391).isEqualTo("US")
-                assertThat(name).isEqualTo("#TBT Trailer")
-                assertThat(site).isEqualTo("YouTube")
-                assertThat(type).isEqualTo("Trailer")
-            }
-
-            coVerify(exactly = 1) {
-                movieDetailsApi.movieVideos(
-                    withArg { assertEquals(0L, it) },
-                )
-            }
+        with(result.last()) {
+            assertThat(id).isEqualTo("5c9294240e0a267cd516835f")
+            assertThat(iso6391).isEqualTo("US")
+            assertThat(name).isEqualTo("#TBT Trailer")
+            assertThat(site).isEqualTo("YouTube")
+            assertThat(type).isEqualTo("Trailer")
         }
+
+        coVerify(exactly = 1) {
+            movieDetailsApi.movieVideos(
+                withArg { assertEquals(0L, it) },
+            )
+        }
+    }
 
     @Test
-    fun `test similar,returns list of similar videos`() =
-        runTest {
-            val result = moviesDetailsRemoteDataSource.similarMovies(testMovieId)
-            assertThat(result.size).isEqualTo(7)
+    fun `test similar,returns list of similar videos`() = runTest {
+        val result = moviesDetailsRemoteDataSource.similarMovies(testMovieId)
+        assertThat(result.size).isEqualTo(7)
 
-            with(result.last()) {
-                assertThat(id).isEqualTo(1006462)
-                assertThat(title).isEqualTo("The Flood")
-                assertThat(overview).isEqualTo(
-                    """
-                    A horde of giant hungry alligators is unleashed on a group of in-transit prisoners and 
-                    their guards after a massive hurricane floods Louisiana.
-                    """.trimIndent(),
-                )
-                assertThat(posterPath).isEqualTo("/mvjqqklMpHwOxc40rn7dMhGT0Fc.jpg")
-                assertThat(voteAverage).isEqualTo(6.8)
-            }
-
-            coVerify(exactly = 1) {
-                movieDetailsApi.similar(
-                    withArg { assertEquals(0L, it) },
-                )
-            }
+        with(result.last()) {
+            assertThat(id).isEqualTo(1006462)
+            assertThat(title).isEqualTo("The Flood")
+            assertThat(overview).isEqualTo(
+                """
+                A horde of giant hungry alligators is unleashed on a group of in-transit prisoners and 
+                their guards after a massive hurricane floods Louisiana.
+                """.trimIndent(),
+            )
+            assertThat(posterPath).isEqualTo("/mvjqqklMpHwOxc40rn7dMhGT0Fc.jpg")
+            assertThat(voteAverage).isEqualTo(6.8)
         }
+
+        coVerify(exactly = 1) {
+            movieDetailsApi.similar(
+                withArg { assertEquals(0L, it) },
+            )
+        }
+    }
 }

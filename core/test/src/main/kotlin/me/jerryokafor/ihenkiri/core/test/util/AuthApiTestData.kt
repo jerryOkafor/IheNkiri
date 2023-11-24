@@ -27,28 +27,32 @@ package me.jerryokafor.ihenkiri.core.test.util
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.request.CreateRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.CreateGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 
 fun createRequestToken() = CreateRequestTokenRequest("https://ihenkiri.jerryokafor.me/auth")
 
-fun createRequestTokenSuccessResponse() =
-    CreateRequestTokenResponse(
-        requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
-        statusCode = 1,
-        statusMessage = "Success.",
-        success = true,
-    )
+fun createRequestTokenSuccessResponse() = CreateRequestTokenResponse(
+    requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
+    statusCode = 1,
+    statusMessage = "Success.",
+    success = true,
+)
 
-fun createAccessTokenRequest() =
-    CreateAccessTokenRequest(
-        requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
-    )
+fun createAccessTokenRequest() = CreateAccessTokenRequest(
+    requestToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0",
+)
 
-fun createAccessTokenSuccessResponse() =
-    CreateAccessTokenResponse(
-        accountId = "4bc889XXXXa3c0z92001001",
-        accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2",
-        statusMessage = "Success.",
-        statusCode = 1,
-        success = true,
-    )
+fun createAccessTokenSuccessResponse() = CreateAccessTokenResponse(
+    accountId = "4bc889XXXXa3c0z92001001",
+    accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2",
+    statusMessage = "Success.",
+    statusCode = 1,
+    success = true,
+)
+
+fun createGuestTokenResponse() = CreateGuestTokenResponse(
+    guestSessionId = "e25304417c5c67f66b7838517257a3e9",
+    success = true,
+    expiresAt = "2023-11-22 21:06:30 UT",
+)

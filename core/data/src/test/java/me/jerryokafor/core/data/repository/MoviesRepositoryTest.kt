@@ -58,74 +58,70 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `test nowPlayingMovies() returns list of movies`() =
-        testScope.runTest {
-            val items = moviesRepository.nowPlayingMovies(testFilter)
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
+    fun `test nowPlayingMovies() returns list of movies`() = testScope.runTest {
+        val items = moviesRepository.nowPlayingMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
-            coVerify(exactly = 1) {
-                moviesRemoteDataSource.nowPlayingMovies(
-                    withArg {
-                        assertEquals(it.language, testFilter.language)
-                        assertEquals(it.page, testFilter.page)
-                        assertEquals(it.region, testFilter.region)
-                    },
-                )
-            }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.nowPlayingMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
         }
+    }
 
     @Test
-    fun `test popularMovies() returns list of movies`() =
-        testScope.runTest {
-            val items = moviesRepository.popularMovies(testFilter)
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
+    fun `test popularMovies() returns list of movies`() = testScope.runTest {
+        val items = moviesRepository.popularMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
-            coVerify(exactly = 1) {
-                moviesRemoteDataSource.popularMovies(
-                    withArg {
-                        assertEquals(it.language, testFilter.language)
-                        assertEquals(it.page, testFilter.page)
-                        assertEquals(it.region, testFilter.region)
-                    },
-                )
-            }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.popularMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
         }
+    }
 
     @Test
-    fun `test topRatedMovies() returns list of movies`() =
-        testScope.runTest {
-            val items = moviesRepository.topRatedMovies(testFilter)
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
+    fun `test topRatedMovies() returns list of movies`() = testScope.runTest {
+        val items = moviesRepository.topRatedMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
-            coVerify(exactly = 1) {
-                moviesRemoteDataSource.topRatedMovies(
-                    withArg {
-                        assertEquals(it.language, testFilter.language)
-                        assertEquals(it.page, testFilter.page)
-                        assertEquals(it.region, testFilter.region)
-                    },
-                )
-            }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.topRatedMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
         }
+    }
 
     @Test
-    fun `test upcomingMovies() returns list of movies`() =
-        testScope.runTest {
-            val items = moviesRepository.upcomingMovies(testFilter)
-            assertThat(items).isNotEmpty()
-            assertThat(items.size).isEqualTo(4)
+    fun `test upcomingMovies() returns list of movies`() = testScope.runTest {
+        val items = moviesRepository.upcomingMovies(testFilter)
+        assertThat(items).isNotEmpty()
+        assertThat(items.size).isEqualTo(4)
 
-            coVerify(exactly = 1) {
-                moviesRemoteDataSource.upcomingMovies(
-                    withArg {
-                        assertEquals(it.language, testFilter.language)
-                        assertEquals(it.page, testFilter.page)
-                        assertEquals(it.region, testFilter.region)
-                    },
-                )
-            }
+        coVerify(exactly = 1) {
+            moviesRemoteDataSource.upcomingMovies(
+                withArg {
+                    assertEquals(it.language, testFilter.language)
+                    assertEquals(it.page, testFilter.page)
+                    assertEquals(it.region, testFilter.region)
+                },
+            )
         }
+    }
 }

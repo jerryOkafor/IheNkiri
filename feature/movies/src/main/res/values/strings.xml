@@ -24,5 +24,7 @@
 
 <resources>
     <string name="movies_title">Movies</string>
-    <string name="movies_content_description_search">Search</string>
+    <string name="movies_content_description_search">click to search</string>
+    <string name="include_adult">Adult</string>
+    <string name="include_video">Video</string>
 </resources>

@@ -78,35 +78,34 @@ data class NetworkMovieDetails(
     val voteCount: Long = 0,
 )
 
-fun NetworkMovieDetails.asDomainObject(): MovieDetails =
-    MovieDetails(
-        id = this.id,
-        adult = this.adult,
-        backdropPath = this.backdropPath,
-        budget = this.budget,
-        genres = this.genres.map { Genre(id = it.id, name = it.name) },
-        homepage = this.homepage,
-        imdbId = this.imdbId,
-        originalLanguage = this.originalLanguage,
-        originalTitle = this.originalTitle,
-        overview = this.overview,
-        popularity = this.popularity,
-        posterPath = this.posterPath,
-        releaseDate = this.releaseDate,
-        revenue = this.revenue,
-        runtime = this.runtime,
-        spokenLanguages =
-            this.spokenLanguages.map {
-                SpokenLanguage(
-                    englishName = it.englishName,
-                    iso6391 = it.iso6391,
-                    name = it.name,
-                )
-            },
-        status = status,
-        tagline = tagline,
-        title = title,
-        video = video,
-        voteAverage = voteAverage,
-        voteCount = voteCount,
-    )
+fun NetworkMovieDetails.asDomainObject(): MovieDetails = MovieDetails(
+    id = this.id,
+    adult = this.adult,
+    backdropPath = this.backdropPath,
+    budget = this.budget,
+    genres = this.genres.map { Genre(id = it.id, name = it.name) },
+    homepage = this.homepage,
+    imdbId = this.imdbId,
+    originalLanguage = this.originalLanguage,
+    originalTitle = this.originalTitle,
+    overview = this.overview,
+    popularity = this.popularity,
+    posterPath = this.posterPath,
+    releaseDate = this.releaseDate,
+    revenue = this.revenue,
+    runtime = this.runtime,
+    spokenLanguages =
+    this.spokenLanguages.map {
+        SpokenLanguage(
+            englishName = it.englishName,
+            iso6391 = it.iso6391,
+            name = it.name,
+        )
+    },
+    status = status,
+    tagline = tagline,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+)

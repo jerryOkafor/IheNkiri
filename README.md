@@ -16,16 +16,17 @@ and [Free Figma Design Template](https://www.figma.com/file/gbaO5pgTz0mOZXvFOPCe
 - Generates and upload Coverage report CodeCov using Jacoco Coverage report plugin
 - Enforcing code coverage metrics using Jacoco Coverage Verification
 
-https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture
-https://slackhq.github.io/circuit/
-
 ## Screenshots
 
 <p align="center">
-  <img src="doc/screenshots/auth.png" width="100" />
-  <img src="doc/screenshots/oauth-2.0.png" width="100" />
-  <img src="doc/screenshots/movies.png" width="100" />
-  <img src="doc/screenshots/movies_details.png" width="100" />
+  <img src="doc/screenshots/auth.png" width="200" />
+  <img src="doc/screenshots/oauth-2.0.png" width="200" />
+  <img src="doc/screenshots/movies.png" width="200" />
+  <img src="doc/screenshots/movies_details.png" width="200" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/people.png" width="200" />
 </p>
 
 # Development Environment
@@ -94,7 +95,8 @@ tests using robolectric instead of a real device or an emulator
   parameterized test runner for Java.
 - [Roborazzi](https://github.com/takahirom/roborazzi) - helps to validate the app's appearance and
   functionality
-- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to Android
+- [Robolectric](https://robolectric.org/) - a framework that brings fast and reliable unit tests to
+  Android
 - [Robolectric Shadows](https://robolectric.org/extending/) - use shadow objects to simulate Android
   behavior in a non-Android environment.
 
@@ -154,20 +156,26 @@ implement the same interface as the production code and also provides simplified
 realistic) implementation with additional testing hooks. This results in less brittle tests that may
 exercise more production code quality, instead of just verifying specific calls against mocks.
 
->[!IMPORTANT]
->
+> [!IMPORTANT]
+
 > **Test naming convention**
-> 
->  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test function name:
-> 
+>
+>  **IheNkiri** uses the `thingUnderTest_TriggerOfTest_ResultOfTest` format to name the test
+> function name:
+>
 > `thingUnderTest` e.g moviesViewModel
-> 
+>
 > `TriggerOfTest` e.g OnEvent
-> 
+>
 > `ResultOfTest` e.g CorrectFilterIsSet
-> 
+>
 > Example: `moviesViewModel_OnEvent_CorrectFilterIsSet()`
 
+Generate Lint baseline
+
+````bash
+./gradlew lintDebug -Dlint.baselines.continue=true
+``
 
 
 We have the following tests on **IheNkiri**
@@ -235,7 +243,18 @@ We use Roborazzi to achieve this screenshot testing.
 - [runComposeUiTest](https://developer.android.com/reference/kotlin/androidx/compose/ui/test/package-summary#runComposeUiTest(kotlin.coroutines.CoroutineContext,kotlin.Function1))
 - [Compose Performance](https://developer.android.com/jetpack/compose/performance#three-phases)
 - [Parallax effect](https://chrisbanes.me/posts/parallax-effect-compose/)
-- [Performance](https://www.droidcon.com/2023/11/15/android-app-performance-in-a-nutshell/)
+- [Better Android Apps Using MVVM With Clean Architecturesl](https://www.toptal.com/android/android-apps-mvvm-with-clean-architecture)
+- [Slack Circuit](https://slackhq.github.io/circuit)
+- [Build adaptive apps with Jetpack Compose](https://codelabs.developers.google.com/jetpack-compose-adaptability#0)
+- [Best Practices for Android UI Testing](https://dev.to/rchugunov/best-practices-of-ui-testing-for-android-5756)
+- [Automate UI tests](https://developer.android.com/training/testing/instrumented-tests/ui-tests)
+- [AndroidX Test + Robolectric](https://robolectric.org/androidx_test/)
+- [Espresso-Intents](https://developer.android.com/training/testing/espresso/intents)
+- [Androidx IntentsRule](https://developer.android.com/reference/androidx/test/espresso/intent/rule/IntentsRule)
+- [Testing Kotlin flows on Android](https://developer.android.com/kotlin/flow/test)
+- [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
+- [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
+
 
 # License
 

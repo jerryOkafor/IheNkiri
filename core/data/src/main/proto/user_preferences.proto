@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "me.jerryokafor.core.data";
+option java_multiple_files = true;
+
+message UserPreferences {
+  string account_id = 1;
+  string access_token = 2;
+  string guest_session_id = 3;
+
+  // NEXT AVAILABLE ID: 4
+}
+

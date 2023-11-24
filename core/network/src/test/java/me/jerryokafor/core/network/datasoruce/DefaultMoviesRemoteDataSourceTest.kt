@@ -87,9 +87,7 @@ class DefaultMoviesRemoteDataSourceTest {
     fun setUp() {
         coEvery {
             moviesApi.nowPlaying(
-                any(),
-                any(),
-                any(),
+                any(), any(), any(),
             )
         } returns testNetworkMoviesListResponse()
         coEvery { moviesApi.popular(any(), any(), any()) } returns testNetworkMoviesListResponse()
@@ -100,90 +98,86 @@ class DefaultMoviesRemoteDataSourceTest {
     }
 
     @Test
-    fun `test nowPlayingMovies, returns list of movies`() =
-        runTest {
-            val result = moviesRemoteDataSource.nowPlayingMovies(query)
+    fun `test nowPlayingMovies, returns list of movies`() = runTest {
+        val result = moviesRemoteDataSource.nowPlayingMovies(query)
 
-            assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
-                .forEachIndexed { index, pair ->
-                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
-                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
-                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
-                }
-
-            coVerify {
-                moviesApi.nowPlaying(
-                    withArg { assertEquals(query.language, it) },
-                    withArg { assertEquals(query.page, it) },
-                    withNullableArg { assertEquals(query.region, it) },
-                )
+        assertThat(result.size).isEqualTo(7)
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+            .forEachIndexed { index, pair ->
+                assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
             }
+
+        coVerify {
+            moviesApi.nowPlaying(
+                withArg { assertEquals(query.language, it) },
+                withArg { assertEquals(query.page, it) },
+                withNullableArg { assertEquals(query.region, it) },
+            )
         }
+    }
 
     @Test
-    fun `test popularMovies, returns list of movies`() =
-        runTest {
-            val result = moviesRemoteDataSource.popularMovies(query)
+    fun `test popularMovies, returns list of movies`() = runTest {
+        val result = moviesRemoteDataSource.popularMovies(query)
 
-            assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
-                .forEachIndexed { index, pair ->
-                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
-                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
-                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
-                }
-
-            coVerify {
-                moviesApi.popular(
-                    withArg { assertEquals(query.language, it) },
-                    withArg { assertEquals(query.page, it) },
-                    withNullableArg { assertEquals(query.region, it) },
-                )
+        assertThat(result.size).isEqualTo(7)
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+            .forEachIndexed { index, pair ->
+                assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
             }
+
+        coVerify {
+            moviesApi.popular(
+                withArg { assertEquals(query.language, it) },
+                withArg { assertEquals(query.page, it) },
+                withNullableArg { assertEquals(query.region, it) },
+            )
         }
+    }
 
     @Test
-    fun `test topRatedMovies, returns list of movies`() =
-        runTest {
-            val result = moviesRemoteDataSource.topRatedMovies(query)
+    fun `test topRatedMovies, returns list of movies`() = runTest {
+        val result = moviesRemoteDataSource.topRatedMovies(query)
 
-            assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
-                .forEachIndexed { index, pair ->
-                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
-                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
-                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
-                }
-
-            coVerify {
-                moviesApi.topRated(
-                    withArg { assertEquals(query.language, it) },
-                    withArg { assertEquals(query.page, it) },
-                    withNullableArg { assertEquals(query.region, it) },
-                )
+        assertThat(result.size).isEqualTo(7)
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+            .forEachIndexed { index, pair ->
+                assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
             }
+
+        coVerify {
+            moviesApi.topRated(
+                withArg { assertEquals(query.language, it) },
+                withArg { assertEquals(query.page, it) },
+                withNullableArg { assertEquals(query.region, it) },
+            )
         }
+    }
 
     @Test
-    fun `test upcomingMovies, returns list of movies`() =
-        runTest {
-            val result = moviesRemoteDataSource.upcomingMovies(query)
+    fun `test upcomingMovies, returns list of movies`() = runTest {
+        val result = moviesRemoteDataSource.upcomingMovies(query)
 
-            assertThat(result.size).isEqualTo(7)
-            result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
-                .forEachIndexed { index, pair ->
-                    assertThat(pair.second.equalsMovie(pair.first)).isTrue()
-                    assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
-                    assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
-                }
-
-            coVerify {
-                moviesApi.upcoming(
-                    withArg { assertEquals(query.language, it) },
-                    withArg { assertEquals(query.page, it) },
-                    withNullableArg { assertEquals(query.region, it) },
-                )
+        assertThat(result.size).isEqualTo(7)
+        result.zip(testMoviesResponse()) { first, second -> Pair(first, second) }
+            .forEachIndexed { index, pair ->
+                assertThat(pair.second.equalsMovie(pair.first)).isTrue()
+                assertThat(pair.second.posterPath).isEqualTo(pair.first.posterPath)
+                assertThat(pair.second.genreIds).containsExactlyElementsIn(genreId[index]).inOrder()
             }
+
+        coVerify {
+            moviesApi.upcoming(
+                withArg { assertEquals(query.language, it) },
+                withArg { assertEquals(query.page, it) },
+                withNullableArg { assertEquals(query.region, it) },
+            )
         }
+    }
 }

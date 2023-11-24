@@ -26,6 +26,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.library")
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.library.jacoco")
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -34,15 +35,32 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
     }
+}
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
+// Setup protobuf configuration, generating lite Java and Kotlin classes
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
         }
+    }
+}
+
+androidComponents.beforeVariants {
+    android.sourceSets.getByName(it.name) {
+        val buildDir = layout.buildDirectory.get().asFile
+        java.srcDir(buildDir.resolve("generated/source/proto/${it.name}/java"))
+        kotlin.srcDir(buildDir.resolve("generated/source/proto/${it.name}/kotlin"))
     }
 }
 
@@ -50,6 +68,10 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.model)
     implementation(projects.core.network)
+
+    // Datastore
+    implementation(libs.datastore)
+    implementation(libs.protobuf.kotlin.lite)
 
     // Paging
     api(libs.androidx.paging.runtime)

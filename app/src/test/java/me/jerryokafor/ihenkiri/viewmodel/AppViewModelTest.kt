@@ -24,12 +24,19 @@
 
 package me.jerryokafor.ihenkiri.viewmodel
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.robolectric.shadows.ShadowLog
 
 class AppViewModelTest {
     @get:Rule
@@ -37,36 +44,42 @@ class AppViewModelTest {
 
     private lateinit var viewModel: AppViewModel
 
+    private val localStorage = mockk<LocalStorage>(relaxed = true) {
+        every { isLoggedIn() } returns flowOf(false)
+    }
+
     @Before
     fun setUp() {
-        viewModel = AppViewModel()
+        ShadowLog.stream = System.out
+        viewModel = AppViewModel(localStorage = localStorage)
     }
 
     @Test
-    fun appViewMode_verifyInitialState() =
-        runTest {
-            val actualValue = viewModel.uiState.value
-            val startDestination = viewModel.startDestination.value
-            assertThat(actualValue.isLoggedIn).isTrue()
-            assertThat(actualValue.isDarkTheme).isTrue()
-            assertThat(actualValue.isDynamicColor).isFalse()
-            assertThat(startDestination).isEqualTo("auth-graph")
+    fun appViewMode_initialized_isLoggedInIsFalse() = runTest {
+        viewModel.uiState.test {
+            assertThat(awaitItem()).isEqualTo(AppUiState.Loading)
+            with(awaitItem() as AppUiState.Success) {
+                assertThat(userPreference.isLoggedIn).isFalse()
+                assertThat(userPreference.isDarkTheme).isTrue()
+                assertThat(userPreference.isDynamicColor).isFalse()
+            }
         }
+
+        verify(exactly = 1) { localStorage.isLoggedIn() }
+    }
 
     @Test
-    fun appViewModel_verifyUpdateLogin() =
-        runTest {
-            viewModel.updateLoginState(loggedIn = false)
-            with(viewModel.uiState.value) {
-                assertThat(isLoggedIn).isFalse()
+    fun appViewModel_whenUserIdLoggedIn_isLoggedInIsTrue() = runTest {
+        every { localStorage.isLoggedIn() } returns flowOf(true)
+        viewModel.uiState.test {
+            assertThat(awaitItem()).isEqualTo(AppUiState.Loading)
+            with(awaitItem() as AppUiState.Success) {
+                assertThat(userPreference.isLoggedIn).isFalse()
+                assertThat(userPreference.isDarkTheme).isTrue()
+                assertThat(userPreference.isDynamicColor).isFalse()
             }
-            assertThat(viewModel.startDestination.value).isEqualTo("auth-graph")
-
-            viewModel.updateLoginState(loggedIn = true)
-            with(viewModel.uiState.value) {
-                assertThat(isLoggedIn).isTrue()
-            }
-
-            assertThat(viewModel.startDestination.value).isEqualTo("home-graph")
         }
+
+        verify(exactly = 1) { localStorage.isLoggedIn() }
+    }
 }

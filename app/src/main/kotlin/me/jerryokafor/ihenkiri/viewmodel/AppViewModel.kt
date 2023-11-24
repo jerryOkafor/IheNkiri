@@ -24,53 +24,35 @@
 
 package me.jerryokafor.ihenkiri.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import me.jerryokafor.ihenkiri.ui.navigation.GraphRoute
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import me.jerryokafor.core.data.repository.LocalStorage
 import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel
-    @Inject
-    constructor() : ViewModel() {
-        private val _isLoading = MutableStateFlow(true)
-        val isLoading = _isLoading.asStateFlow()
+@Inject
+constructor(localStorage: LocalStorage) : ViewModel() {
+    @Suppress("MagicNumber")
+    val uiState: StateFlow<AppUiState> = localStorage.isLoggedIn()
+        .map { isLoggedIn ->
+            Log.d("Testing: ", "isLoggedIn: $isLoggedIn")
+            AppUiState.Success(UserPreference(isLoggedIn = isLoggedIn))
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = AppUiState.Loading,
+            started = SharingStarted.WhileSubscribed(5_000),
+        )
+}
 
-        private val _startDestination: MutableState<String> = mutableStateOf(GraphRoute.AUTH)
-        val startDestination: MutableState<String> = _startDestination
-
-        private val _uiState = MutableStateFlow(AppUIState())
-        val uiState: StateFlow<AppUIState> = _uiState
-
-        init {
-            viewModelScope.launch {
-                _isLoading.update { false }
-            }
-        }
-
-        fun updateLoginState(loggedIn: Boolean) {
-            _uiState.update {
-                it.copy(isLoggedIn = loggedIn)
-            }
-            _startDestination.value =
-                if (loggedIn) {
-                    GraphRoute.HOME
-                } else {
-                    GraphRoute.AUTH
-                }
-        }
-    }
-
-data class AppUIState(
-    val isLoggedIn: Boolean = true,
+data class UserPreference(
+    val isLoggedIn: Boolean = false,
     val isDarkTheme: Boolean = true,
     val isDynamicColor: Boolean = false,
 )

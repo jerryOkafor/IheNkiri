@@ -31,8 +31,10 @@ import dagger.hilt.testing.TestInstallIn
 import me.jerryokafor.core.data.injection.DataModule
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
+import me.jerryokafor.core.data.repository.PeopleListRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMovieDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
+import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleListRepository
 
 @Module
 @TestInstallIn(
@@ -45,4 +47,7 @@ abstract class TestDataModule {
 
     @Binds
     abstract fun provideMovieDetailsRepository(movieDetailsRepository: FakeMovieDetailsRepository): MovieDetailsRepository
+
+    @Binds
+    abstract fun providePeopleListRepository(peopleListRepository: FakePeopleListRepository): PeopleListRepository
 }

@@ -57,18 +57,19 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import me.jerryokafor.ihenkiri.feature.moviedetails.MoviesDetails
+import kotlinx.coroutines.flow.StateFlow
+import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetailsScreen
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")
 internal const val movieIdArg = "movieId"
 
 @Suppress("ktlint:standard:property-naming")
-const val movieDetailsNavPattern = "movie/{$movieIdArg}"
+const val movieDetailsRoutePattern = "movie/{$movieIdArg}"
 
-internal class MovieDetailsArg(val movieId: Long) {
+internal class MovieDetailsArg(val movieId: StateFlow<Long>) {
     constructor(savedStateHandle: SavedStateHandle) : this(
-        movieId = checkNotNull(savedStateHandle[movieIdArg]),
+        movieId = checkNotNull(savedStateHandle.getStateFlow(movieIdArg, 0L)),
     )
 }
 
@@ -79,11 +80,14 @@ fun NavController.navigateToMovieDetails(
     this.navigate(route = "movie/$movieId", navOptions = navOptions)
 }
 
-fun NavGraphBuilder.movieDetailsScreen(onNavigateUp: () -> Unit) {
+fun NavGraphBuilder.movieDetailsScreen(onMovieItemClick: (Long) -> Unit, onNavigateUp: () -> Unit) {
     composable(
-        route = movieDetailsNavPattern,
+        route = movieDetailsRoutePattern,
         arguments = listOf(navArgument(movieIdArg) { type = NavType.LongType }),
     ) {
-        MoviesDetails(onBackPress = onNavigateUp)
+        MoviesDetailsScreen(
+            onMovieItemClick = onMovieItemClick,
+            onBackPress = onNavigateUp,
+        )
     }
 }

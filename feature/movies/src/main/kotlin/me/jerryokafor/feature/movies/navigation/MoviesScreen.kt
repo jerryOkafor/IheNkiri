@@ -24,8 +24,10 @@
 
 package me.jerryokafor.feature.movies.navigation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
@@ -33,11 +35,21 @@ import me.jerryokafor.core.ui.navigation.popExitTransition
 import me.jerryokafor.feature.movies.screen.MoviesScreen
 
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val moviesRoute = "/movies"
+const val moviesRoutePattern = "/movies"
+
+fun NavController.navigateToMoviesScreen() {
+    this.navigate(
+        route = moviesRoutePattern,
+        navOptions = navOptions {
+            launchSingleTop = true
+            popUpTo(graph.id) { inclusive = true }
+        },
+    )
+}
 
 fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
     composable(
-        route = moviesRoute,
+        route = moviesRoutePattern,
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,

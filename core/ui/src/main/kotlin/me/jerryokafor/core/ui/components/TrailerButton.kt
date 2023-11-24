@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
@@ -51,7 +52,7 @@ fun TrailerButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    Button(modifier = modifier, onClick = onClick) {
+    Button(modifier = modifier.semantics(mergeDescendants = true) { }, onClick = onClick) {
         Row(horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two)) {
             Icon(
                 painterResource(id = R.drawable.ic_watch_trailer),
