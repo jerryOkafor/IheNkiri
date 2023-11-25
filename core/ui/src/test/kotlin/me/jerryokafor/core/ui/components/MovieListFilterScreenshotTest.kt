@@ -51,8 +51,7 @@ class MovieListFilterScreenshotTest {
         composeTestRule.captureMultiTheme("MovieListFilter") { desc: String ->
             Surface {
                 MovieListFilter(
-                    filters =
-                    listOf(
+                    items = listOf(
                         MovieListFilterItem(
                             label = "Now Playing",
                             isSelected = true,
@@ -73,7 +72,7 @@ class MovieListFilterScreenshotTest {
                             isSelected = false,
                             type = MovieListFilterItem.FilterType.UPCOMING,
                         ),
-                    ),
+                    ).map { Pair(it.label, it.isSelected) },
                 ) {}
             }
         }

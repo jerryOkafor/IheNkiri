@@ -32,6 +32,8 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.LocalStorage
+import me.jerryokafor.core.model.ThemeConfig
+import me.jerryokafor.core.model.UserData
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import org.junit.Before
 import org.junit.Rule
@@ -42,44 +44,62 @@ class AppViewModelTest {
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
-    private lateinit var viewModel: AppViewModel
-
-    private val localStorage = mockk<LocalStorage>(relaxed = true) {
-        every { isLoggedIn() } returns flowOf(false)
+    val localStorage = mockk<LocalStorage> {
+        every { userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = null,
+                userName = null,
+            ),
+        )
     }
 
     @Before
     fun setUp() {
         ShadowLog.stream = System.out
-        viewModel = AppViewModel(localStorage = localStorage)
     }
 
     @Test
     fun appViewMode_initialized_isLoggedInIsFalse() = runTest {
+        val viewModel = AppViewModel(localStorage = localStorage)
         viewModel.uiState.test {
             assertThat(awaitItem()).isEqualTo(AppUiState.Loading)
             with(awaitItem() as AppUiState.Success) {
-                assertThat(userPreference.isLoggedIn).isFalse()
-                assertThat(userPreference.isDarkTheme).isTrue()
-                assertThat(userPreference.isDynamicColor).isFalse()
+                assertThat(settings.isLoggedIn).isFalse()
+                assertThat(settings.themeConfig).isEqualTo(ThemeConfig.DARK)
+                assertThat(settings.isDynamicColor).isFalse()
             }
         }
 
-        verify(exactly = 1) { localStorage.isLoggedIn() }
+        verify(exactly = 1) { localStorage.userData() }
     }
 
     @Test
     fun appViewModel_whenUserIdLoggedIn_isLoggedInIsTrue() = runTest {
-        every { localStorage.isLoggedIn() } returns flowOf(true)
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = true,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = null,
+                userName = null,
+            ),
+        )
+        val viewModel = AppViewModel(localStorage = localStorage)
+
         viewModel.uiState.test {
             assertThat(awaitItem()).isEqualTo(AppUiState.Loading)
             with(awaitItem() as AppUiState.Success) {
-                assertThat(userPreference.isLoggedIn).isFalse()
-                assertThat(userPreference.isDarkTheme).isTrue()
-                assertThat(userPreference.isDynamicColor).isFalse()
+                assertThat(settings.isLoggedIn).isTrue()
+                assertThat(settings.themeConfig).isEqualTo(ThemeConfig.DARK)
+                assertThat(settings.isDynamicColor).isFalse()
             }
         }
 
-        verify(exactly = 1) { localStorage.isLoggedIn() }
+        verify(exactly = 1) { localStorage.userData() }
     }
 }

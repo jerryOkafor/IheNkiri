@@ -38,7 +38,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class MoviesRepositoryTest {
+class MovieListRepositoryTest {
     private val testDispatcher = UnconfinedTestDispatcher()
     private val testScope = TestScope(testDispatcher)
 

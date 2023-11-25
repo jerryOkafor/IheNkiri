@@ -26,7 +26,10 @@ and [Free Figma Design Template](https://www.figma.com/file/gbaO5pgTz0mOZXvFOPCe
 </p>
 
 <p align="center">
+  <img src="doc/screenshots/tv_shows.png" width="200" />
   <img src="doc/screenshots/people.png" width="200" />
+  <img src="doc/screenshots/settings.png" width="200" />
+  <img src="doc/screenshots/theme.png" width="200" />
 </p>
 
 # Development Environment
@@ -175,7 +178,7 @@ Generate Lint baseline
 
 ````bash
 ./gradlew lintDebug -Dlint.baselines.continue=true
-``
+````
 
 
 We have the following tests on **IheNkiri**

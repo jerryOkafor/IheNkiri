@@ -49,6 +49,7 @@ import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
+import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
@@ -59,9 +60,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
-@Suppress("UnusedPrivateMember")
 fun IhenkiriApp(
-    isLoggedIn: Boolean = false,
     navController: NavHostController = rememberNavController(),
 ) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
@@ -90,6 +89,10 @@ fun IhenkiriApp(
         )
     }
 
+    val onLogin: () -> Unit = {
+        navController.navigateToAuth()
+    }
+
     Scaffold(
         modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
         bottomBar = { BottomNavigation(navController, bottomBarState.value) },
@@ -109,18 +112,11 @@ fun IhenkiriApp(
                 ) {
                     authNavGraph()
                     moviesScreen(onMovieClick = onMovieClick)
-                    tvShowsScreen()
+                    tvShowsScreen(onTVShowClick = {})
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
                     peopleScreen()
-                    settingsScreen()
+                    settingsScreen(onLogin = onLogin)
                 }
-
-//                LaunchedEffect(isLoggedIn) {
-//                    when (isLoggedIn) {
-//                        true -> navController.navigateToMoviesScreen()
-//                        false -> navController.navigateToAuth()
-//                    }
-//                }
             }
         },
     )

@@ -44,10 +44,12 @@ import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMovieDetailsRemote
 import me.jerryokafor.ihenkiri.core.network.datasource.DefaultMoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.MovieDetailsRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
+import me.jerryokafor.ihenkiri.core.network.service.AccountApi
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
+import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -84,7 +86,9 @@ object NetworkModule {
     @[Provides Singleton AuthOkHttpClient]
     fun provideAuthOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
         val authToken = BuildConfig.TMDB_API_KEY
-        val builder = OkHttpClient.Builder().addInterceptor(chuckerInterceptor).addInterceptor(AuthorizationInterceptor(authToken))
+        val builder =
+            OkHttpClient.Builder().addInterceptor(chuckerInterceptor)
+                .addInterceptor(AuthorizationInterceptor(authToken))
 
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
@@ -115,6 +119,14 @@ object NetworkModule {
     }.create()
 
     @[Provides Singleton]
+    fun provideRetrofit(
+        @AuthOkHttpClient okHttpClient: OkHttpClient,
+        gson: Gson,
+    ): Retrofit = Retrofit.Builder().baseUrl(BuildConfig.TMDB_BASE_URL)
+        .client(okHttpClient).addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
+
+    @[Provides Singleton]
     fun provideMoviesRemoteDataSource(moviesApi: MovieListApi): MoviesRemoteDataSource =
         DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
@@ -126,20 +138,22 @@ object NetworkModule {
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
     @[Provides Singleton]
-    fun provideMoviesApi(retrofit: Retrofit): MovieListApi = retrofit.create(MovieListApi::class.java)
+    fun provideMoviesApi(retrofit: Retrofit): MovieListApi =
+        retrofit.create(MovieListApi::class.java)
 
     @[Provides Singleton]
-    fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi = retrofit.create(MovieDetailsApi::class.java)
+    fun provideMovieDetailsApi(retrofit: Retrofit): MovieDetailsApi =
+        retrofit.create(MovieDetailsApi::class.java)
 
     @[Provides Singleton]
-    fun providePeopleListsApi(retrofit: Retrofit): PeopleListsApi = retrofit.create(PeopleListsApi::class.java)
+    fun providePeopleListsApi(retrofit: Retrofit): PeopleListsApi =
+        retrofit.create(PeopleListsApi::class.java)
 
     @[Provides Singleton]
-    fun provideRetrofit(
-        @AuthOkHttpClient okHttpClient: OkHttpClient,
-        gson: Gson,
-    ): Retrofit =
-        Retrofit.Builder().baseUrl(BuildConfig.TMDB_BASE_URL)
-            .client(okHttpClient).addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+    fun provideTvSeriesListsApi(retrofit: Retrofit): TVSeriesListsApi =
+        retrofit.create(TVSeriesListsApi::class.java)
+
+    @[Provides Singleton]
+    fun provideAccountApi(retrofit: Retrofit): AccountApi =
+        retrofit.create(AccountApi::class.java)
 }

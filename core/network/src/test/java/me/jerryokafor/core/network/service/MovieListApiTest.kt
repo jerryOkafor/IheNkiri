@@ -34,7 +34,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class MoviesApiTest : BaseServiceTest() {
+class MovieListApiTest : BaseServiceTest() {
     private val movieListApi =
         MockWebServerUtil.createMockedService(mockWebServer, MovieListApi::class.java)
 

@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "avatar.proto";
+
+option java_package = "me.jerryokafor.core.data";
+option java_multiple_files = true;
+
+message UserProto{
+  string id = 1;
+  string  name = 2;
+  string user_name = 3;
+
+  Avatar avatar = 4;
+}

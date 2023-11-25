@@ -30,12 +30,12 @@ import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.tvshows.ui.TvShowScreen
+import me.jerryokafor.ihenkiri.feature.tvshows.ui.TVShowsScreen
 
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val tvShowsNavPattern = "/tv-shows"
 
-fun NavGraphBuilder.tvShowsScreen() {
+fun NavGraphBuilder.tvShowsScreen(onTVShowClick: (Long) -> Unit) {
     composable(
         route = tvShowsNavPattern,
         enterTransition = enterTransition,
@@ -43,6 +43,6 @@ fun NavGraphBuilder.tvShowsScreen() {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        TvShowScreen()
+        TVShowsScreen(onTVShowClick = onTVShowClick)
     }
 }

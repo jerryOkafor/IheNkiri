@@ -34,6 +34,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -198,6 +200,7 @@ fun MoviesDetailsScreen(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Suppress("UnusedPrivateMember", "CyclomaticComplexMethod")
 fun MoviesDetailsScreen(
@@ -550,14 +553,15 @@ fun MoviesDetailsScreen(
                                 text = stringResource(R.string.title_categories),
                             )
                             OneAndHalfVerticalSpacer()
-                            LazyRow(
+                            FlowRow(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_CATEGORIES_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                                verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                             ) {
-                                items(movieDetails.genres.map { genre -> genre.name }) {
+                                (movieDetails.genres.map { genre -> genre.name }).forEach {
                                     GenreChip(text = it)
                                 }
                             }

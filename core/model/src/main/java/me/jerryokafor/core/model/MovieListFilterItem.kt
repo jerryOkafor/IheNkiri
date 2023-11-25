@@ -33,3 +33,13 @@ data class MovieListFilterItem(val label: String, val isSelected: Boolean, val t
         DISCOVER,
     }
 }
+
+data class TVShowsFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
+    enum class FilterType {
+        AIRING_TODAY,
+        ON_THE_AIR,
+        POPULAR,
+        TOP_RATED,
+        DISCOVER,
+    }
+}

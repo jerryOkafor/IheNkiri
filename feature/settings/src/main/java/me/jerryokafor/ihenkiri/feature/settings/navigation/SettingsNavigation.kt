@@ -30,12 +30,12 @@ import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.settings.ui.MoreScreen
+import me.jerryokafor.ihenkiri.feature.settings.ui.SettingsScreen
 
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val settingsNavPattern = "/settings"
 
-fun NavGraphBuilder.settingsScreen() {
+fun NavGraphBuilder.settingsScreen(onLogin: () -> Unit) {
     composable(
         route = settingsNavPattern,
         enterTransition = enterTransition,
@@ -43,6 +43,6 @@ fun NavGraphBuilder.settingsScreen() {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        MoreScreen()
+        SettingsScreen(onLogin = onLogin)
     }
 }

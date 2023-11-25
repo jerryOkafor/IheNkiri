@@ -24,7 +24,6 @@
 
 package me.jerryokafor.ihenkiri.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,26 +32,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import me.jerryokafor.core.data.repository.LocalStorage
+import me.jerryokafor.core.model.UserEditableSettings
 import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel
-@Inject
-constructor(localStorage: LocalStorage) : ViewModel() {
+@Inject constructor(localStorage: LocalStorage) : ViewModel() {
     @Suppress("MagicNumber")
-    val uiState: StateFlow<AppUiState> = localStorage.isLoggedIn()
-        .map { isLoggedIn ->
-            Log.d("Testing: ", "isLoggedIn: $isLoggedIn")
-            AppUiState.Success(UserPreference(isLoggedIn = isLoggedIn))
-        }.stateIn(
-            scope = viewModelScope,
-            initialValue = AppUiState.Loading,
-            started = SharingStarted.WhileSubscribed(5_000),
+    val uiState: StateFlow<AppUiState> = localStorage.userData().map { userData ->
+        AppUiState.Success(
+            UserEditableSettings(
+                isLoggedIn = userData.isLoggedIn,
+                themeConfig = userData.themeConfig,
+                isDynamicColor = userData.usDynamicColor,
+            ),
         )
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = AppUiState.Loading,
+        started = SharingStarted.WhileSubscribed(5_000),
+    )
 }
-
-data class UserPreference(
-    val isLoggedIn: Boolean = false,
-    val isDarkTheme: Boolean = true,
-    val isDynamicColor: Boolean = false,
-)

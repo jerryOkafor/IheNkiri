@@ -52,7 +52,7 @@ fun NavController.navigateToAuth() {
         route = authNavGraph,
         navOptions = navOptions {
             launchSingleTop = true
-            popUpTo(graph.id) { inclusive = true }
+//            popUpTo(graph.id) { inclusive = true }
         },
     )
 }

@@ -43,13 +43,13 @@ import java.io.IOException
 import kotlin.test.assertTrue
 
 class MoviesListPagingSourceTest {
-    private val fetchMovies = mockk<suspend (Int) -> List<Movie>>()
+    private val fetchTvShows = mockk<suspend (Int) -> List<Movie>>()
 
     @Test
     fun `test fresh load`() {
-        coEvery { fetchMovies(any()) } returns testMovies()
+        coEvery { fetchTvShows(any()) } returns testMovies()
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = MoviesListPagingSource(fetchTvShows)
         val pager =
             TestPager(
                 config =
@@ -71,14 +71,14 @@ class MoviesListPagingSourceTest {
                 .inOrder()
         }
 
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
     }
 
     @Test
     fun `test consecutive load`() {
-        coEvery { fetchMovies(any()) } returns testMovies()
+        coEvery { fetchTvShows(any()) } returns testMovies()
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = MoviesListPagingSource(fetchTvShows)
         val pager =
             TestPager(
                 config =
@@ -110,16 +110,16 @@ class MoviesListPagingSourceTest {
             assertThat(refreshKey).isEqualTo(4)
         }
 
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
-        coVerify(exactly = 1) { fetchMovies(eq(2)) }
-        coVerify(exactly = 1) { fetchMovies(eq(3)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(2)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(3)) }
     }
 
     @Test
     fun `test network error on refresh load`() {
-        coEvery { fetchMovies(any()) } throws IOException("No internet available")
+        coEvery { fetchTvShows(any()) } throws IOException("No internet available")
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = MoviesListPagingSource(fetchTvShows)
         val pager =
             TestPager(
                 config =
@@ -138,12 +138,12 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
     }
 
     @Test
     fun `test sever error on refresh load`() {
-        coEvery { fetchMovies(any()) } throws
+        coEvery { fetchTvShows(any()) } throws
             HttpException(
                 Response.error<Any>(
                     409,
@@ -151,7 +151,7 @@ class MoviesListPagingSourceTest {
                 ),
             )
 
-        val pagingSource = MoviesListPagingSource(fetchMovies)
+        val pagingSource = MoviesListPagingSource(fetchTvShows)
         val pager =
             TestPager(
                 config =
@@ -170,6 +170,6 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
     }
 }

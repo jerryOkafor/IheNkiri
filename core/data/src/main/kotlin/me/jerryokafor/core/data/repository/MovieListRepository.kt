@@ -55,24 +55,28 @@ constructor(
     private val moviesRemoteDataSource: MoviesRemoteDataSource,
     @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : MovieListRepository {
-    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
-        moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
-    }
+    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
+        withContext(defaultDispatcher) {
+            moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
+        }
 
-    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
-        moviesRemoteDataSource.popularMovies(filter.toQuery())
-    }
+    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> =
+        withContext(defaultDispatcher) {
+            moviesRemoteDataSource.popularMovies(filter.toQuery())
+        }
 
-    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
-        moviesRemoteDataSource.topRatedMovies(filter.toQuery())
-    }
+    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> =
+        withContext(defaultDispatcher) {
+            moviesRemoteDataSource.topRatedMovies(filter.toQuery())
+        }
 
-    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> = withContext(defaultDispatcher) {
-        moviesRemoteDataSource.upcomingMovies(filter.toQuery())
-    }
+    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> =
+        withContext(defaultDispatcher) {
+            moviesRemoteDataSource.upcomingMovies(filter.toQuery())
+        }
 }
 
-class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
+class MoviesListPagingSource(private val fetchTvShows: suspend (Int) -> List<Movie>) :
     PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let {
@@ -84,7 +88,7 @@ class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movi
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val pageNumber = params.key ?: 1
-            val response = fetchMovies(pageNumber)
+            val response = fetchTvShows(pageNumber)
             val prevKey = if (pageNumber > 1) pageNumber - 1 else null
             val nextKey = if (response.isNotEmpty()) pageNumber + 1 else null
 

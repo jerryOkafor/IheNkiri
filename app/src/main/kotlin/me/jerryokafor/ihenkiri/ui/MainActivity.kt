@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
+import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.viewmodel.AppUiState
 import me.jerryokafor.ihenkiri.viewmodel.AppViewModel
@@ -80,13 +81,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val isDarkTheme = shouldUseDarkTheme(uiState = uiState)
-            val isLoggedIn = rememberUserSession(uiState = uiState)
+            val isDynamicColor = shouldUseDynamicColor(uiState = uiState)
 
             IheNkiriTheme(
                 isDarkTheme = isDarkTheme,
-                isDynamicColor = false,
+                isDynamicColor = isDynamicColor,
             ) {
-                IhenkiriApp(isLoggedIn = isLoggedIn)
+                IhenkiriApp()
             }
         }
     }
@@ -107,11 +108,17 @@ private fun shouldUseDarkTheme(
     uiState: AppUiState,
 ): Boolean = when (uiState) {
     AppUiState.Loading -> isSystemInDarkTheme()
-    else -> isSystemInDarkTheme()
+    is AppUiState.Success -> when (uiState.settings.themeConfig) {
+        ThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
+        ThemeConfig.LIGHT -> false
+        ThemeConfig.DARK -> true
+    }
 }
 
 @Composable
-private fun rememberUserSession(uiState: AppUiState): Boolean = when (uiState) {
+private fun shouldUseDynamicColor(
+    uiState: AppUiState,
+): Boolean = when (uiState) {
     AppUiState.Loading -> false
-    is AppUiState.Success -> uiState.userPreference.isLoggedIn
+    is AppUiState.Success -> uiState.settings.isDynamicColor
 }
