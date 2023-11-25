@@ -31,6 +31,7 @@ import me.jerryokafor.core.data.userPreferences
 import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import kotlin.test.assertFailsWith
 
 class UserPreferencesSerializerTest {
     private val userPreferencesSerializer = UserPreferencesSerializer()
@@ -58,8 +59,10 @@ class UserPreferencesSerializerTest {
         assertThat(expectedUserPreferences).isEqualTo(actualUserPreferences)
     }
 
-    @Test(expected = CorruptionException::class)
+    @Test
     fun userPreferencesSerializer_readingInvalidValue_throwsCorruptionException() = runTest {
-        userPreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
+        assertFailsWith<CorruptionException>(message = "Cannot read proto.") {
+            userPreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
+        }
     }
 }

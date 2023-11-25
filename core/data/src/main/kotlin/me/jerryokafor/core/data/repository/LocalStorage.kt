@@ -96,8 +96,6 @@ class DefaultLocalStorage @Inject constructor(
                 ThemeConfigProto.UNRECOGNIZED,
                 ThemeConfigProto.THEME_CONFIG_DARK,
                 -> ThemeConfig.DARK
-
-                else -> ThemeConfig.DARK
             },
             usDynamicColor = it.useDynamicColor,
             name = null,
