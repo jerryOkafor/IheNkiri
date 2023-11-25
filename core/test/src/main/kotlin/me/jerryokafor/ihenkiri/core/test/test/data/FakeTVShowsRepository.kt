@@ -33,14 +33,14 @@ import javax.inject.Inject
 
 class FakeTVShowsRepository @Inject constructor() : TVShowsRepository {
     override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
     override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
     override suspend fun popular(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
     override suspend fun topRated(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testTVShows().results.map { it.asDomainObject() }
+        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 }

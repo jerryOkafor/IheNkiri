@@ -35,23 +35,23 @@ class FakeTVSeriesListsApi @Inject constructor() : TVSeriesListsApi {
         language: String,
         page: Int,
         region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
     override suspend fun onTheAir(
         language: String,
         page: Int,
         region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
     override suspend fun popular(
         language: String,
         page: Int,
         region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
     override suspend fun topRated(
         language: String,
         page: Int,
         region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testTVShows()
+    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 }

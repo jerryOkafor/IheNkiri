@@ -32,8 +32,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import me.jerryokafor.core.model.Movie
-import me.jerryokafor.ihenkiri.core.test.util.testMovies
+import me.jerryokafor.core.model.TVShow
+import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData.testTVShows
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
@@ -42,66 +42,55 @@ import retrofit2.Response
 import java.io.IOException
 import kotlin.test.assertTrue
 
-class MoviesListPagingSourceTest {
-    private val fetchTvShows = mockk<suspend (Int) -> List<Movie>>()
+class TVShowsListPagingSourceTest {
+    private val fetchMovies = mockk<suspend (Int) -> List<TVShow>>()
 
     @Test
     fun `test fresh load`() {
-        coEvery { fetchTvShows(any()) } returns testMovies()
+        coEvery { fetchMovies(any()) } returns testTVShows()
 
-        val pagingSource = MoviesListPagingSource(fetchTvShows)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pagingSource = TVShowsListPagingSource(fetchMovies)
+        val pager = TestPager(
+            config = PagingConfig(
+                pageSize = 4,
+                maxSize = 50,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh() as PagingSource.LoadResult.Page
-
             assertThat(pagingSource.getRefreshKey(pager.getPagingState(0))).isEqualTo(1)
-
-            assertThat(result.data)
-                .containsExactlyElementsIn(testMovies())
-                .inOrder()
+            assertThat(result.data).containsExactlyElementsIn(testTVShows()).inOrder()
         }
 
-        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
+        coVerify(exactly = 1) { fetchMovies(eq(1)) }
     }
 
     @Test
     fun `test consecutive load`() {
-        coEvery { fetchTvShows(any()) } returns testMovies()
+        coEvery { fetchMovies(any()) } returns testTVShows()
 
-        val pagingSource = MoviesListPagingSource(fetchTvShows)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 24,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pagingSource = TVShowsListPagingSource(fetchMovies)
+        val pager = TestPager(
+            config = PagingConfig(
+                pageSize = 4,
+                maxSize = 24,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
-            val result =
-                with(pager) {
-                    pager.refresh()
-                    append()
-                    append()
-                    append()
-                } as PagingSource.LoadResult.Page
+            val result = with(pager) {
+                pager.refresh()
+                append()
+                append()
+                append()
+            } as PagingSource.LoadResult.Page
             assertThat(pager.getPages().size).isEqualTo(4)
-            assertThat(result.data)
-                .containsExactlyElementsIn(testMovies())
-                .inOrder()
+            assertThat(result.data).containsExactlyElementsIn(testTVShows()).inOrder()
 
             // after loading 4 pages, anchore position = (page count * pages) -1
             val anchorPosition = (4 * 4) - 1
@@ -110,26 +99,24 @@ class MoviesListPagingSourceTest {
             assertThat(refreshKey).isEqualTo(4)
         }
 
-        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
-        coVerify(exactly = 1) { fetchTvShows(eq(2)) }
-        coVerify(exactly = 1) { fetchTvShows(eq(3)) }
+        coVerify(exactly = 1) { fetchMovies(eq(1)) }
+        coVerify(exactly = 1) { fetchMovies(eq(2)) }
+        coVerify(exactly = 1) { fetchMovies(eq(3)) }
     }
 
     @Test
     fun `test network error on refresh load`() {
-        coEvery { fetchTvShows(any()) } throws IOException("No internet available")
+        coEvery { fetchMovies(any()) } throws IOException("No internet available")
 
-        val pagingSource = MoviesListPagingSource(fetchTvShows)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pagingSource = TVShowsListPagingSource(fetchMovies)
+        val pager = TestPager(
+            config = PagingConfig(
+                pageSize = 4,
+                maxSize = 12,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh()
@@ -138,30 +125,27 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
+        coVerify(exactly = 1) { fetchMovies(eq(1)) }
     }
 
     @Test
     fun `test sever error on refresh load`() {
-        coEvery { fetchTvShows(any()) } throws
-            HttpException(
-                Response.error<Any>(
-                    409,
-                    "Error loading movies".toResponseBody("plain/text".toMediaTypeOrNull()),
-                ),
-            )
+        coEvery { fetchMovies(any()) } throws HttpException(
+            Response.error<Any>(
+                409,
+                "Error loading tv shows".toResponseBody("plain/text".toMediaTypeOrNull()),
+            ),
+        )
 
-        val pagingSource = MoviesListPagingSource(fetchTvShows)
-        val pager =
-            TestPager(
-                config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
-                    enablePlaceholders = true,
-                ),
-                pagingSource = pagingSource,
-            )
+        val pagingSource = TVShowsListPagingSource(fetchMovies)
+        val pager = TestPager(
+            config = PagingConfig(
+                pageSize = 4,
+                maxSize = 12,
+                enablePlaceholders = true,
+            ),
+            pagingSource = pagingSource,
+        )
 
         runTest {
             val result = pager.refresh()
@@ -170,6 +154,6 @@ class MoviesListPagingSourceTest {
             val page = pager.getLastLoadedPage()
             assertThat(page).isNull()
         }
-        coVerify(exactly = 1) { fetchTvShows(eq(1)) }
+        coVerify(exactly = 1) { fetchMovies(eq(1)) }
     }
 }

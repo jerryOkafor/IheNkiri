@@ -26,9 +26,11 @@ package me.jerryokafor.ihenkiri.core.test.util
 
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkTvShow
 import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
+import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
 
 object TVShowsTestData {
-    fun testTVShows() = PagedNetworkResponse(
+    fun testTVShows() = testNetworkTVShows().results.map { it.asDomainObject() }
+    fun testNetworkTVShows() = PagedNetworkResponse(
         page = 1,
         results = arrayListOf(
             NetworkTvShow(

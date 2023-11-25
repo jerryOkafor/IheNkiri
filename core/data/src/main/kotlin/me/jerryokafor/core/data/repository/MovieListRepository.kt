@@ -76,7 +76,7 @@ constructor(
         }
 }
 
-class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movie>) :
+class MoviesListPagingSource(private val fetchTvShows: suspend (Int) -> List<Movie>) :
     PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let {
@@ -88,7 +88,7 @@ class MoviesListPagingSource(private val fetchMovies: suspend (Int) -> List<Movi
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val pageNumber = params.key ?: 1
-            val response = fetchMovies(pageNumber)
+            val response = fetchTvShows(pageNumber)
             val prevKey = if (pageNumber > 1) pageNumber - 1 else null
             val nextKey = if (response.isNotEmpty()) pageNumber + 1 else null
 

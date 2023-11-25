@@ -26,6 +26,9 @@ package me.jerryokafor.core.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.model.TVShow
 import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
@@ -43,31 +46,45 @@ interface TVShowsRepository {
 
 class DefaultTVShowsRepository
 @Inject
-constructor(private val tvSeriesListsApi: TVSeriesListsApi) : TVShowsRepository {
+constructor(
+    private val tvSeriesListsApi: TVSeriesListsApi,
+    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
+) : TVShowsRepository {
     override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
-        tvSeriesListsApi.airingToday(
-            filter.language,
-            filter.page,
-            filter.region,
-        ).results.map { it.asDomainObject() }
+        withContext(defaultDispatcher) {
+            tvSeriesListsApi.airingToday(
+                filter.language,
+                filter.page,
+                filter.region,
+            ).results.map { it.asDomainObject() }
+        }
 
-    override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.onTheAir(
-        filter.language,
-        filter.page,
-        filter.region,
-    ).results.map { it.asDomainObject() }
+    override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> =
+        withContext(defaultDispatcher) {
+            tvSeriesListsApi.onTheAir(
+                filter.language,
+                filter.page,
+                filter.region,
+            ).results.map { it.asDomainObject() }
+        }
 
-    override suspend fun popular(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.popular(
-        filter.language,
-        filter.page,
-        filter.region,
-    ).results.map { it.asDomainObject() }
+    override suspend fun popular(filter: MoviesFilter): List<TVShow> =
+        withContext(defaultDispatcher) {
+            tvSeriesListsApi.popular(
+                filter.language,
+                filter.page,
+                filter.region,
+            ).results.map { it.asDomainObject() }
+        }
 
-    override suspend fun topRated(filter: MoviesFilter): List<TVShow> = tvSeriesListsApi.topRated(
-        filter.language,
-        filter.page,
-        filter.region,
-    ).results.map { it.asDomainObject() }
+    override suspend fun topRated(filter: MoviesFilter): List<TVShow> =
+        withContext(defaultDispatcher) {
+            tvSeriesListsApi.topRated(
+                filter.language,
+                filter.page,
+                filter.region,
+            ).results.map { it.asDomainObject() }
+        }
 }
 
 class TVShowsListPagingSource(private val fetchMovies: suspend (Int) -> List<TVShow>) :
