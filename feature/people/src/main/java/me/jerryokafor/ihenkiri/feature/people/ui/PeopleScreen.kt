@@ -82,14 +82,23 @@ fun PeopleScreenPreview() {
 
 @Composable
 @ExcludeFromGeneratedCoverageReport
-fun PeopleScreen(viewModel: PeopleViewModel = hiltViewModel()) {
+fun PeopleScreen(
+    viewModel: PeopleViewModel = hiltViewModel(),
+    onPersonClick: (Long) -> Unit = {},
+) {
     val persons = viewModel.persons.collectAsLazyPagingItems()
-    PeopleScreen(personLazyPagingItems = persons)
+    PeopleScreen(
+        personLazyPagingItems = persons,
+        onPersonClick = onPersonClick,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
+fun PeopleScreen(
+    personLazyPagingItems: LazyPagingItems<Person>,
+    onPersonClick: (Long) -> Unit = {},
+) {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
@@ -139,6 +148,7 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                                 ", ",
                             ) { personMovie -> personMovie.title },
                             imageUrl = path,
+                            onClick = { onPersonClick(person.id) },
                         )
                     }
 

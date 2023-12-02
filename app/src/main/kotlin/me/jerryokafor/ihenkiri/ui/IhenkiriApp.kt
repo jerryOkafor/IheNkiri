@@ -45,6 +45,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
+import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
@@ -87,6 +89,10 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
         )
     }
 
+    val onPersonClick: (Long) -> Unit = {
+        navController.navigateToPersonDetails(personId = it)
+    }
+
     val onLogin: () -> Unit = {
         navController.navigateToAuth()
     }
@@ -112,7 +118,8 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
                     moviesScreen(onMovieClick = onMovieClick)
                     tvShowsScreen(onTVShowClick = {})
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
-                    peopleScreen()
+                    peopleScreen(onPersonClick = onPersonClick)
+                    peopleDetailsScreen(onPersonClick = onPersonClick, onNavigateUp = onNavigateUp)
                     settingsScreen(onLogin = onLogin)
                 }
             }

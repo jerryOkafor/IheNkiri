@@ -21,28 +21,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+@file:Suppress("TopLevelPropertyNaming")
 
-package me.jerryokafor.ihenkiri.feature.people.navigation
+package com.jerryokafor.feature.peopledetails.navigation
 
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.jerryokafor.feature.peopledetails.ui.PeopleDetailsScreen
+import kotlinx.coroutines.flow.StateFlow
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.people.ui.PeopleScreen
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val peopleNavPattern = "/people"
 
-fun NavGraphBuilder.peopleScreen(onPersonClick: (Long) -> Unit) {
+@VisibleForTesting
+@Suppress("ktlint:standard:property-naming")
+internal const val personIdArg = "movieId"
+
+@Suppress("ktlint:standard:property-naming")
+const val peopleDetailsRoutePattern = "person/{$personIdArg}"
+
+internal class PeopleDetailsArg(val personId: StateFlow<Long>) {
+    constructor(savedStateHandle: SavedStateHandle) : this(
+        personId = checkNotNull(savedStateHandle.getStateFlow(personIdArg, 0L)),
+    )
+}
+
+fun NavController.navigateToPersonDetails(
+    personId: Long,
+    navOptions: NavOptions? = null,
+) {
+    this.navigate(route = "person/$personId", navOptions = navOptions)
+}
+
+fun NavGraphBuilder.peopleDetailsScreen(
+    onPersonClick: (Long) -> Unit,
+    onNavigateUp: () -> Unit,
+) {
     composable(
-        route = peopleNavPattern,
+        route = peopleDetailsRoutePattern,
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        PeopleScreen(onPersonClick = onPersonClick)
+        PeopleDetailsScreen(onPersonClick = onPersonClick, onNavigateUp = onNavigateUp)
     }
 }

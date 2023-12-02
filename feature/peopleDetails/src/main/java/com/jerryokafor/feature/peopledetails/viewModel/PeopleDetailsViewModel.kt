@@ -22,27 +22,17 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.feature.people.navigation
+package com.jerryokafor.feature.peopledetails.viewModel
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import me.jerryokafor.core.ui.navigation.enterTransition
-import me.jerryokafor.core.ui.navigation.exitTransition
-import me.jerryokafor.core.ui.navigation.popEnterTransition
-import me.jerryokafor.core.ui.navigation.popExitTransition
-import me.jerryokafor.ihenkiri.feature.people.ui.PeopleScreen
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import com.jerryokafor.feature.peopledetails.navigation.PeopleDetailsArg
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val peopleNavPattern = "/people"
-
-fun NavGraphBuilder.peopleScreen(onPersonClick: (Long) -> Unit) {
-    composable(
-        route = peopleNavPattern,
-        enterTransition = enterTransition,
-        exitTransition = exitTransition,
-        popEnterTransition = popEnterTransition,
-        popExitTransition = popExitTransition,
-    ) {
-        PeopleScreen(onPersonClick = onPersonClick)
+@HiltViewModel
+class PeopleDetailsViewModel
+    @Inject
+    constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+        val personId = PeopleDetailsArg(savedStateHandle).personId
     }
-}

@@ -81,6 +81,7 @@ dependencies {
     implementation(projects.feature.movies)
     implementation(projects.feature.movieDetails)
     implementation(projects.feature.people)
+    implementation(projects.feature.peopleDetails)
     implementation(projects.feature.tvShows)
     implementation(projects.feature.settings)
     debugImplementation(projects.uiTestHiltManifest)
