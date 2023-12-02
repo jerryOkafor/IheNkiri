@@ -46,7 +46,7 @@ androidxHiltNavigationCompose = "1.1.0"
 composeBom = "2023.10.01"
 composeCompiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 accompanist = "0.33.1-alpha"
-coil = "2.5.0"
+coil = "2.4.0"
 composeShimmer = "1.0.5"
 
 #Paging
