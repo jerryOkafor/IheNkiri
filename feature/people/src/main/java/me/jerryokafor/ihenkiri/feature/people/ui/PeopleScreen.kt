@@ -168,8 +168,11 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .testTag(REFRESH_PROGRESS_INDICATOR)
-                            .align(Alignment.Center)
-                            .padding(IheNkiri.spacing.oneAndHalf),
+                            .size(30.dp)
+                            .padding(vertical = IheNkiri.spacing.one)
+                            .align(Alignment.Center),
+                        strokeWidth = 1.dp,
+                        strokeCap = StrokeCap.Round,
                     )
                 }
             }
