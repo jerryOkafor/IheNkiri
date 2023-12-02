@@ -53,11 +53,11 @@ class MoviesListPagingSourceTest {
         val pager =
             TestPager(
                 config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 50,
-                    enablePlaceholders = true,
-                ),
+                    PagingConfig(
+                        pageSize = 4,
+                        maxSize = 50,
+                        enablePlaceholders = true,
+                    ),
                 pagingSource = pagingSource,
             )
 
@@ -82,11 +82,11 @@ class MoviesListPagingSourceTest {
         val pager =
             TestPager(
                 config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 24,
-                    enablePlaceholders = true,
-                ),
+                    PagingConfig(
+                        pageSize = 4,
+                        maxSize = 24,
+                        enablePlaceholders = true,
+                    ),
                 pagingSource = pagingSource,
             )
 
@@ -123,11 +123,11 @@ class MoviesListPagingSourceTest {
         val pager =
             TestPager(
                 config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
-                    enablePlaceholders = true,
-                ),
+                    PagingConfig(
+                        pageSize = 4,
+                        maxSize = 12,
+                        enablePlaceholders = true,
+                    ),
                 pagingSource = pagingSource,
             )
 
@@ -155,11 +155,11 @@ class MoviesListPagingSourceTest {
         val pager =
             TestPager(
                 config =
-                PagingConfig(
-                    pageSize = 4,
-                    maxSize = 12,
-                    enablePlaceholders = true,
-                ),
+                    PagingConfig(
+                        pageSize = 4,
+                        maxSize = 12,
+                        enablePlaceholders = true,
+                    ),
                 pagingSource = pagingSource,
             )
 

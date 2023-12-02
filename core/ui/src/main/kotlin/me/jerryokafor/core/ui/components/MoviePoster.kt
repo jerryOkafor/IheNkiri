@@ -70,15 +70,15 @@ fun PosterPreview() {
         ) {
             MoviePoster(
                 modifier =
-                Modifier
-                    .width(100.dp)
-                    .aspectRatio(SIZE_ASPECT_RATIO),
+                    Modifier
+                        .width(100.dp)
+                        .aspectRatio(SIZE_ASPECT_RATIO),
                 posterUrl = "https://example.com/image.jpg",
                 contentDescription = "Image",
                 shimmer =
-                rememberShimmer(
-                    shimmerBounds = ShimmerBounds.Window,
-                ),
+                    rememberShimmer(
+                        shimmerBounds = ShimmerBounds.Window,
+                    ),
             ) {}
         }
     }

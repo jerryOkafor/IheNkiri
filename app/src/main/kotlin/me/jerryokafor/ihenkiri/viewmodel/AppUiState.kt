@@ -28,5 +28,6 @@ import me.jerryokafor.core.model.UserEditableSettings
 
 sealed interface AppUiState {
     data object Loading : AppUiState
+
     data class Success(val settings: UserEditableSettings) : AppUiState
 }

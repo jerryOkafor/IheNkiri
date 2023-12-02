@@ -60,9 +60,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
-fun IhenkiriApp(
-    navController: NavHostController = rememberNavController(),
-) {
+fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val systemUiController = rememberSystemUiController()

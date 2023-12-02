@@ -148,7 +148,10 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             val filename = overrideFileName ?: name
 
             this.onRoot().captureRoboImage(
-                "src/test/screenshots/" + "$name/$filename" + "_$darkModeDesc" + "_$dynamicThemingDesc" + ".png",
+                "src/test/screenshots/" +
+                    "$name/$filename" + "_$darkModeDesc" +
+                    "_$dynamicThemingDesc" +
+                    ".png",
                 roborazziOptions = DefaultRoborazziOptions,
             )
         }
@@ -183,7 +186,9 @@ private fun generateDescription(
  */
 private fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
     val specs =
-        deviceSpec.substringAfter("spec:").split(",").map { it.split("=") }
+        deviceSpec.substringAfter("spec:")
+            .split(",")
+            .map { it.split("=") }
             .associate { it[0] to it[1] }
     val width = specs["width"]?.toInt() ?: 640
     val height = specs["height"]?.toInt() ?: 480

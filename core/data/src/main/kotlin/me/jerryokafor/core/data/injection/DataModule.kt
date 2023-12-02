@@ -68,11 +68,12 @@ interface DataModule {
 @InstallIn(SingletonComponent::class)
 object LocalStorageModule {
     @[Singleton Provides]
-    fun provideUserPreferencesDatastore(@ApplicationContext context: Context): DataStore<UserPreferences> =
-        DataStoreFactory.create(
-            serializer = UserPreferencesSerializer(),
-            produceFile = { context.dataStoreFile(DefaultLocalStorage.DATA_STORE_FILE_NAME) },
-        )
+    fun provideUserPreferencesDatastore(
+        @ApplicationContext context: Context,
+    ): DataStore<UserPreferences> = DataStoreFactory.create(
+        serializer = UserPreferencesSerializer(),
+        produceFile = { context.dataStoreFile(DefaultLocalStorage.DATA_STORE_FILE_NAME) },
+    )
 }
 
 @Module

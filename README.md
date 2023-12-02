@@ -238,7 +238,9 @@ We use Roborazzi to achieve this screenshot testing.
 
 # Architecture
 
-[Todo]
+# Todo
+- [ ] Performance (Baseline Profile + R8)
+- [ ] Different Screen Sizes
 
 ## References
 

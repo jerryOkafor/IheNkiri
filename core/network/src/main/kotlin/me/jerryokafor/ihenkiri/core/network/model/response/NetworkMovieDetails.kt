@@ -95,13 +95,13 @@ fun NetworkMovieDetails.asDomainObject(): MovieDetails = MovieDetails(
     revenue = this.revenue,
     runtime = this.runtime,
     spokenLanguages =
-    this.spokenLanguages.map {
-        SpokenLanguage(
-            englishName = it.englishName,
-            iso6391 = it.iso6391,
-            name = it.name,
-        )
-    },
+        this.spokenLanguages.map {
+            SpokenLanguage(
+                englishName = it.englishName,
+                iso6391 = it.iso6391,
+                name = it.name,
+            )
+        },
     status = status,
     tagline = tagline,
     title = title,

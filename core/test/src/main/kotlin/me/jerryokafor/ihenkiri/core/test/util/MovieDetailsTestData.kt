@@ -43,36 +43,36 @@ object MovieDetailsTestData {
         backdropPath = "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg",
         budget = 63000000,
         genres =
-        listOf(
-            NetworkGenre(id = 18, name = "Drama"),
-            NetworkGenre(id = 53, name = "Thriller"),
-            NetworkGenre(id = 35, name = "Comedy"),
-        ),
+            listOf(
+                NetworkGenre(id = 18, name = "Drama"),
+                NetworkGenre(id = 53, name = "Thriller"),
+                NetworkGenre(id = 35, name = "Comedy"),
+            ),
         homepage = "http://www.foxmovies.com/movies/fight-club",
         id = movieId,
         imdbId = "tt0137523",
         originalLanguage = "en",
         originalTitle = "Fight Club",
         overview =
-        """
+            """
             A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
              aggression into a shocking new form of therapy. Their concept catches on, with 
              underground \"fight clubs\" forming in every town, until an eccentric gets in the 
              way and ignites an out-of-control spiral toward oblivion.
-        """.trimIndent(),
+            """.trimIndent(),
         popularity = 61.416,
         posterPath = "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
         releaseDate = "1999-10-15",
         revenue = 100853753,
         runtime = 139,
         spokenLanguages =
-        listOf(
-            NetworkSpokenLanguage(
-                englishName = "English",
-                iso6391 = "en",
-                name = "English",
+            listOf(
+                NetworkSpokenLanguage(
+                    englishName = "English",
+                    iso6391 = "en",
+                    name = "English",
+                ),
             ),
-        ),
         status = "Released",
         tagline = "Mischief. Mayhem. Soap.",
         title = "Fight Club",
@@ -81,8 +81,9 @@ object MovieDetailsTestData {
         voteCount = 26280,
     )
 
-    fun testMovieDetails(movieId: Long): MovieDetails =
-        testNetworkMovieDetails(movieId = movieId).asDomainObject()
+    fun testMovieDetails(movieId: Long): MovieDetails = testNetworkMovieDetails(
+        movieId = movieId,
+    ).asDomainObject()
 
     fun testNetworkMovieCredit(movieId: Long): NetworkMovieCredit = NetworkMovieCredit(
         id = movieId.toInt(),
@@ -146,8 +147,9 @@ object MovieDetailsTestData {
         ),
     )
 
-    fun testMovieCredit(movieId: Long): MovieCredit =
-        testNetworkMovieCredit(movieId).asDomainObject()
+    fun testMovieCredit(movieId: Long): MovieCredit = testNetworkMovieCredit(
+        movieId,
+    ).asDomainObject()
 
     fun testNetworkMovieVideos(movieId: Long): NetworkVideos = NetworkVideos(
         id = movieId.toInt(),
@@ -157,7 +159,10 @@ object MovieDetailsTestData {
                 iso31661 = "en",
                 iso6391 = "US",
                 key = "O-b2VfmmbyA",
-                name = "Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, Helena Bonham Carter",
+                name = """
+                    Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, 
+                    Helena Bonham Carter
+                """.trimIndent(),
                 official = false,
                 publishedAt = "2016-03-05T02:03:14.000Z",
                 site = "YouTube",
@@ -179,6 +184,6 @@ object MovieDetailsTestData {
         ),
     )
 
-    fun testMovieVideos(movieId: Long): List<Video> =
-        testNetworkMovieVideos(movieId).results.map { it.asDomainObject() }
+    fun testMovieVideos(movieId: Long): List<Video> = testNetworkMovieVideos(movieId)
+        .results.map { it.asDomainObject() }
 }

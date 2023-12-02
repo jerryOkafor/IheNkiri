@@ -48,10 +48,14 @@ abstract class TestDataModule {
     abstract fun provideFakeFakeMoviesRepository(repo: FakeMoviesRepository): MovieListRepository
 
     @Binds
-    abstract fun provideMovieDetailsRepository(movieDetailsRepository: FakeMovieDetailsRepository): MovieDetailsRepository
+    abstract fun provideMovieDetailsRepository(
+        movieDetailsRepository: FakeMovieDetailsRepository,
+    ): MovieDetailsRepository
 
     @Binds
-    abstract fun providePeopleListRepository(peopleListRepository: FakePeopleListRepository): PeopleListRepository
+    abstract fun providePeopleListRepository(
+        peopleListRepository: FakePeopleListRepository,
+    ): PeopleListRepository
 
     @Binds
     abstract fun provideTVShowsRepository(repo: FakeTVShowsRepository): TVShowsRepository

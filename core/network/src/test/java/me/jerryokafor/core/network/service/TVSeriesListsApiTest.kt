@@ -52,7 +52,13 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Tagesschau")
                 assertThat(firstAirDate).isEqualTo("1952-12-26")
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
-                assertThat(overview).isEqualTo("German daily news program, the oldest still existing program on German television.")
+                assertThat(overview)
+                    .isEqualTo(
+                        """
+                        German daily news program, the oldest still existing program on 
+                        German television.
+                        """.trimIndent(),
+                    )
                 assertThat(originalLanguage).isEqualTo("de")
                 assertThat(backdropPath).isEqualTo("/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg")
                 assertThat(genreIds.first()).isEqualTo(10763)
@@ -64,7 +70,15 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Can't Buy Me Love")
                 assertThat(firstAirDate).isEqualTo("2023-10-16")
                 assertThat(posterPath).isEqualTo("/jCGaLxSOANF44kAQqpA380Md1fq.jpg")
-                assertThat(overview).isEqualTo("When a young man gets caught up in a deadly plot against a rich woman, he pays a devastating cost to free her - creating a debt that binds them together.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        When a young man gets caught up in a deadly plot against a rich woman, 
+                        he pays a devastating cost to free her - creating a debt that binds 
+                        them together.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("tl")
                 assertThat(backdropPath).isEqualTo("/sFRlpUJEN0y6yV7QK7DQJochbin.jpg")
                 assertThat(genreIds.first()).isEqualTo(18)
@@ -93,10 +107,19 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Tagesschau")
                 assertThat(firstAirDate).isEqualTo("1952-12-26")
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
-                assertThat(overview).isEqualTo("German daily news program, the oldest still existing program on German television.")
+                assertThat(overview)
+                    .isEqualTo(
+                        """
+                            German daily news program, the oldest still existing program on 
+                            German television.
+                        """.trimIndent(),
+                    )
                 assertThat(originalLanguage).isEqualTo("de")
+                assertThat(originCountry.first()).isEqualTo("DE")
                 assertThat(backdropPath).isEqualTo("/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg")
                 assertThat(genreIds.first()).isEqualTo(10763)
+                assertThat(voteAverage).isEqualTo(7.131)
+                assertThat(voteCount).isEqualTo(168)
             }
 
             with(tvShows.results.last()) {
@@ -105,10 +128,21 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Can't Buy Me Love")
                 assertThat(firstAirDate).isEqualTo("2023-10-16")
                 assertThat(posterPath).isEqualTo("/jCGaLxSOANF44kAQqpA380Md1fq.jpg")
-                assertThat(overview).isEqualTo("When a young man gets caught up in a deadly plot against a rich woman, he pays a devastating cost to free her - creating a debt that binds them together.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        When a young man gets caught up in a deadly plot against a rich woman, 
+                        he pays a devastating cost to free her - creating a debt that binds 
+                        them together.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("tl")
+                assertThat(originCountry.first()).isEqualTo("PH")
                 assertThat(backdropPath).isEqualTo("/sFRlpUJEN0y6yV7QK7DQJochbin.jpg")
                 assertThat(genreIds.first()).isEqualTo(18)
+                assertThat(voteAverage).isEqualTo(4)
+                assertThat(voteCount).isEqualTo(1)
             }
 
             val recordedRequest = mockWebServer.takeRequest()
@@ -134,10 +168,20 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Tagesschau")
                 assertThat(firstAirDate).isEqualTo("1952-12-26")
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
-                assertThat(overview).isEqualTo("German daily news program, the oldest still existing program on German television.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        German daily news program, the oldest still existing program 
+                        on German television.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("de")
+                assertThat(originCountry.first()).isEqualTo("DE")
                 assertThat(backdropPath).isEqualTo("/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg")
                 assertThat(genreIds.first()).isEqualTo(10763)
+                assertThat(voteAverage).isEqualTo(7.131)
+                assertThat(voteCount).isEqualTo(168)
             }
 
             with(tvShows.results.last()) {
@@ -146,10 +190,21 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Can't Buy Me Love")
                 assertThat(firstAirDate).isEqualTo("2023-10-16")
                 assertThat(posterPath).isEqualTo("/jCGaLxSOANF44kAQqpA380Md1fq.jpg")
-                assertThat(overview).isEqualTo("When a young man gets caught up in a deadly plot against a rich woman, he pays a devastating cost to free her - creating a debt that binds them together.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        When a young man gets caught up in a deadly plot against a rich woman, 
+                        he pays a devastating cost to free her - creating a debt that binds 
+                        them together.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("tl")
+                assertThat(originCountry.first()).isEqualTo("PH")
                 assertThat(backdropPath).isEqualTo("/sFRlpUJEN0y6yV7QK7DQJochbin.jpg")
                 assertThat(genreIds.first()).isEqualTo(18)
+                assertThat(voteAverage).isEqualTo(4)
+                assertThat(voteCount).isEqualTo(1)
             }
 
             val recordedRequest = mockWebServer.takeRequest()
@@ -175,10 +230,20 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Tagesschau")
                 assertThat(firstAirDate).isEqualTo("1952-12-26")
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
-                assertThat(overview).isEqualTo("German daily news program, the oldest still existing program on German television.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        German daily news program, the oldest still existing program on German 
+                        television.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("de")
+                assertThat(originCountry.first()).isEqualTo("DE")
                 assertThat(backdropPath).isEqualTo("/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg")
                 assertThat(genreIds.first()).isEqualTo(10763)
+                assertThat(voteAverage).isEqualTo(7.131)
+                assertThat(voteCount).isEqualTo(168)
             }
 
             with(tvShows.results.last()) {
@@ -187,10 +252,21 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Can't Buy Me Love")
                 assertThat(firstAirDate).isEqualTo("2023-10-16")
                 assertThat(posterPath).isEqualTo("/jCGaLxSOANF44kAQqpA380Md1fq.jpg")
-                assertThat(overview).isEqualTo("When a young man gets caught up in a deadly plot against a rich woman, he pays a devastating cost to free her - creating a debt that binds them together.")
+                assertThat(
+                    overview,
+                ).isEqualTo(
+                    """
+                        When a young man gets caught up in a deadly plot against a rich woman, 
+                        he pays a devastating cost to free her - creating a debt that binds 
+                        them together.
+                    """.trimIndent(),
+                )
                 assertThat(originalLanguage).isEqualTo("tl")
+                assertThat(originCountry.first()).isEqualTo("PH")
                 assertThat(backdropPath).isEqualTo("/sFRlpUJEN0y6yV7QK7DQJochbin.jpg")
                 assertThat(genreIds.first()).isEqualTo(18)
+                assertThat(voteAverage).isEqualTo(4)
+                assertThat(voteCount).isEqualTo(1)
             }
 
             val recordedRequest = mockWebServer.takeRequest()

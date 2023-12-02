@@ -1,26 +1,26 @@
 [versions]
-androidGradlePlugin = "8.1.4"
+androidGradlePlugin = "8.2.0"
 kotlin = "2.0.0-Beta1"
 androidDesugarJdkLibs = "2.0.4"
 ksp = "1.9.10-1.0.13"
 
 core-ktx = "1.12.0"
 lifecycle = "2.6.2"
-activity-compose = "1.8.0"
+activity-compose = "1.8.1"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.2"
 appcompat = "1.6.1"
-browser = "1.6.0"
+browser = "1.7.0"
 palette = "1.0.0"
 
 # datastore
 datastore = "1.0.0"
-room = "2.6.0"
+room = "2.6.1"
 
 # proto
 protobufJavalite = "4.0.0-rc-2"
 protocGenJavalite = "3.0.0"
-protobuf = "3.24.3"
+protobuf = "3.24.4"
 protobufPlugin = "0.9.4"
 
 coroutines = "1.7.3"
@@ -29,13 +29,13 @@ turbine = "1.0.0"
 # Retrofit
 retrofit = "2.9.0"
 gson = "2.10.1"
-okhttp3 = "4.11.0"
+okhttp3 = "4.12.0"
 
 material = "1.12.0-alpha01"
 secrets = "2.0.1"
 
 # hilt
-hilt = "2.48"
+hilt = "2.48.1"
 hiltExt = "1.1.0"
 
 # navigation
@@ -46,7 +46,7 @@ androidxHiltNavigationCompose = "1.1.0"
 composeBom = "2023.10.01"
 composeCompiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 accompanist = "0.33.1-alpha"
-coil = "2.4.0"
+coil = "2.5.0"
 composeShimmer = "1.0.5"
 
 #Paging
@@ -57,7 +57,7 @@ pagingCompose = "3.3.0-alpha02"
 detekt = "1.22.0"
 ktlint = "1.0.1"
 jacoco = "0.8.11"
-lint = "31.1.3"
+lint = "31.2.0"
 testParameterInjector = "1.12"
 
 # testing

@@ -60,7 +60,8 @@ class MovieDetailsRepositoryTest {
             MovieDetailsTestData.testMovieVideos(testMovieId)
         coEvery { moviesDetailsRemoteDataSource.similarMovies(any()) } returns testMovies()
 
-        movieDetailsRepository = DefaultMovieDetailsRepository(moviesDetailsRemoteDataSource, testDispatcher)
+        movieDetailsRepository =
+            DefaultMovieDetailsRepository(moviesDetailsRemoteDataSource, testDispatcher)
     }
 
     @Test
@@ -210,9 +211,10 @@ class MovieDetailsRepositoryTest {
                     assertThat(title).isEqualTo("Barbie")
                     assertThat(overview).isEqualTo(
                         """
-                        Barbie and Ken are having the time of their lives in the colorful and seemingly 
-                        perfect world of Barbie Land. However, when they get a chance to go to the real world, 
-                        they soon discover the joys and perils of living among humans.
+                        Barbie and Ken are having the time of their lives in the colorful and 
+                        seemingly perfect world of Barbie Land. However, when they get a chance 
+                        to go to the real world, they soon discover the joys and perils of 
+                        living among humans.
                         """.trimIndent(),
                     )
                     assertThat(posterPath).isEqualTo("/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg")

@@ -48,114 +48,132 @@ interface LocalStorage {
 
     fun userData(): Flow<UserData>
 
-    suspend fun saveUserSession(accountId: String, accessToken: String)
+    suspend fun saveUserSession(
+        accountId: String,
+        accessToken: String,
+    )
 
     suspend fun saveGuestSession(guestSessionId: String)
+
     suspend fun setThemeConfig(config: ThemeConfig)
+
     suspend fun setUseDynamicColor(useDynamicColor: Boolean)
+
     suspend fun logout()
 }
 
-class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
-    override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
-    override suspend fun readFrom(input: InputStream): UserPreferences {
-        try {
-            return UserPreferences.parseFrom(input)
-        } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
-        }
-    }
+class UserPreferencesSerializer
+    @Inject
+    constructor() : Serializer<UserPreferences> {
+        override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
 
-    override suspend fun writeTo(t: UserPreferences, output: OutputStream) = t.writeTo(output)
-}
+        override suspend fun readFrom(input: InputStream): UserPreferences {
+            try {
+                return UserPreferences.parseFrom(input)
+            } catch (exception: InvalidProtocolBufferException) {
+                throw CorruptionException("Cannot read proto.", exception)
+            }
+        }
+
+        override suspend fun writeTo(
+            t: UserPreferences,
+            output: OutputStream,
+        ) = t.writeTo(output)
+    }
 
 @Singleton
-class DefaultLocalStorage @Inject constructor(
-    @IoDispatcher
-    private val dispatcher: CoroutineDispatcher,
-    private val userPreferences: DataStore<UserPreferences>,
-) : LocalStorage {
+class DefaultLocalStorage
+    @Inject
+    constructor(
+        @IoDispatcher
+        private val dispatcher: CoroutineDispatcher,
+        private val userPreferences: DataStore<UserPreferences>,
+    ) : LocalStorage {
+        companion object {
+            const val DATA_STORE_FILE_NAME = "auth_user.pb"
+        }
 
-    companion object {
-        const val DATA_STORE_FILE_NAME = "auth_user.pb"
-    }
+        override fun isLoggedIn(): Flow<Boolean> = userPreferences.data.map {
+            it.accessToken.isNullOrBlank().not() || it.guestSessionId.isNullOrBlank().not()
+        }.flowOn(dispatcher)
 
-    override fun isLoggedIn(): Flow<Boolean> = userPreferences.data.map {
-        it.accessToken.isNullOrBlank().not() || it.guestSessionId.isNullOrBlank().not()
-    }.flowOn(dispatcher)
+        override fun userData(): Flow<UserData> = userPreferences.data.map {
+            UserData(
+                accountId = it.accountId,
+                isLoggedIn = it.accessToken.isNullOrBlank().not() ||
+                    it.guestSessionId.isNullOrBlank().not(),
+                themeConfig = when (it.themeConfig) {
+                    ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM -> ThemeConfig.FOLLOW_SYSTEM
+                    ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
+                    ThemeConfigProto.THEME_CONFIG_UNSPECIFIED,
+                    ThemeConfigProto.UNRECOGNIZED,
+                    ThemeConfigProto.THEME_CONFIG_DARK,
+                    -> ThemeConfig.DARK
+                },
+                usDynamicColor = it.useDynamicColor,
+                name = null,
+                userName = "",
+            )
+        }.flowOn(dispatcher)
 
-    override fun userData(): Flow<UserData> = userPreferences.data.map {
-        UserData(
-            accountId = it.accountId,
-            isLoggedIn = it.accessToken.isNullOrBlank().not() ||
-                it.guestSessionId.isNullOrBlank().not(),
-            themeConfig = when (it.themeConfig) {
-                ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM -> ThemeConfig.FOLLOW_SYSTEM
-                ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
-                ThemeConfigProto.THEME_CONFIG_UNSPECIFIED,
-                ThemeConfigProto.UNRECOGNIZED,
-                ThemeConfigProto.THEME_CONFIG_DARK,
-                -> ThemeConfig.DARK
-            },
-            usDynamicColor = it.useDynamicColor,
-            name = null,
-            userName = "",
-        )
-    }.flowOn(dispatcher)
+        override suspend fun saveUserSession(
+            accountId: String,
+            accessToken: String,
+        ) {
+            withContext(dispatcher) {
+                userPreferences.updateData {
+                    it.toBuilder()
+                        .setAccountId(accountId)
+                        .setAccessToken(accessToken).build()
+                }
+            }
+        }
 
-    override suspend fun saveUserSession(accountId: String, accessToken: String) {
-        withContext(dispatcher) {
-            userPreferences.updateData {
-                it.toBuilder()
-                    .setAccountId(accountId)
-                    .setAccessToken(accessToken).build()
+        override suspend fun saveGuestSession(guestSessionId: String) {
+            withContext(dispatcher) {
+                userPreferences.updateData {
+                    it.toBuilder()
+                        .setGuestSessionId(guestSessionId)
+                        .build()
+                }
+            }
+        }
+
+        override suspend fun setThemeConfig(config: ThemeConfig) {
+            withContext(dispatcher) {
+                userPreferences.updateData {
+                    it.toBuilder()
+                        .setThemeConfig(
+                            when (config) {
+                                ThemeConfig.FOLLOW_SYSTEM ->
+                                    ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM
+
+                                ThemeConfig.LIGHT -> ThemeConfigProto.THEME_CONFIG_LIGHT
+                                ThemeConfig.DARK -> ThemeConfigProto.THEME_CONFIG_DARK
+                            },
+                        )
+                        .build()
+                }
+            }
+        }
+
+        override suspend fun setUseDynamicColor(useDynamicColor: Boolean) {
+            withContext(dispatcher) {
+                userPreferences.updateData {
+                    it.toBuilder()
+                        .setUseDynamicColor(useDynamicColor)
+                        .build()
+                }
+            }
+        }
+
+        override suspend fun logout() {
+            withContext(dispatcher) {
+                userPreferences.updateData {
+                    it.toBuilder()
+                        .clearAccessToken()
+                        .clearAccountId().build()
+                }
             }
         }
     }
-
-    override suspend fun saveGuestSession(guestSessionId: String) {
-        withContext(dispatcher) {
-            userPreferences.updateData {
-                it.toBuilder()
-                    .setGuestSessionId(guestSessionId)
-                    .build()
-            }
-        }
-    }
-
-    override suspend fun setThemeConfig(config: ThemeConfig) {
-        withContext(dispatcher) {
-            userPreferences.updateData {
-                it.toBuilder()
-                    .setThemeConfig(
-                        when (config) {
-                            ThemeConfig.FOLLOW_SYSTEM -> ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM
-                            ThemeConfig.LIGHT -> ThemeConfigProto.THEME_CONFIG_LIGHT
-                            ThemeConfig.DARK -> ThemeConfigProto.THEME_CONFIG_DARK
-                        },
-                    )
-                    .build()
-            }
-        }
-    }
-
-    override suspend fun setUseDynamicColor(useDynamicColor: Boolean) {
-        withContext(dispatcher) {
-            userPreferences.updateData {
-                it.toBuilder()
-                    .setUseDynamicColor(useDynamicColor)
-                    .build()
-            }
-        }
-    }
-
-    override suspend fun logout() {
-        withContext(dispatcher) {
-            userPreferences.updateData {
-                it.toBuilder()
-                    .clearAccessToken()
-                    .clearAccountId().build()
-            }
-        }
-    }
-}

@@ -131,7 +131,9 @@ object NetworkModule {
         DefaultMoviesRemoteDataSource(moviesApi = moviesApi)
 
     @[Provides Singleton]
-    fun provideMovieDetailsRemoteDataSource(movieDetailsApi: MovieDetailsApi): MovieDetailsRemoteDataSource =
+    fun provideMovieDetailsRemoteDataSource(
+        movieDetailsApi: MovieDetailsApi,
+    ): MovieDetailsRemoteDataSource =
         DefaultMovieDetailsRemoteDataSource(movieDetailsApi = movieDetailsApi)
 
     @[Provides Singleton]
@@ -154,6 +156,5 @@ object NetworkModule {
         retrofit.create(TVSeriesListsApi::class.java)
 
     @[Provides Singleton]
-    fun provideAccountApi(retrofit: Retrofit): AccountApi =
-        retrofit.create(AccountApi::class.java)
+    fun provideAccountApi(retrofit: Retrofit): AccountApi = retrofit.create(AccountApi::class.java)
 }

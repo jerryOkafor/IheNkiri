@@ -39,7 +39,9 @@ fun <T> Flow<Outcome<T>>.success(): Flow<T> = this
 /**
  * Maps a [Flow<Outcome<T>>] to a [Flow<OutCome<R>>]. Allows any successful Outcome to be mutated.
  */
-inline fun <T, reified R> Flow<Outcome<T>>.mapSuccess(crossinline onSuccess: (T) -> R): Flow<Outcome<R>> = this
+inline fun <T, reified R> Flow<Outcome<T>>.mapSuccess(
+    crossinline onSuccess: (T) -> R,
+): Flow<Outcome<R>> = this
     .map {
         when (it) {
             is Success -> Success(onSuccess(it()))
@@ -50,7 +52,9 @@ inline fun <T, reified R> Flow<Outcome<T>>.mapSuccess(crossinline onSuccess: (T)
 /**
  * Maps a [Flow<Outcome<T>>]  to a [Flow<Outcome<R>>]. Successful response can be mapped to any [Outcome]
  */
-inline fun <T, R> Flow<Outcome<T>>.mapOutcome(crossinline onSuccess: (Success<T>) -> Outcome<R>): Flow<Outcome<R>> = this
+inline fun <T, R> Flow<Outcome<T>>.mapOutcome(
+    crossinline onSuccess: (Success<T>) -> Outcome<R>,
+): Flow<Outcome<R>> = this
     .map {
         when (it) {
             is Success -> onSuccess(it)
@@ -58,7 +62,9 @@ inline fun <T, R> Flow<Outcome<T>>.mapOutcome(crossinline onSuccess: (Success<T>
         }
     }
 
-inline fun <T> Flow<Outcome<T>>.onSuccess(crossinline action: suspend (data: T) -> Unit): Flow<Outcome<T>> = this
+inline fun <T> Flow<Outcome<T>>.onSuccess(
+    crossinline action: suspend (data: T) -> Unit,
+): Flow<Outcome<T>> = this
     .onEach { if (it is Success) action(it.data) }
 
 inline fun <T> Flow<Outcome<T>>.onFailure(

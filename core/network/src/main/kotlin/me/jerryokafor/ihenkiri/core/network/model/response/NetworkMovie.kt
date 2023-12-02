@@ -67,6 +67,7 @@ fun NetworkMovie.asDomainObject() = Movie(
     voteAverage = this.voteAverage,
 )
 
-fun NetworkMovie.equalsMovie(movie: Movie): Boolean = id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
-    backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
-    overview == movie.overview
+fun NetworkMovie.equalsMovie(movie: Movie): Boolean =
+    id == movie.id && title == movie.title && voteAverage == movie.voteAverage &&
+        backdropPath == movie.backdropPath && posterPath == movie.posterPath &&
+        overview == movie.overview

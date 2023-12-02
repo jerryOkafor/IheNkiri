@@ -132,7 +132,9 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                         PersonItemView(
                             modifier = Modifier,
                             name = person.name,
-                            knownFor = person.knownFor.joinToString(", ") { personMovie -> personMovie.title },
+                            knownFor = person.knownFor.joinToString(
+                                ", ",
+                            ) { personMovie -> personMovie.title },
                             imageUrl = path,
                         )
                     }

@@ -31,7 +31,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TVSeriesListsApi {
-
     /**
      * Get a list of TV shows airing today.
      *

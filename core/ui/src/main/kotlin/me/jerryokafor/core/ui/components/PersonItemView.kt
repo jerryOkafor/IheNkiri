@@ -72,17 +72,17 @@ fun PersonItemViewPreview() {
     IheNkiriTheme {
         Column(
             modifier =
-            Modifier
-                .wrapContentSize()
-                .background(IheNkiri.color.surface),
+                Modifier
+                    .wrapContentSize()
+                    .background(IheNkiri.color.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OneVerticalSpacer()
             PersonItemView(
                 modifier =
-                Modifier
-                    .width(250.dp)
-                    .padding(IheNkiri.spacing.twoAndaHalf),
+                    Modifier
+                        .width(250.dp)
+                        .padding(IheNkiri.spacing.twoAndaHalf),
                 name = "Sandra Bullock",
                 knownFor = "Rush Hour, Rush Hour 2, and Rush Hour 3",
                 imageUrl = "",

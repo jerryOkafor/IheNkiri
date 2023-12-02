@@ -50,31 +50,34 @@ interface MovieListRepository {
 
 @Singleton
 class DefaultMovieListRepository
-@Inject
-constructor(
-    private val moviesRemoteDataSource: MoviesRemoteDataSource,
-    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
-) : MovieListRepository {
-    override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
-            moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
-        }
+    @Inject
+    constructor(
+        private val moviesRemoteDataSource: MoviesRemoteDataSource,
+        @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    ) : MovieListRepository {
+        override suspend fun nowPlayingMovies(filter: MoviesFilter): List<Movie> =
+            withContext(defaultDispatcher) {
+                moviesRemoteDataSource.nowPlayingMovies(filter.toQuery())
+            }
 
-    override suspend fun popularMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
+        override suspend fun popularMovies(filter: MoviesFilter): List<Movie> = withContext(
+            defaultDispatcher,
+        ) {
             moviesRemoteDataSource.popularMovies(filter.toQuery())
         }
 
-    override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
+        override suspend fun topRatedMovies(filter: MoviesFilter): List<Movie> = withContext(
+            defaultDispatcher,
+        ) {
             moviesRemoteDataSource.topRatedMovies(filter.toQuery())
         }
 
-    override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> =
-        withContext(defaultDispatcher) {
+        override suspend fun upcomingMovies(filter: MoviesFilter): List<Movie> = withContext(
+            defaultDispatcher,
+        ) {
             moviesRemoteDataSource.upcomingMovies(filter.toQuery())
         }
-}
+    }
 
 class MoviesListPagingSource(private val fetchTvShows: suspend (Int) -> List<Movie>) :
     PagingSource<Int, Movie>() {

@@ -115,7 +115,9 @@ const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
 fun TVShowsScreenPreview() {
     IheNkiriTheme {
         TVShowsScreen(
-            movieLazyPagingItems = flowOf(PagingData.from(testTvShows())).collectAsLazyPagingItems(),
+            movieLazyPagingItems = flowOf(
+                PagingData.from(testTvShows()),
+            ).collectAsLazyPagingItems(),
             filters = testFilters(),
             onTVShowClick = {},
         ) {}
@@ -207,8 +209,12 @@ fun TVShowsScreen(
                                 actions = {
                                     Button(onClick = onSearchClick) {
                                         Icon(
-                                            painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
-                                            contentDescription = stringResource(R.string.tv_shows_content_description_search),
+                                            painter = painterResource(
+                                                id = me.jerryokafor.core.ui.R.drawable.search,
+                                            ),
+                                            contentDescription = stringResource(
+                                                R.string.tv_shows_content_description_search,
+                                            ),
                                         )
                                     }
                                 },
@@ -443,12 +449,12 @@ private fun testTvShows() = listOf(
         id = 667538,
         name = "Transformers: Rise of the Beasts",
         overview =
-        """
+            """
                 When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
                 the Autobots must team up with a powerful faction known as the Maximals. With the 
                 fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
                 to help the Transformers as they engage in the ultimate battle to save Earth.
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         voteAverage = 7.5,
@@ -457,13 +463,13 @@ private fun testTvShows() = listOf(
         id = 298618,
         name = "The Flash",
         overview =
-        """
+            """
                 When his attempt to save his family inadvertently alters the future, 
                 Barry Allen becomes trapped in a reality in which General Zod has returned and 
                 there are no Super Heroes to turn to. In order to save the world that he is in and 
                 return to the future that he knows, Barry's only hope is to race for his life. But 
                 will making the ultimate sacrifice be enough to reset the universe
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
         voteAverage = 6.5,

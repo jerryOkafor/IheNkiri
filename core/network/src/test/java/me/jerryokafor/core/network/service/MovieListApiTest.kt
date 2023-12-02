@@ -56,7 +56,9 @@ class MovieListApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assert(recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/now_playing") == true)
+            assert(
+                recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/now_playing") == true,
+            )
         }
     }
 

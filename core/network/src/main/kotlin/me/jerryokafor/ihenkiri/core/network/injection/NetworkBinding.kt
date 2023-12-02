@@ -35,5 +35,7 @@ import me.jerryokafor.ihenkiri.core.network.datasource.PeopleListRemoteDataSourc
 @InstallIn(SingletonComponent::class)
 abstract class NetworkBinding {
     @Binds
-    abstract fun providesPeopleListRemoteDataSource(datasource: DefaultPeopleListRemoteDataSource): PeopleListRemoteDataSource
+    abstract fun providesPeopleListRemoteDataSource(
+        datasource: DefaultPeopleListRemoteDataSource,
+    ): PeopleListRemoteDataSource
 }

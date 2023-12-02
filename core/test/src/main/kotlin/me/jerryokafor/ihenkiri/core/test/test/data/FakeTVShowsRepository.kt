@@ -31,16 +31,18 @@ import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
 import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData
 import javax.inject.Inject
 
-class FakeTVShowsRepository @Inject constructor() : TVShowsRepository {
-    override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
+class FakeTVShowsRepository
+    @Inject
+    constructor() : TVShowsRepository {
+        override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =
+            TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
-    override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
+        override suspend fun onTheAir(filter: MoviesFilter): List<TVShow> =
+            TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
-    override suspend fun popular(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
+        override suspend fun popular(filter: MoviesFilter): List<TVShow> =
+            TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
 
-    override suspend fun topRated(filter: MoviesFilter): List<TVShow> =
-        TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
-}
+        override suspend fun topRated(filter: MoviesFilter): List<TVShow> =
+            TVShowsTestData.testNetworkTVShows().results.map { it.asDomainObject() }
+    }

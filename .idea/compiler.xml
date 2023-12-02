@@ -6,6 +6,7 @@
       <module name="IheNkiri.core.ui.ds" target="17" />
       <module name="IheNkiri.core.ui.ui" target="17" />
       <module name="IheNkiri.feature.detail" target="17" />
+      <module name="IheNkiri.peopleDetails" target="17" />
       <module name="IheNkiri.screenshotTest" target="17" />
     </bytecodeTargetLevel>
   </component>

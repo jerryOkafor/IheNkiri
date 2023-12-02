@@ -43,7 +43,8 @@ class PeopleListRemoteDataSourceTest {
 
     @Before
     fun setUp() {
-        coEvery { peopleListsApi.popularPersons(any()) } returns PeopleListTestData.testNetworkPersons()
+        coEvery { peopleListsApi.popularPersons(any()) } returns PeopleListTestData
+            .testNetworkPersons()
         peopleListRemoteDataSource =
             DefaultPeopleListRemoteDataSource(peopleListsApi = peopleListsApi)
     }

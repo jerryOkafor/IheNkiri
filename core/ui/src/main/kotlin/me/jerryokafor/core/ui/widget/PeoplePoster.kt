@@ -75,10 +75,10 @@ fun PeoplePosterPreview() {
     IheNkiriTheme {
         Column(
             modifier =
-            Modifier
-                .size(200.dp)
-                .aspectRatio(1F)
-                .background(IheNkiri.color.inverseOnSurface),
+                Modifier
+                    .size(200.dp)
+                    .aspectRatio(1F)
+                    .background(IheNkiri.color.inverseOnSurface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PeoplePoster(
