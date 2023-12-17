@@ -49,8 +49,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.data)
-    implementation(projects.core.network)
     implementation(libs.androidx.core.ktx)
 
     // lifecycle
@@ -64,6 +62,7 @@ dependencies {
 
     implementation(libs.androidx.palette)
     implementation(libs.androidx.palette.ktx)
+//    implementation(libs.dev.chrisbanes.haze)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))

@@ -30,14 +30,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.jerryokafor.feature.peopledetails.ui.PeopleDetailsScreen
 import kotlinx.coroutines.flow.StateFlow
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
 import me.jerryokafor.core.ui.navigation.popExitTransition
-
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")
@@ -59,17 +60,15 @@ fun NavController.navigateToPersonDetails(
     this.navigate(route = "person/$personId", navOptions = navOptions)
 }
 
-fun NavGraphBuilder.peopleDetailsScreen(
-    onPersonClick: (Long) -> Unit,
-    onNavigateUp: () -> Unit,
-) {
+fun NavGraphBuilder.peopleDetailsScreen(onNavigateUp: () -> Unit) {
     composable(
         route = peopleDetailsRoutePattern,
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
+        arguments = listOf(navArgument(personIdArg) { type = NavType.LongType }),
     ) {
-        PeopleDetailsScreen(onPersonClick = onPersonClick, onNavigateUp = onNavigateUp)
+        PeopleDetailsScreen(onNavigateUp = onNavigateUp)
     }
 }

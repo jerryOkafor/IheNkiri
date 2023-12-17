@@ -47,6 +47,7 @@ composeBom = "2023.10.01"
 composeCompiler = "1.5.5-dev-k2.0.0-Beta1-06b8ae672a4"
 accompanist = "0.33.1-alpha"
 coil = "2.4.0"
+haze = "0.4.1"
 composeShimmer = "1.0.5"
 
 #Paging
@@ -168,6 +169,7 @@ androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", 
 # coil
 io-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 io-coil-test = { group = "io.coil-kt", name = "coil-test", version.ref = "coil" }
+dev-chrisbanes-haze = { group = "dev.chrisbanes.haze", name = "haze-jetpack-compose", version.ref = "haze" }
 
 com-valentinilk-compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "composeShimmer" }
 

@@ -46,6 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
+import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
@@ -119,7 +120,7 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
                     tvShowsScreen(onTVShowClick = {})
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
                     peopleScreen(onPersonClick = onPersonClick)
-                    peopleDetailsScreen(onPersonClick = onPersonClick, onNavigateUp = onNavigateUp)
+                    peopleDetailsScreen(onNavigateUp = onNavigateUp)
                     settingsScreen(onLogin = onLogin)
                 }
             }
@@ -128,7 +129,7 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {
-            movieDetailsRoutePattern, loginRoutePattern ->
+            movieDetailsRoutePattern, peopleDetailsRoutePattern, loginRoutePattern ->
                 bottomBarState.value = false
 
             else -> bottomBarState.value = true

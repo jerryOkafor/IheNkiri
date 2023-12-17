@@ -24,6 +24,7 @@
 
 package me.jerryokafor.ihenkiri.core.network.service
 
+import me.jerryokafor.ihenkiri.core.network.Config
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovie
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieCredit
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkMovieDetails
@@ -32,8 +33,6 @@ import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-private const val V3 = "3"
-
 interface MovieDetailsApi {
     /**
      * Get the top level details of a movie by ID.
@@ -41,7 +40,7 @@ interface MovieDetailsApi {
      * @param movieId is the ID of the movie
      * @return
      */
-    @GET("$V3/movie/{movieId}")
+    @GET("${Config.TMDB_API_V3}/movie/{movieId}")
     suspend fun movieDetails(
         @Path("movieId") movieId: Long,
     ): NetworkMovieDetails
@@ -52,7 +51,7 @@ interface MovieDetailsApi {
      * @param movieId is the ID of the movie
      * @return
      */
-    @GET("$V3/movie/{movieId}/credits")
+    @GET("${Config.TMDB_API_V3}/movie/{movieId}/credits")
     suspend fun movieCredits(
         @Path("movieId") movieId: Long,
     ): NetworkMovieCredit
@@ -63,7 +62,7 @@ interface MovieDetailsApi {
      * @param movieId is the ID of the movie
      * @return
      */
-    @GET("$V3/movie/{movieId}/videos")
+    @GET("${Config.TMDB_API_V3}/movie/{movieId}/videos")
     suspend fun movieVideos(
         @Path("movieId") movieId: Long,
     ): NetworkVideos
@@ -74,7 +73,7 @@ interface MovieDetailsApi {
      * @param movieId is the ID of the movie
      * @return
      */
-    @GET("$V3/movie/{movieId}/similar")
+    @GET("${Config.TMDB_API_V3}/movie/{movieId}/similar")
     suspend fun similar(
         @Path("movieId") movieId: Long,
     ): PagedNetworkResponse<NetworkMovie>

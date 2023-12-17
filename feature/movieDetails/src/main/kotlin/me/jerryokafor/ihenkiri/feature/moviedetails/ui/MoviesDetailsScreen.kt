@@ -57,7 +57,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -77,7 +76,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -107,6 +105,7 @@ import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.Video
 import me.jerryokafor.core.ui.components.GenreChip
+import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.TrailerButton
 import me.jerryokafor.core.ui.widget.MovieRating
@@ -481,7 +480,7 @@ fun MoviesDetailsScreen(
                                     }
 
                                     MovieCreditUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is MovieCreditUiState.Success -> {
@@ -489,7 +488,8 @@ fun MoviesDetailsScreen(
                                             movieCreditUiState.movieCredit.cast
                                                 .distinctBy { it.name },
                                         ) {
-                                            val (firstName, lastName) = it.name.split(" ")
+                                            val (firstName, lastName) = it.name?.split(" ")
+                                                ?: listOf("", "")
                                             PeoplePoster(
                                                 modifier = Modifier,
                                                 size = 80.dp,
@@ -543,7 +543,7 @@ fun MoviesDetailsScreen(
                                     }
 
                                     MovieCreditUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is MovieCreditUiState.Success -> {
@@ -551,7 +551,8 @@ fun MoviesDetailsScreen(
                                             movieCreditUiState.movieCredit.crew
                                                 .distinctBy { it.name },
                                         ) {
-                                            val (firstName, lastName) = it.name.split(" ")
+                                            val (firstName, lastName) = it.name?.split(" ")
+                                                ?: listOf("", "")
                                             PeoplePoster(
                                                 modifier = Modifier,
                                                 size = 80.dp,
@@ -633,7 +634,7 @@ fun MoviesDetailsScreen(
                                     }
 
                                     SimilarMoviesUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is SimilarMoviesUiState.Success -> {
@@ -671,7 +672,7 @@ fun MoviesDetailsScreen(
                 )
             }
 
-            MovieDetailsUiState.Loading -> MovieDetailsItemLoading(
+            MovieDetailsUiState.Loading -> IheNkiriCircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
             )
         }
@@ -729,17 +730,6 @@ fun MoviesDetailsScreen(
 
 private fun String.formatDate(): String {
     return this.replace("-", "/")
-}
-
-@Composable
-private fun MovieDetailsItemLoading(modifier: Modifier = Modifier) {
-    CircularProgressIndicator(
-        modifier = modifier
-            .size(30.dp)
-            .padding(vertical = IheNkiri.spacing.one),
-        strokeWidth = 1.dp,
-        strokeCap = StrokeCap.Round,
-    )
 }
 
 @Composable

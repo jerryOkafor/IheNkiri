@@ -48,6 +48,7 @@ import me.jerryokafor.ihenkiri.core.network.service.AccountApi
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
+import me.jerryokafor.ihenkiri.core.network.service.PeopleDetailsApi
 import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
 import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
 import okhttp3.OkHttpClient
@@ -65,12 +66,11 @@ object NetworkModule {
         @ApplicationContext context: Context,
     ): ChuckerInterceptor {
         // Create the Collector
-        val chuckerCollector =
-            ChuckerCollector(
-                context = context,
-                showNotification = true,
-                retentionPeriod = RetentionManager.Period.ONE_HOUR,
-            )
+        val chuckerCollector = ChuckerCollector(
+            context = context,
+            showNotification = true,
+            retentionPeriod = RetentionManager.Period.ONE_HOUR,
+        )
 
         // Create the Interceptor
         @Suppress("MagicNumber")
@@ -157,4 +157,8 @@ object NetworkModule {
 
     @[Provides Singleton]
     fun provideAccountApi(retrofit: Retrofit): AccountApi = retrofit.create(AccountApi::class.java)
+
+    @[Provides Singleton]
+    fun providePersonDetailsApi(retrofit: Retrofit): PeopleDetailsApi =
+        retrofit.create(PeopleDetailsApi::class.java)
 }

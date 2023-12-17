@@ -22,39 +22,21 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.model
+package me.jerryokafor.ihenkiri.core.network.service
 
-data class Crew(
-    val adult: Boolean,
-    val creditId: String,
-    val department: String,
-    val gender: Int,
-    val id: Int,
-    val job: String,
-    val knownForDepartment: String,
-    val name: String,
-    val originalName: String,
-    val popularity: Double,
-    val profilePath: String?,
-)
+import me.jerryokafor.ihenkiri.core.network.Config
+import me.jerryokafor.ihenkiri.core.network.model.response.NetworkPersonDetails
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
-data class Cast(
-    val adult: Boolean,
-    val castId: Int,
-    val character: String,
-    val creditId: String,
-    val gender: Int,
-    val id: Int,
-    val knownForDepartment: String,
-    val name: String,
-    val order: Int,
-    val originalName: String,
-    val popularity: Double,
-    val profilePath: String?,
-)
-
-data class MovieCredit(
-    val id: Int,
-    val cast: List<Cast> = listOf(),
-    val crew: List<Crew> = listOf(),
-)
+interface PeopleDetailsApi {
+    /**
+     * Query the top level details of a person.
+     */
+    @GET("${Config.TMDB_API_V3}/person/{personId}")
+    suspend fun personDetails(
+        @Path("personId") personId: Long,
+        @Query("append_to_response") appendToResponse: String = "combined_credits",
+    ): NetworkPersonDetails
+}

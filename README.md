@@ -180,7 +180,6 @@ Generate Lint baseline
 ./gradlew lintDebug -Dlint.baselines.continue=true
 ````
 
-
 We have the following tests on **IheNkiri**
 
 - Unit tests - Runs all the local JVM tests, this can be invoked as follows:
@@ -202,9 +201,17 @@ We have the following tests on **IheNkiri**
   System components
   and other components, save them, and subsequently verifies them against new records.This helps
   detect obvious changes in the Pixels which might indicate a deviation in the core dependencies or
-  something the developer needs to take care of. This has been said to tbe faste and better than
+  something the developer needs to take care of. This has been said to tbe fast and better than
   doing multiple assertions for a given UI component. The screenshot tests lives in
   the `screenshotTest` module and can be invoked using the following command:
+
+## Compose
+
+### Compose debugging
+
+```bash
+./gradlew assembleDebugRelease -PcomposeCompilerReports=true
+```
 
 Generate screenshots
 
@@ -239,6 +246,7 @@ We use Roborazzi to achieve this screenshot testing.
 # Architecture
 
 # Todo
+
 - [ ] Performance (Baseline Profile + R8)
 - [ ] Different Screen Sizes
 
@@ -259,7 +267,6 @@ We use Roborazzi to achieve this screenshot testing.
 - [Testing Kotlin flows on Android](https://developer.android.com/kotlin/flow/test)
 - [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
 - [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
-
 
 # License
 
