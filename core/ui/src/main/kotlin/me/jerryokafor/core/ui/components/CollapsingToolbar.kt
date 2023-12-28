@@ -101,7 +101,10 @@ private val paddingMedium = 16.dp
 private val titlePaddingStart = 16.dp
 private val titlePaddingEnd = 72.dp
 
+@Suppress("ktlint:standard:property-naming")
 private const val titleFontScaleStart = 1f
+
+@Suppress("ktlint:standard:property-naming")
 private const val titleFontScaleEnd = 0.66f
 
 @Composable
@@ -151,7 +154,7 @@ fun IhenkiriCollapsingToolbarHeader(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(Color.Transparent, Black900),
-                        startY = 3 * headerHeightPx / 4, // Gradient applied to wrap the title only
+                        startY = 3 * headerHeightPx / 4,
                     ),
                 ),
         )

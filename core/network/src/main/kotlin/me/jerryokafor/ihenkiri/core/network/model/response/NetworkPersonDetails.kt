@@ -52,6 +52,7 @@ package me.jerryokafor.ihenkiri.core.network.model.response
 import com.google.gson.annotations.SerializedName
 import me.jerryokafor.core.model.Credit
 import me.jerryokafor.core.model.PersonDetails
+import me.jerryokafor.core.model.toTimeline
 
 data class NetworkPersonDetails(
     val id: Long,
@@ -118,6 +119,6 @@ fun NetworkPersonDetails.toDomainModel(): PersonDetails = PersonDetails(
                     department = it.department,
                 )
             }.sortedBy { it.popularity }.take(5)
-    )
-        .sortedBy { it.popularity },
+    ).sortedBy { it.popularity },
+    timeline = credits.asDomainObject().toTimeline(),
 )

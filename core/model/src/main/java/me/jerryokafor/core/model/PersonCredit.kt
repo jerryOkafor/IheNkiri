@@ -54,6 +54,47 @@ data class PersonCrew(
 
 data class PersonCredit(
     val id: Int,
-    val cast: List<Cast> = listOf(),
-    val crew: List<Crew> = listOf(),
+    val cast: List<PersonCast> = listOf(),
+    val crew: List<PersonCrew> = listOf(),
 )
+
+data class Timeline(
+    val title: String,
+    val description: String,
+    val date: LocalDate,
+    val type: Type = Type.MOVIES,
+    val department: Department = Department.ACTING,
+) {
+    enum class Type {
+        MOVIES,
+        TV_SHOWS,
+    }
+
+    enum class Department {
+        ACTING,
+        WRITING,
+        PRODUCTION,
+        DIRECTING,
+        CREATOR,
+        CREW,
+    }
+}
+
+fun PersonCredit.toTimeline(): Map<Int, List<Timeline>> = cast.filter { it.title != null }
+    .map {
+        Timeline(
+            title = it.title!!,
+            description = "... as ${it.character}",
+            date = it.releaseDate,
+        )
+    }.plus(
+        crew.filter { it.title != null }.map {
+            Timeline(
+                title = it.title!!,
+                description = "... ${it.job}",
+                date = it.releaseDate,
+            )
+        },
+    )
+    .sortedByDescending { it.date }
+    .groupBy { it.date.year }

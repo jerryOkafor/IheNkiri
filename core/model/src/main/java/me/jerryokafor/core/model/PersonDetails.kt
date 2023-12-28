@@ -42,4 +42,5 @@ data class PersonDetails(
     val credits: PersonCredit,
     val totalCredits: Int,
     val knownFor: List<Credit>,
+    val timeline: Map<Int, List<Timeline>>,
 )

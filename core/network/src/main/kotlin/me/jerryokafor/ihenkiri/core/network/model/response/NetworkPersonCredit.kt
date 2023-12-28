@@ -29,6 +29,7 @@ import me.jerryokafor.core.model.PersonCast
 import me.jerryokafor.core.model.PersonCredit
 import me.jerryokafor.core.model.PersonCrew
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 data class NetworkPersonCast(
     val adult: Boolean,
@@ -46,7 +47,7 @@ data class NetworkPersonCast(
     @SerializedName("known_for_department")
     val knownForDepartment: String = "",
     @SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
 )
 
 data class NetworkPersonCrew(
@@ -62,7 +63,7 @@ data class NetworkPersonCrew(
     val gender: Int,
     val job: String,
     @SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
 )
 
 fun NetworkPersonCast.asDomainObject(): PersonCast = PersonCast(
@@ -75,7 +76,14 @@ fun NetworkPersonCast.asDomainObject(): PersonCast = PersonCast(
     popularity = popularity,
     posterPath = posterPath,
     title = title,
-    releaseDate = LocalDate.parse(releaseDate),
+    releaseDate = runCatching {
+        releaseDate?.let {
+            LocalDate.parse(
+                it,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+            )
+        }
+    }.getOrNull() ?: LocalDate.now(),
 )
 
 fun NetworkPersonCrew.asDomainObject(): PersonCrew = PersonCrew(
@@ -87,13 +95,20 @@ fun NetworkPersonCrew.asDomainObject(): PersonCrew = PersonCrew(
     job = job,
     popularity = popularity,
     posterPath = posterPath,
-    releaseDate = LocalDate.parse(releaseDate),
+    releaseDate = runCatching {
+        releaseDate?.let {
+            LocalDate.parse(
+                it,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+            )
+        }
+    }.getOrNull() ?: LocalDate.now(),
 )
 
 data class NetworkPersonCredit(
     val id: Int,
-    val cast: List<NetworkCast> = listOf(),
-    val crew: List<NetworkCrew> = listOf(),
+    val cast: List<NetworkPersonCast> = listOf(),
+    val crew: List<NetworkPersonCrew> = listOf(),
 )
 
 fun NetworkPersonCredit.asDomainObject(): PersonCredit = PersonCredit(

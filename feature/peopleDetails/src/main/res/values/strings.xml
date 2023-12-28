@@ -34,4 +34,9 @@
     <string name="birthday">Birthday</string>
     <string name="place_of_birth">Place of Birth</string>
     <string name="also_known_as">Also Known As</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="cont_desc_facebook">Facebook</string>
+    <string name="cont_desc_twitter">Twitter</string>
+    <string name="cont_desc_instagram">Instagram</string>
+    <string name="cont_desc_tiktok">Tiktok</string>
 </resources>

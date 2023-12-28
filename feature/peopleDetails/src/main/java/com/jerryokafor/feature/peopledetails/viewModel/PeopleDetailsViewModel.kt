@@ -52,10 +52,7 @@ class PeopleDetailsViewModel
             peopleDetailsRepository.personDetails(id)
         }.map {
             when (it) {
-                is Failure -> {
-                    it.throwable?.printStackTrace()
-                    PersonDetailsUiState.Error(it.errorResponse)
-                }
+                is Failure -> PersonDetailsUiState.Error(it.errorResponse)
                 is Success -> PersonDetailsUiState.Success(it.data)
             }
         }.stateIn(

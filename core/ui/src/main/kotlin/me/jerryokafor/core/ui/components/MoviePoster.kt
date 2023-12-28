@@ -118,7 +118,7 @@ fun MoviePoster(
         ShimmerBox(
             modifier = Modifier.fillMaxSize(),
             shimmer = shimmer,
-            isLoading = isLoading,
+            isLoading = isLoading && !isError,
         ) {
             Image(
                 modifier = Modifier.fillMaxSize(),
