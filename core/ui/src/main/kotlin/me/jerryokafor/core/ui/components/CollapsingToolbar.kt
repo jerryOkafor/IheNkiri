@@ -121,6 +121,7 @@ fun IhenkiriCollapsingToolbarHeader(
     val posterImageLoader = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imagePath)
+            .placeholder(R.drawable.sample_poster)
             .crossfade(true)
             .build(),
         contentScale = ContentScale.FillBounds,

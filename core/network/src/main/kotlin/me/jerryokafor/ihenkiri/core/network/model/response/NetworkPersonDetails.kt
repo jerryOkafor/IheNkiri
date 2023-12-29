@@ -50,7 +50,7 @@
 package me.jerryokafor.ihenkiri.core.network.model.response
 
 import com.google.gson.annotations.SerializedName
-import me.jerryokafor.core.model.Credit
+import me.jerryokafor.core.model.KnownFor
 import me.jerryokafor.core.model.PersonDetails
 import me.jerryokafor.core.model.toTimeline
 
@@ -87,8 +87,8 @@ fun NetworkPersonDetails.toDomainModel(): PersonDetails = PersonDetails(
     birthday = this.birthday,
     deathday = this.deathday,
     gender = when (this.gender) {
-        1 -> "Male"
-        2 -> "Female"
+        1 -> "Female"
+        2 -> "Male"
         3 -> "Non-binary"
         else -> "Not specified"
     },
@@ -101,22 +101,18 @@ fun NetworkPersonDetails.toDomainModel(): PersonDetails = PersonDetails(
     credits = this.credits.asDomainObject(),
     totalCredits = this.credits.cast.count() + this.credits.crew.count(),
     knownFor = (
-        this.credits.cast.map {
-            Credit(
+        credits.cast.map {
+            KnownFor(
                 title = it.title,
                 popularity = it.popularity,
                 posterPath = it.posterPath,
-                job = "Acting",
-                department = "Acting",
             )
         }.sortedBy { it.popularity }.take(5) +
-            this.credits.crew.map {
-                Credit(
+            credits.crew.map {
+                KnownFor(
                     title = it.title,
                     popularity = it.popularity,
                     posterPath = it.posterPath,
-                    job = it.job,
-                    department = it.department,
                 )
             }.sortedBy { it.popularity }.take(5)
     ).sortedBy { it.popularity },

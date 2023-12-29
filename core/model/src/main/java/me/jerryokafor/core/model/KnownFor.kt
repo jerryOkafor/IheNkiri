@@ -24,12 +24,10 @@
 
 package me.jerryokafor.core.model
 
-data class Credit(
+data class KnownFor(
     val title: String? = null,
     val popularity: Double,
     val posterPath: String?,
-    val job: String?,
-    val department: String?,
 )
 
 data class Crew(

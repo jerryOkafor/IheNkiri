@@ -51,10 +51,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -72,14 +74,15 @@ import com.valentinilk.shimmer.rememberShimmer
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
+import me.jerryokafor.core.ds.theme.FillingSpacer
 import me.jerryokafor.core.ds.theme.HalfVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.OneAndHalfVerticalSpacer
+import me.jerryokafor.core.ds.theme.OneHorizontalSpacer
 import me.jerryokafor.core.ds.theme.OneVerticalSpacer
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
-import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
-import me.jerryokafor.core.model.Credit
+import me.jerryokafor.core.model.KnownFor
 import me.jerryokafor.core.model.PersonDetails
 import me.jerryokafor.core.model.Timeline
 import me.jerryokafor.core.ui.components.Background
@@ -125,7 +128,10 @@ fun PeopleDetailsScreen(
     Surface {
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState) {
-                is PersonDetailsUiState.Error -> {}
+                is PersonDetailsUiState.Error -> {
+                    PeopleDetailsScreenError(message = uiState.message, onClose = onNavigateUp)
+                }
+
                 PersonDetailsUiState.Loading -> {
                     IheNkiriCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
@@ -160,52 +166,68 @@ fun PeopleDetailsScreen(
                         ) {
                             Spacer(Modifier.height(headerHeight))
 
+                            // Social Buttons
                             SocialButtonRow()
 
+                            // Personal Details
                             PersonalInfo(uiState.personDetails)
 
-                            Column(modifier = Modifier.padding(horizontal = IheNkiri.spacing.two)) {
-                                Text(
-                                    text = stringResource(R.string.biography),
-                                    style = IheNkiri.typography.titleLarge,
-                                    color = contentColorFor(
-                                        backgroundColor = IheNkiri.color.inverseOnSurface,
-                                    ),
-                                )
-                                OneAndHalfVerticalSpacer()
-                                Text(
-                                    text = uiState.personDetails.biography,
-                                    style = IheNkiri.typography.bodyLarge,
-                                    textAlign = TextAlign.Justify,
-                                    overflow = TextOverflow.Ellipsis,
-                                    maxLines = 11,
-                                    color = contentColorFor(IheNkiri.color.inverseOnSurface)
-                                        .copy(alpha = 0.75f),
-                                )
-                            }
+                            // Biography
+                            Biography(biography = uiState.personDetails.biography)
 
                             // Known for
                             KnownForRow(
-                                credits = uiState.personDetails.knownFor.filter { it.title != null },
+                                knownFors = uiState.personDetails.knownFor
+                                    .filter { it.title != null },
                             )
-                            TwoVerticalSpacer()
 
-                            Column(
-                                modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.acting_timeline),
-                                    style = IheNkiri.typography.titleLarge,
-                                    color = contentColorFor(
-                                        backgroundColor = IheNkiri.color.inverseOnSurface,
-                                    ),
-                                )
-                                OneAndHalfVerticalSpacer()
-                                val timelines = uiState.personDetails.timeline
-                                    .map { (key, value) -> PersonTimelineView(key, value) }
-
-                                Timeline(modifier = Modifier, items = timelines)
+                            var timeline by remember(uiState.personDetails.timeline) {
+                                mutableStateOf(uiState.personDetails.timeline)
                             }
+                            var selectedTimelineType by remember {
+                                mutableStateOf(
+                                    Timeline.Type.ALL,
+                                )
+                            }
+                            var selectedTimelineDept by remember {
+                                mutableStateOf(
+                                    Timeline.Department.ALL,
+                                )
+                            }
+
+                            // Timeline
+                            TimelineView(
+                                timeline = timeline,
+                                defaultType = selectedTimelineType,
+                                defaultDepartment = selectedTimelineDept,
+                                onTimelineTypeSelected = { type ->
+                                    selectedTimelineType = type
+
+                                    timeline = when (type) {
+                                        Timeline.Type.ALL -> uiState.personDetails.timeline
+
+                                        else ->
+                                            uiState.personDetails.timeline
+                                                .mapValues { (_, value) ->
+                                                    value.filter { it.type == type }
+                                                }
+                                                .filter { it.value.isNotEmpty() }
+                                    }
+                                },
+                                onTimelineDeptSelected = { dept ->
+                                    selectedTimelineDept = dept
+
+                                    timeline = when (dept) {
+                                        Timeline.Department.ALL -> uiState.personDetails.timeline
+                                        else ->
+                                            uiState.personDetails.timeline
+                                                .mapValues { (_, value) ->
+                                                    value.filter { it.department == dept }
+                                                }
+                                                .filter { it.value.isNotEmpty() }
+                                    }
+                                },
+                            )
                         }
 
                         // Toolbar
@@ -406,7 +428,30 @@ private fun SocialButtonRow() {
 }
 
 @Composable
-private fun KnownForRow(credits: List<Credit>) {
+private fun Biography(biography: String) {
+    Column(modifier = Modifier.padding(horizontal = IheNkiri.spacing.two)) {
+        Text(
+            text = stringResource(R.string.biography),
+            style = IheNkiri.typography.titleLarge,
+            color = contentColorFor(
+                backgroundColor = IheNkiri.color.inverseOnSurface,
+            ),
+        )
+        OneAndHalfVerticalSpacer()
+        Text(
+            text = biography,
+            style = IheNkiri.typography.bodyLarge,
+            textAlign = TextAlign.Justify,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 11,
+            color = contentColorFor(IheNkiri.color.inverseOnSurface)
+                .copy(alpha = 0.75f),
+        )
+    }
+}
+
+@Composable
+private fun KnownForRow(knownFors: List<KnownFor>) {
     val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
 
     Column(modifier = Modifier) {
@@ -427,7 +472,7 @@ private fun KnownForRow(credits: List<Credit>) {
                 .padding(horizontal = IheNkiri.spacing.two),
             horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
         ) {
-            items(credits) {
+            items(knownFors) {
                 val path = ImageUtil.buildImageUrl(
                     path = it.posterPath,
                     size = ImageUtil.Size.Poster.W154,
@@ -456,6 +501,62 @@ private fun KnownForRow(credits: List<Credit>) {
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TimelineView(
+    timeline: Map<Int, List<Timeline>>,
+    defaultType: Timeline.Type = Timeline.Type.ALL,
+    defaultDepartment: Timeline.Department = Timeline.Department.ALL,
+    onTimelineTypeSelected: (Timeline.Type) -> Unit,
+    onTimelineDeptSelected: (Timeline.Department) -> Unit,
+) {
+    Column(
+        modifier = Modifier.padding(horizontal = IheNkiri.spacing.two),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.acting_timeline),
+                style = IheNkiri.typography.titleLarge,
+                color = contentColorFor(
+                    backgroundColor = IheNkiri.color.inverseOnSurface,
+                ),
+            )
+            FillingSpacer()
+            IheNkiriDropDown(
+                default = defaultType,
+                menus = Timeline.Type.entries,
+                onSelectItem = onTimelineTypeSelected,
+            )
+            OneHorizontalSpacer()
+            IheNkiriDropDown(
+                default = defaultDepartment,
+                menus = Timeline.Department.entries,
+                onSelectItem = onTimelineDeptSelected,
+            )
+        }
+        OneAndHalfVerticalSpacer()
+        val items = timeline.map { (key, value) -> PersonTimelineView(key, value) }
+
+        Box(modifier = Modifier) {
+            if (timeline.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = IheNkiri.spacing.twoAndaHalf),
+                        text = "No item matching the given selection!",
+                    )
+                }
+            } else {
+                Timeline(modifier = Modifier, items = items)
             }
         }
     }

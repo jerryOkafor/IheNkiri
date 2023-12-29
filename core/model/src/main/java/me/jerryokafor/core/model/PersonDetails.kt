@@ -41,6 +41,6 @@ data class PersonDetails(
     val profilePath: String? = null,
     val credits: PersonCredit,
     val totalCredits: Int,
-    val knownFor: List<Credit>,
+    val knownFor: List<KnownFor>,
     val timeline: Map<Int, List<Timeline>>,
 )

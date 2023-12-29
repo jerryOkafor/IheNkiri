@@ -30,26 +30,29 @@ data class PersonCast(
     val adult: Boolean,
     val id: Long,
     val title: String? = null,
+    val name: String? = null,
     val posterPath: String?,
+    val backdropPath: String?,
     val popularity: Double,
     val character: String,
     val creditId: String,
-    val gender: Int,
-    val knownForDepartment: String? = null,
     val releaseDate: LocalDate,
+    val mediaType: String,
 )
 
 data class PersonCrew(
     val adult: Boolean,
     val id: Long,
     val title: String? = null,
+    val name: String? = null,
     val posterPath: String?,
+    val backdropPath: String?,
     val popularity: Double,
     val creditId: String,
-    val gender: Int,
     val job: String,
-    val department: String? = null,
+    val department: String,
     val releaseDate: LocalDate,
+    val mediaType: String,
 )
 
 data class PersonCredit(
@@ -62,39 +65,74 @@ data class Timeline(
     val title: String,
     val description: String,
     val date: LocalDate,
-    val type: Type = Type.MOVIES,
-    val department: Department = Department.ACTING,
+    val type: Type,
+    val department: Department,
 ) {
-    enum class Type {
-        MOVIES,
-        TV_SHOWS,
+    enum class Type(val type: String) {
+        ALL(type = "All"),
+        MOVIE(type = "Movie"),
+        TV_SHOW(type = "TV Show"),
+        ;
+
+        override fun toString(): String = this.type
     }
 
-    enum class Department {
-        ACTING,
-        WRITING,
-        PRODUCTION,
-        DIRECTING,
-        CREATOR,
-        CREW,
+    enum class Department(val department: String) {
+        ALL(department = "All"),
+        ACTING(department = "Acting"),
+        WRITING(department = "Writing"),
+        PRODUCTION(department = "Production"),
+        DIRECTING("Directing"),
+        CREATOR(department = "Creator"),
+        CREW(department = "Crew"),
+        ;
+
+        override fun toString(): String = this.department
     }
 }
 
-fun PersonCredit.toTimeline(): Map<Int, List<Timeline>> = cast.filter { it.title != null }
-    .map {
-        Timeline(
-            title = it.title!!,
-            description = "... as ${it.character}",
-            date = it.releaseDate,
-        )
-    }.plus(
-        crew.filter { it.title != null }.map {
+@Suppress("CyclomaticComplexMethod")
+fun PersonCredit.toTimeline(): Map<Int, List<Timeline>> {
+    val castTimeline = cast
+        .filterNot { it.title.isNullOrBlank() && it.name.isNullOrBlank() && it.character.isBlank() }
+        .map {
+            val type = when (it.mediaType) {
+                "tv" -> Timeline.Type.TV_SHOW
+                "movie" -> Timeline.Type.MOVIE
+                else -> throw IllegalArgumentException("Unknown media type: ${it.mediaType}")
+            }
             Timeline(
-                title = it.title!!,
+                title = (if (type == Timeline.Type.MOVIE) it.title else it.name) ?: "Unknown",
+                description = "... as ${it.character}",
+                date = it.releaseDate,
+                type = type,
+                department = Timeline.Department.ACTING,
+            )
+        }
+    val crewTimeline = crew
+        .filterNot { it.title.isNullOrBlank() && it.name.isNullOrBlank() }
+        .map {
+            val type = when (it.mediaType) {
+                "tv" -> Timeline.Type.TV_SHOW
+                "movie" -> Timeline.Type.MOVIE
+                else -> throw IllegalArgumentException("Unknown media type: ${it.mediaType}")
+            }
+            Timeline(
+                title = (if (type == Timeline.Type.MOVIE) it.title else it.name) ?: "Unknown",
                 description = "... ${it.job}",
                 date = it.releaseDate,
+                type = type,
+                department = when (it.department.trim()) {
+                    "Directing" -> Timeline.Department.DIRECTING
+                    "Acting" -> Timeline.Department.ACTING
+                    "Writing" -> Timeline.Department.WRITING
+                    "Production" -> Timeline.Department.PRODUCTION
+                    "Creator" -> Timeline.Department.CREATOR
+                    "Crew" -> Timeline.Department.CREW
+                    else -> Timeline.Department.ACTING
+                },
             )
-        },
-    )
-    .sortedByDescending { it.date }
-    .groupBy { it.date.year }
+        }
+    return castTimeline.plus(crewTimeline).sortedByDescending { it.date }
+        .groupBy { it.date.year }
+}

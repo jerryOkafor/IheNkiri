@@ -34,7 +34,10 @@ import java.time.format.DateTimeFormatter
 data class NetworkPersonCast(
     val adult: Boolean,
     val id: Long,
+    @SerializedName("title", alternate = ["original_title"])
     val title: String? = null,
+    @SerializedName("name", alternate = ["original_name"])
+    val name: String? = null,
     @SerializedName("poster_path")
     val posterPath: String? = null,
     @SerializedName("backdrop_path")
@@ -43,39 +46,44 @@ data class NetworkPersonCast(
     val character: String,
     @SerializedName("credit_id")
     val creditId: String,
-    val gender: Int,
-    @SerializedName("known_for_department")
-    val knownForDepartment: String = "",
     @SerializedName("release_date")
     val releaseDate: String?,
+    @SerializedName("media_type")
+    val mediaType: String,
 )
 
 data class NetworkPersonCrew(
     val adult: Boolean,
     val id: Long,
+    @SerializedName("title", alternate = ["original_title"])
     val title: String? = null,
+    @SerializedName("name", alternate = ["original_name"])
+    val name: String? = null,
     @SerializedName("poster_path")
     val posterPath: String? = null,
+    @SerializedName("backdrop_path")
+    val backdropPath: String? = null,
     val popularity: Double = 0.0,
     @SerializedName("credit_id")
     val creditId: String,
     val department: String,
-    val gender: Int,
     val job: String,
     @SerializedName("release_date")
     val releaseDate: String?,
+    @SerializedName("media_type")
+    val mediaType: String,
 )
 
 fun NetworkPersonCast.asDomainObject(): PersonCast = PersonCast(
     adult = adult,
     character = character,
     creditId = creditId,
-    gender = gender,
     id = id,
-    knownForDepartment = knownForDepartment,
+    title = title,
+    name = name,
     popularity = popularity,
     posterPath = posterPath,
-    title = title,
+    backdropPath = backdropPath,
     releaseDate = runCatching {
         releaseDate?.let {
             LocalDate.parse(
@@ -84,17 +92,20 @@ fun NetworkPersonCast.asDomainObject(): PersonCast = PersonCast(
             )
         }
     }.getOrNull() ?: LocalDate.now(),
+    mediaType = this.mediaType,
 )
 
 fun NetworkPersonCrew.asDomainObject(): PersonCrew = PersonCrew(
     adult = adult,
     creditId = creditId,
     department = department,
-    gender = gender,
     id = id,
     job = job,
+    title = title,
+    name = name,
     popularity = popularity,
     posterPath = posterPath,
+    backdropPath = backdropPath,
     releaseDate = runCatching {
         releaseDate?.let {
             LocalDate.parse(
@@ -103,6 +114,7 @@ fun NetworkPersonCrew.asDomainObject(): PersonCrew = PersonCrew(
             )
         }
     }.getOrNull() ?: LocalDate.now(),
+    mediaType = this.mediaType,
 )
 
 data class NetworkPersonCredit(
