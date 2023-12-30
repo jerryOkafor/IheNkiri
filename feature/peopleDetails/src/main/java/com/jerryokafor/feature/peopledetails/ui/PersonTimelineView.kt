@@ -33,6 +33,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.jerryokafor.feature.peopledetails.ui.timeline.TimelineScope
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.model.Timeline
 

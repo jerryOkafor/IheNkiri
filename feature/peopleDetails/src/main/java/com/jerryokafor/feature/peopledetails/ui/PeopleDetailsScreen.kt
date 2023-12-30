@@ -67,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jerryokafor.feature.peopledetails.R
+import com.jerryokafor.feature.peopledetails.ui.timeline.Timeline
 import com.jerryokafor.feature.peopledetails.viewModel.PeopleDetailsViewModel
 import com.jerryokafor.feature.peopledetails.viewModel.PersonDetailsUiState
 import com.valentinilk.shimmer.ShimmerBounds
