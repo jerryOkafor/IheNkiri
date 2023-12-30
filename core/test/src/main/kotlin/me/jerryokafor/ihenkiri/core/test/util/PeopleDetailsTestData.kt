@@ -96,7 +96,7 @@ object PeopleDetailsTestData {
                     job = "Executive Producer",
                     department = "Production",
                     releaseDate = "2022-11-13",
-                    mediaType = "",
+                    mediaType = "tv",
                 ),
                 NetworkPersonCrew(
                     adult = false,
