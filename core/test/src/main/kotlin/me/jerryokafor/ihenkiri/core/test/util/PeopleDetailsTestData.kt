@@ -42,7 +42,8 @@ object PeopleDetailsTestData {
             "Michael Sylvester Gardenzio Stallone",
             "Sylvester Enzio Stallone",
         ),
-        biography = "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, July 6, 1946) is an American actor and filmmaker.",
+        biography = "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
+                "July 6, 1946) is an American actor and filmmaker.",
         birthday = "1946-07-06",
         deathday = null,
         gender = 2,
