@@ -24,6 +24,7 @@
 
 package me.jerryokafor.core.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -52,6 +53,7 @@ class DefaultPeopleDetailsRepository
                 val response = personDetailsApi.personDetails(personId)
                 emit(Success(response.toDomainModel()))
             } catch (e: Throwable) {
+                Log.d("Testing: ", "Error: $e")
                 emit(Failure(errorResponse = "Error fetching people details", throwable = e))
             }
         }.flowOn(dispatcher)

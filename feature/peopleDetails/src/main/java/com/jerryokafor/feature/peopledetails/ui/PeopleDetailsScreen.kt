@@ -93,6 +93,7 @@ import me.jerryokafor.core.ui.components.IhenkiriCollapsingToolbarToolbar
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.headerHeight
 import me.jerryokafor.core.ui.components.toolbarHeight
+import me.jerryokafor.core.ui.extension.TrackScrollJank
 
 @ThemePreviews
 @Composable
@@ -121,9 +122,11 @@ fun PeopleDetailsScreen(
     uiState: PersonDetailsUiState,
     onNavigateUp: () -> Unit = {},
 ) {
-    val scroll: ScrollState = rememberScrollState(0)
+    val scrollState: ScrollState = rememberScrollState(0)
     val headerHeightPx = with(LocalDensity.current) { headerHeight.toPx() }
     val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.toPx() }
+
+    TrackScrollJank(scrollableState = scrollState, stateName = "peopleDetails:screen")
 
     Surface {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -145,7 +148,7 @@ fun PeopleDetailsScreen(
                     ) {
                         // header
                         IhenkiriCollapsingToolbarHeader(
-                            scroll = scroll,
+                            scroll = scrollState,
                             headerHeightPx = headerHeightPx,
                             imagePath = ImageUtil.buildImageUrl(
                                 path = uiState.personDetails.profilePath,
@@ -161,7 +164,7 @@ fun PeopleDetailsScreen(
                             horizontalAlignment = Alignment.Start,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(scroll),
+                                .verticalScroll(scrollState),
                             verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
                         ) {
                             Spacer(Modifier.height(headerHeight))
@@ -232,7 +235,7 @@ fun PeopleDetailsScreen(
 
                         // Toolbar
                         IhenkiriCollapsingToolbarToolbar(
-                            scroll = scroll,
+                            scroll = scrollState,
                             headerHeightPx = headerHeightPx,
                             toolbarHeightPx = toolbarHeightPx,
                             onNavigationIconClick = onNavigateUp,
@@ -240,7 +243,7 @@ fun PeopleDetailsScreen(
 
                         // Toolbar title
                         IhenkiriCollapsingToolbarTitle(
-                            scroll = scroll,
+                            scroll = scrollState,
                             name = uiState.personDetails.name,
                             style = IheNkiri.typography.displaySmall,
                             color = Color.White,

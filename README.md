@@ -103,6 +103,13 @@ tests using robolectric instead of a real device or an emulator
 - [Robolectric Shadows](https://robolectric.org/extending/) - use shadow objects to simulate Android
   behavior in a non-Android environment.
 
+#### Performance and Qaulity
+
+- [ProfileInstaller](https://developer.android.com/jetpack/androidx/releases/profileinstaller) -
+  Enables libraries to prepopulate ahead of time compilation traces to be read by ART
+- [JankStats Library](https://developer.android.com/topic/performance/jankstats) - The JankStats
+  library helps you track and analyze performance problems in your applications
+
 # Modularization
 
 IheNkiri is completely modularised based on the approach using
@@ -242,6 +249,31 @@ Verify & record screenshots
 ```
 
 We use Roborazzi to achieve this screenshot testing.
+
+## Performance & Quality
+
+App uses Jank Stats and ProfilerInstaller for performance checks
+When delivering through Google Play, the baseline profile is compiled during installation.
+In this case you will see the correct state logged without any further action necessary.
+To verify baseline profile installation locally, you need to manually trigger baseline
+profile installation.
+
+For immediate compilation, call:
+
+```bash
+adb shell cmd package compile -f -m speed-profile me.jerryokafor.ihenkiri
+```
+
+You can also trigger background optimizations:
+
+```bash
+adb shell pm bg-dexopt-job
+```
+
+Both jobs run asynchronously and might take some time complete.
+To see quick turnaround of the ProfileVerifier, we recommend using `speed-profile`.
+If you don't do either of these steps, you might only see the profile status reported as
+"enqueued for compilation" when running the sample locally.
 
 # Architecture
 

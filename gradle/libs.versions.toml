@@ -6,7 +6,7 @@ ksp = "1.9.10-1.0.13"
 
 core-ktx = "1.12.0"
 lifecycle = "2.6.2"
-activity-compose = "1.8.1"
+activity-compose = "1.8.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.2"
 appcompat = "1.6.1"
@@ -31,7 +31,7 @@ retrofit = "2.9.0"
 gson = "2.10.1"
 okhttp3 = "4.12.0"
 
-material = "1.12.0-alpha01"
+material = "1.12.0-alpha02"
 secrets = "2.0.1"
 
 # hilt
@@ -39,7 +39,7 @@ hilt = "2.48.1"
 hiltExt = "1.1.0"
 
 # navigation
-navigation = "2.7.5"
+navigation = "2.7.6"
 androidxHiltNavigationCompose = "1.1.0"
 
 # compose
@@ -73,13 +73,18 @@ testJunit = "1.1.5"
 testTruth = "1.5.0"
 testMonitor = "1.6.1"
 espressoCore = "3.5.1"
-uiautomator = "2.3.0-alpha05"
-googleTruth = "1.1.4"
+uiautomator = "2.3.0-beta01"
+googleTruth = "1.1.5"
 mockk = "1.13.7"
 
 # utils
 chucker = "4.0.0"
 dependencyGraphGenerator = "0.8.0"
+
+# Metrics
+metricsPerformance = "1.0.0-alpha04"
+profileInstaller = "1.3.1"
+androidxMacroBenchmark = "1.2.2"
 
 [libraries]
 android-tools-desugarKdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -106,6 +111,7 @@ protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref 
 # jetbrains
 org-jetbrains-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+org-jetbrains-kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
@@ -116,6 +122,10 @@ com-google-android-material = { group = "com.google.android.material", name = "m
 com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 com-google-accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
 
+# Metrics
+androidx-metrics-performance = { group = "androidx.metrics", name = "metrics-performance", version.ref = "metricsPerformance" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileInstaller" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 
 # Retrofit
 com-squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -129,6 +139,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-navigation-dfm = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigation" }
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version = "navigation" }
 
 # hilt
 androidx-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -213,7 +224,6 @@ jacoco-gradlePlugin = { group = "org.jacoco", name = "org.jacoco.core", version.
 #navigation-safe-args-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 com-google-devtools-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version = "2.7.5" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -229,6 +239,8 @@ com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" 
 io-github-takahirom-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+com-android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark"}
 
 [bundles]
 

@@ -22,46 +22,41 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+package me.jerryokafor.ihenkiri.injection
+
+import android.app.Activity
+import android.util.Log
+import android.view.Window
+import androidx.metrics.performance.JankStats
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+
+@Module
+@InstallIn(ActivityComponent::class)
+object JankStatModule {
+    @Provides
+    fun providesOnFrameListener(): JankStats.OnFrameListener {
+        return JankStats.OnFrameListener { frameData ->
+            // Make sure to only log janky frames.
+            if (frameData.isJank) {
+                // Log or report Jank to a backnd for analysis
+                Log.v("Ihenkiri Jank", frameData.toString())
+            }
+        }
+    }
+
+    @Provides
+    fun providesWindow(activity: Activity): Window {
+        return activity.window
+    }
+
+    @Provides
+    fun providesJankStats(
+        window: Window,
+        frameListener: JankStats.OnFrameListener,
+    ): JankStats {
+        return JankStats.createAndTrack(window, frameListener)
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-    }
-}
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")

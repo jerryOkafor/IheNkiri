@@ -49,6 +49,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -108,6 +109,7 @@ import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.TrailerButton
+import me.jerryokafor.core.ui.extension.TrackScrollJank
 import me.jerryokafor.core.ui.widget.MovieRating
 import me.jerryokafor.core.ui.widget.PeoplePoster
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkCast
@@ -399,12 +401,19 @@ fun MoviesDetailsScreen(
                         }
                     },
                 ) {
+                    val scrollState = rememberLazyListState()
+                    TrackScrollJank(
+                        scrollableState = scrollState,
+                        stateName = "peopleDetails:screen",
+                    )
+
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
                             .matchParentSize()
                             .background(Brush.verticalGradient(colorStops2))
                             .testTag(MOVIE_DETAILS_COL),
+                        state = scrollState,
                     ) {
                         // Overview
                         item {

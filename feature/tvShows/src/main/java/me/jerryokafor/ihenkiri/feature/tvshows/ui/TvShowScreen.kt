@@ -44,6 +44,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
@@ -97,6 +98,7 @@ import me.jerryokafor.core.model.TVShowsFilterItem
 import me.jerryokafor.core.ui.components.Background
 import me.jerryokafor.core.ui.components.MovieListFilter
 import me.jerryokafor.core.ui.components.MoviePoster
+import me.jerryokafor.core.ui.extension.TrackScrollJank
 import me.jerryokafor.ihenkiri.feature.tvshows.R
 import me.jerryokafor.ihenkiri.feature.tvshows.viewModel.TVShowsViewModel
 
@@ -224,12 +226,19 @@ fun TVShowsScreen(
                 }
             }
 
+            val scrollState = rememberLazyStaggeredGridState()
+            TrackScrollJank(
+                scrollableState = scrollState,
+                stateName = "peopleDetails:screen",
+            )
+
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalStaggeredGrid(
                     modifier = Modifier
                         .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
                         .testTag(GRID_ITEMS_TEST_TAG)
                         .fillMaxSize(),
+                    state = scrollState,
                     columns = StaggeredGridCells.Fixed(2),
                     verticalItemSpacing = IheNkiri.spacing.oneAndHalf,
                     contentPadding = PaddingValues(bottom = IheNkiri.spacing.twoAndaHalf),

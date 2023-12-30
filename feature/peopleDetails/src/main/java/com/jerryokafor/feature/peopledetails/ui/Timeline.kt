@@ -108,6 +108,7 @@ fun <T : TimelineScope> Timeline(
                 circleAnim = circleAnim.value,
                 config = TimelineNodeDefaults.timelineConfig(
                     titleTextStyle = IheNkiri.typography.titleMedium,
+                    indicatorColor = IheNkiri.color.primary,
                 ),
             ) {
                 item.content(this, it)

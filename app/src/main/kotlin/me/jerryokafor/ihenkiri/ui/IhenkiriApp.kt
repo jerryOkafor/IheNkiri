@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,6 +49,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
+import me.jerryokafor.core.ui.extension.TrackDisposableJank
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
@@ -64,7 +66,9 @@ const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
 fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
-    val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
+    NavigationTrackingSideEffect(navController)
+
+    val bottomBarState = rememberSaveable { mutableStateOf(false) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
@@ -133,6 +137,24 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
                 bottomBarState.value = false
 
             else -> bottomBarState.value = true
+        }
+    }
+}
+
+/**
+ * Stores information about navigation events to be used with JankStats
+ */
+@Composable
+private fun NavigationTrackingSideEffect(navController: NavHostController) {
+    TrackDisposableJank(navController) { metricsHolder ->
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            metricsHolder.state?.putState("Navigation", destination.route.toString())
+        }
+
+        navController.addOnDestinationChangedListener(listener)
+
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
         }
     }
 }

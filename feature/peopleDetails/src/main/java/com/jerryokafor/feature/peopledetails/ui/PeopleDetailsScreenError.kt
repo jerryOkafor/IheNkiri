@@ -34,11 +34,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 
 @Preview
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun PeopleDetailsScreenErrorPreview() {
     IheNkiriTheme {
         PeopleDetailsScreenError(message = "Error loading person details") {}
