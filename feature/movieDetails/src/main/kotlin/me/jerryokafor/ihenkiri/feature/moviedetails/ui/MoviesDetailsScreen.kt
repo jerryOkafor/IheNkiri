@@ -953,9 +953,10 @@ private fun testMovies(): List<Movie> = listOf(
         title = "Barbie",
         overview =
             """
-            Barbie and Ken are having the time of their lives in the colorful and seemingly 
-            perfect world of Barbie Land. However, when they get a chance to go to the real world, 
-            they soon discover the joys and perils of living among humans.
+            Barbie and Ken are having the time of their lives in the colorful and 
+            seemingly perfect world of Barbie Land. However, when they get a chance 
+            to go to the real world, they soon discover the joys and perils of 
+            living among humans.
             """.trimIndent(),
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
         posterPath = "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",

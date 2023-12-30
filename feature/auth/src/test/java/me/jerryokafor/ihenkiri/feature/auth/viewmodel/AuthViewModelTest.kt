@@ -55,10 +55,7 @@ class AuthViewModelTest {
 
     private val savedStateHandle = SavedStateHandle().apply {
         this[AuthViewModel.KEY_REQUEST_TOKEN] =
-            """
-                eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmw
-                FqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0
-            """.trimIndent()
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0"
     }
 
     @Before

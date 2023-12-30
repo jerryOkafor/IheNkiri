@@ -54,10 +54,8 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
                 assertThat(overview)
                     .isEqualTo(
-                        """
-                        German daily news program, the oldest still existing program on 
-                        German television.
-                        """.trimIndent(),
+                        "German daily news program, the oldest still existing " +
+                            "program on German television.",
                     )
                 assertThat(originalLanguage).isEqualTo("de")
                 assertThat(backdropPath).isEqualTo("/jWXrQstj7p3Wl5MfYWY6IHqRpDb.jpg")
@@ -70,14 +68,10 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(originalName).isEqualTo("Can't Buy Me Love")
                 assertThat(firstAirDate).isEqualTo("2023-10-16")
                 assertThat(posterPath).isEqualTo("/jCGaLxSOANF44kAQqpA380Md1fq.jpg")
-                assertThat(
-                    overview,
-                ).isEqualTo(
-                    """
-                        When a young man gets caught up in a deadly plot against a rich woman, 
-                        he pays a devastating cost to free her - creating a debt that binds 
-                        them together.
-                    """.trimIndent(),
+                assertThat(overview).isEqualTo(
+                    "When a young man gets caught up in a deadly plot against a " +
+                        "rich woman, he pays a devastating cost to free her - " +
+                        "creating a debt that binds them together.",
                 )
                 assertThat(originalLanguage).isEqualTo("tl")
                 assertThat(backdropPath).isEqualTo("/sFRlpUJEN0y6yV7QK7DQJochbin.jpg")
@@ -109,10 +103,8 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(posterPath).isEqualTo("/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg")
                 assertThat(overview)
                     .isEqualTo(
-                        """
-                            German daily news program, the oldest still existing program on 
-                            German television.
-                        """.trimIndent(),
+                        "German daily news program, the oldest still existing " +
+                            "program on German television.",
                     )
                 assertThat(originalLanguage).isEqualTo("de")
                 assertThat(originCountry.first()).isEqualTo("DE")
@@ -131,11 +123,9 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(
                     overview,
                 ).isEqualTo(
-                    """
-                        When a young man gets caught up in a deadly plot against a rich woman, 
-                        he pays a devastating cost to free her - creating a debt that binds 
-                        them together.
-                    """.trimIndent(),
+                    "When a young man gets caught up in a deadly plot against a rich " +
+                        "woman, he pays a devastating cost to free her - creating " +
+                        "a debt that binds them together.",
                 )
                 assertThat(originalLanguage).isEqualTo("tl")
                 assertThat(originCountry.first()).isEqualTo("PH")
@@ -171,10 +161,8 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(
                     overview,
                 ).isEqualTo(
-                    """
-                        German daily news program, the oldest still existing program 
-                        on German television.
-                    """.trimIndent(),
+                    "German daily news program, the oldest still existing " +
+                        "program on German television.",
                 )
                 assertThat(originalLanguage).isEqualTo("de")
                 assertThat(originCountry.first()).isEqualTo("DE")
@@ -193,11 +181,9 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(
                     overview,
                 ).isEqualTo(
-                    """
-                        When a young man gets caught up in a deadly plot against a rich woman, 
-                        he pays a devastating cost to free her - creating a debt that binds 
-                        them together.
-                    """.trimIndent(),
+                    "When a young man gets caught up in a deadly plot against a rich " +
+                        "woman, he pays a devastating cost to free her - creating a debt " +
+                        "that binds them together.",
                 )
                 assertThat(originalLanguage).isEqualTo("tl")
                 assertThat(originCountry.first()).isEqualTo("PH")
@@ -233,10 +219,8 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(
                     overview,
                 ).isEqualTo(
-                    """
-                        German daily news program, the oldest still existing program on German 
-                        television.
-                    """.trimIndent(),
+                    "German daily news program, the oldest still existing program " +
+                        "on German television.",
                 )
                 assertThat(originalLanguage).isEqualTo("de")
                 assertThat(originCountry.first()).isEqualTo("DE")
@@ -255,11 +239,9 @@ class TVSeriesListsApiTest : BaseServiceTest() {
                 assertThat(
                     overview,
                 ).isEqualTo(
-                    """
-                        When a young man gets caught up in a deadly plot against a rich woman, 
-                        he pays a devastating cost to free her - creating a debt that binds 
-                        them together.
-                    """.trimIndent(),
+                    "When a young man gets caught up in a deadly plot against a rich " +
+                        "woman, he pays a devastating cost to free her - creating a debt " +
+                        "that binds them together.",
                 )
                 assertThat(originalLanguage).isEqualTo("tl")
                 assertThat(originCountry.first()).isEqualTo("PH")
