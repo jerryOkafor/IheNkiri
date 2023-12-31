@@ -65,8 +65,9 @@ android {
             )
 
             signingConfig = signingConfigs.getByName("debug")
-            // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
+
+            // Ensure Baseline Profile is fresh for release builds. (Note, chenge this)
+            baselineProfile.automaticGenerationDuringBuild = false
         }
 
         create("benchmark") {
@@ -158,6 +159,4 @@ baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
     automaticGenerationDuringBuild = false
-
-    saveInSrc = true
 }
