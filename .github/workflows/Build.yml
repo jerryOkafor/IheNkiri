@@ -70,21 +70,49 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      # Replace task exclusions with `-Pandroidx.baselineprofile.skipgeneration` when
+      # https://android-review.googlesource.com/c/platform/frameworks/support/+/2602790 landed in a
+      # release build
       - name: Build all build type and flavor permutations
-        run: ./gradlew assemble
+        run: ./gradlew :app:assemble :benchmark:assemble \
+          -x pixel6Api33NonMinifiedReleaseAndroidTest \
+          -x pixel6Api33NonMinifiedBenchmarkAndroidTest \
+          -x collectNonMinifiedReleaseBaselineProfile \
+          -x collectNonMinifiedBenchmarkBaselineProfile
 
-        #      - name: Run all local screenshot tests (Roborazzi)
-        #        id: screenshotsverify
-        #        continue-on-error: true
-        #        run: ./gradlew :screenshotTest:verifyRoborazziDebug
+      - name: Run all local screenshot tests (Roborazzi)
+        id: verifyScreenshot
+        continue-on-error: true
+        run: ./gradlew verifyRoborazziDebug
 
-        #Add more codes
+      - name: Prevent pushing new screenshots if this is a fork
+        id: checkIsFork
+        continue-on-error: false
+        if: steps.verifyScreenshot.outcome == 'failure' && github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::Screenshot tests failed, please create a PR in your fork first." && exit 1
 
-      - name: Check lint
-        run: ./gradlew lintDebug
+      # Runs if previous job failed
+      - name: Generate new screenshots if verification failed and it's a PR
+        id: recordScreenshot
+        if: steps.verifyScreenshot.outcome == 'failure' && github.event_name == 'pull_request'
+        run: |
+          ./gradlew recordRoborazziDemoDebug
+
+      - name: Push new screenshots if available
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.recordScreenshot.outcome == 'success'
+        with:
+          file_pattern: '*/*.png'
+          disable_globbing: true
+          commit_message: "🤖 Updates screenshots"
 
       - name: Run local tests with coverage
+        if: always()
         run: ./gradlew testDebugUnitTest
+
+      - name: Check lint
+        run: ./gradlew :app:lintRelease
 
       - name: Generate androidTest Coverage Report
         run: ./gradlew jacocoTestCoverageReport
