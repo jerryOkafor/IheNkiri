@@ -74,11 +74,12 @@ jobs:
       # https://android-review.googlesource.com/c/platform/frameworks/support/+/2602790 landed in a
       # release build
       - name: Build all build type and flavor permutations
-        run: ./gradlew :app:assemble :benchmark:assemble
-          -x pixel6Api33NonMinifiedReleaseAndroidTest
-          -x pixel6Api33NonMinifiedBenchmarkAndroidTest
-          -x collectNonMinifiedReleaseBaselineProfile
-          -x collectNonMinifiedBenchmarkBaselineProfile
+        run: |
+          ./gradlew :app:assemble :benchmark:assemble \
+            -x pixel6Api33NonMinifiedReleaseAndroidTest \
+            -x pixel6Api33NonMinifiedBenchmarkAndroidTest \
+            -x collectNonMinifiedReleaseBaselineProfile \
+            -x collectNonMinifiedBenchmarkBaselineProfile
 
       - name: Run all local screenshot tests (Roborazzi)
         id: verifyScreenshot
