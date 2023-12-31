@@ -275,6 +275,12 @@ To see quick turnaround of the ProfileVerifier, we recommend using `speed-profil
 If you don't do either of these steps, you might only see the profile status reported as
 "enqueued for compilation" when running the sample locally.
 
+Generate the Baseline Profile
+
+```bash
+./gradlew :app:generateBaselineProfile
+```
+
 # Architecture
 
 # Todo

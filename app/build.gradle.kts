@@ -78,7 +78,8 @@ android {
             // Only use benchmark proguard rules
             proguardFiles("benchmark-rules.pro")
             isMinifyEnabled = true
-            isDebuggable = false
+            isShrinkResources = false
+            isMinifyEnabled = false
             applicationIdSuffix = ".benchmark"
         }
     }
@@ -157,4 +158,6 @@ baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
     automaticGenerationDuringBuild = false
+
+    saveInSrc = true
 }

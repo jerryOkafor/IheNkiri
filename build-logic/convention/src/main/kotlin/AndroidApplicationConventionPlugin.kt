@@ -24,8 +24,10 @@
 
 import com.android.build.api.dsl.ApplicationExtension
 import me.jerryokafor.ihenkiri.Config
+import me.jerryokafor.ihenkiri.androidTestImplementation
 import me.jerryokafor.ihenkiri.configureKotlinAndroid
 import me.jerryokafor.ihenkiri.libs
+import me.jerryokafor.ihenkiri.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -74,8 +76,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                add("androidTestImplementation", kotlin("test"))
-                add("testImplementation", kotlin("test"))
+                androidTestImplementation(kotlin("test"))
+                testImplementation(kotlin("test"))
             }
         }
     }

@@ -240,7 +240,10 @@ io-github-takahirom-roborazzi = { id = "io.github.takahirom.roborazzi", version.
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 com-android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
-androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark"}
+androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
+
+# Plugins defined in the project
+ihenkiri-android-test = { id = "me.jerryokafor.ihenkiri.android.test", version = "unspecified" }
 
 [bundles]
 

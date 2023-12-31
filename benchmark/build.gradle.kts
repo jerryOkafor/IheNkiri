@@ -23,27 +23,16 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.test)
+    id("me.jerryokafor.ihenkiri.android.test")
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
     namespace = "com.jerryokafor.benchmark"
-    compileSdk = 34
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 34
-
+        minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -58,8 +47,24 @@ android {
         }
     }
 
+    testOptions.managedDevices.devices {
+        create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6Api33") {
+            device = "Pixel 6"
+            apiLevel = 33
+            systemImageSource = "aosp"
+        }
+    }
+
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+}
+
+baselineProfile {
+    // This specifies the managed devices to use that you run the tests on.
+    managedDevices += "pixel6Api33"
+
+    // Don't use a connected device but rely on a GMD for consistency between local and CI builds.
+    useConnectedDevices = false
 }
 
 dependencies {
@@ -67,10 +72,4 @@ dependencies {
     implementation(libs.androidx.test.espresso.core)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
-}
-
-androidComponents {
-    beforeVariants(selector().all()) {
-        it.enable = it.buildType == "benchmark"
-    }
 }
