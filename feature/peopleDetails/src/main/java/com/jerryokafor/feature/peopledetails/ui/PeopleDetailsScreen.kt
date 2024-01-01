@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -141,6 +142,20 @@ fun PeopleDetailsScreen(
                 }
 
                 is PersonDetailsUiState.Success -> {
+                    var timeline by remember(uiState.personDetails.timeline) {
+                        mutableStateOf(uiState.personDetails.timeline)
+                    }
+                    var selectedTimelineType by remember {
+                        mutableStateOf(
+                            Timeline.Type.ALL,
+                        )
+                    }
+                    var selectedTimelineDept by remember {
+                        mutableStateOf(
+                            Timeline.Department.ALL,
+                        )
+                    }
+
                     Box(
                         Modifier
                             .fillMaxSize()
@@ -165,41 +180,29 @@ fun PeopleDetailsScreen(
                             horizontalAlignment = Alignment.Start,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(scrollState),
+                                .verticalScroll(scrollState)
+                                .testTag(PEOPLE_DETAILS_MAIN_BODY),
                             verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
                         ) {
+                            // Spacer - 0
                             Spacer(Modifier.height(headerHeight))
 
-                            // Social Buttons
+                            // Social Buttons -1
                             SocialButtonRow()
 
-                            // Personal Details
+                            // Personal Details -2
                             PersonalInfo(uiState.personDetails)
 
-                            // Biography
+                            // Biography -3
                             Biography(biography = uiState.personDetails.biography)
 
-                            // Known for
+                            // Known for -3
                             KnownForRow(
                                 knownFors = uiState.personDetails.knownFor
                                     .filter { it.title != null },
                             )
 
-                            var timeline by remember(uiState.personDetails.timeline) {
-                                mutableStateOf(uiState.personDetails.timeline)
-                            }
-                            var selectedTimelineType by remember {
-                                mutableStateOf(
-                                    Timeline.Type.ALL,
-                                )
-                            }
-                            var selectedTimelineDept by remember {
-                                mutableStateOf(
-                                    Timeline.Department.ALL,
-                                )
-                            }
-
-                            // Timeline
+                            // Timeline - 4
                             TimelineView(
                                 timeline = timeline,
                                 defaultType = selectedTimelineType,
@@ -214,8 +217,7 @@ fun PeopleDetailsScreen(
                                             uiState.personDetails.timeline
                                                 .mapValues { (_, value) ->
                                                     value.filter { it.type == type }
-                                                }
-                                                .filter { it.value.isNotEmpty() }
+                                                }.filterValues { it.isNotEmpty() }
                                     }
                                 },
                                 onTimelineDeptSelected = { dept ->
@@ -223,12 +225,12 @@ fun PeopleDetailsScreen(
 
                                     timeline = when (dept) {
                                         Timeline.Department.ALL -> uiState.personDetails.timeline
+
                                         else ->
                                             uiState.personDetails.timeline
                                                 .mapValues { (_, value) ->
                                                     value.filter { it.department == dept }
-                                                }
-                                                .filter { it.value.isNotEmpty() }
+                                                }.filterValues { it.isNotEmpty() }
                                     }
                                 },
                             )
@@ -462,7 +464,8 @@ private fun KnownForRow(knownFors: List<KnownFor>) {
         ThreeVerticalSpacer()
         Text(
             modifier = Modifier
-                .padding(horizontal = IheNkiri.spacing.two),
+                .padding(horizontal = IheNkiri.spacing.two)
+                .testTag(PEOPLE_DETAILS_KNOWN_FOR_TITLE),
             style = IheNkiri.typography.titleLarge,
             color = contentColorFor(
                 backgroundColor = IheNkiri.color.inverseOnSurface,
@@ -473,7 +476,8 @@ private fun KnownForRow(knownFors: List<KnownFor>) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = IheNkiri.spacing.two),
+                .padding(horizontal = IheNkiri.spacing.two)
+                .testTag(PEOPLE_DETAILS_KNOWN_FOR),
             horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
         ) {
             items(knownFors) {
@@ -560,8 +564,13 @@ private fun TimelineView(
                     )
                 }
             } else {
-                Timeline(modifier = Modifier, items = items)
+                Timeline(modifier = Modifier.testTag(TIMELINE_COLUMN_TAG), items = items)
             }
         }
     }
 }
+
+const val TIMELINE_COLUMN_TAG = "TIMELINE_COLUMN"
+const val PEOPLE_DETAILS_MAIN_BODY = "people_details_main_tag"
+const val PEOPLE_DETAILS_KNOWN_FOR_TITLE = "people_details_known_for_title"
+const val PEOPLE_DETAILS_KNOWN_FOR = "people_details_known_for"

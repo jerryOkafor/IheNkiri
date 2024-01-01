@@ -305,6 +305,7 @@ Generate the Baseline Profile
 - [Testing Kotlin flows on Android](https://developer.android.com/kotlin/flow/test)
 - [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
 - [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
+- [Distinguishing between the different ProGuard “-keep” directives](https://jebware.com/blog/?p=418)
 
 # License
 

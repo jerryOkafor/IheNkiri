@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,26 @@ package com.jerryokafor.feature.peopledetails.ui
 
 import android.os.Build
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasProgressBarRangeInfo
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.common.truth.Truth.assertThat
 import com.jerryokafor.feature.peopledetails.viewModel.PersonDetailsUiState
+import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.PeopleDetailsTestData
 import org.junit.Before
 import org.junit.Rule
@@ -87,6 +102,105 @@ class PeopleDetailsScreenTest {
 
             onNode(hasProgressBarRangeInfo(ProgressBarRangeInfo.Indeterminate))
                 .assertDoesNotExist()
+
+            // title is displayed
+            onNodeWithText("Sylvester Stallone").assertExists()
+                .assertIsDisplayed()
+
+            // back button is displayed
+            onNodeWithContentDescription("Back")
+                .assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+            assertThat(onNavigateUpClick).isEqualTo(1)
+
+            onNodeWithTag(PEOPLE_DETAILS_MAIN_BODY).assertExists()
+                .assertIsDisplayed()
+
+            // assert social buttons
+            onNodeWithContentDescription("Facebook")
+                .assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+
+            onNodeWithContentDescription("Twitter")
+                .assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+
+            onNodeWithContentDescription("Instagram")
+                .assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+
+            onNodeWithContentDescription("Tiktok")
+                .assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+
+            // assert person biography
+            onNodeWithText("Biography").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+            onNodeWithText(
+                "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
+                    "July 6, 1946) is an American actor and filmmaker.",
+            ).assertExists()
+                .assertIsDisplayed()
+
+            // assert know for
+            onNodeWithTag(PEOPLE_DETAILS_KNOWN_FOR_TITLE)
+                .assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assert(hasText("Known For"))
+
+            onNodeWithTag(PEOPLE_DETAILS_KNOWN_FOR).assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .onChildren()
+                .assertCountEquals(4)
+
+            // assert timeline
+            onNodeWithText("Timeline").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+            onNodeWithTag(TIMELINE_COLUMN_TAG).assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+                .onChildren()
+                .assertCountEquals(3)
+
+            onNodeWithText("... as Robert 'Rocky' Balboa").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+
+            onNodeWithText("... as Self").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+
+            onNodeWithText("... Executive Producer").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+
+            onNodeWithText("... Choreographer").assertExists()
+                .performScrollTo()
+                .assertIsDisplayed()
+
+            // assert dropdowns
+            val dropDown = SemanticsMatcher.expectValue(
+                SemanticsProperties.Role,
+                Role.DropdownList,
+            )
+
+            onAllNodes(dropDown)
+                .assertAreDisplayed()
+                .assertCountEquals(2)
         }
     }
 }

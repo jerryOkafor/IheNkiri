@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import me.jerryokafor.core.ds.theme.IheNkiri
 
 @Composable
 fun <T> IheNkiriDropDown(
+    modifier: Modifier = Modifier,
     default: T,
     menus: List<T>,
     onSelectItem: (T) -> Unit,
@@ -56,6 +61,10 @@ fun <T> IheNkiriDropDown(
     var selected by remember(default) { mutableStateOf(default) }
 
     Surface(
+        modifier = modifier.semantics(mergeDescendants = true) {
+            role = Role.DropdownList
+            contentDescription = "Selection for $default"
+        },
         onClick = { isTimelineTypeExpanded = true },
         shape = IheNkiri.shape.pill,
         border = BorderStroke(1.dp, color = IheNkiri.color.primary),
