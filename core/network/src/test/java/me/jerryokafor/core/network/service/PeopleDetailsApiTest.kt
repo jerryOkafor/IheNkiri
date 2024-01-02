@@ -55,7 +55,7 @@ class PeopleDetailsApiTest : BaseServiceTest() {
             assertThat(response.alsoKnownAs).isNotEmpty()
             assertThat(response.biography).isEqualTo(
                 "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
-                        "July 6, 1946) is an American actor and filmmaker",
+                    "July 6, 1946) is an American actor and filmmaker",
             )
             assertThat(response.birthday).isEqualTo("1946-07-06")
             assertThat(response.deathday).isNull()
