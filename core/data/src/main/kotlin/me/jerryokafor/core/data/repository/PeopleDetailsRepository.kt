@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 
 package me.jerryokafor.core.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -53,7 +52,6 @@ class DefaultPeopleDetailsRepository
                 val response = personDetailsApi.personDetails(personId)
                 emit(Success(response.toDomainModel()))
             } catch (e: Throwable) {
-                Log.d("Testing: ", "Error: $e")
                 emit(Failure(errorResponse = "Error fetching people details", throwable = e))
             }
         }.flowOn(dispatcher)

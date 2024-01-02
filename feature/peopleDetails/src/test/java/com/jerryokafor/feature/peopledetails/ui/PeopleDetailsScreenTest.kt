@@ -48,10 +48,12 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeRight
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import coil.Coil
 import com.google.common.truth.Truth.assertThat
 import com.jerryokafor.feature.peopledetails.viewModel.PersonDetailsUiState
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.PeopleDetailsTestData
+import me.jerryokafor.ihenkiri.core.test.util.imageLoader
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -74,6 +76,7 @@ class PeopleDetailsScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        Coil.setImageLoader(imageLoader)
         ShadowLog.stream = System.out
     }
 

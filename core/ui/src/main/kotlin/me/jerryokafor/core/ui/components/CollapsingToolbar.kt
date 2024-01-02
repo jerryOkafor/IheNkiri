@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -121,7 +121,7 @@ fun IhenkiriCollapsingToolbarHeader(
     val posterImageLoader = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imagePath)
-            .placeholder(R.drawable.sample_poster)
+            .placeholder(R.drawable.sample_poster_2)
             .crossfade(true)
             .build(),
         contentScale = ContentScale.FillBounds,
@@ -140,12 +140,13 @@ fun IhenkiriCollapsingToolbarHeader(
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = if (isError.not() && !isLocalInspection) {
-                posterImageLoader
-            } else {
-                painterResource(R.drawable.sample_poster)
-            },
-            contentDescription = null,
+            painter =
+                if (isError.not() && !isLocalInspection) {
+                    posterImageLoader
+                } else {
+                    painterResource(R.drawable.sample_poster_2)
+                },
+            contentDescription = "Person profile picture",
             contentScale = ContentScale.FillWidth,
         )
 

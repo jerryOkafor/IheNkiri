@@ -28,6 +28,7 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.Config
+import me.jerryokafor.ihenkiri.core.network.model.response.toDomainModel
 import me.jerryokafor.ihenkiri.core.network.service.PeopleDetailsApi
 import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil
 import org.junit.Test
@@ -48,13 +49,13 @@ class PeopleDetailsApiTest : BaseServiceTest() {
             val response = peopleDetailsApi.personDetails(personId = TEST_PERSON_ID)
 
             assertNotNull(response)
-
+            assertThat(response.toDomainModel()).isNotNull()
             assertThat(response.id).isEqualTo(16483)
             assertThat(response.adult).isFalse()
             assertThat(response.alsoKnownAs).isNotEmpty()
             assertThat(response.biography).isEqualTo(
                 "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
-                    "July 6, 1946) is an American actor and filmmaker",
+                        "July 6, 1946) is an American actor and filmmaker",
             )
             assertThat(response.birthday).isEqualTo("1946-07-06")
             assertThat(response.deathday).isNull()
