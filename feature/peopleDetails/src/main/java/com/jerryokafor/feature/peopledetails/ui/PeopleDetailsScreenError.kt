@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -52,19 +53,21 @@ fun PeopleDetailsScreenError(
     message: String,
     onClose: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(text = message)
-        TwoVerticalSpacer()
-        @Suppress("MagicNumber")
-        TextButton(
-            modifier = Modifier.fillMaxWidth(0.5f),
-            onClick = onClose,
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Close")
+            Text(text = message)
+            TwoVerticalSpacer()
+            @Suppress("MagicNumber")
+            TextButton(
+                modifier = Modifier.fillMaxWidth(0.5f),
+                onClick = onClose,
+            ) {
+                Text(text = "Close")
+            }
         }
     }
 }

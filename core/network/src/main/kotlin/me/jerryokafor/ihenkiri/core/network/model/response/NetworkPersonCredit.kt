@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ data class NetworkPersonCast(
     val character: String,
     @SerializedName("credit_id")
     val creditId: String,
-    @SerializedName("release_date")
+    @SerializedName("release_date", alternate = ["first_air_date"])
     val releaseDate: String?,
     @SerializedName("media_type")
     val mediaType: String,
@@ -68,7 +68,7 @@ data class NetworkPersonCrew(
     val creditId: String,
     val department: String,
     val job: String,
-    @SerializedName("release_date")
+    @SerializedName("release_date", alternate = ["first_air_date"])
     val releaseDate: String?,
     @SerializedName("media_type")
     val mediaType: String,

@@ -89,7 +89,7 @@ class PeopleDetailsScreenTest {
     }
 
     @Test
-    fun peopleDetailsScreen_personDetailsLoading_movieDetailsIsShown() {
+    fun peopleDetailsScreen_personDetailsLoaded_movieDetailsIsShown() {
         with(composeTestRule) {
             setContent {
                 PeopleDetailsScreen(
@@ -149,7 +149,7 @@ class PeopleDetailsScreenTest {
                 .assertIsDisplayed()
             onNodeWithText(
                 "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
-                    "July 6, 1946) is an American actor and filmmaker.",
+                        "July 6, 1946) is an American actor and filmmaker.",
             ).assertExists()
                 .assertIsDisplayed()
 
@@ -193,14 +193,38 @@ class PeopleDetailsScreenTest {
                 .assertIsDisplayed()
 
             // assert dropdowns
-            val dropDown = SemanticsMatcher.expectValue(
-                SemanticsProperties.Role,
-                Role.DropdownList,
+            val dropDownNodeMatcher = SemanticsMatcher.expectValue(
+                key = SemanticsProperties.Role,
+                expectedValue = Role.DropdownList,
             )
 
-            onAllNodes(dropDown)
+            onAllNodes(dropDownNodeMatcher)
                 .assertAreDisplayed()
                 .assertCountEquals(2)
+        }
+    }
+
+    @Test
+    fun peopleDetailsScreen_personDetailsLoadError_movieErrorIsShown() {
+        with(composeTestRule) {
+            setContent {
+                PeopleDetailsScreen(
+                    uiState = PersonDetailsUiState.Error(message = "Error fetching person details"),
+                    onNavigateUp = { onNavigateUpClick++ },
+                )
+            }
+
+            onNodeWithText("Error fetching person details")
+                .assertExists()
+                .assertIsDisplayed()
+
+            onNodeWithText("Close")
+                .assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+
+            assertThat(onNavigateUpClick).isEqualTo(1)
         }
     }
 }
