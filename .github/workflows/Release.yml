@@ -46,12 +46,14 @@ jobs:
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build release variant including baseline profile generation
-        run: ./gradlew :app:assembleRelease
-          -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
-          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
-          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
-          -Pandroid.experimental.androidTest.numManagedDeviceShards=1
-          -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+        run: |
+          ./gradlew :app:assembleRelease \
+            -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile \
+            -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" \
+            -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true \
+            -Pandroid.experimental.androidTest.numManagedDeviceShards=1 \
+            -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -69,6 +71,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/demo/release/app-demo-release.apk
+          asset_path: app/build/outputs/apk/release/app-release.apk
           asset_name: app-release.apk
           asset_content_type: application/vnd.android.package-archive
