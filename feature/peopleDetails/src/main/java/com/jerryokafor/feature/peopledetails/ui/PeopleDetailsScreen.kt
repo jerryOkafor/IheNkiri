@@ -535,12 +535,14 @@ private fun TimelineView(
             )
             FillingSpacer()
             IheNkiriDropDown(
+                Modifier.testTag(PEOPLE_DETAILS_MEDIA_TYPE_OPTIONS),
                 default = defaultType,
                 menus = Timeline.Type.entries,
                 onSelectItem = onTimelineTypeSelected,
             )
             OneHorizontalSpacer()
             IheNkiriDropDown(
+                modifier = Modifier.testTag(PEOPLE_DETAILS_DEPARTMENT_OPTIONS),
                 default = defaultDepartment,
                 menus = Timeline.Department.entries,
                 onSelectItem = onTimelineDeptSelected,
@@ -574,3 +576,6 @@ const val TIMELINE_COLUMN_TAG = "TIMELINE_COLUMN"
 const val PEOPLE_DETAILS_MAIN_BODY = "people_details_main_tag"
 const val PEOPLE_DETAILS_KNOWN_FOR_TITLE = "people_details_known_for_title"
 const val PEOPLE_DETAILS_KNOWN_FOR = "people_details_known_for"
+
+const val PEOPLE_DETAILS_MEDIA_TYPE_OPTIONS = "people_details_media_type"
+const val PEOPLE_DETAILS_DEPARTMENT_OPTIONS = "people_details_department"

@@ -33,8 +33,11 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnySibling
+import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isPopup
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -42,6 +45,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeRight
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.jerryokafor.feature.peopledetails.viewModel.PersonDetailsUiState
@@ -201,6 +206,48 @@ class PeopleDetailsScreenTest {
             onAllNodes(dropDownNodeMatcher)
                 .assertAreDisplayed()
                 .assertCountEquals(2)
+
+            onNodeWithTag(PEOPLE_DETAILS_MEDIA_TYPE_OPTIONS).assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+
+            waitForIdle()
+            onNode(isPopup()).assertExists()
+                .assertIsDisplayed()
+            onAllNodes(hasText("All") and hasParent(dropDownNodeMatcher), true)
+                .assertCountEquals(2)
+                .assertAreDisplayed()
+            onNodeWithText("Movie").assertExists().assertIsDisplayed()
+            onNodeWithText("TV Show").assertExists().assertIsDisplayed()
+
+            // close the popup
+            onNode(isPopup()).assertExists()
+                .assertIsDisplayed()
+                .performTouchInput { swipeRight() }
+
+            onNodeWithTag(PEOPLE_DETAILS_DEPARTMENT_OPTIONS).assertExists()
+                .assertIsDisplayed()
+                .assertHasClickAction()
+                .performClick()
+
+            waitForIdle()
+            onNode(isPopup()).assertExists()
+                .assertIsDisplayed()
+
+            onAllNodes(
+                matcher = hasText("All") and hasParent(dropDownNodeMatcher),
+                useUnmergedTree = true,
+            ).assertCountEquals(1)
+                .assertAreDisplayed()
+
+            onNode(hasText("Acting") and hasAnySibling(hasText("Writing")))
+                .assertExists().assertIsDisplayed()
+            onNodeWithText("Writing").assertExists().assertIsDisplayed()
+            onNodeWithText("Production").assertExists().assertIsDisplayed()
+            onNodeWithText("Directing").assertExists().assertIsDisplayed()
+            onNodeWithText("Creator").assertExists().assertIsDisplayed()
+            onNodeWithText("Crew").assertExists().assertIsDisplayed()
         }
     }
 
