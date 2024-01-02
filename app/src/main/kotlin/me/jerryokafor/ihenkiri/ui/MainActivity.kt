@@ -70,6 +70,7 @@ class MainActivity : ComponentActivity() {
     lateinit var lazyStats: dagger.Lazy<JankStats>
 
     @IoDispatcher
+    @Inject
     lateinit var ioDispatcher: CoroutineDispatcher
 
     private val appViewModel by viewModels<AppViewModel>()
