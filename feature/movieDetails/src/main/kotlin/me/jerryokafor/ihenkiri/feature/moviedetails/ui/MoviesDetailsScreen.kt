@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -676,14 +676,14 @@ fun MoviesDetailsScreen(
             is MovieDetailsUiState.LoadFailed -> {
                 MovieDetailsLoadFailed(
                     modifier = Modifier.align(Alignment.Center),
-                    message = "Error loading movie details, please try again!",
-                    onClick = {},
+                    message = movieDetailsUiState.message,
+                    onClick = onNavigateUp,
                 )
             }
 
-            MovieDetailsUiState.Loading -> IheNkiriCircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-            )
+            MovieDetailsUiState.Loading -> {
+                IheNkiriCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
         }
 
         AnimatedVisibility(
@@ -756,8 +756,16 @@ private fun MovieDetailsLoadFailed(
     message: String,
     onClick: () -> Unit,
 ) {
-    TextButton(modifier = modifier, onClick = onClick) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(text = message)
+        TwoVerticalSpacer()
+        TextButton(modifier = modifier, onClick = onClick) {
+            Text(text = "Back")
+        }
     }
 }
 

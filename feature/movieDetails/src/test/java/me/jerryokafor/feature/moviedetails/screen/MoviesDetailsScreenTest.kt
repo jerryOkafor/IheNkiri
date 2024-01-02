@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -444,14 +444,16 @@ class MoviesDetailsScreenTest {
         with(composeTestRule) {
             setContent {
                 MoviesDetailsScreen(
-                    movieDetailsUiState = MovieDetailsUiState.LoadFailed(""),
+                    movieDetailsUiState = MovieDetailsUiState.LoadFailed(
+                        "Error loading movie details",
+                    ),
                     movieCreditUiState = MovieCreditUiState.LoadFailed(""),
                     similarMoviesUiState = SimilarMoviesUiState.LoadFailed(""),
                     moviesVideoUiState = MoviesVideoUiState.LoadFailed(""),
                 )
             }
 
-            onNodeWithText("Error loading movie details, please try again!")
+            onNodeWithText("Error loading movie details")
                 .assertExists().assertIsDisplayed()
         }
     }

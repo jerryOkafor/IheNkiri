@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
 import androidx.profileinstaller.ProfileVerifier
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
+import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.ihenkiri.viewmodel.AppUiState
@@ -62,9 +64,13 @@ class MainActivity : ComponentActivity() {
 
     /**
      * Lazily inject [JankStats], which is used to track jank throughout the app.
+     * Use Lazy if you have an expensive object that may not get used
      */
     @Inject
     lateinit var lazyStats: dagger.Lazy<JankStats>
+
+    @IoDispatcher
+    lateinit var ioDispatcher: CoroutineDispatcher
 
     private val appViewModel by viewModels<AppViewModel>()
 
@@ -136,7 +142,7 @@ class MainActivity : ComponentActivity() {
         If you don't do either of these steps, you might only see the profile status reported as
         "enqueued for compilation" when running the sample locally.
          */
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             val status = ProfileVerifier.getCompilationStatusAsync().await()
             Log.d(TAG, "ProfileInstaller status code: ${status.profileInstallResultCode}")
             val compilationStatus = when {
@@ -160,6 +166,7 @@ class MainActivity : ComponentActivity() {
  * current system context.
  */
 @Composable
+@ExcludeFromGeneratedCoverageReport
 private fun shouldUseDarkTheme(uiState: AppUiState): Boolean = when (uiState) {
     AppUiState.Loading -> isSystemInDarkTheme()
     is AppUiState.Success -> when (uiState.settings.themeConfig) {
@@ -170,6 +177,7 @@ private fun shouldUseDarkTheme(uiState: AppUiState): Boolean = when (uiState) {
 }
 
 @Composable
+@ExcludeFromGeneratedCoverageReport
 private fun shouldUseDynamicColor(uiState: AppUiState): Boolean = when (uiState) {
     AppUiState.Loading -> false
     is AppUiState.Success -> uiState.settings.isDynamicColor

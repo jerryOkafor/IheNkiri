@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.platform.LocalView
 import androidx.metrics.performance.PerformanceMetricsState
 import kotlinx.coroutines.CoroutineScope
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
 /**
  * Retrieves [PerformanceMetricsState.Holder] from current [LocalView] and
@@ -42,6 +43,7 @@ import kotlinx.coroutines.CoroutineScope
  * @see PerformanceMetricsState.getHolderForHierarchy
  */
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun rememberMetricsStateHolder(): PerformanceMetricsState.Holder {
     val localView = LocalView.current
 
@@ -56,6 +58,7 @@ fun rememberMetricsStateHolder(): PerformanceMetricsState.Holder {
  * @see TrackDisposableJank if you need to work with DisposableEffect to cleanup added state.
  */
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun TrackJank(
     vararg keys: Any?,
     reportMetric: suspend CoroutineScope.(state: PerformanceMetricsState.Holder) -> Unit,
@@ -71,6 +74,7 @@ fun TrackJank(
  * The side effect is re-launched if any of the [keys] value is not equal to the previous composition.
  */
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun TrackDisposableJank(
     vararg keys: Any?,
     reportMetric: DisposableEffectScope.(
@@ -87,6 +91,7 @@ fun TrackDisposableJank(
  * Track jank while scrolling anything that's scrollable.
  */
 @Composable
+@ExcludeFromGeneratedCoverageReport
 fun TrackScrollJank(
     scrollableState: ScrollableState,
     stateName: String,
