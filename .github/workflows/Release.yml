@@ -1,22 +1,9 @@
 name: Release - APKs
 
-#on:
-#  push:
-#    tags:
-#      - 'v*'
-
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - "docs/**"
-      - "doc/**"
-
-  pull_request:
-    paths-ignore:
-      - "docs/**"
-      - "doc/**"
+    tags:
+      - 'v*'
 
 jobs:
   build:
