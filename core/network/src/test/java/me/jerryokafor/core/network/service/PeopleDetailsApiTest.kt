@@ -53,8 +53,8 @@ class PeopleDetailsApiTest : BaseServiceTest() {
             assertThat(response.adult).isFalse()
             assertThat(response.alsoKnownAs).isNotEmpty()
             assertThat(response.biography).isEqualTo(
-                "Sylvester Stallone (born Michael " +
-                        "Sylvester Gardenzio Stallone, July 6, 1946) is an American actor and filmmaker"
+                "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
+                    "July 6, 1946) is an American actor and filmmaker",
             )
             assertThat(response.birthday).isEqualTo("1946-07-06")
             assertThat(response.deathday).isNull()
@@ -80,14 +80,13 @@ class PeopleDetailsApiTest : BaseServiceTest() {
                 assertThat(releaseDate).isEqualTo("2022-11-13")
             }
 
-
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
             assert(
-                recordedRequest.path?.contains("/${Config.TMDB_API_V3}/person/$TEST_PERSON_ID") == true,
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/person/$TEST_PERSON_ID") == true,
             )
         }
     }
-
 }

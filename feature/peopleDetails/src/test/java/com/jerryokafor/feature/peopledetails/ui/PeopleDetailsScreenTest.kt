@@ -149,7 +149,7 @@ class PeopleDetailsScreenTest {
                 .assertIsDisplayed()
             onNodeWithText(
                 "Sylvester Stallone (born Michael Sylvester Gardenzio Stallone, " +
-                        "July 6, 1946) is an American actor and filmmaker.",
+                    "July 6, 1946) is an American actor and filmmaker.",
             ).assertExists()
                 .assertIsDisplayed()
 
