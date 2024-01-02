@@ -30,28 +30,30 @@ import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
 import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData
 import javax.inject.Inject
 
-class FakeTVSeriesListsApi @Inject constructor() : TVSeriesListsApi {
-    override suspend fun airingToday(
-        language: String,
-        page: Int,
-        region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
+class FakeTVSeriesListsApi
+    @Inject
+    constructor() : TVSeriesListsApi {
+        override suspend fun airingToday(
+            language: String,
+            page: Int,
+            region: String?,
+        ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
-    override suspend fun onTheAir(
-        language: String,
-        page: Int,
-        region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
+        override suspend fun onTheAir(
+            language: String,
+            page: Int,
+            region: String?,
+        ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
-    override suspend fun popular(
-        language: String,
-        page: Int,
-        region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
+        override suspend fun popular(
+            language: String,
+            page: Int,
+            region: String?,
+        ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
 
-    override suspend fun topRated(
-        language: String,
-        page: Int,
-        region: String?,
-    ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
-}
+        override suspend fun topRated(
+            language: String,
+            page: Int,
+            region: String?,
+        ): PagedNetworkResponse<NetworkTvShow> = TVShowsTestData.testNetworkTVShows()
+    }

@@ -58,7 +58,8 @@ object TestDispatchersModule {
 
     @DefaultDispatcher
     @[Provides Singleton]
-    fun providesDefaultDispatcher(testDispatcher: TestDispatcher): CoroutineDispatcher = testDispatcher
+    fun providesDefaultDispatcher(testDispatcher: TestDispatcher): CoroutineDispatcher =
+        testDispatcher
 
     @IoDispatcher
     @[Provides Singleton]

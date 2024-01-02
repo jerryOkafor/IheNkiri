@@ -42,8 +42,10 @@ data class NetworkPersonMovie(
     val title: String?,
 )
 
-fun NetworkPersonMovie.toDomainModel(): PersonMovie =
-    PersonMovie(id = this.id, title = this.title!!)
+fun NetworkPersonMovie.toDomainModel(): PersonMovie = PersonMovie(
+    id = this.id,
+    title = this.title!!,
+)
 
 fun NetworkPerson.toDomainModel(): Person = Person(
     id = this.id,

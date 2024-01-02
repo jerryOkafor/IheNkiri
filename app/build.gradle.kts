@@ -32,6 +32,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.navigation")
 //    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 //    id("jacoco")
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -51,13 +52,36 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+
+        val release = getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            signingConfig = signingConfigs.getByName("debug")
+
+            // Ensure Baseline Profile is fresh for release builds. (Note, chenge this)
+            baselineProfile.automaticGenerationDuringBuild = false
+        }
+
+        create("benchmark") {
+            // Enable all the optimizations from release build through initWith(release).
+            initWith(release)
+            matchingFallbacks.add("release")
+            // Debug key signing is available to everyone.
+            signingConfig = signingConfigs.getByName("debug")
+            // Only use benchmark proguard rules
+            proguardFiles("benchmark-rules.pro")
+            isMinifyEnabled = true
+            isShrinkResources = false
+            isMinifyEnabled = false
+            applicationIdSuffix = ".benchmark"
         }
     }
 
@@ -81,6 +105,7 @@ dependencies {
     implementation(projects.feature.movies)
     implementation(projects.feature.movieDetails)
     implementation(projects.feature.people)
+    implementation(projects.feature.peopleDetails)
     implementation(projects.feature.tvShows)
     implementation(projects.feature.settings)
     debugImplementation(projects.uiTestHiltManifest)
@@ -98,6 +123,11 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.com.google.android.material)
+
+    // Performance
+    implementation(libs.androidx.metrics.performance)
+    implementation(libs.androidx.profileinstaller)
+    implementation(libs.org.jetbrains.kotlinx.coroutines.guava)
 
     // retrofit
     implementation(libs.com.squareup.retrofit2)
@@ -122,4 +152,11 @@ dependencies {
 
     testImplementation(projects.core.test)
     androidTestImplementation(projects.core.test)
+    baselineProfile(project(":benchmark"))
+}
+
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
 }

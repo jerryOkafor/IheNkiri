@@ -75,7 +75,10 @@ class PeopleListsApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assertEquals("/${Config.TMDB_API_V3}/person/popular?page=$testPage", recordedRequest.path)
+            assertEquals(
+                "/${Config.TMDB_API_V3}/person/popular?page=$testPage",
+                recordedRequest.path,
+            )
         }
     }
 }

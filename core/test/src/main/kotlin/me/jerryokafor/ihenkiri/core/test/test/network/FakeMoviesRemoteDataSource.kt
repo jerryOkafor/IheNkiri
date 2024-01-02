@@ -31,13 +31,13 @@ import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import javax.inject.Inject
 
 class FakeMoviesRemoteDataSource
-@Inject
-constructor() : MoviesRemoteDataSource {
-    override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = testMovies()
+    @Inject
+    constructor() : MoviesRemoteDataSource {
+        override suspend fun nowPlayingMovies(query: MoviesQuery): List<Movie> = testMovies()
 
-    override suspend fun popularMovies(query: MoviesQuery): List<Movie> = testMovies()
+        override suspend fun popularMovies(query: MoviesQuery): List<Movie> = testMovies()
 
-    override suspend fun topRatedMovies(query: MoviesQuery): List<Movie> = testMovies()
+        override suspend fun topRatedMovies(query: MoviesQuery): List<Movie> = testMovies()
 
-    override suspend fun upcomingMovies(query: MoviesQuery): List<Movie> = testMovies()
-}
+        override suspend fun upcomingMovies(query: MoviesQuery): List<Movie> = testMovies()
+    }

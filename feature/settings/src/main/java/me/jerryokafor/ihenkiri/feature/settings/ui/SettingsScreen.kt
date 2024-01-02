@@ -132,7 +132,10 @@ fun MoreScreenPreview() {
 
 @Composable
 @Suppress("UnusedPrivateMember")
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel(), onLogin: () -> Unit) {
+fun SettingsScreen(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onLogin: () -> Unit,
+) {
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
     val onLogout: () -> Unit = { viewModel.onLogout() }
@@ -207,7 +210,9 @@ fun SettingsScreen(
                         if (showThemeSettingsDialog) {
                             AlertDialog(
                                 properties = DialogProperties(usePlatformDefaultWidth = false),
-                                modifier = Modifier.widthIn(max = configuration.screenWidthDp.dp - 80.dp),
+                                modifier = Modifier.widthIn(
+                                    max = configuration.screenWidthDp.dp - 80.dp,
+                                ),
                                 onDismissRequest = { showThemeSettingsDialog = false },
                                 title = {
                                     Text(
@@ -222,7 +227,8 @@ fun SettingsScreen(
                                             themeConfig = preference.themeConfig,
                                             supportDynamicColor = supportsDynamicTheming(),
                                             useDynamicColor = preference.isDynamicColor,
-                                            onChangeDynamicColorPreference = onChangeDynamicColorPreference,
+                                            onChangeDynamicColorPreference =
+                                            onChangeDynamicColorPreference,
                                             onChangeDarkThemeConfig = onChangeDarkThemeConfig,
                                         )
 

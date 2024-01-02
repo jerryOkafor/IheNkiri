@@ -48,7 +48,8 @@ class PeopleViewModelTest {
 
     @Before
     fun setUp() {
-        coEvery { peopleListRepository.popularPeople(any()) } returns PeopleListTestData.testPersons()
+        coEvery { peopleListRepository.popularPeople(any()) } returns PeopleListTestData
+            .testPersons()
         peopleViewModel = PeopleViewModel(peopleListRepository = peopleListRepository)
     }
 

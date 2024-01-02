@@ -38,13 +38,16 @@ data class NetworkCrew(
     val id: Int,
     val job: String,
     @SerializedName("known_for_department")
-    val knownForDepartment: String,
-    val name: String,
+    val knownForDepartment: String? = null,
+    val name: String? = null,
+    val title: String? = null,
     @SerializedName("original_name")
-    val originalName: String,
+    val originalName: String? = null,
     val popularity: Double,
     @SerializedName("profile_path")
     val profilePath: String? = "",
+    @SerializedName("poster_path")
+    val posterPath: String? = null,
 )
 
 fun NetworkCrew.asDomainObject(): Crew = Crew(
@@ -59,6 +62,7 @@ fun NetworkCrew.asDomainObject(): Crew = Crew(
     originalName = originalName,
     popularity = popularity,
     profilePath = profilePath,
+    posterPath = posterPath,
 )
 
 data class NetworkCast(
@@ -71,14 +75,17 @@ data class NetworkCast(
     val gender: Int,
     val id: Int,
     @SerializedName("known_for_department")
-    val knownForDepartment: String,
-    val name: String,
+    val knownForDepartment: String = "",
+    val name: String? = null,
+    val title: String? = null,
     val order: Int,
     @SerializedName("original_name")
-    val originalName: String,
+    val originalName: String? = null,
     val popularity: Double,
     @SerializedName("profile_path")
     val profilePath: String? = "",
+    @SerializedName("poster_path")
+    val posterPath: String? = null,
 )
 
 fun NetworkCast.asDomainObject(): Cast = Cast(
@@ -94,6 +101,9 @@ fun NetworkCast.asDomainObject(): Cast = Cast(
     originalName = originalName,
     popularity = popularity,
     profilePath = profilePath,
+    posterPath = posterPath,
+    title = title,
+    department = "Acting",
 )
 
 data class NetworkMovieCredit(

@@ -55,7 +55,8 @@ class AuthViewModelTest {
 
     private val savedStateHandle = SavedStateHandle().apply {
         this[AuthViewModel.KEY_REQUEST_TOKEN] =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPLNGLtVBWOagzneoVM3pXQ0"
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZWRpcm.XXXX.dxZddmwFqbiWGn1ycR0YPL" +
+            "NGLtVBWOagzneoVM3pXQ0"
     }
 
     @Before
@@ -83,7 +84,9 @@ class AuthViewModelTest {
             authViewModel.createRequestToken()
             assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
             (awaitItem() as AuthState.RequestTokenCreated).let {
-                assertThat(it.requestToken).isEqualTo(createRequestTokenSuccessResponse().requestToken)
+                assertThat(
+                    it.requestToken,
+                ).isEqualTo(createRequestTokenSuccessResponse().requestToken)
             }
         }
 

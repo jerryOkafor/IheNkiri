@@ -38,6 +38,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -72,17 +73,17 @@ fun PersonItemViewPreview() {
     IheNkiriTheme {
         Column(
             modifier =
-            Modifier
-                .wrapContentSize()
-                .background(IheNkiri.color.surface),
+                Modifier
+                    .wrapContentSize()
+                    .background(IheNkiri.color.surface),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OneVerticalSpacer()
             PersonItemView(
                 modifier =
-                Modifier
-                    .width(250.dp)
-                    .padding(IheNkiri.spacing.twoAndaHalf),
+                    Modifier
+                        .width(250.dp)
+                        .padding(IheNkiri.spacing.twoAndaHalf),
                 name = "Sandra Bullock",
                 knownFor = "Rush Hour, Rush Hour 2, and Rush Hour 3",
                 imageUrl = "",
@@ -92,6 +93,7 @@ fun PersonItemViewPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonItemView(
     modifier: Modifier = Modifier,
@@ -99,6 +101,7 @@ fun PersonItemView(
     knownFor: String,
     imageUrl: String,
     textColor: Color = contentColorFor(backgroundColor = IheNkiri.color.surfaceVariant),
+    onClick: () -> Unit = {},
 ) {
     var isLoading by remember { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
@@ -119,6 +122,7 @@ fun PersonItemView(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(5.dp),
+        onClick = onClick,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(

@@ -35,7 +35,7 @@ import me.jerryokafor.ihenkiri.feature.people.ui.PeopleScreen
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val peopleNavPattern = "/people"
 
-fun NavGraphBuilder.peopleScreen() {
+fun NavGraphBuilder.peopleScreen(onPersonClick: (Long) -> Unit) {
     composable(
         route = peopleNavPattern,
         enterTransition = enterTransition,
@@ -43,6 +43,6 @@ fun NavGraphBuilder.peopleScreen() {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        PeopleScreen()
+        PeopleScreen(onPersonClick = onPersonClick)
     }
 }

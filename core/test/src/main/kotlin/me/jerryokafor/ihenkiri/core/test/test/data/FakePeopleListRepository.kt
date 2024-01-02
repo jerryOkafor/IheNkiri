@@ -30,7 +30,8 @@ import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
 import javax.inject.Inject
 
 class FakePeopleListRepository
-@Inject
-constructor() : PeopleListRepository {
-    override suspend fun popularPeople(page: Int): List<Person> = PeopleListTestData.testPersons()
-}
+    @Inject
+    constructor() : PeopleListRepository {
+        override suspend fun popularPeople(page: Int): List<Person> =
+            PeopleListTestData.testPersons()
+    }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,6 +49,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -57,7 +58,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -77,7 +77,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -107,8 +106,10 @@ import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.Video
 import me.jerryokafor.core.ui.components.GenreChip
+import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.TrailerButton
+import me.jerryokafor.core.ui.extension.TrackScrollJank
 import me.jerryokafor.core.ui.widget.MovieRating
 import me.jerryokafor.core.ui.widget.PeoplePoster
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkCast
@@ -155,7 +156,13 @@ fun MoviesDetailsPreview() {
             ),
             movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit),
             similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies()),
-            moviesVideoUiState = MoviesVideoUiState.Success(videos = testNetworkMovieVideos(0L).results.map { it.asDomainObject() }),
+            moviesVideoUiState = MoviesVideoUiState.Success(
+                videos = testNetworkMovieVideos(
+                    0L,
+                ).results.map {
+                    it.asDomainObject()
+                },
+            ),
             onMovieItemClick = {},
             onNavigateUp = {},
         )
@@ -316,15 +323,20 @@ fun MoviesDetailsScreen(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = IheNkiri.spacing.two),
-                                    horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.two),
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        IheNkiri.spacing.two,
+                                    ),
                                 ) {
                                     MovieRating(
                                         modifier = Modifier.size(57.dp),
-                                        rating = (movieDetails.voteAverage / MAX_MOVIE_RATING).toFloat(),
+                                        rating = (movieDetails.voteAverage / MAX_MOVIE_RATING)
+                                            .toFloat(),
                                     )
                                     Column(
                                         horizontalAlignment = Alignment.Start,
-                                        verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.half),
+                                        verticalArrangement = Arrangement.spacedBy(
+                                            IheNkiri.spacing.half,
+                                        ),
                                     ) {
                                         Text(
                                             text = movieDetails.title,
@@ -332,7 +344,9 @@ fun MoviesDetailsScreen(
                                             color = primaryTextColor,
                                         )
                                         Row(
-                                            horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
+                                            horizontalArrangement = Arrangement.spacedBy(
+                                                IheNkiri.spacing.one,
+                                            ),
                                             verticalAlignment = Alignment.CenterVertically,
                                         ) {
                                             Text(
@@ -341,7 +355,9 @@ fun MoviesDetailsScreen(
                                             )
                                             Text(text = "●", color = secondaryTextColor)
                                             Icon(
-                                                painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.ic_clock),
+                                                painter = painterResource(
+                                                    id = me.jerryokafor.core.ui.R.drawable.ic_clock,
+                                                ),
                                                 contentDescription = "runtime",
                                                 tint = secondaryTextColor,
                                             )
@@ -385,12 +401,19 @@ fun MoviesDetailsScreen(
                         }
                     },
                 ) {
+                    val scrollState = rememberLazyListState()
+                    TrackScrollJank(
+                        scrollableState = scrollState,
+                        stateName = "peopleDetails:screen",
+                    )
+
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
                             .matchParentSize()
                             .background(Brush.verticalGradient(colorStops2))
                             .testTag(MOVIE_DETAILS_COL),
+                        state = scrollState,
                     ) {
                         // Overview
                         item {
@@ -437,7 +460,9 @@ fun MoviesDetailsScreen(
                                     .testTag(MOVIE_DETAILS_MAIN_CAST)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 style = IheNkiri.typography.titleMedium,
-                                color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
+                                color = contentColorFor(
+                                    backgroundColor = IheNkiri.color.inverseOnSurface,
+                                ),
                                 text = stringResource(R.string.title_main_cast),
                             )
                             OneVerticalSpacer()
@@ -446,11 +471,12 @@ fun MoviesDetailsScreen(
                                     .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = if (movieCreditUiState is MovieCreditUiState.Success) {
-                                    Arrangement.spacedBy(IheNkiri.spacing.one)
-                                } else {
-                                    Arrangement.Center
-                                },
+                                horizontalArrangement =
+                                    if (movieCreditUiState is MovieCreditUiState.Success) {
+                                        Arrangement.spacedBy(IheNkiri.spacing.one)
+                                    } else {
+                                        Arrangement.Center
+                                    },
                             ) {
                                 when (movieCreditUiState) {
                                     is MovieCreditUiState.LoadFailed -> {
@@ -463,12 +489,16 @@ fun MoviesDetailsScreen(
                                     }
 
                                     MovieCreditUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is MovieCreditUiState.Success -> {
-                                        items(movieCreditUiState.movieCredit.cast.distinctBy { it.name }) {
-                                            val (firstName, lastName) = it.name.split(" ")
+                                        items(
+                                            movieCreditUiState.movieCredit.cast
+                                                .distinctBy { it.name },
+                                        ) {
+                                            val (firstName, lastName) = it.name?.split(" ")
+                                                ?: listOf("", "")
                                             PeoplePoster(
                                                 modifier = Modifier,
                                                 size = 80.dp,
@@ -493,7 +523,9 @@ fun MoviesDetailsScreen(
                                     .testTag(MOVIE_DETAILS_CREW)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 style = IheNkiri.typography.titleMedium,
-                                color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
+                                color = contentColorFor(
+                                    backgroundColor = IheNkiri.color.inverseOnSurface,
+                                ),
                                 text = stringResource(R.string.title_crew),
                             )
                             OneVerticalSpacer()
@@ -502,11 +534,12 @@ fun MoviesDetailsScreen(
                                     .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_CREW_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = if (movieCreditUiState is MovieCreditUiState.Success) {
-                                    Arrangement.spacedBy(IheNkiri.spacing.one)
-                                } else {
-                                    Arrangement.Center
-                                },
+                                horizontalArrangement =
+                                    if (movieCreditUiState is MovieCreditUiState.Success) {
+                                        Arrangement.spacedBy(IheNkiri.spacing.one)
+                                    } else {
+                                        Arrangement.Center
+                                    },
                             ) {
                                 when (movieCreditUiState) {
                                     is MovieCreditUiState.LoadFailed -> {
@@ -519,12 +552,16 @@ fun MoviesDetailsScreen(
                                     }
 
                                     MovieCreditUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is MovieCreditUiState.Success -> {
-                                        items(movieCreditUiState.movieCredit.crew.distinctBy { it.name }) {
-                                            val (firstName, lastName) = it.name.split(" ")
+                                        items(
+                                            movieCreditUiState.movieCredit.crew
+                                                .distinctBy { it.name },
+                                        ) {
+                                            val (firstName, lastName) = it.name?.split(" ")
+                                                ?: listOf("", "")
                                             PeoplePoster(
                                                 modifier = Modifier,
                                                 size = 80.dp,
@@ -549,7 +586,9 @@ fun MoviesDetailsScreen(
                                     .testTag(MOVIE_DETAILS_CATEGORIES)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 style = IheNkiri.typography.titleMedium,
-                                color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
+                                color = contentColorFor(
+                                    backgroundColor = IheNkiri.color.inverseOnSurface,
+                                ),
                                 text = stringResource(R.string.title_categories),
                             )
                             OneAndHalfVerticalSpacer()
@@ -575,7 +614,9 @@ fun MoviesDetailsScreen(
                                     .testTag(MOVIE_DETAILS_RECOMMENDATIONS)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 style = IheNkiri.typography.titleMedium,
-                                color = contentColorFor(backgroundColor = IheNkiri.color.inverseOnSurface),
+                                color = contentColorFor(
+                                    backgroundColor = IheNkiri.color.inverseOnSurface,
+                                ),
                                 text = stringResource(R.string.title_recommendations),
                             )
                             OneVerticalSpacer()
@@ -584,11 +625,12 @@ fun MoviesDetailsScreen(
                                     .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement = if (similarMoviesUiState is SimilarMoviesUiState.Success) {
-                                    Arrangement.spacedBy(IheNkiri.spacing.one)
-                                } else {
-                                    Arrangement.Center
-                                },
+                                horizontalArrangement =
+                                    if (similarMoviesUiState is SimilarMoviesUiState.Success) {
+                                        Arrangement.spacedBy(IheNkiri.spacing.one)
+                                    } else {
+                                        Arrangement.Center
+                                    },
                             ) {
                                 when (similarMoviesUiState) {
                                     is SimilarMoviesUiState.LoadFailed -> {
@@ -601,7 +643,7 @@ fun MoviesDetailsScreen(
                                     }
 
                                     SimilarMoviesUiState.Loading -> {
-                                        item { MovieDetailsItemLoading() }
+                                        item { IheNkiriCircularProgressIndicator() }
                                     }
 
                                     is SimilarMoviesUiState.Success -> {
@@ -634,14 +676,14 @@ fun MoviesDetailsScreen(
             is MovieDetailsUiState.LoadFailed -> {
                 MovieDetailsLoadFailed(
                     modifier = Modifier.align(Alignment.Center),
-                    message = "Error loading movie details, please try again!",
-                    onClick = {},
+                    message = movieDetailsUiState.message,
+                    onClick = onNavigateUp,
                 )
             }
 
-            MovieDetailsUiState.Loading -> MovieDetailsItemLoading(
-                modifier = Modifier.align(Alignment.Center),
-            )
+            MovieDetailsUiState.Loading -> {
+                IheNkiriCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
         }
 
         AnimatedVisibility(
@@ -661,7 +703,9 @@ fun MoviesDetailsScreen(
                     }
                     IconButton(onClick = onAddToBookmarkClick) {
                         Icon(
-                            painterResource(id = me.jerryokafor.core.ui.R.drawable.baseline_bookmark_add_24),
+                            painterResource(
+                                id = me.jerryokafor.core.ui.R.drawable.baseline_bookmark_add_24,
+                            ),
                             contentDescription = stringResource(R.string.add_to_bookmark),
                         )
                     }
@@ -698,17 +742,6 @@ private fun String.formatDate(): String {
 }
 
 @Composable
-private fun MovieDetailsItemLoading(modifier: Modifier = Modifier) {
-    CircularProgressIndicator(
-        modifier = modifier
-            .size(30.dp)
-            .padding(vertical = IheNkiri.spacing.one),
-        strokeWidth = 1.dp,
-        strokeCap = StrokeCap.Round,
-    )
-}
-
-@Composable
 @Preview
 @ExcludeFromGeneratedCoverageReport
 private fun MovieDetailsLoadFailedPreview() {
@@ -723,8 +756,16 @@ private fun MovieDetailsLoadFailed(
     message: String,
     onClick: () -> Unit,
 ) {
-    TextButton(modifier = modifier, onClick = onClick) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(text = message)
+        TwoVerticalSpacer()
+        TextButton(modifier = modifier, onClick = onClick) {
+            Text(text = "Back")
+        }
     }
 }
 
@@ -734,36 +775,36 @@ private fun testNetworkMovieDetails(movieId: Long): NetworkMovieDetails = Networ
     backdropPath = "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg",
     budget = 63000000,
     genres =
-    listOf(
-        NetworkGenre(id = 18, name = "Drama"),
-        NetworkGenre(id = 53, name = "Thriller"),
-        NetworkGenre(id = 35, name = "Comedy"),
-    ),
+        listOf(
+            NetworkGenre(id = 18, name = "Drama"),
+            NetworkGenre(id = 53, name = "Thriller"),
+            NetworkGenre(id = 35, name = "Comedy"),
+        ),
     homepage = "http://www.foxmovies.com/movies/fight-club",
     id = movieId,
     imdbId = "tt0137523",
     originalLanguage = "en",
     originalTitle = "Fight Club",
     overview =
-    """
+        """
             A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
              aggression into a shocking new form of therapy. Their concept catches on, with 
              underground \"fight clubs\" forming in every town, until an eccentric gets in the 
              way and ignites an out-of-control spiral toward oblivion.
-    """.trimIndent(),
+        """.trimIndent(),
     popularity = 61.416,
     posterPath = "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
     releaseDate = "1999-10-15",
     revenue = 100853753,
     runtime = 139,
     spokenLanguages =
-    listOf(
-        NetworkSpokenLanguage(
-            englishName = "English",
-            iso6391 = "en",
-            name = "English",
+        listOf(
+            NetworkSpokenLanguage(
+                englishName = "English",
+                iso6391 = "en",
+                name = "English",
+            ),
         ),
-    ),
     status = "Released",
     tagline = "Mischief. Mayhem. Soap.",
     title = "Fight Club",
@@ -806,34 +847,34 @@ private fun testNetworkMovieCredit(movieId: Long): NetworkMovieCredit = NetworkM
         ),
     ),
     crew =
-    listOf(
-        NetworkCrew(
-            adult = false,
-            creditId = "55731b8192514111610027d7",
-            department = "Production",
-            gender = 2,
-            id = 376,
-            job = "Executive Producer",
-            knownForDepartment = "Production",
-            name = "Arnon Milchan",
-            originalName = "Arnon Milchan",
-            popularity = 2.931,
-            profilePath = "/b2hBExX4NnczNAnLuTBF4kmNhZm.jpg",
+        listOf(
+            NetworkCrew(
+                adult = false,
+                creditId = "55731b8192514111610027d7",
+                department = "Production",
+                gender = 2,
+                id = 376,
+                job = "Executive Producer",
+                knownForDepartment = "Production",
+                name = "Arnon Milchan",
+                originalName = "Arnon Milchan",
+                popularity = 2.931,
+                profilePath = "/b2hBExX4NnczNAnLuTBF4kmNhZm.jpg",
+            ),
+            NetworkCrew(
+                adult = false,
+                creditId = "5894c4eac3a3685ec6000218",
+                department = "Costume & Make-Up",
+                gender = 2,
+                id = 605,
+                job = "Costume Design",
+                knownForDepartment = "Costume & Make-Up",
+                name = "Michael Kaplan",
+                originalName = "Michael Kaplan",
+                popularity = 4.294,
+                profilePath = "/bNarnI5K4XYIKaHsX6HAitllyQr.jpg",
+            ),
         ),
-        NetworkCrew(
-            adult = false,
-            creditId = "5894c4eac3a3685ec6000218",
-            department = "Costume & Make-Up",
-            gender = 2,
-            id = 605,
-            job = "Costume Design",
-            knownForDepartment = "Costume & Make-Up",
-            name = "Michael Kaplan",
-            originalName = "Michael Kaplan",
-            popularity = 4.294,
-            profilePath = "/bNarnI5K4XYIKaHsX6HAitllyQr.jpg",
-        ),
-    ),
 )
 
 @ExcludeFromGeneratedCoverageReport
@@ -845,7 +886,10 @@ private fun testNetworkMovieVideos(movieId: Long): NetworkVideos = NetworkVideos
             iso31661 = "en",
             iso6391 = "US",
             key = "O-b2VfmmbyA",
-            name = "Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, Helena Bonham Carter",
+            name = """
+                Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, 
+                Helena Bonham Carter
+            """.trimIndent(),
             official = false,
             publishedAt = "2016-03-05T02:03:14.000Z",
             site = "YouTube",
@@ -873,12 +917,12 @@ private fun testMovies(): List<Movie> = listOf(
         id = 667538,
         title = "Transformers: Rise of the Beasts",
         overview =
-        """
+            """
             When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
             the Autobots must team up with a powerful faction known as the Maximals. With the 
-            fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
-            to help the Transformers as they engage in the ultimate battle to save Earth.
-        """.trimIndent(),
+            fate of humanity hanging in the balance, humans Noah and Elena will do whatever it 
+            takes to help the Transformers as they engage in the ultimate battle to save Earth.
+            """.trimIndent(),
         backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         voteAverage = 7.5,
@@ -887,13 +931,13 @@ private fun testMovies(): List<Movie> = listOf(
         id = 298618,
         title = "The Flash",
         overview =
-        """
+            """
             When his attempt to save his family inadvertently alters the future, 
             Barry Allen becomes trapped in a reality in which General Zod has returned and 
             there are no Super Heroes to turn to. In order to save the world that he is in and 
             return to the future that he knows, Barry's only hope is to race for his life. But 
             will making the ultimate sacrifice be enough to reset the universe
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
         voteAverage = 7.0,
@@ -902,12 +946,12 @@ private fun testMovies(): List<Movie> = listOf(
         id = 884605,
         title = "No Hard Feelings",
         overview =
-        """
+            """
             On the brink of losing her childhood home, Maddie discovers an intriguing job listing: 
             wealthy helicopter parents looking for someone to “date” their introverted 19-year-old 
             son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the 
             awkward Percy is no sure thing.
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/rRcNmiH55Tz0ugUsDUGmj8Bsa4V.jpg",
         posterPath = "/4K7gQjD19CDEPd7A9KZwr2D9Nco.jpg",
         voteAverage = 7.1,
@@ -916,11 +960,12 @@ private fun testMovies(): List<Movie> = listOf(
         id = 346698,
         title = "Barbie",
         overview =
-        """
-            Barbie and Ken are having the time of their lives in the colorful and seemingly 
-            perfect world of Barbie Land. However, when they get a chance to go to the real world, 
-            they soon discover the joys and perils of living among humans.
-        """.trimIndent(),
+            """
+            Barbie and Ken are having the time of their lives in the colorful and 
+            seemingly perfect world of Barbie Land. However, when they get a chance 
+            to go to the real world, they soon discover the joys and perils of 
+            living among humans.
+            """.trimIndent(),
         backdropPath = "/nHf61UzkfFno5X1ofIhugCPus2R.jpg",
         posterPath = "/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
         voteAverage = 7.5,

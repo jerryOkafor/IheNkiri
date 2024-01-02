@@ -31,10 +31,12 @@ import dagger.hilt.testing.TestInstallIn
 import me.jerryokafor.core.data.injection.DataModule
 import me.jerryokafor.core.data.repository.MovieDetailsRepository
 import me.jerryokafor.core.data.repository.MovieListRepository
+import me.jerryokafor.core.data.repository.PeopleDetailsRepository
 import me.jerryokafor.core.data.repository.PeopleListRepository
 import me.jerryokafor.core.data.repository.TVShowsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMovieDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
+import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleListRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeTVShowsRepository
 
@@ -48,11 +50,20 @@ abstract class TestDataModule {
     abstract fun provideFakeFakeMoviesRepository(repo: FakeMoviesRepository): MovieListRepository
 
     @Binds
-    abstract fun provideMovieDetailsRepository(movieDetailsRepository: FakeMovieDetailsRepository): MovieDetailsRepository
+    abstract fun provideMovieDetailsRepository(
+        movieDetailsRepository: FakeMovieDetailsRepository,
+    ): MovieDetailsRepository
 
     @Binds
-    abstract fun providePeopleListRepository(peopleListRepository: FakePeopleListRepository): PeopleListRepository
+    abstract fun providePeopleListRepository(
+        peopleListRepository: FakePeopleListRepository,
+    ): PeopleListRepository
 
     @Binds
     abstract fun provideTVShowsRepository(repo: FakeTVShowsRepository): TVShowsRepository
+
+    @Binds
+    abstract fun providePeopleDetailsRepository(
+        repo: FakePeopleDetailsRepository,
+    ): PeopleDetailsRepository
 }

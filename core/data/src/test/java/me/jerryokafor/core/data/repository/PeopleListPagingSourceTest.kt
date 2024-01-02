@@ -52,11 +52,11 @@ class PeopleListPagingSourceTest {
         val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager = TestPager(
             config =
-            PagingConfig(
-                pageSize = 9,
-                maxSize = 50,
-                enablePlaceholders = true,
-            ),
+                PagingConfig(
+                    pageSize = 9,
+                    maxSize = 50,
+                    enablePlaceholders = true,
+                ),
             pagingSource = pagingSource,
         )
 
@@ -81,11 +81,11 @@ class PeopleListPagingSourceTest {
         val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager = TestPager(
             config =
-            PagingConfig(
-                pageSize = 9,
-                maxSize = 50,
-                enablePlaceholders = true,
-            ),
+                PagingConfig(
+                    pageSize = 9,
+                    maxSize = 50,
+                    enablePlaceholders = true,
+                ),
             pagingSource = pagingSource,
         )
 
@@ -121,11 +121,11 @@ class PeopleListPagingSourceTest {
         val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager = TestPager(
             config =
-            PagingConfig(
-                pageSize = 9,
-                maxSize = 50,
-                enablePlaceholders = true,
-            ),
+                PagingConfig(
+                    pageSize = 9,
+                    maxSize = 50,
+                    enablePlaceholders = true,
+                ),
             pagingSource = pagingSource,
         )
 
@@ -152,11 +152,11 @@ class PeopleListPagingSourceTest {
         val pagingSource = PeopleListPagingSource(peopleListRepo)
         val pager = TestPager(
             config =
-            PagingConfig(
-                pageSize = 9,
-                maxSize = 50,
-                enablePlaceholders = true,
-            ),
+                PagingConfig(
+                    pageSize = 9,
+                    maxSize = 50,
+                    enablePlaceholders = true,
+                ),
             pagingSource = pagingSource,
         )
 

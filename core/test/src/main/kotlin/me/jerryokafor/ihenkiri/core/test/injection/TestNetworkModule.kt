@@ -46,7 +46,9 @@ abstract class TestNetworkModule {
     abstract fun bindAuthApi(authApi: FakeAuthApi): AuthApi
 
     @Binds
-    abstract fun MoviesRemoteDataSource(datasource: FakeMoviesRemoteDataSource): MoviesRemoteDataSource
+    abstract fun MoviesRemoteDataSource(
+        datasource: FakeMoviesRemoteDataSource,
+    ): MoviesRemoteDataSource
 
     @Binds
     abstract fun provideTVSeriesListsApi(repo: FakeTVSeriesListsApi): TVSeriesListsApi

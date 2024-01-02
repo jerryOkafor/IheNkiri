@@ -42,14 +42,14 @@ interface PeopleListRepository {
 
 @Singleton
 class DefaultPeopleListRepository
-@Inject
-constructor(
-    private val peopleListRemoteDataSource: PeopleListRemoteDataSource,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher,
-) : PeopleListRepository {
-    override suspend fun popularPeople(page: Int): List<Person> =
-        withContext(dispatcher) { peopleListRemoteDataSource.popularPersons(page) }
-}
+    @Inject
+    constructor(
+        private val peopleListRemoteDataSource: PeopleListRemoteDataSource,
+        @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    ) : PeopleListRepository {
+        override suspend fun popularPeople(page: Int): List<Person> =
+            withContext(dispatcher) { peopleListRemoteDataSource.popularPersons(page) }
+    }
 
 class PeopleListPagingSource(private val peopleListRepository: PeopleListRepository) :
     PagingSource<Int, Person>() {

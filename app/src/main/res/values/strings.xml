@@ -23,7 +23,7 @@
   -->
 
 <resources>
-    <string name="app_name">IheNkiri</string>
+    <string name="app_name">IheNkiri - Debug</string>
     <string name="app_movies">Movies</string>
     <string name="app_tv_shows">TV Shows</string>
     <string name="app_people">People</string>

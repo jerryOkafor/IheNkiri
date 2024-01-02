@@ -73,7 +73,10 @@ class MovieDetailsApiTest : BaseServiceTest() {
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
 
-            assert(recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId") == true)
+            assert(
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId") == true,
+            )
         }
     }
 
@@ -130,7 +133,10 @@ class MovieDetailsApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assert(recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/credits") == true)
+            assert(
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/credits") == true,
+            )
         }
     }
 
@@ -159,7 +165,10 @@ class MovieDetailsApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assert(recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/videos") == true)
+            assert(
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/videos") == true,
+            )
         }
     }
 
@@ -206,7 +215,10 @@ class MovieDetailsApiTest : BaseServiceTest() {
             val recordedRequest = mockWebServer.takeRequest()
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
-            assert(recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/similar") == true)
+            assert(
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/movie/$testMovieId/similar") == true,
+            )
         }
     }
 }

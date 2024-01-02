@@ -63,6 +63,7 @@ plugins {
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
     alias(libs.plugins.io.github.takahirom.roborazzi) apply false
     alias(libs.plugins.com.google.devtools.ksp) apply false
+    alias(libs.plugins.com.android.test) apply false
 
     // add detket and ktlint
     alias(libs.plugins.io.gitlab.arturbosch.detekt)

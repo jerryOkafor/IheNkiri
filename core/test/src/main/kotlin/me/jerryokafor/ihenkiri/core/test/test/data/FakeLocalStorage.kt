@@ -31,25 +31,32 @@ import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.core.model.UserData
 import javax.inject.Inject
 
-class FakeLocalStorage @Inject constructor() : LocalStorage {
-    override fun isLoggedIn(): Flow<Boolean> = flowOf(true)
-    override fun userData(): Flow<UserData> = flowOf(
-        UserData(
-            accountId = null,
-            isLoggedIn = false,
-            themeConfig = ThemeConfig.DARK,
-            usDynamicColor = false,
-            name = null,
-            userName = null,
-        ),
-    )
+class FakeLocalStorage
+    @Inject
+    constructor() : LocalStorage {
+        override fun isLoggedIn(): Flow<Boolean> = flowOf(true)
 
-    override suspend fun saveUserSession(accountId: String, accessToken: String) = Unit
+        override fun userData(): Flow<UserData> = flowOf(
+            UserData(
+                accountId = null,
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = null,
+                userName = null,
+            ),
+        )
 
-    override suspend fun saveGuestSession(guestSessionId: String) = Unit
-    override suspend fun setThemeConfig(config: ThemeConfig) = Unit
+        override suspend fun saveUserSession(
+            accountId: String,
+            accessToken: String,
+        ) = Unit
 
-    override suspend fun setUseDynamicColor(useDynamicColor: Boolean) = Unit
+        override suspend fun saveGuestSession(guestSessionId: String) = Unit
 
-    override suspend fun logout() = Unit
-}
+        override suspend fun setThemeConfig(config: ThemeConfig) = Unit
+
+        override suspend fun setUseDynamicColor(useDynamicColor: Boolean) = Unit
+
+        override suspend fun logout() = Unit
+    }

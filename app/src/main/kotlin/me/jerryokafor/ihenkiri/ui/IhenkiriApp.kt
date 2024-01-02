@@ -39,12 +39,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
+import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
+import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
+import me.jerryokafor.core.ui.extension.TrackDisposableJank
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
@@ -60,10 +65,10 @@ import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
-fun IhenkiriApp(
-    navController: NavHostController = rememberNavController(),
-) {
-    val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
+fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
+    NavigationTrackingSideEffect(navController)
+
+    val bottomBarState = rememberSaveable { mutableStateOf(false) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
@@ -87,6 +92,10 @@ fun IhenkiriApp(
             movieId = movieId,
             navOptions = navOptions {},
         )
+    }
+
+    val onPersonClick: (Long) -> Unit = {
+        navController.navigateToPersonDetails(personId = it)
     }
 
     val onLogin: () -> Unit = {
@@ -114,7 +123,8 @@ fun IhenkiriApp(
                     moviesScreen(onMovieClick = onMovieClick)
                     tvShowsScreen(onTVShowClick = {})
                     movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
-                    peopleScreen()
+                    peopleScreen(onPersonClick = onPersonClick)
+                    peopleDetailsScreen(onNavigateUp = onNavigateUp)
                     settingsScreen(onLogin = onLogin)
                 }
             }
@@ -123,10 +133,28 @@ fun IhenkiriApp(
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {
-            movieDetailsRoutePattern, loginRoutePattern ->
+            movieDetailsRoutePattern, peopleDetailsRoutePattern, loginRoutePattern ->
                 bottomBarState.value = false
 
             else -> bottomBarState.value = true
+        }
+    }
+}
+
+/**
+ * Stores information about navigation events to be used with JankStats
+ */
+@Composable
+private fun NavigationTrackingSideEffect(navController: NavHostController) {
+    TrackDisposableJank(navController) { metricsHolder ->
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            metricsHolder.state?.putState("Navigation", destination.route.toString())
+        }
+
+        navController.addOnDestinationChangedListener(listener)
+
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
         }
     }
 }

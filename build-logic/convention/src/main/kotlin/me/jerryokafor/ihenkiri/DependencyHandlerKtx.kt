@@ -30,6 +30,10 @@ internal fun DependencyHandler.implementation(provider: Any) {
     add("implementation", provider)
 }
 
+internal fun DependencyHandler.debugImplementation(provider: Any) {
+    add("debugImplementation", provider)
+}
+
 internal fun DependencyHandler.testImplementation(provider: Any) {
     add("testImplementation", provider)
 }

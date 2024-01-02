@@ -31,5 +31,4 @@ data class UserData(
     val usDynamicColor: Boolean,
     val name: String?,
     val userName: String?,
-
 )

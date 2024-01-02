@@ -70,15 +70,15 @@ fun PosterPreview() {
         ) {
             MoviePoster(
                 modifier =
-                Modifier
-                    .width(100.dp)
-                    .aspectRatio(SIZE_ASPECT_RATIO),
+                    Modifier
+                        .width(100.dp)
+                        .aspectRatio(SIZE_ASPECT_RATIO),
                 posterUrl = "https://example.com/image.jpg",
                 contentDescription = "Image",
                 shimmer =
-                rememberShimmer(
-                    shimmerBounds = ShimmerBounds.Window,
-                ),
+                    rememberShimmer(
+                        shimmerBounds = ShimmerBounds.Window,
+                    ),
             ) {}
         }
     }
@@ -118,7 +118,7 @@ fun MoviePoster(
         ShimmerBox(
             modifier = Modifier.fillMaxSize(),
             shimmer = shimmer,
-            isLoading = isLoading,
+            isLoading = isLoading && !isError,
         ) {
             Image(
                 modifier = Modifier.fillMaxSize(),

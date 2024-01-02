@@ -103,6 +103,13 @@ tests using robolectric instead of a real device or an emulator
 - [Robolectric Shadows](https://robolectric.org/extending/) - use shadow objects to simulate Android
   behavior in a non-Android environment.
 
+#### Performance and Qaulity
+
+- [ProfileInstaller](https://developer.android.com/jetpack/androidx/releases/profileinstaller) -
+  Enables libraries to prepopulate ahead of time compilation traces to be read by ART
+- [JankStats Library](https://developer.android.com/topic/performance/jankstats) - The JankStats
+  library helps you track and analyze performance problems in your applications
+
 # Modularization
 
 IheNkiri is completely modularised based on the approach using
@@ -180,7 +187,6 @@ Generate Lint baseline
 ./gradlew lintDebug -Dlint.baselines.continue=true
 ````
 
-
 We have the following tests on **IheNkiri**
 
 - Unit tests - Runs all the local JVM tests, this can be invoked as follows:
@@ -202,9 +208,17 @@ We have the following tests on **IheNkiri**
   System components
   and other components, save them, and subsequently verifies them against new records.This helps
   detect obvious changes in the Pixels which might indicate a deviation in the core dependencies or
-  something the developer needs to take care of. This has been said to tbe faste and better than
+  something the developer needs to take care of. This has been said to tbe fast and better than
   doing multiple assertions for a given UI component. The screenshot tests lives in
   the `screenshotTest` module and can be invoked using the following command:
+
+## Compose
+
+### Compose debugging
+
+```bash
+./gradlew assembleDebugRelease -PcomposeCompilerReports=true
+```
 
 Generate screenshots
 
@@ -236,9 +250,43 @@ Verify & record screenshots
 
 We use Roborazzi to achieve this screenshot testing.
 
+## Performance & Quality
+
+App uses Jank Stats and ProfilerInstaller for performance checks
+When delivering through Google Play, the baseline profile is compiled during installation.
+In this case you will see the correct state logged without any further action necessary.
+To verify baseline profile installation locally, you need to manually trigger baseline
+profile installation.
+
+For immediate compilation, call:
+
+```bash
+adb shell cmd package compile -f -m speed-profile me.jerryokafor.ihenkiri
+```
+
+You can also trigger background optimizations:
+
+```bash
+adb shell pm bg-dexopt-job
+```
+
+Both jobs run asynchronously and might take some time complete.
+To see quick turnaround of the ProfileVerifier, we recommend using `speed-profile`.
+If you don't do either of these steps, you might only see the profile status reported as
+"enqueued for compilation" when running the sample locally.
+
+Generate the Baseline Profile
+
+```bash
+./gradlew :app:generateBaselineProfile
+```
+
 # Architecture
 
-[Todo]
+# Todo
+
+- [ ] Performance (Baseline Profile + R8)
+- [ ] Different Screen Sizes
 
 ## References
 
@@ -257,7 +305,7 @@ We use Roborazzi to achieve this screenshot testing.
 - [Testing Kotlin flows on Android](https://developer.android.com/kotlin/flow/test)
 - [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
 - [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
-
+- [Distinguishing between the different ProGuard “-keep” directives](https://jebware.com/blog/?p=418)
 
 # License
 

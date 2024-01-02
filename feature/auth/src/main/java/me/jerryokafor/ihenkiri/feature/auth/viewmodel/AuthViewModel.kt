@@ -42,53 +42,70 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel
-@Inject
-constructor(
-    private val localStorage: LocalStorage,
-    private val authApi: AuthApi,
-    private val savedStateHandle: SavedStateHandle,
-) : ViewModel() {
-    companion object {
-        const val KEY_REQUEST_TOKEN = "request_token"
-    }
-
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Default)
-    val authState: StateFlow<AuthState> = _authState.asStateFlow()
-
-    fun createRequestToken() {
-        viewModelScope.launch {
-            try {
-                _authState.update { AuthState.LoadingSession }
-
-                val request = authApi.createRequestToken(
-                    CreateRequestTokenRequest(redirectTo = Constants.AUTH_REDIRECT_URL),
-                )
-
-                val requestToken = request.requestToken
-                savedStateHandle[KEY_REQUEST_TOKEN] = requestToken
-                _authState.update { AuthState.RequestTokenCreated(requestToken) }
-            } catch (e: Exception) {
-                val error = "Error : ${e.message}, please try again"
-                _authState.update { AuthState.Error(error) }
-                _authState.update { AuthState.Default }
-            }
+    @Inject
+    constructor(
+        private val localStorage: LocalStorage,
+        private val authApi: AuthApi,
+        private val savedStateHandle: SavedStateHandle,
+    ) : ViewModel() {
+        companion object {
+            const val KEY_REQUEST_TOKEN = "request_token"
         }
-    }
 
-    fun createSessionId() {
-        val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)
-        viewModelScope.launch {
-            requestToken?.let { token ->
+        private val _authState = MutableStateFlow<AuthState>(AuthState.Default)
+        val authState: StateFlow<AuthState> = _authState.asStateFlow()
+
+        fun createRequestToken() {
+            viewModelScope.launch {
                 try {
                     _authState.update { AuthState.LoadingSession }
-                    val accessTokenResponse = authApi.createAccessToken(
-                        requestBody = CreateAccessTokenRequest(requestToken = token),
+
+                    val request = authApi.createRequestToken(
+                        CreateRequestTokenRequest(redirectTo = Constants.AUTH_REDIRECT_URL),
                     )
 
-                    localStorage.saveUserSession(
-                        accountId = accessTokenResponse.accountId,
-                        accessToken = accessTokenResponse.accessToken,
-                    )
+                    val requestToken = request.requestToken
+                    savedStateHandle[KEY_REQUEST_TOKEN] = requestToken
+                    _authState.update { AuthState.RequestTokenCreated(requestToken) }
+                } catch (e: Exception) {
+                    val error = "Error : ${e.message}, please try again"
+                    _authState.update { AuthState.Error(error) }
+                    _authState.update { AuthState.Default }
+                }
+            }
+        }
+
+        fun createSessionId() {
+            val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)
+            viewModelScope.launch {
+                requestToken?.let { token ->
+                    try {
+                        _authState.update { AuthState.LoadingSession }
+                        val accessTokenResponse = authApi.createAccessToken(
+                            requestBody = CreateAccessTokenRequest(requestToken = token),
+                        )
+
+                        localStorage.saveUserSession(
+                            accountId = accessTokenResponse.accountId,
+                            accessToken = accessTokenResponse.accessToken,
+                        )
+                        _authState.update { AuthState.Default }
+                    } catch (e: Exception) {
+                        val error = "Error: ${e.message}, please try again"
+                        _authState.update { AuthState.Error(error) }
+                        _authState.update { AuthState.Default }
+                    }
+                }
+            }
+        }
+
+        fun createGuestSession() {
+            viewModelScope.launch {
+                try {
+                    _authState.update { AuthState.LoadingGuestSession }
+                    val response = authApi.createGuestSession()
+
+                    localStorage.saveGuestSession(guestSessionId = response.guestSessionId)
                     _authState.update { AuthState.Default }
                 } catch (e: Exception) {
                     val error = "Error: ${e.message}, please try again"
@@ -99,27 +116,14 @@ constructor(
         }
     }
 
-    fun createGuestSession() {
-        viewModelScope.launch {
-            try {
-                _authState.update { AuthState.LoadingGuestSession }
-                val response = authApi.createGuestSession()
-
-                localStorage.saveGuestSession(guestSessionId = response.guestSessionId)
-                _authState.update { AuthState.Default }
-            } catch (e: Exception) {
-                val error = "Error: ${e.message}, please try again"
-                _authState.update { AuthState.Error(error) }
-                _authState.update { AuthState.Default }
-            }
-        }
-    }
-}
-
 sealed interface AuthState {
     data object Default : AuthState
+
     data object LoadingSession : AuthState
+
     data object LoadingGuestSession : AuthState
+
     data class RequestTokenCreated(val requestToken: String?) : AuthState
+
     data class Error(val message: String) : AuthState
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,21 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.core.model
+package me.jerryokafor.ihenkiri.core.test.util
 
-data class Crew(
-    val adult: Boolean,
-    val creditId: String,
-    val department: String,
-    val gender: Int,
-    val id: Int,
-    val job: String,
-    val knownForDepartment: String,
-    val name: String,
-    val originalName: String,
-    val popularity: Double,
-    val profilePath: String?,
-)
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import androidx.test.core.app.ApplicationProvider
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.test.FakeImageLoaderEngine
 
-data class Cast(
-    val adult: Boolean,
-    val castId: Int,
-    val character: String,
-    val creditId: String,
-    val gender: Int,
-    val id: Int,
-    val knownForDepartment: String,
-    val name: String,
-    val order: Int,
-    val originalName: String,
-    val popularity: Double,
-    val profilePath: String?,
-)
-
-data class MovieCredit(
-    val id: Int,
-    val cast: List<Cast> = listOf(),
-    val crew: List<Crew> = listOf(),
-)
+@OptIn(ExperimentalCoilApi::class)
+val engine = FakeImageLoaderEngine.Builder()
+    .intercept({ it is String && it.endsWith(".jpg") }, ColorDrawable(Color.RED))
+    .intercept({ it is String && it.endsWith(".png") }, ColorDrawable(Color.GRAY))
+    .default(ColorDrawable(Color.BLUE))
+    .build()
+val imageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
+    .components { add(engine) }
+    .build()

@@ -71,7 +71,10 @@ class LocalStorageTest {
     fun localStorage_saveUserSession_isLoggedInIsTrue() = testScope.runTest {
         localStorage.saveUserSession(
             accountId = "4bc889XXXXa3c0z92001001",
-            accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2",
+            accessToken = """
+                eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76Oi
+                Es10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2
+            """.trimIndent(),
         )
 
         assertThat(localStorage.isLoggedIn().first()).isTrue()
@@ -159,7 +162,10 @@ class LocalStorageTest {
     fun localStorage_logout_userIsLoggedOut() = testScope.runTest {
         localStorage.saveUserSession(
             accountId = "4bc889XXXXa3c0z92001001",
-            accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2",
+            accessToken = """
+                eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76O
+                iEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2
+            """.trimIndent(),
         )
         assertThat(userPreferences.data.first().accessToken)
             .isNotEmpty()

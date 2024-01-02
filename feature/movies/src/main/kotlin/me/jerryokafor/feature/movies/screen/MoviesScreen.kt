@@ -44,6 +44,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
@@ -97,6 +98,7 @@ import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.Background
 import me.jerryokafor.core.ui.components.MovieListFilter
 import me.jerryokafor.core.ui.components.MoviePoster
+import me.jerryokafor.core.ui.extension.TrackScrollJank
 import me.jerryokafor.feature.movies.R
 import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 
@@ -207,8 +209,12 @@ fun MoviesScreen(
                                 actions = {
                                     Button(onClick = onSearchClick) {
                                         Icon(
-                                            painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
-                                            contentDescription = stringResource(R.string.movies_content_description_search),
+                                            painter = painterResource(
+                                                id = me.jerryokafor.core.ui.R.drawable.search,
+                                            ),
+                                            contentDescription = stringResource(
+                                                R.string.movies_content_description_search,
+                                            ),
                                         )
                                     }
                                 },
@@ -217,13 +223,15 @@ fun MoviesScreen(
                     }
                 }
             }
-
+            val scrollState = rememberLazyStaggeredGridState()
+            TrackScrollJank(scrollableState = scrollState, stateName = "peopleDetails:screen")
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalStaggeredGrid(
                     modifier = Modifier
                         .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
                         .testTag(GRID_ITEMS_TEST_TAG)
                         .fillMaxSize(),
+                    state = scrollState,
                     columns = StaggeredGridCells.Fixed(2),
                     verticalItemSpacing = IheNkiri.spacing.oneAndHalf,
                     contentPadding = PaddingValues(bottom = IheNkiri.spacing.twoAndaHalf),
@@ -443,12 +451,12 @@ private fun testMovies() = listOf(
         id = 667538,
         title = "Transformers: Rise of the Beasts",
         overview =
-        """
+            """
                 When a new threat capable of destroying the entire planet emerges, Optimus Prime and 
                 the Autobots must team up with a powerful faction known as the Maximals. With the 
                 fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes 
                 to help the Transformers as they engage in the ultimate battle to save Earth.
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/bz66a19bR6BKsbY8gSZCM4etJiK.jpg",
         posterPath = "/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
         voteAverage = 7.5,
@@ -457,13 +465,13 @@ private fun testMovies() = listOf(
         id = 298618,
         title = "The Flash",
         overview =
-        """
+            """
                 When his attempt to save his family inadvertently alters the future, 
                 Barry Allen becomes trapped in a reality in which General Zod has returned and 
                 there are no Super Heroes to turn to. In order to save the world that he is in and 
                 return to the future that he knows, Barry's only hope is to race for his life. But 
                 will making the ultimate sacrifice be enough to reset the universe
-        """.trimIndent(),
+            """.trimIndent(),
         backdropPath = "/yF1eOkaYvwiORauRCPWznV9xVvi.jpg",
         posterPath = "/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg",
         voteAverage = 7.0,

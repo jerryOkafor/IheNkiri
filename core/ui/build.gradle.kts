@@ -55,6 +55,10 @@ dependencies {
     api(libs.io.coil.compose)
     api(libs.com.valentinilk.compose.shimmer)
 
+    // Performance
+    implementation(libs.androidx.metrics.performance)
+    implementation(libs.androidx.profileinstaller)
+
     // compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

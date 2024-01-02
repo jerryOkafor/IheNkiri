@@ -37,19 +37,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel
-@Inject constructor(localStorage: LocalStorage) : ViewModel() {
-    @Suppress("MagicNumber")
-    val uiState: StateFlow<AppUiState> = localStorage.userData().map { userData ->
-        AppUiState.Success(
-            UserEditableSettings(
-                isLoggedIn = userData.isLoggedIn,
-                themeConfig = userData.themeConfig,
-                isDynamicColor = userData.usDynamicColor,
-            ),
+    @Inject
+    constructor(localStorage: LocalStorage) : ViewModel() {
+        @Suppress("MagicNumber")
+        val uiState: StateFlow<AppUiState> = localStorage.userData().map { userData ->
+            AppUiState.Success(
+                UserEditableSettings(
+                    isLoggedIn = userData.isLoggedIn,
+                    themeConfig = userData.themeConfig,
+                    isDynamicColor = userData.usDynamicColor,
+                ),
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = AppUiState.Loading,
+            started = SharingStarted.WhileSubscribed(5_000),
         )
-    }.stateIn(
-        scope = viewModelScope,
-        initialValue = AppUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5_000),
-    )
-}
+    }

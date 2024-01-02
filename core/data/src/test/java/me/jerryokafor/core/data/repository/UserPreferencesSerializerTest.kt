@@ -46,8 +46,10 @@ class UserPreferencesSerializerTest {
         val expectedUserPreferences = userPreferences {
             guestSessionId = "e25304417c5c67f66b7838517257a3e9"
             accountId = "4bc889XXXXa3c0z92001001"
-            accessToken =
-                "eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2"
+            accessToken = """
+                eyJhbGciOiJIUzI1NiIsInR5cCIdIkpXVCJ9.XXXXX.sImp0aSI6Ijg4In0.b76OiEs
+                10gdp9oNOoGpBJ94nO9Zi17Y7SvAXJQW8nH2
+            """.trimIndent()
         }
 
         val outputStream = ByteArrayOutputStream()

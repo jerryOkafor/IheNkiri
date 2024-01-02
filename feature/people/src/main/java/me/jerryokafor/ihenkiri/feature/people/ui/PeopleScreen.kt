@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -43,7 +44,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -79,14 +82,23 @@ fun PeopleScreenPreview() {
 
 @Composable
 @ExcludeFromGeneratedCoverageReport
-fun PeopleScreen(viewModel: PeopleViewModel = hiltViewModel()) {
+fun PeopleScreen(
+    viewModel: PeopleViewModel = hiltViewModel(),
+    onPersonClick: (Long) -> Unit = {},
+) {
     val persons = viewModel.persons.collectAsLazyPagingItems()
-    PeopleScreen(personLazyPagingItems = persons)
+    PeopleScreen(
+        personLazyPagingItems = persons,
+        onPersonClick = onPersonClick,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
+fun PeopleScreen(
+    personLazyPagingItems: LazyPagingItems<Person>,
+    onPersonClick: (Long) -> Unit = {},
+) {
     Background {
         Column(modifier = Modifier.fillMaxSize()) {
             CenterAlignedTopAppBar(
@@ -132,8 +144,11 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                         PersonItemView(
                             modifier = Modifier,
                             name = person.name,
-                            knownFor = person.knownFor.joinToString(", ") { personMovie -> personMovie.title },
+                            knownFor = person.knownFor.joinToString(
+                                ", ",
+                            ) { personMovie -> personMovie.title },
                             imageUrl = path,
+                            onClick = { onPersonClick(person.id) },
                         )
                     }
 
@@ -148,8 +163,10 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                             ) {
                                 CircularProgressIndicator(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .padding(IheNkiri.spacing.oneAndHalf),
+                                        .size(30.dp)
+                                        .padding(vertical = IheNkiri.spacing.one),
+                                    strokeWidth = 1.dp,
+                                    strokeCap = StrokeCap.Round,
                                 )
                             }
                         }
@@ -161,8 +178,11 @@ fun PeopleScreen(personLazyPagingItems: LazyPagingItems<Person>) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .testTag(REFRESH_PROGRESS_INDICATOR)
-                            .align(Alignment.Center)
-                            .padding(IheNkiri.spacing.oneAndHalf),
+                            .size(30.dp)
+                            .padding(vertical = IheNkiri.spacing.one)
+                            .align(Alignment.Center),
+                        strokeWidth = 1.dp,
+                        strokeCap = StrokeCap.Round,
                     )
                 }
             }

@@ -102,7 +102,9 @@ fun BottomNavigation(
                     stiffness = Spring.StiffnessMedium,
                 ),
             ),
-        exit = slideOutVertically() + shrinkVertically(shrinkTowards = Alignment.Bottom) + fadeOut(),
+        exit = slideOutVertically() +
+            shrinkVertically(shrinkTowards = Alignment.Bottom) +
+            fadeOut(),
         content = {
             NavigationBar(modifier = Modifier.testTag(BOTTOM_NAV_BAR_TEST_TAG)) {
                 items.forEach { item ->

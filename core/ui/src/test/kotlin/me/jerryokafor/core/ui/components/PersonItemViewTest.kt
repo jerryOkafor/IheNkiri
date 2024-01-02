@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,6 @@
 
 package me.jerryokafor.core.ui.components
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,14 +31,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
-import androidx.test.core.app.ApplicationProvider
 import coil.Coil
-import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
-import coil.test.FakeImageLoaderEngine
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
+import me.jerryokafor.ihenkiri.core.test.util.imageLoader
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -63,14 +59,6 @@ class PersonItemViewTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val engine = FakeImageLoaderEngine.Builder()
-//            .intercept("https://www.example.com/image.jpg", ColorDrawable(Color.RED))
-            .intercept({ it is String && it.endsWith("image.jpg") }, ColorDrawable(Color.RED))
-            .default(ColorDrawable(Color.BLUE))
-            .build()
-        val imageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
-            .components { add(engine) }
-            .build()
         Coil.setImageLoader(imageLoader)
         ShadowLog.stream = System.out
     }

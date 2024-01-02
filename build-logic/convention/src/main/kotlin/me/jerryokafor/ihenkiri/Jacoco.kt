@@ -143,7 +143,10 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
-                    files("$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"),
+                    files(
+                        "$buildDir/outputs/unit_test_code_coverage/" +
+                            "${variant.name}UnitTest/$testTaskName.exec",
+                    ),
                     fileTree("$buildDir/outputs/code_coverage") {
                         include("*.ec")
                     },
