@@ -1,7 +1,7 @@
 <!--
   ~ The MIT License (MIT)
   ~
-  ~ Copyright (c) 2023 IheNkiri Project
+  ~ Copyright (c) 2024 IheNkiri Project
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,4 @@
 
 <resources>
     <string name="app_name">IheNkiri - Debug</string>
-    <string name="app_movies">Movies</string>
-    <string name="app_tv_shows">TV Shows</string>
-    <string name="app_people">People</string>
-    <string name="app_more">More</string>
-    <string name="movies">Movies</string>
-    <string name="tv_shows">TV Shows</string>
-    <string name="people">People</string>
-    <string name="settings">Settings</string>
-
 </resources>

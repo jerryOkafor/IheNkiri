@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.ui
+package me.jerryokafor.ihenkiri.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
@@ -144,7 +144,8 @@ sealed interface BottomNavItem {
             get() = moviesRoutePattern
 
         @Composable
-        override fun title(): String = stringResource(id = R.string.movies)
+        override fun title(): String =
+            stringResource(id = me.jerryokafor.feature.movies.R.string.movies)
     }
 
     data object TVShows : BottomNavItem {
@@ -154,7 +155,8 @@ sealed interface BottomNavItem {
             get() = tvShowsNavPattern
 
         @Composable
-        override fun title(): String = stringResource(R.string.tv_shows)
+        override fun title(): String =
+            stringResource(me.jerryokafor.ihenkiri.feature.tvshows.R.string.tv_shows)
     }
 
     data object People : BottomNavItem {
@@ -164,7 +166,8 @@ sealed interface BottomNavItem {
             get() = peopleNavPattern
 
         @Composable
-        override fun title(): String = stringResource(R.string.people)
+        override fun title(): String =
+            stringResource(me.jerryokafor.ihenkiri.feature.people.R.string.people)
     }
 
     data object More : BottomNavItem {
@@ -174,7 +177,8 @@ sealed interface BottomNavItem {
             get() = settingsNavPattern
 
         @Composable
-        override fun title(): String = stringResource(R.string.settings)
+        override fun title(): String =
+            stringResource(me.jerryokafor.ihenkiri.feature.settings.R.string.settings)
     }
 }
 

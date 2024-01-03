@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.viewModel.TVShowsViewModel
 
 const val TITLE_TEST_TAG = "title"
 const val CHIP_GROUP_TEST_TAG = "chips"
-const val GRID_ITEMS_TEST_TAG = "gridItems"
+const val GRID_ITEMS_TEST_TAG = "tv_show_gridItems"
 const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
@@ -295,11 +295,22 @@ fun TVShowsScreen(
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .testTag(CHIP_GROUP_TEST_TAG),
-                    items = filters.map { Pair(it.label, it.isSelected) },
+                    items = filters.map { Pair(filterLabelFor(it), it.isSelected) },
                     onItemSelected = { filterItemSelected(filters[it].type) },
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun filterLabelFor(filterItem: TVShowsFilterItem): String {
+    return when (filterItem.type) {
+        TVShowsFilterItem.FilterType.AIRING_TODAY -> stringResource(R.string.airing_today)
+        TVShowsFilterItem.FilterType.ON_THE_AIR -> stringResource(R.string.on_the_air)
+        TVShowsFilterItem.FilterType.POPULAR -> stringResource(R.string.popular)
+        TVShowsFilterItem.FilterType.TOP_RATED -> stringResource(R.string.top_rated)
+        TVShowsFilterItem.FilterType.DISCOVER -> stringResource(R.string.discover)
     }
 }
 
@@ -426,27 +437,22 @@ fun SearchBarRow(
 @ExcludeFromGeneratedCoverageReport
 private fun testFilters() = listOf(
     TVShowsFilterItem(
-        label = "Airing Today",
         isSelected = false,
         type = TVShowsFilterItem.FilterType.AIRING_TODAY,
     ),
     TVShowsFilterItem(
-        label = "On The Air",
         isSelected = false,
         type = TVShowsFilterItem.FilterType.ON_THE_AIR,
     ),
     TVShowsFilterItem(
-        label = "Popular",
         isSelected = false,
         type = TVShowsFilterItem.FilterType.POPULAR,
     ),
     TVShowsFilterItem(
-        label = "Top Rated",
         isSelected = false,
         type = TVShowsFilterItem.FilterType.TOP_RATED,
     ),
     TVShowsFilterItem(
-        label = "Discover",
         isSelected = false,
         type = TVShowsFilterItem.FilterType.DISCOVER,
     ),

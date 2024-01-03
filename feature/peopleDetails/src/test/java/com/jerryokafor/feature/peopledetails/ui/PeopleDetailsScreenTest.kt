@@ -116,7 +116,7 @@ class PeopleDetailsScreenTest {
                 .assertIsDisplayed()
 
             // back button is displayed
-            onNodeWithContentDescription("Back")
+            onNodeWithContentDescription("Navigate up")
                 .assertExists()
                 .assertIsDisplayed()
                 .assertHasClickAction()

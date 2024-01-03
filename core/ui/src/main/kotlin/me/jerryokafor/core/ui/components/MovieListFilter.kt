@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,24 +42,21 @@ import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.model.MovieListFilterItem
 
 @ExcludeFromGeneratedCoverageReport
+@Composable
 private fun testFilters() = listOf(
     MovieListFilterItem(
-        label = "Now Playing",
         isSelected = true,
         type = MovieListFilterItem.FilterType.NOW_PLAYING,
     ),
     MovieListFilterItem(
-        label = "Popular",
         isSelected = false,
         type = MovieListFilterItem.FilterType.POPULAR,
     ),
     MovieListFilterItem(
-        label = "Top Rated",
         isSelected = false,
         type = MovieListFilterItem.FilterType.TOP_RATED,
     ),
     MovieListFilterItem(
-        label = "Upcoming",
         isSelected = false,
         type = MovieListFilterItem.FilterType.UPCOMING,
     ),
@@ -71,7 +68,7 @@ private fun testFilters() = listOf(
 fun MovieListFilterPreview() {
     IheNkiriTheme {
         MovieListFilter(
-            items = testFilters().map { Pair(it.label, it.isSelected) },
+            items = testFilters().map { Pair("Upcoming", it.isSelected) },
         ) {}
     }
 }

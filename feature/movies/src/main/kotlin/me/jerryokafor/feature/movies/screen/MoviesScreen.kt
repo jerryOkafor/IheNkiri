@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ import me.jerryokafor.feature.movies.viewmodel.MoviesViewModel
 
 const val TITLE_TEST_TAG = "title"
 const val CHIP_GROUP_TEST_TAG = "chips"
-const val GRID_ITEMS_TEST_TAG = "gridItems"
+const val MOVIES_GRID_ITEMS_TEST_TAG = "movies_gridItems"
 const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
@@ -229,7 +229,7 @@ fun MoviesScreen(
                 LazyVerticalStaggeredGrid(
                     modifier = Modifier
                         .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
-                        .testTag(GRID_ITEMS_TEST_TAG)
+                        .testTag(MOVIES_GRID_ITEMS_TEST_TAG)
                         .fillMaxSize(),
                     state = scrollState,
                     columns = StaggeredGridCells.Fixed(2),
@@ -288,11 +288,22 @@ fun MoviesScreen(
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .testTag(CHIP_GROUP_TEST_TAG),
-                    items = filters.map { Pair(it.label, it.isSelected) },
+                    items = filters.map { Pair(filterLabelFor(filterItem = it), it.isSelected) },
                     onItemSelected = { filterItemSelected(filters[it].type) },
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun filterLabelFor(filterItem: MovieListFilterItem): String {
+    return when (filterItem.type) {
+        MovieListFilterItem.FilterType.NOW_PLAYING -> stringResource(R.string.now_playing)
+        MovieListFilterItem.FilterType.POPULAR -> stringResource(R.string.popular)
+        MovieListFilterItem.FilterType.TOP_RATED -> stringResource(R.string.top_rated)
+        MovieListFilterItem.FilterType.UPCOMING -> stringResource(R.string.upcoming)
+        MovieListFilterItem.FilterType.DISCOVER -> stringResource(R.string.discover)
     }
 }
 
@@ -419,27 +430,22 @@ fun SearchBarRow(
 @ExcludeFromGeneratedCoverageReport
 private fun testFilters() = listOf(
     MovieListFilterItem(
-        label = "Discover",
         isSelected = true,
         type = MovieListFilterItem.FilterType.NOW_PLAYING,
     ),
     MovieListFilterItem(
-        label = "Now Playing",
         isSelected = false,
         type = MovieListFilterItem.FilterType.NOW_PLAYING,
     ),
     MovieListFilterItem(
-        label = "Popular",
         isSelected = false,
         type = MovieListFilterItem.FilterType.POPULAR,
     ),
     MovieListFilterItem(
-        label = "Top Rated",
         isSelected = false,
         type = MovieListFilterItem.FilterType.TOP_RATED,
     ),
     MovieListFilterItem(
-        label = "Upcoming",
         isSelected = false,
         type = MovieListFilterItem.FilterType.UPCOMING,
     ),

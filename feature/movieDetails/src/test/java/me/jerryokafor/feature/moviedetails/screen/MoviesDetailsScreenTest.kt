@@ -431,7 +431,7 @@ class MoviesDetailsScreenTest {
             onNodeWithTag(MOVIE_DETAILS_BOTTOM_BAR).assertExists()
                 .assertIsDisplayed()
 
-            onNodeWithContentDescription("Back").assertExists()
+            onNodeWithContentDescription("Navigate up").assertExists()
                 .assertIsDisplayed()
                 .assertHasClickAction()
                 .performClick()

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -64,6 +65,7 @@ import me.jerryokafor.core.model.Person
 import me.jerryokafor.core.model.PersonMovie
 import me.jerryokafor.core.ui.components.Background
 import me.jerryokafor.core.ui.components.PersonItemView
+import me.jerryokafor.ihenkiri.feature.people.R
 import me.jerryokafor.ihenkiri.feature.people.viewmodel.PeopleViewModel
 
 const val PEOPLE_TITLE_TEST_TAG = "people_title"
@@ -105,7 +107,7 @@ fun PeopleScreen(
                 modifier = Modifier.testTag(PEOPLE_TITLE_TEST_TAG),
                 title = {
                     Text(
-                        text = "People",
+                        text = stringResource(R.string.people),
                         style = IheNkiri.typography.titleMedium,
                         color = IheNkiri.color.onPrimary,
                     )

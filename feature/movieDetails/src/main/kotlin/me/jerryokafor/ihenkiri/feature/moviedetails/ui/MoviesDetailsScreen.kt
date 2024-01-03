@@ -392,7 +392,9 @@ fun MoviesDetailsScreen(
                                     IconButton(onClick = onNavigateUp) {
                                         Icon(
                                             imageVector = Icons.Filled.ArrowBack,
-                                            contentDescription = "Back",
+                                            contentDescription = stringResource(
+                                                id = me.jerryokafor.core.ui.R.string.navigate_up,
+                                            ),
                                         )
                                     }
                                 }
