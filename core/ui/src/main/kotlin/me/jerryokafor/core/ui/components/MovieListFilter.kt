@@ -91,15 +91,13 @@ fun MovieListFilter(
                 onClick = { onItemSelected(index) },
                 label = { Text(text = item.first) },
                 shape = IheNkiri.shape.pill,
-                colors =
-                    FilterChipDefaults.filterChipColors(
-                        containerColor = IheNkiri.color.primary,
-                        labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                    ),
-                border =
-                    FilterChipDefaults.filterChipBorder(
-                        borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
-                    ),
+                colors = FilterChipDefaults.filterChipColors(
+                    containerColor = IheNkiri.color.primary,
+                    labelColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                ),
+                border = FilterChipDefaults.filterChipBorder(
+                    borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                ),
             )
         }
         item { TwoAndHalfHorizontalSpacer() }

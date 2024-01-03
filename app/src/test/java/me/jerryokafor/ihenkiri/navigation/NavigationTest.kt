@@ -26,16 +26,15 @@ package me.jerryokafor.ihenkiri.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
-import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
@@ -52,6 +51,7 @@ import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
+import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.junit.Before
 import org.junit.Rule
@@ -61,6 +61,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+import me.jerryokafor.core.ui.R as CoreUIR
 import me.jerryokafor.feature.movies.R as MoviesR
 import me.jerryokafor.ihenkiri.feature.people.R as PeopleR
 import me.jerryokafor.ihenkiri.feature.settings.R as SettingsR
@@ -107,7 +108,7 @@ class NavigationTest {
     ) = ReadOnlyProperty<Any?, String> { _, _ -> activity.getString(resId) }
 
     // The strings used for matching in these tests
-//    private val navigateUp by composeTestRule.stringResource(CoreUIR.string.navigate_up)
+    private val navigateUp by composeTestRule.stringResource(CoreUIR.string.navigate_up)
 
     // Movies
     private val movies by composeTestRule.stringResource(MoviesR.string.movies)
@@ -205,11 +206,28 @@ class NavigationTest {
                 onNode(hasText(movies) and isSelectable()).performClick()
 
                 composeTestRule.onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
-                    .assertExists()
-                    .assertIsDisplayed()
-                    .assert(hasScrollAction())
                     .onChildren()
-                    .assertCountEquals(4)
+                    .onFirst()
+                    .performClick()
+                waitForIdle()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
+
+                onNodeWithContentDescription(navigateUp).performClick()
+                waitForIdle()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertExists().assertIsDisplayed()
+
+                onNode(hasText(settings) and isSelectable()).performClick()
+                onNode(hasText(people) and isSelectable()).performClick()
+                composeTestRule.onNodeWithTag(PEOPLE_LIST_TEST_TAG, useUnmergedTree = true)
+                    .onChildren()
+                    .onFirst()
+                    .performClick()
+                waitForIdle()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
+
+                onNodeWithContentDescription(navigateUp).performClick()
+                waitForIdle()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertExists().assertIsDisplayed()
             }
         }
     }
