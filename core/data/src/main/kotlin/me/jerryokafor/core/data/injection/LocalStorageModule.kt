@@ -24,38 +24,28 @@
 
 package me.jerryokafor.core.data.injection
 
-import dagger.Binds
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
-import me.jerryokafor.core.data.repository.DefaultMovieListRepository
-import me.jerryokafor.core.data.repository.DefaultPeopleDetailsRepository
-import me.jerryokafor.core.data.repository.DefaultPeopleListRepository
-import me.jerryokafor.core.data.repository.DefaultTVShowsRepository
-import me.jerryokafor.core.data.repository.MovieDetailsRepository
-import me.jerryokafor.core.data.repository.MovieListRepository
-import me.jerryokafor.core.data.repository.PeopleDetailsRepository
-import me.jerryokafor.core.data.repository.PeopleListRepository
-import me.jerryokafor.core.data.repository.TVShowsRepository
+import me.jerryokafor.core.data.UserPreferences
+import me.jerryokafor.core.data.repository.DefaultLocalStorage
+import me.jerryokafor.core.data.repository.UserPreferencesSerializer
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataModule {
-    @Binds
-    fun provideMoviesRepository(repo: DefaultMovieListRepository): MovieListRepository
-
-    @Binds
-    fun provideMovieDetailsRepository(repo: DefaultMovieDetailsRepository): MovieDetailsRepository
-
-    @Binds
-    fun providePeopleListRepository(repo: DefaultPeopleListRepository): PeopleListRepository
-
-    @Binds
-    fun provideTVShowsRepository(repo: DefaultTVShowsRepository): TVShowsRepository
-
-    @Binds
-    fun providePeopleDetailsRepository(
-        repo: DefaultPeopleDetailsRepository,
-    ): PeopleDetailsRepository
+object LocalStorageModule {
+    @[Singleton Provides]
+    fun provideUserPreferencesDatastore(
+        @ApplicationContext context: Context,
+    ): DataStore<UserPreferences> = DataStoreFactory.create(
+        serializer = UserPreferencesSerializer(),
+        produceFile = { context.dataStoreFile(DefaultLocalStorage.DATA_STORE_FILE_NAME) },
+    )
 }

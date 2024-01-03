@@ -26,17 +26,20 @@ package me.jerryokafor.ihenkiri.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -48,7 +51,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
-import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
+import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.junit.Before
 import org.junit.Rule
@@ -58,7 +61,6 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
-//import me.jerryokafor.core.ui.R as CoreUIR
 import me.jerryokafor.feature.movies.R as MoviesR
 import me.jerryokafor.ihenkiri.feature.people.R as PeopleR
 import me.jerryokafor.ihenkiri.feature.settings.R as SettingsR
@@ -75,15 +77,9 @@ import me.jerryokafor.ihenkiri.feature.tvshows.R as TVShowsR
 @HiltAndroidTest
 class NavigationTest {
     /**
-     * Sets the Main dispatcher to test dispatcher for the duration of the test
-     */
-    @get:Rule(order = 0)
-    val dispatcherRule = MainDispatcherRule()
-
-    /**
      * Manages the components' state and is used to perform injection on your test
      */
-    @get:Rule(order = 1)
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     /**
@@ -91,17 +87,14 @@ class NavigationTest {
      * the file is removed in between each test, preventing a crash.
      */
     @BindValue
-    @get:Rule(order = 2)
+    @get:Rule(order = 1)
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     /**
      * Use the primary activity to initialize the app normally.
      */
-    @get:Rule(order = 3)
+    @get:Rule(order = 2)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-
-    @get:Rule(order = 4)
-    val intentsRule = IntentsRule()
 
     @BindValue
     @JvmField
@@ -138,66 +131,86 @@ class NavigationTest {
     fun setUp() {
         ShadowLog.stream = System.out
         hiltRule.inject()
-
-        val scenario = launchActivity<MainActivity>()
-        scenario.moveToState(Lifecycle.State.CREATED)
     }
 
     @Test
     fun firstScreen_isMoviesScreen() {
-        composeTestRule.apply {
-            onNode(hasText(movies) and isSelectable()).assertIsSelected()
-            onNode(hasText(movies) and isSelectable().not()).assertIsDisplayed()
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(movies) and isSelectable()).assertIsSelected()
+                onNode(hasText(movies) and isSelectable().not()).assertIsDisplayed()
+            }
         }
     }
 
     @Test
     fun navigationBar_navigateToPreviouslySelectedMovieFilter_restoresContent() {
-        composeTestRule.apply {
-            onNode(hasText(movies) and isSelectable()).performClick()
-            onNode(hasText(moviesNowPlaying) and isSelectable()).performClick()
-            onNode(hasText(moviesPopular) and isSelectable()).performClick()
-            onNode(hasText(moviesTopRated) and isSelectable()).performClick()
-            onNode(hasText(moviesUpComing) and isSelectable()).performClick()
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(movies) and isSelectable()).performClick()
+                onNode(hasText(moviesNowPlaying) and isSelectable()).performClick()
+                onNode(hasText(moviesPopular) and isSelectable()).performClick()
+                onNode(hasText(moviesTopRated) and isSelectable()).performClick()
+                onNode(hasText(moviesUpComing) and isSelectable()).performClick()
 
-            onNode(hasText(tvShows) and isSelectable()).performClick()
-            onNode(hasText(movies) and isSelectable()).performClick()
+                onNode(hasText(tvShows) and isSelectable()).performClick()
+                onNode(hasText(movies) and isSelectable()).performClick()
 
-            onNode(hasText(moviesUpComing) and isSelectable()).assertIsSelected()
+                onNode(hasText(moviesUpComing) and isSelectable()).assertIsSelected()
+            }
         }
     }
 
     @Test
     fun navigationBar_navigateToPreviouslyTvsShowFilter_restoresContent() {
-        composeTestRule.apply {
-            onNode(hasText(tvShows) and isSelectable()).performClick()
-            onNode(hasText(tvShowsOnThAir) and isSelectable()).performClick()
-            onNode(hasText(tvShowsPopular) and isSelectable()).performClick()
-            onNode(hasText(tvShowsTopRated) and isSelectable()).performClick()
-            onNode(hasText(tvShowsDiscover) and isSelectable()).performClick()
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(tvShows) and isSelectable()).performClick()
+                onNode(hasText(tvShowsOnThAir) and isSelectable()).performClick()
+                onNode(hasText(tvShowsPopular) and isSelectable()).performClick()
+                onNode(hasText(tvShowsTopRated) and isSelectable()).performClick()
+                onNode(hasText(tvShowsDiscover) and isSelectable()).performClick()
 
-            onNode(hasText(movies) and isSelectable()).performClick()
-            onNode(hasText(tvShows) and isSelectable()).performClick()
+                onNode(hasText(movies) and isSelectable()).performClick()
+                onNode(hasText(tvShows) and isSelectable()).performClick()
 
-            onNode(hasText(tvShowsDiscover) and isSelectable()).assertIsSelected()
+                onNode(hasText(tvShowsDiscover) and isSelectable()).assertIsSelected()
+            }
         }
     }
 
     @Test
     fun topLevelDestinations_showBottomNav() {
-        composeTestRule.apply {
-            onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
 
-            onNode(hasText(tvShows) and isSelectable()).performClick()
-            onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
+                onNode(hasText(tvShows) and isSelectable()).performClick()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
 
-            onNode(hasText(people) and isSelectable()).performClick()
-            onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
+                onNode(hasText(people) and isSelectable()).performClick()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
 
-            onNode(hasText(settings) and isSelectable()).performClick()
-            onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
+                onNode(hasText(settings) and isSelectable()).performClick()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertIsDisplayed()
 
-            onNode(hasText(movies) and isSelectable()).performClick()
+                onNode(hasText(movies) and isSelectable()).performClick()
+
+                composeTestRule.onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
+                    .assertExists()
+                    .assertIsDisplayed()
+                    .assert(hasScrollAction())
+                    .onChildren()
+                    .assertCountEquals(4)
+            }
         }
     }
 }

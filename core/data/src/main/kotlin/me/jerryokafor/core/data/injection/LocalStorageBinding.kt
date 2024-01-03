@@ -28,34 +28,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import me.jerryokafor.core.data.repository.DefaultMovieDetailsRepository
-import me.jerryokafor.core.data.repository.DefaultMovieListRepository
-import me.jerryokafor.core.data.repository.DefaultPeopleDetailsRepository
-import me.jerryokafor.core.data.repository.DefaultPeopleListRepository
-import me.jerryokafor.core.data.repository.DefaultTVShowsRepository
-import me.jerryokafor.core.data.repository.MovieDetailsRepository
-import me.jerryokafor.core.data.repository.MovieListRepository
-import me.jerryokafor.core.data.repository.PeopleDetailsRepository
-import me.jerryokafor.core.data.repository.PeopleListRepository
-import me.jerryokafor.core.data.repository.TVShowsRepository
+import me.jerryokafor.core.data.repository.DefaultLocalStorage
+import me.jerryokafor.core.data.repository.LocalStorage
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataModule {
+interface LocalStorageBinding {
     @Binds
-    fun provideMoviesRepository(repo: DefaultMovieListRepository): MovieListRepository
-
-    @Binds
-    fun provideMovieDetailsRepository(repo: DefaultMovieDetailsRepository): MovieDetailsRepository
-
-    @Binds
-    fun providePeopleListRepository(repo: DefaultPeopleListRepository): PeopleListRepository
-
-    @Binds
-    fun provideTVShowsRepository(repo: DefaultTVShowsRepository): TVShowsRepository
-
-    @Binds
-    fun providePeopleDetailsRepository(
-        repo: DefaultPeopleDetailsRepository,
-    ): PeopleDetailsRepository
+    fun provideLocalStorage(storage: DefaultLocalStorage): LocalStorage
 }

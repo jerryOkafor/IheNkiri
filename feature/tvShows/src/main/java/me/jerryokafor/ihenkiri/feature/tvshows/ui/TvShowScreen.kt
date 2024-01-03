@@ -104,7 +104,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.viewModel.TVShowsViewModel
 
 const val TITLE_TEST_TAG = "title"
 const val CHIP_GROUP_TEST_TAG = "chips"
-const val GRID_ITEMS_TEST_TAG = "tv_show_gridItems"
+const val TV_SHOWS_GRID_ITEMS_TEST_TAG = "tv_show_gridItems"
 const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
@@ -236,7 +236,7 @@ fun TVShowsScreen(
                 LazyVerticalStaggeredGrid(
                     modifier = Modifier
                         .padding(horizontal = IheNkiri.spacing.twoAndaHalf)
-                        .testTag(GRID_ITEMS_TEST_TAG)
+                        .testTag(TV_SHOWS_GRID_ITEMS_TEST_TAG)
                         .fillMaxSize(),
                     state = scrollState,
                     columns = StaggeredGridCells.Fixed(2),
