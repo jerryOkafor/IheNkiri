@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 
 package me.jerryokafor.ihenkiri.feature.auth.navigation
 
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -45,19 +44,15 @@ const val authNavGraph = "auth-graph"
 const val loginRoutePattern = "welcome"
 
 fun NavController.navigateToAuth() {
-    Log.d("testing: ", "Current route: ${currentDestination?.route}")
-    if (currentDestination?.route == loginRoutePattern) return
-
     this.navigate(
         route = authNavGraph,
         navOptions = navOptions {
             launchSingleTop = true
-//            popUpTo(graph.id) { inclusive = true }
         },
     )
 }
 
-fun NavGraphBuilder.authNavGraph() {
+fun NavGraphBuilder.authNavGraph(onCompleteLogin: () -> Unit) {
     navigation(
         route = authNavGraph,
         startDestination = loginRoutePattern,
@@ -69,7 +64,7 @@ fun NavGraphBuilder.authNavGraph() {
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            AuthScreen()
+            AuthScreen(onCompleteLogin = onCompleteLogin)
         }
     }
 }

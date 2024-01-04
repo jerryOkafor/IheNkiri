@@ -60,16 +60,18 @@ private fun testFilters() = listOf(
         isSelected = false,
         type = MovieListFilterItem.FilterType.UPCOMING,
     ),
-)
+    MovieListFilterItem(
+        isSelected = false,
+        type = MovieListFilterItem.FilterType.DISCOVER,
+    ),
+).map { Pair("Upcoming", it.isSelected) }
 
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
 fun MovieListFilterPreview() {
     IheNkiriTheme {
-        MovieListFilter(
-            items = testFilters().map { Pair("Upcoming", it.isSelected) },
-        ) {}
+        MovieListFilter(items = testFilters()) {}
     }
 }
 

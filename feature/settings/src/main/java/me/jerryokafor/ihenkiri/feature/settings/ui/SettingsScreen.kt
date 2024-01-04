@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -61,6 +60,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
@@ -94,12 +94,12 @@ import coil.request.ImageRequest
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.components.IhenkiriButton
+import me.jerryokafor.core.ds.theme.FourVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
 import me.jerryokafor.core.ds.theme.OneAndHalfHorizontalSpacer
 import me.jerryokafor.core.ds.theme.OneHorizontalSpacer
 import me.jerryokafor.core.ds.theme.OneVerticalSpacer
-import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoAndHalfHorizontalSpacer
 import me.jerryokafor.core.ds.theme.TwoHorizontalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
@@ -124,8 +124,8 @@ fun MoreScreenPreview() {
             settingsUiState = SettingsUiState.Success(UserEditableSettings()),
             onChangeDynamicColorPreference = {},
             onChangeDarkThemeConfig = {},
-            onLogin = {},
-            onLogout = {},
+            onLoginClick = {},
+            onLogoutClick = {},
         )
     }
 }
@@ -134,11 +134,11 @@ fun MoreScreenPreview() {
 @Suppress("UnusedPrivateMember")
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onLogin: () -> Unit,
+    onLoginClick: () -> Unit,
 ) {
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
-    val onLogout: () -> Unit = { viewModel.onLogout() }
+    val onLogoutClick: () -> Unit = { viewModel.onLogout() }
     val onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit = {
         viewModel.onChangeDynamicColorPreference(it)
     }
@@ -149,8 +149,8 @@ fun SettingsScreen(
         settingsUiState = settingsUiState,
         onChangeDynamicColorPreference = onChangeDynamicColorPreference,
         onChangeDarkThemeConfig = onChangeDarkThemeConfig,
-        onLogin = onLogin,
-        onLogout = onLogout,
+        onLoginClick = onLoginClick,
+        onLogoutClick = onLogoutClick,
     )
 }
 
@@ -161,8 +161,8 @@ fun SettingsScreen(
     settingsUiState: SettingsUiState,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (themeConfig: ThemeConfig) -> Unit,
-    onLogin: () -> Unit,
-    onLogout: () -> Unit,
+    onLoginClick: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     var showThemeSettingsDialog by remember { mutableStateOf(false) }
 
@@ -189,6 +189,7 @@ fun SettingsScreen(
                     is SettingsUiState.Success -> {
                         val preference = settingsUiState.preference
                         val configuration = LocalConfiguration.current
+
                         LazyColumn(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -199,8 +200,8 @@ fun SettingsScreen(
                             item {
                                 UserAccountExtraSettings(
                                     isLoggedIn = preference.isLoggedIn,
-                                    onLogin = onLogin,
-                                    onLogout = onLogout,
+                                    onLoginClick = onLoginClick,
+                                    onLogoutClick = onLogoutClick,
                                 ) {
                                     showThemeSettingsDialog = true
                                 }
@@ -321,9 +322,11 @@ private fun SettingsDialogSectionTitle(text: String) {
 
 @Composable
 private fun ChangeThemeButton(onClick: () -> Unit) {
-    Button(onClick = onClick) {
+    Surface(onClick = onClick, shape = IheNkiri.shape.small) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = IheNkiri.spacing.one, vertical = IheNkiri.spacing.oneAndHalf),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -379,12 +382,12 @@ private fun UserDetails(profilePath: String) {
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)
+                    .clip(CircleShape)
                     .border(
                         width = 3.dp,
                         color = IheNkiri.color.tertiaryContainer.copy(alpha = 0.5F),
                         shape = CircleShape,
-                    )
-                    .clip(CircleShape),
+                    ),
                 painter = if (isError.not() && !isLocalInspection) {
                     imageLoader
                 } else {
@@ -443,8 +446,8 @@ private fun UserDetails(profilePath: String) {
 @Composable
 private fun UserAccountExtraSettings(
     isLoggedIn: Boolean,
-    onLogin: () -> Unit,
-    onLogout: () -> Unit,
+    onLoginClick: () -> Unit,
+    onLogoutClick: () -> Unit,
     onChangeTheme: () -> Unit,
 ) {
     Column(
@@ -452,14 +455,13 @@ private fun UserAccountExtraSettings(
             .fillMaxWidth()
             .padding(horizontal = IheNkiri.spacing.two),
     ) {
-        OneVerticalSpacer()
         SettingsDialogSectionTitle(text = stringResource(string.settings))
         Divider(color = IheNkiri.color.onPrimary.copy(alpha = 0.5F))
 
         TwoVerticalSpacer()
         ChangeThemeButton(onClick = onChangeTheme)
 
-        ThreeVerticalSpacer()
+        FourVerticalSpacer()
         Crossfade(
             targetState = isLoggedIn,
             label = "preference_isLoggedIn",
@@ -467,14 +469,14 @@ private fun UserAccountExtraSettings(
             when (it) {
                 true -> IhenkiriButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onLogout,
+                    onClick = onLogoutClick,
                 ) {
                     Text(text = stringResource(string.logout))
                 }
 
                 false -> IhenkiriButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onLogin,
+                    onClick = onLoginClick,
                 ) {
                     Text(text = stringResource(string.login))
                 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -81,14 +81,17 @@ import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthViewModel
 @ExcludeFromGeneratedCoverageReport
 fun AuthScreenPreview() {
     IheNkiriTheme {
-        AuthScreen()
+        AuthScreen {}
     }
 }
 
 private const val HALF_WIDTH = 0.5F
 
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
+fun AuthScreen(
+    authViewModel: AuthViewModel = hiltViewModel(),
+    onCompleteLogin: () -> Unit,
+) {
     val authState by authViewModel.authState.collectAsStateWithLifecycle()
 
     val onSignInClick: () -> Unit = {
@@ -138,6 +141,10 @@ fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
             is AuthState.Error -> {
                 Toast.makeText(context, (authState as AuthState.Error).message, Toast.LENGTH_SHORT)
                     .show()
+            }
+
+            AuthState.CompleteLogin -> {
+                onCompleteLogin()
             }
 
             else -> {}

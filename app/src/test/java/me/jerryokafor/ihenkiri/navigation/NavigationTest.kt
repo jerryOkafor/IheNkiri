@@ -36,6 +36,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
@@ -50,6 +51,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
+import me.jerryokafor.core.model.ThemeConfig
+import me.jerryokafor.core.model.UserData
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
@@ -228,6 +231,37 @@ class NavigationTest {
                 onNodeWithContentDescription(navigateUp).performClick()
                 waitForIdle()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertExists().assertIsDisplayed()
+            }
+        }
+    }
+
+    @Test
+    fun testAuth() {
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = "Jerry",
+                userName = "jerryOkafor",
+            ),
+        )
+
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(settings) and isSelectable()).performClick()
+                onNodeWithText("Login")
+                    .assertExists()
+                    .assertIsDisplayed()
+                    .performClick()
+
+                waitForIdle()
+                onNodeWithText("Sign In").assertExists().assertIsDisplayed()
+                onNodeWithText("Continue as Guest").assertExists().assertIsDisplayed()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
             }
         }
     }

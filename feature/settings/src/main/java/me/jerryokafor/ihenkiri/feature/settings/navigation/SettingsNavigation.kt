@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ import me.jerryokafor.ihenkiri.feature.settings.ui.SettingsScreen
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val settingsNavPattern = "/settings"
 
-fun NavGraphBuilder.settingsScreen(onLogin: () -> Unit) {
+fun NavGraphBuilder.settingsScreen(onLoginClick: () -> Unit) {
     composable(
         route = settingsNavPattern,
         enterTransition = enterTransition,
@@ -43,6 +43,6 @@ fun NavGraphBuilder.settingsScreen(onLogin: () -> Unit) {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        SettingsScreen(onLogin = onLogin)
+        SettingsScreen(onLoginClick = onLoginClick)
     }
 }
