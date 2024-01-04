@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,27 +56,22 @@ class TVShowsViewModel
         private val _tvShowFilters = MutableStateFlow(
             listOf(
                 TVShowsFilterItem(
-                    label = "Airing Today",
                     isSelected = true,
                     type = TVShowsFilterItem.FilterType.AIRING_TODAY,
                 ),
                 TVShowsFilterItem(
-                    label = "On The Air",
                     isSelected = false,
                     type = TVShowsFilterItem.FilterType.ON_THE_AIR,
                 ),
                 TVShowsFilterItem(
-                    label = "Popular",
                     isSelected = false,
                     type = TVShowsFilterItem.FilterType.POPULAR,
                 ),
                 TVShowsFilterItem(
-                    label = "Top Rated",
                     isSelected = false,
                     type = TVShowsFilterItem.FilterType.TOP_RATED,
                 ),
                 TVShowsFilterItem(
-                    label = "Discover",
                     isSelected = false,
                     type = TVShowsFilterItem.FilterType.DISCOVER,
                 ),

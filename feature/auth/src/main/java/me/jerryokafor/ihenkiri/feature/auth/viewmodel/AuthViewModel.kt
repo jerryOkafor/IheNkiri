@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -89,7 +89,7 @@ class AuthViewModel
                             accountId = accessTokenResponse.accountId,
                             accessToken = accessTokenResponse.accessToken,
                         )
-                        _authState.update { AuthState.Default }
+                        _authState.update { AuthState.CompleteLogin }
                     } catch (e: Exception) {
                         val error = "Error: ${e.message}, please try again"
                         _authState.update { AuthState.Error(error) }
@@ -106,7 +106,7 @@ class AuthViewModel
                     val response = authApi.createGuestSession()
 
                     localStorage.saveGuestSession(guestSessionId = response.guestSessionId)
-                    _authState.update { AuthState.Default }
+                    _authState.update { AuthState.CompleteLogin }
                 } catch (e: Exception) {
                     val error = "Error: ${e.message}, please try again"
                     _authState.update { AuthState.Error(error) }
@@ -126,4 +126,6 @@ sealed interface AuthState {
     data class RequestTokenCreated(val requestToken: String?) : AuthState
 
     data class Error(val message: String) : AuthState
+
+    data object CompleteLogin : AuthState
 }

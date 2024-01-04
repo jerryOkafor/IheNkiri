@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -73,25 +73,21 @@ class MoviesViewModelTest {
             assertThat(availableFilters.size).isEqualTo(5)
 
             with(availableFilters[0]) {
-                assertThat(label).isEqualTo("Now Playing")
                 assertThat(isSelected).isTrue()
                 assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
             }
 
             with(availableFilters[1]) {
-                assertThat(label).isEqualTo("Popular")
                 assertThat(isSelected).isFalse()
                 assertThat(type).isEqualTo(FilterType.POPULAR)
             }
 
             with(availableFilters[2]) {
-                assertThat(label).isEqualTo("Top Rated")
                 assertThat(isSelected).isFalse()
                 assertThat(type).isEqualTo(FilterType.TOP_RATED)
             }
 
             with(availableFilters[3]) {
-                assertThat(label).isEqualTo("Upcoming")
                 assertThat(isSelected).isFalse()
                 assertThat(type).isEqualTo(FilterType.UPCOMING)
             }
@@ -107,7 +103,6 @@ class MoviesViewModelTest {
         assertThat(availableFilters.size).isEqualTo(5)
 
         with(availableFilters[0]) {
-            assertThat(label).isEqualTo("Now Playing")
             assertThat(isSelected).isTrue()
             assertThat(type).isEqualTo(FilterType.NOW_PLAYING)
         }

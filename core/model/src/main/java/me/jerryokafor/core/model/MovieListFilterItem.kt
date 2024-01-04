@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 
 package me.jerryokafor.core.model
 
-data class MovieListFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
+data class MovieListFilterItem(val isSelected: Boolean, val type: FilterType) {
     enum class FilterType {
         NOW_PLAYING,
         POPULAR,
@@ -34,7 +34,7 @@ data class MovieListFilterItem(val label: String, val isSelected: Boolean, val t
     }
 }
 
-data class TVShowsFilterItem(val label: String, val isSelected: Boolean, val type: FilterType) {
+data class TVShowsFilterItem(val isSelected: Boolean, val type: FilterType) {
     enum class FilterType {
         AIRING_TODAY,
         ON_THE_AIR,

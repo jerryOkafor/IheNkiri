@@ -110,7 +110,7 @@ class IhenkiriCollapsingToolbarHeaderTest {
             onNodeWithText("Sylvester Stallone").assertExists()
                 .assertIsDisplayed()
 
-            onNodeWithContentDescription("Back").assertExists()
+            onNodeWithContentDescription("Navigate up").assertExists()
                 .assertIsDisplayed()
                 .assertHasClickAction()
                 .performClick()

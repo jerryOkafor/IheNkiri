@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,26 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
-import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
 import me.jerryokafor.core.ui.extension.TrackDisposableJank
-import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
-import me.jerryokafor.feature.movies.navigation.moviesScreen
-import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
-import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
-import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
-import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
-import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
+import me.jerryokafor.ihenkiri.navigation.BottomNavigation
+import me.jerryokafor.ihenkiri.navigation.IhenkiriNavHost
 
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
@@ -83,53 +72,20 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
         onDispose {}
     }
 
-    val onNavigateUp: () -> Unit = {
-        navController.navigateUp()
-    }
-
-    val onMovieClick: (Long) -> Unit = { movieId ->
-        navController.navigateToMovieDetails(
-            movieId = movieId,
-            navOptions = navOptions {},
-        )
-    }
-
-    val onPersonClick: (Long) -> Unit = {
-        navController.navigateToPersonDetails(personId = it)
-    }
-
-    val onLogin: () -> Unit = {
-        navController.navigateToAuth()
-    }
-
     Scaffold(
         modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
         bottomBar = { BottomNavigation(navController, bottomBarState.value) },
-        content = { innerPadding ->
-            Box(
-                modifier = Modifier.padding(
-                    bottom = max(
-                        a = 0.dp,
-                        b = innerPadding.calculateBottomPadding() - 40.dp,
-                    ),
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier.padding(
+                bottom = max(
+                    a = 0.dp,
+                    b = innerPadding.calculateBottomPadding() - 40.dp,
                 ),
-            ) {
-                NavHost(
-                    modifier = Modifier,
-                    navController = navController,
-                    startDestination = moviesRoutePattern,
-                ) {
-                    authNavGraph()
-                    moviesScreen(onMovieClick = onMovieClick)
-                    tvShowsScreen(onTVShowClick = {})
-                    movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
-                    peopleScreen(onPersonClick = onPersonClick)
-                    peopleDetailsScreen(onNavigateUp = onNavigateUp)
-                    settingsScreen(onLogin = onLogin)
-                }
-            }
-        },
-    )
+            ),
+            content = { IhenkiriNavHost(navController) },
+        )
+    }
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {

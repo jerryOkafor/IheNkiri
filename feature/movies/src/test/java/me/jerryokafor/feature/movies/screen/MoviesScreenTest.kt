@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -346,7 +346,7 @@ class MoviesScreenTest {
                 onFilterItemSelected = { onFilterItemSelectedCounter++ },
             )
         }
-        composeTestRule.onNodeWithTag(GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
+        composeTestRule.onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
             .assertExists()
             .assertIsDisplayed()
             .assert(hasScrollAction())
@@ -363,33 +363,45 @@ class MoviesScreenTest {
     }
 }
 
-private fun List<MovieListFilterItem>.selectItem(whereLabel: String) =
-    map { if (it.label == whereLabel) it.copy(isSelected = true) else it.copy(isSelected = false) }
+private fun List<MovieListFilterItem>.selectItem(whereLabel: String) = map {
+    if (labelFor(it) == whereLabel) {
+        it.copy(
+            isSelected = true,
+        )
+    } else {
+        it.copy(isSelected = false)
+    }
+}
+
+private fun labelFor(filterItem: MovieListFilterItem): String {
+    return when (filterItem.type) {
+        MovieListFilterItem.FilterType.NOW_PLAYING -> "Now Playing"
+        MovieListFilterItem.FilterType.POPULAR -> "Popular"
+        MovieListFilterItem.FilterType.TOP_RATED -> "Top Rated"
+        MovieListFilterItem.FilterType.UPCOMING -> "Upcoming"
+        MovieListFilterItem.FilterType.DISCOVER -> "Discover"
+    }
+}
 
 @ExcludeFromGeneratedCoverageReport
 private fun testFilters() = listOf(
     MovieListFilterItem(
-        label = "Now Playing",
         isSelected = true,
         type = MovieListFilterItem.FilterType.NOW_PLAYING,
     ),
     MovieListFilterItem(
-        label = "Popular",
         isSelected = false,
         type = MovieListFilterItem.FilterType.POPULAR,
     ),
     MovieListFilterItem(
-        label = "Top Rated",
         isSelected = false,
         type = MovieListFilterItem.FilterType.TOP_RATED,
     ),
     MovieListFilterItem(
-        label = "Upcoming",
         isSelected = false,
         type = MovieListFilterItem.FilterType.UPCOMING,
     ),
     MovieListFilterItem(
-        label = "Discover",
         isSelected = false,
         type = MovieListFilterItem.FilterType.DISCOVER,
     ),

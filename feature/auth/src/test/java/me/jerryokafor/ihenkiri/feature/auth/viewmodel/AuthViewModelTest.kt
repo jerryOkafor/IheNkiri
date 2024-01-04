@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -121,7 +121,7 @@ class AuthViewModelTest {
             authViewModel.createSessionId()
 
             assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
-            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+            assertThat(awaitItem()).isEqualTo(AuthState.CompleteLogin)
         }
 
         val expectedResponse = createAccessTokenSuccessResponse()
@@ -162,7 +162,7 @@ class AuthViewModelTest {
             authViewModel.createGuestSession()
 
             assertThat(awaitItem()).isEqualTo(AuthState.LoadingGuestSession)
-            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+            assertThat(awaitItem()).isEqualTo(AuthState.CompleteLogin)
         }
 
         val expectedResponse = createGuestTokenResponse()

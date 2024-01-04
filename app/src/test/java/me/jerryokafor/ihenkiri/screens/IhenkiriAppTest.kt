@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
-import me.jerryokafor.ihenkiri.ui.BOTTOM_NAV_BAR_TEST_TAG
+import me.jerryokafor.ihenkiri.navigation.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.IhenkiriApp
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
