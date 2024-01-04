@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2024 IheNkiri Project
+ * Copyright (c) 2023 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,8 +38,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import me.jerryokafor.ihenkiri.feature.auth.ui.AuthScreen
-import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthUiState
-import me.jerryokafor.ihenkiri.feature.auth.viewmodel.GuestSessionUiState
+import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -64,10 +63,10 @@ class AuthScreenTest {
     fun authScreen_initialized_authScreenIsShown() {
         composeTestRule.setContent {
             AuthScreen(
-                authState = null,
-                guestSessionUiState = null,
+                authState = AuthState.Default,
                 onSignInClick = { onSignInClick++ },
-            ) { onContinueAsGuestClick++ }
+                onContinueAsGuestClick = { onContinueAsGuestClick++ },
+            )
         }
 
         composeTestRule.onNodeWithText("Sign In")
@@ -91,10 +90,10 @@ class AuthScreenTest {
     fun authScreen_isLoading_showButtonLoading() {
         composeTestRule.setContent {
             AuthScreen(
-                authState = AuthUiState.Loading,
-                guestSessionUiState = null,
+                authState = AuthState.LoadingSession,
                 onSignInClick = { onSignInClick++ },
-            ) { onContinueAsGuestClick++ }
+                onContinueAsGuestClick = { onContinueAsGuestClick++ },
+            )
         }
 
         // One progress indicator is shoeing
@@ -111,10 +110,10 @@ class AuthScreenTest {
     fun authScreen_isGuestSessionLoading_showButtonLoading() {
         composeTestRule.setContent {
             AuthScreen(
-                authState = null,
-                guestSessionUiState = GuestSessionUiState.Loading,
+                authState = AuthState.LoadingGuestSession,
                 onSignInClick = { onSignInClick++ },
-            ) { onContinueAsGuestClick++ }
+                onContinueAsGuestClick = { onContinueAsGuestClick++ },
+            )
         }
 
         // One progress indicator is shoeing

@@ -78,11 +78,12 @@ class AuthViewModelTest {
 
     @Test
     fun authViewModel_createRequestToken_requestTokenIsCreated() = runTest {
-        authViewModel.authUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+
             authViewModel.createRequestToken()
-            assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
-            (awaitItem() as AuthUiState.RequestTokenCreated).let {
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
+            (awaitItem() as AuthState.RequestTokenCreated).let {
                 assertThat(
                     it.requestToken,
                 ).isEqualTo(createRequestTokenSuccessResponse().requestToken)
@@ -97,13 +98,16 @@ class AuthViewModelTest {
         val errorMessage = "network error"
         coEvery { authApi.createRequestToken(any()) } throws Exception(errorMessage)
 
-        authViewModel.authUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+
             authViewModel.createRequestToken()
-            assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
-            (awaitItem() as AuthUiState.Error).let {
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
+            (awaitItem() as AuthState.Error).let {
                 assertThat(it.message).isEqualTo("Error : $errorMessage, please try again")
             }
+
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
         }
 
         coVerify(exactly = 1) { authApi.createRequestToken(createRequestToken()) }
@@ -111,12 +115,13 @@ class AuthViewModelTest {
 
     @Test
     fun authViewModel_createSessionId_sessionIdCreated() = runTest {
-        authViewModel.authUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+
             authViewModel.createSessionId()
 
-            assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
-            assertThat(awaitItem()).isEqualTo(AuthUiState.CompleteLogin)
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
+            assertThat(awaitItem()).isEqualTo(AuthState.CompleteLogin)
         }
 
         val expectedResponse = createAccessTokenSuccessResponse()
@@ -134,14 +139,17 @@ class AuthViewModelTest {
         val errorMessage = "Error creating session Id"
         coEvery { authApi.createAccessToken(any()) } throws Exception(errorMessage)
 
-        authViewModel.authUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
+
             authViewModel.createSessionId()
 
-            assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
-            (awaitItem() as AuthUiState.Error).let {
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingSession)
+            (awaitItem() as AuthState.Error).let {
                 assertThat(it.message).isEqualTo("Error: $errorMessage, please try again")
             }
+
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
         }
 
         coVerify(exactly = 1) { authApi.createAccessToken(createAccessTokenRequest()) }
@@ -149,11 +157,12 @@ class AuthViewModelTest {
 
     @Test
     fun authViewModel_createGuestSession_guestSessionIdCreated() = runTest {
-        authViewModel.guestSessionUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
             authViewModel.createGuestSession()
-            assertThat(awaitItem()).isEqualTo(GuestSessionUiState.Loading)
-            assertThat(awaitItem()).isEqualTo(GuestSessionUiState.Success)
+
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingGuestSession)
+            assertThat(awaitItem()).isEqualTo(AuthState.CompleteLogin)
         }
 
         val expectedResponse = createGuestTokenResponse()
@@ -165,17 +174,18 @@ class AuthViewModelTest {
 
     @Test
     fun authViewModel_createGuestSession_returnsError() = runTest {
-        val errorMessage = "Error creating guest session, please try again"
+        val errorMessage = "Error creating session Id"
         coEvery { authApi.createGuestSession() } throws Exception(errorMessage)
 
-        authViewModel.guestSessionUiState.test {
-            assertThat(awaitItem()).isNull()
+        authViewModel.authState.test {
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
             authViewModel.createGuestSession()
 
-            assertThat(awaitItem()).isEqualTo(GuestSessionUiState.Loading)
-            (awaitItem() as GuestSessionUiState.Error).let {
-                assertThat(it.message).isEqualTo("Error creating guest session, please try again")
+            assertThat(awaitItem()).isEqualTo(AuthState.LoadingGuestSession)
+            (awaitItem() as AuthState.Error).let {
+                assertThat(it.message).isEqualTo("Error: $errorMessage, please try again")
             }
+            assertThat(awaitItem()).isEqualTo(AuthState.Default)
         }
 
         coVerify(exactly = 1) { authApi.createGuestSession() }

@@ -42,10 +42,7 @@ import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
 import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
 
 @Composable
-fun IhenkiriNavHost(
-    navController: NavHostController,
-    onShowSnackbar: suspend (String, String?) -> Boolean,
-) {
+fun IhenkiriNavHost(navController: NavHostController) {
     val onNavigateUp: () -> Unit = {
         navController.navigateUp()
     }
@@ -74,7 +71,7 @@ fun IhenkiriNavHost(
         navController = navController,
         startDestination = moviesRoutePattern,
     ) {
-        authNavGraph(onCompleteLogin = onCompleteLogin, onShowSnackbar = onShowSnackbar)
+        authNavGraph(onCompleteLogin = onCompleteLogin)
         moviesScreen(onMovieClick = onMovieClick)
         tvShowsScreen(onTVShowClick = {})
         movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
