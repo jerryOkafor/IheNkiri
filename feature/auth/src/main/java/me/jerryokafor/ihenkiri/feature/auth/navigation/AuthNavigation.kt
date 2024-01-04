@@ -52,7 +52,10 @@ fun NavController.navigateToAuth() {
     )
 }
 
-fun NavGraphBuilder.authNavGraph(onCompleteLogin: () -> Unit) {
+fun NavGraphBuilder.authNavGraph(
+    onCompleteLogin: () -> Unit,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
+) {
     navigation(
         route = authNavGraph,
         startDestination = loginRoutePattern,
@@ -64,7 +67,7 @@ fun NavGraphBuilder.authNavGraph(onCompleteLogin: () -> Unit) {
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
         ) {
-            AuthScreen(onCompleteLogin = onCompleteLogin)
+            AuthScreen(onCompleteLogin = onCompleteLogin, onShowSnackbar = onShowSnackbar)
         }
     }
 }
