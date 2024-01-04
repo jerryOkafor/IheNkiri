@@ -58,7 +58,8 @@ class AuthViewModel
         val authUiState: StateFlow<AuthUiState?> = _authUiState.asStateFlow()
 
         private val _guestSessionUiState = MutableStateFlow<GuestSessionUiState?>(null)
-        val guestSessionUiState: StateFlow<GuestSessionUiState?> = _guestSessionUiState.asStateFlow()
+        val guestSessionUiState: StateFlow<GuestSessionUiState?> =
+            _guestSessionUiState.asStateFlow()
 
         fun createRequestToken() {
             viewModelScope.launch {
