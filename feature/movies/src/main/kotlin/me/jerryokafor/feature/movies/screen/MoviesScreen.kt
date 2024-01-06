@@ -213,7 +213,7 @@ fun MoviesScreen(
                                                 id = me.jerryokafor.core.ui.R.drawable.search,
                                             ),
                                             contentDescription = stringResource(
-                                                R.string.movies_content_description_search,
+                                                id = R.string.movies_content_description_search,
                                             ),
                                         )
                                     }
