@@ -24,15 +24,15 @@
 
 package me.jerryokafor.ihenkiri.feature.auth
 
-//@RunWith(AndroidJUnit4::class)
-//@Config(
+// @RunWith(AndroidJUnit4::class)
+// @Config(
 //    application = HiltTestApplication::class,
 //    sdk = [Build.VERSION_CODES.O],
 //    instrumentedPackages = ["androidx.loader.content"],
 //    qualifiers = "xlarge",
-//)
-//@HiltAndroidTest
-//class AuthSessionTest {
+// )
+// @HiltAndroidTest
+// class AuthSessionTest {
 //    /**
 //     * Manages the components' state and is used to perform injection on your test
 //     */
@@ -56,7 +56,7 @@ package me.jerryokafor.ihenkiri.feature.auth
 //    @get:Rule(order = 3)
 //    val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 //
-////    private var onCompleteLoginClick = 0
+// //    private var onCompleteLoginClick = 0
 //
 //    @Before
 //    fun setUp() {
@@ -65,40 +65,40 @@ package me.jerryokafor.ihenkiri.feature.auth
 //        hiltRule.inject()
 //    }
 //
-////    @Test
-////    fun testAuth2() {
-////        val resultData = Intent().apply {
-////            action = Intent.ACTION_VIEW
-////            data = Uri.parse(Constants.AUTH_REDIRECT_URL)
-////        }
-////
-//// //        val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
-//// //            .appendQueryParameter(
-//// //                AuthParam.REQUEST_TOKEN,
-//// //                createRequestTokenSuccessResponse().requestToken,
-//// //            )
-//// //            .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
-//// //            .build()
-////
-////        val expected = allOf(hasAction(Intent.ACTION_VIEW))
-////        Intents.intending(expected).respondWith(
-////            Instrumentation.ActivityResult(Activity.RESULT_OK, resultData),
-////        )
-////
-////        composeTestRule.apply {
-////            setContent {
-////                AuthScreen(
-////                    onCompleteLogin = { onCompleteLoginClick++ },
-////                    onShowSnackbar = { _, _ -> true },
-////                )
-////            }
-////            onNodeWithText("Sign In").performClick()
-//// //            onNodeWithText("Continue as Guest").performClick()
-//// //            onRoot(true).printToLog("Testing")
-////            waitForIdle()
-////        }
-////
-////        Intents.intended(expected)
-////        assertThat(onCompleteLoginClick).isEqualTo(1)
-////    }
-//}
+// //    @Test
+// //    fun testAuth2() {
+// //        val resultData = Intent().apply {
+// //            action = Intent.ACTION_VIEW
+// //            data = Uri.parse(Constants.AUTH_REDIRECT_URL)
+// //        }
+// //
+// // //        val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
+// // //            .appendQueryParameter(
+// // //                AuthParam.REQUEST_TOKEN,
+// // //                createRequestTokenSuccessResponse().requestToken,
+// // //            )
+// // //            .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
+// // //            .build()
+// //
+// //        val expected = allOf(hasAction(Intent.ACTION_VIEW))
+// //        Intents.intending(expected).respondWith(
+// //            Instrumentation.ActivityResult(Activity.RESULT_OK, resultData),
+// //        )
+// //
+// //        composeTestRule.apply {
+// //            setContent {
+// //                AuthScreen(
+// //                    onCompleteLogin = { onCompleteLoginClick++ },
+// //                    onShowSnackbar = { _, _ -> true },
+// //                )
+// //            }
+// //            onNodeWithText("Sign In").performClick()
+// // //            onNodeWithText("Continue as Guest").performClick()
+// // //            onRoot(true).printToLog("Testing")
+// //            waitForIdle()
+// //        }
+// //
+// //        Intents.intended(expected)
+// //        assertThat(onCompleteLoginClick).isEqualTo(1)
+// //    }
+// }
