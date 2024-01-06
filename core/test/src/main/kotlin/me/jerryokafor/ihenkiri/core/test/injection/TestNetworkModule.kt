@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import dagger.hilt.testing.TestInstallIn
 import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.injection.NetworkModule
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
 import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApi
 import me.jerryokafor.ihenkiri.core.test.test.network.FakeMoviesRemoteDataSource
 import me.jerryokafor.ihenkiri.core.test.test.network.FakeTVSeriesListsApi
@@ -51,5 +51,5 @@ abstract class TestNetworkModule {
     ): MoviesRemoteDataSource
 
     @Binds
-    abstract fun provideTVSeriesListsApi(repo: FakeTVSeriesListsApi): TVSeriesListsApi
+    abstract fun provideTVSeriesListsApi(repo: FakeTVSeriesListsApi): TVShowsListApi
 }

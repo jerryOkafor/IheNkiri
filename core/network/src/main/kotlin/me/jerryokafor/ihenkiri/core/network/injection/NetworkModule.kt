@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,8 +49,8 @@ import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieDetailsApi
 import me.jerryokafor.ihenkiri.core.network.service.MovieListApi
 import me.jerryokafor.ihenkiri.core.network.service.PeopleDetailsApi
-import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
-import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.PeopleListApi
+import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -148,12 +148,12 @@ object NetworkModule {
         retrofit.create(MovieDetailsApi::class.java)
 
     @[Provides Singleton]
-    fun providePeopleListsApi(retrofit: Retrofit): PeopleListsApi =
-        retrofit.create(PeopleListsApi::class.java)
+    fun providePeopleListsApi(retrofit: Retrofit): PeopleListApi =
+        retrofit.create(PeopleListApi::class.java)
 
     @[Provides Singleton]
-    fun provideTvSeriesListsApi(retrofit: Retrofit): TVSeriesListsApi =
-        retrofit.create(TVSeriesListsApi::class.java)
+    fun provideTvSeriesListsApi(retrofit: Retrofit): TVShowsListApi =
+        retrofit.create(TVShowsListApi::class.java)
 
     @[Provides Singleton]
     fun provideAccountApi(retrofit: Retrofit): AccountApi = retrofit.create(AccountApi::class.java)

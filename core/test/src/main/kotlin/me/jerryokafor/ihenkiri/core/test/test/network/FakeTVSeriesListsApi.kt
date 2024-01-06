@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,13 @@ package me.jerryokafor.ihenkiri.core.test.test.network
 
 import me.jerryokafor.ihenkiri.core.network.model.response.NetworkTvShow
 import me.jerryokafor.ihenkiri.core.network.model.response.PagedNetworkResponse
-import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
 import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData
 import javax.inject.Inject
 
 class FakeTVSeriesListsApi
     @Inject
-    constructor() : TVSeriesListsApi {
+    constructor() : TVShowsListApi {
         override suspend fun airingToday(
             language: String,
             page: Int,

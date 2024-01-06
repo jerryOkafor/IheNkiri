@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.filter.MoviesFilter
 import me.jerryokafor.core.model.TVShow
 import me.jerryokafor.ihenkiri.core.network.model.response.asDomainObject
-import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -50,7 +50,7 @@ interface TVShowsRepository {
 class DefaultTVShowsRepository
     @Inject
     constructor(
-        private val tvSeriesListsApi: TVSeriesListsApi,
+        private val tvSeriesListsApi: TVShowsListApi,
         @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : TVShowsRepository {
         override suspend fun airingToday(filter: MoviesFilter): List<TVShow> =

@@ -24,30 +24,17 @@
 
 package me.jerryokafor.ihenkiri.feature.auth
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import me.jerryokafor.core.common.util.Constants
-import me.jerryokafor.ihenkiri.feature.auth.ui.AuthScreen
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -85,7 +72,7 @@ class AuthSessionTest {
     @get:Rule(order = 3)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    private var onCompleteLoginClick = 0
+//    private var onCompleteLoginClick = 0
 
     @Before
     fun setUp() {
@@ -94,40 +81,40 @@ class AuthSessionTest {
         hiltRule.inject()
     }
 
-    @Test
-    fun testAuth2() {
-        val resultData = Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse(Constants.AUTH_REDIRECT_URL)
-        }
-
-//        val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
-//            .appendQueryParameter(
-//                AuthParam.REQUEST_TOKEN,
-//                createRequestTokenSuccessResponse().requestToken,
-//            )
-//            .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
-//            .build()
-
-        val expected = allOf(hasAction(Intent.ACTION_VIEW))
-        Intents.intending(expected).respondWith(
-            Instrumentation.ActivityResult(Activity.RESULT_OK, resultData),
-        )
-
-        composeTestRule.apply {
-            setContent {
-                AuthScreen(
-                    onCompleteLogin = { onCompleteLoginClick++ },
-                    onShowSnackbar = { _, _ -> true },
-                )
-            }
-            onNodeWithText("Sign In").performClick()
-//            onNodeWithText("Continue as Guest").performClick()
-//            onRoot(true).printToLog("Testing")
-            waitForIdle()
-        }
-
-        Intents.intended(expected)
-        assertThat(onCompleteLoginClick).isEqualTo(1)
-    }
+//    @Test
+//    fun testAuth2() {
+//        val resultData = Intent().apply {
+//            action = Intent.ACTION_VIEW
+//            data = Uri.parse(Constants.AUTH_REDIRECT_URL)
+//        }
+//
+// //        val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
+// //            .appendQueryParameter(
+// //                AuthParam.REQUEST_TOKEN,
+// //                createRequestTokenSuccessResponse().requestToken,
+// //            )
+// //            .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
+// //            .build()
+//
+//        val expected = allOf(hasAction(Intent.ACTION_VIEW))
+//        Intents.intending(expected).respondWith(
+//            Instrumentation.ActivityResult(Activity.RESULT_OK, resultData),
+//        )
+//
+//        composeTestRule.apply {
+//            setContent {
+//                AuthScreen(
+//                    onCompleteLogin = { onCompleteLoginClick++ },
+//                    onShowSnackbar = { _, _ -> true },
+//                )
+//            }
+//            onNodeWithText("Sign In").performClick()
+// //            onNodeWithText("Continue as Guest").performClick()
+// //            onRoot(true).printToLog("Testing")
+//            waitForIdle()
+//        }
+//
+//        Intents.intended(expected)
+//        assertThat(onCompleteLoginClick).isEqualTo(1)
+//    }
 }

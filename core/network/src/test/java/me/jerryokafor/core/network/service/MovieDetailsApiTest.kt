@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,8 +36,8 @@ import kotlin.test.assertNotNull
 class MovieDetailsApiTest : BaseServiceTest() {
     private val testMovieId = 1006462L
 
-    private val movieDetailsApi =
-        MockWebServerUtil.createMockedService(mockWebServer, MovieDetailsApi::class.java)
+    private val movieDetailsApi = MockWebServerUtil
+        .createMockedService(mockWebServer, MovieDetailsApi::class.java)
 
     @Test
     fun `test movieDetails(), returns movie details when status = 200`() {

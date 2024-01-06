@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,13 +32,13 @@ import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.model.equalsPerson
 import me.jerryokafor.ihenkiri.core.network.datasource.DefaultPeopleListRemoteDataSource
 import me.jerryokafor.ihenkiri.core.network.datasource.PeopleListRemoteDataSource
-import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
+import me.jerryokafor.ihenkiri.core.network.service.PeopleListApi
 import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
 import org.junit.Before
 import org.junit.Test
 
 class PeopleListRemoteDataSourceTest {
-    private val peopleListsApi = mockk<PeopleListsApi>()
+    private val peopleListsApi = mockk<PeopleListApi>()
     private lateinit var peopleListRemoteDataSource: PeopleListRemoteDataSource
 
     @Before
