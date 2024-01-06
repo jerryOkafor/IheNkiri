@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,5 +26,11 @@ package me.jerryokafor.core.common.util
 
 object Constants {
     const val AUTH_REDIRECT_URL = "https://ihenkiri.jerryokafor.me/auth"
-    const val TMDB_BASE_AUTH_URL = "https://www.themoviedb.org/auth/access"
+    const val TMDB_BASE_URL = "https://www.themoviedb.org/"
+    const val TMDB_AUTH_ACCESS_URL = "${TMDB_BASE_URL}auth/access"
+}
+
+object AuthParam {
+    const val REQUEST_TOKEN = "request_token"
+    const val REDIRECT_TO = "redirect_to"
 }

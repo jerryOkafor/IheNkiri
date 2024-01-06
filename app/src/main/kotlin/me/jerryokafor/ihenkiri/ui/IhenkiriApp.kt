@@ -24,7 +24,6 @@
 
 package me.jerryokafor.ihenkiri.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -33,14 +32,12 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
@@ -48,7 +45,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
 import me.jerryokafor.core.ui.extension.TrackDisposableJank
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
@@ -59,25 +55,21 @@ import me.jerryokafor.ihenkiri.navigation.IhenkiriNavHost
 const val MAIN_CONTENT_TEST_TAG = "mainContent"
 
 @Composable
-fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
+fun IhenkiriApp(
+    navController: NavHostController = rememberNavController(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onShowSnackbar: suspend (String, String?) -> Boolean = { msg, act ->
+        snackbarHostState.showSnackbar(
+            message = msg,
+            actionLabel = act,
+            duration = SnackbarDuration.Short,
+        ) == SnackbarResult.ActionPerformed
+    },
+) {
     NavigationTrackingSideEffect(navController)
-
     val bottomBarState = rememberSaveable { mutableStateOf(false) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
 
-    DisposableEffect(systemUiController, useDarkIcons) {
-        // Update all of the system bar colors to be transparent, and use
-        // dark icons if we're in light theme
-        systemUiController.setSystemBarsColor(
-            color = Color.Transparent,
-            darkIcons = useDarkIcons,
-        )
-        onDispose {}
-    }
-
-    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
         bottomBar = { BottomNavigation(navController, bottomBarState.value) },
@@ -93,13 +85,7 @@ fun IhenkiriApp(navController: NavHostController = rememberNavController()) {
             content = {
                 IhenkiriNavHost(
                     navController = navController,
-                    onShowSnackbar = { message, action ->
-                        snackbarHostState.showSnackbar(
-                            message,
-                            action,
-                            duration = SnackbarDuration.Short,
-                        ) == SnackbarResult.ActionPerformed
-                    },
+                    onShowSnackbar = onShowSnackbar,
                 )
             },
         )

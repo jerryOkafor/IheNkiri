@@ -62,6 +62,7 @@ class AuthViewModel
             _guestSessionUiState.asStateFlow()
 
         fun createRequestToken() {
+            Log.d("Testing: ", "createRequestToken()")
             viewModelScope.launch {
                 try {
                     _authUiState.update { AuthUiState.Loading }
@@ -81,29 +82,29 @@ class AuthViewModel
         }
 
         fun createSessionId() {
-            val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)
+            Log.d("Testing: ", "createSessionId()")
+            val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)!!
             viewModelScope.launch {
-                requestToken?.let { token ->
-                    try {
-                        _authUiState.update { AuthUiState.Loading }
-                        val accessTokenResponse = authApi.createAccessToken(
-                            requestBody = CreateAccessTokenRequest(requestToken = token),
-                        )
+                try {
+                    _authUiState.update { AuthUiState.Loading }
+                    val accessTokenResponse = authApi.createAccessToken(
+                        requestBody = CreateAccessTokenRequest(requestToken = requestToken),
+                    )
 
-                        localStorage.saveUserSession(
-                            accountId = accessTokenResponse.accountId,
-                            accessToken = accessTokenResponse.accessToken,
-                        )
-                        _authUiState.update { AuthUiState.CompleteLogin }
-                    } catch (e: Exception) {
-                        val error = "Error: ${e.message}, please try again"
-                        _authUiState.update { AuthUiState.Error(error) }
-                    }
+                    localStorage.saveUserSession(
+                        accountId = accessTokenResponse.accountId,
+                        accessToken = accessTokenResponse.accessToken,
+                    )
+                    _authUiState.update { AuthUiState.CompleteLogin }
+                } catch (e: Exception) {
+                    val error = "Error: ${e.message}, please try again"
+                    _authUiState.update { AuthUiState.Error(error) }
                 }
             }
         }
 
         fun createGuestSession() {
+            Log.d("Testing: ", "createGuestSession()")
             viewModelScope.launch {
                 try {
                     _guestSessionUiState.update { GuestSessionUiState.Loading }
@@ -114,7 +115,6 @@ class AuthViewModel
                     _guestSessionUiState.update { GuestSessionUiState.Success }
                 } catch (e: Exception) {
                     val error = "Error creating guest session, please try again"
-                    Log.e(TAG, e.message ?: error)
                     _guestSessionUiState.update { GuestSessionUiState.Error(error) }
                 }
             }

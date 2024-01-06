@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.util.MockWebServerUtil.createMockedService
 import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenSuccessResponse
-import me.jerryokafor.ihenkiri.core.test.util.createRequestToken
+import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -46,7 +46,7 @@ class AuthApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
         runTest {
-            val requestBody = createRequestToken()
+            val requestBody = createRequestTokenRequest()
             val response = authApi.createRequestToken(requestBody)
             val expected = createRequestTokenSuccessResponse()
 
