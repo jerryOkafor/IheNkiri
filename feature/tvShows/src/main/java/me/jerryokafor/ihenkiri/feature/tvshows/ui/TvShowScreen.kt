@@ -109,6 +109,8 @@ const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
 const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
+const val SEARCH_INLCUDE_VIDEO = "search_include_video"
+const val SEARCH_ADULT = "search_include_adult"
 
 @Suppress("MagicNumber")
 @ThemePreviews
@@ -404,7 +406,11 @@ fun SearchBarRow(
                     style = IheNkiri.typography.titleSmall,
                 )
                 FillingSpacer()
-                Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
+                Switch(
+                    modifier = Modifier.testTag(SEARCH_ADULT),
+                    checked = includeAdult,
+                    onCheckedChange = { includeAdult = it },
+                )
             }
 
             Row(
@@ -428,7 +434,11 @@ fun SearchBarRow(
                     style = IheNkiri.typography.titleSmall,
                 )
                 FillingSpacer()
-                Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
+                Switch(
+                    modifier = Modifier.testTag(SEARCH_INLCUDE_VIDEO),
+                    checked = includeVideo,
+                    onCheckedChange = { includeVideo = it },
+                )
             }
         }
     }
