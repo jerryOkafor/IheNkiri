@@ -55,7 +55,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
+import me.jerryokafor.ihenkiri.core.network.injection.NetworkAuthModule
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApi
 import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.navigation.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
@@ -74,7 +77,7 @@ import org.robolectric.shadows.ShadowLog
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-@UninstallModules(LocalStorageBinding::class)
+@UninstallModules(LocalStorageBinding::class, NetworkAuthModule::class)
 @HiltAndroidTest
 class MainActivityTest {
     @get:Rule(order = 0)
@@ -94,6 +97,10 @@ class MainActivityTest {
     val localStorage = mockk<LocalStorage>(relaxed = true) {
         every { isLoggedIn() } returns flowOf(true)
     }
+
+    @BindValue
+    @JvmField
+    val authApi: AuthApi = FakeAuthApi()
 
     @Before
     fun setUp() {

@@ -102,7 +102,7 @@ class AuthViewModelTest {
             authViewModel.createRequestToken()
             assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
             (awaitItem() as AuthUiState.Error).let {
-                assertThat(it.message).isEqualTo("Error : $errorMessage, please try again")
+                assertThat(it.message).isEqualTo("Error creating request token, please try again")
             }
         }
 
@@ -140,7 +140,7 @@ class AuthViewModelTest {
 
             assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
             (awaitItem() as AuthUiState.Error).let {
-                assertThat(it.message).isEqualTo("Error: $errorMessage, please try again")
+                assertThat(it.message).isEqualTo("Error creating session Id, please try again")
             }
         }
 

@@ -55,9 +55,11 @@ import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.core.model.UserData
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
+import me.jerryokafor.ihenkiri.core.network.injection.NetworkAuthModule
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApiWithException
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
-import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -79,7 +81,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.R as TVShowsR
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-@UninstallModules(LocalStorageBinding::class)
+@UninstallModules(LocalStorageBinding::class, NetworkAuthModule::class)
 @HiltAndroidTest
 class NavigationTest {
     /**
@@ -107,6 +109,10 @@ class NavigationTest {
     val localStorage = mockk<LocalStorage>(relaxed = true) {
         every { isLoggedIn() } returns flowOf(true)
     }
+
+    @BindValue
+    @JvmField
+    val authApi: AuthApi = FakeAuthApiWithException()
 
     private fun AndroidComposeTestRule<*, *>.stringResource(
         @StringRes resId: Int,
@@ -273,6 +279,60 @@ class NavigationTest {
                 onNodeWithText("Continue as Guest").assertExists().assertIsDisplayed()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
             }
+        }
+    }
+
+    @Test
+    fun authScreen_guestSessionLoadedWithError_showsSnackbar() {
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = "Jerry",
+                userName = "jerryOkafor",
+            ),
+        )
+
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
+
+            waitForIdle()
+            onNodeWithText("Continue as Guest").performClick()
+            onNodeWithText("Error creating guest session, please try again")
+                .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun authScreen_authSessionLoadedWithError_showsSnackbar() {
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = "Jerry",
+                userName = "jerryOkafor",
+            ),
+        )
+
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
+
+            waitForIdle()
+            onNodeWithText("Sign In").performClick()
+            onNodeWithText("Error creating request token, please try again")
+                .assertIsDisplayed()
         }
     }
 }

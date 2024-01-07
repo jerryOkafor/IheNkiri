@@ -24,7 +24,6 @@
 
 package me.jerryokafor.ihenkiri.feature.auth.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -62,7 +61,6 @@ class AuthViewModel
             _guestSessionUiState.asStateFlow()
 
         fun createRequestToken() {
-            Log.d("Testing: ", "createRequestToken()")
             viewModelScope.launch {
                 try {
                     _authUiState.update { AuthUiState.Loading }
@@ -75,14 +73,13 @@ class AuthViewModel
                     savedStateHandle[KEY_REQUEST_TOKEN] = requestToken
                     _authUiState.update { AuthUiState.RequestTokenCreated(requestToken) }
                 } catch (e: Exception) {
-                    val error = "Error : ${e.message}, please try again"
+                    val error = "Error creating request token, please try again"
                     _authUiState.update { AuthUiState.Error(error) }
                 }
             }
         }
 
         fun createSessionId() {
-            Log.d("Testing: ", "createSessionId()")
             val requestToken = savedStateHandle.get<String>(KEY_REQUEST_TOKEN)!!
             viewModelScope.launch {
                 try {
@@ -97,14 +94,13 @@ class AuthViewModel
                     )
                     _authUiState.update { AuthUiState.CompleteLogin }
                 } catch (e: Exception) {
-                    val error = "Error: ${e.message}, please try again"
+                    val error = "Error creating session Id, please try again"
                     _authUiState.update { AuthUiState.Error(error) }
                 }
             }
         }
 
         fun createGuestSession() {
-            Log.d("Testing: ", "createGuestSession()")
             viewModelScope.launch {
                 try {
                     _guestSessionUiState.update { GuestSessionUiState.Loading }

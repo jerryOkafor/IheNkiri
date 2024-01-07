@@ -22,30 +22,19 @@
  * THE SOFTWARE.
  */
 
-package me.jerryokafor.ihenkiri.core.test.injection
+package me.jerryokafor.ihenkiri.core.network.injection
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import me.jerryokafor.ihenkiri.core.network.datasource.MoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.network.injection.NetworkModule
-import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeMoviesRemoteDataSource
-import me.jerryokafor.ihenkiri.core.test.test.network.FakeTVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [NetworkModule::class],
-)
-abstract class TestNetworkModule {
-    @[Binds Singleton]
-    abstract fun MoviesRemoteDataSource(
-        datasource: FakeMoviesRemoteDataSource,
-    ): MoviesRemoteDataSource
-
-    @[Binds Singleton]
-    abstract fun provideTVSeriesListsApi(repo: FakeTVSeriesListsApi): TVShowsListApi
+@Module(includes = [NetworkModule::class])
+@InstallIn(SingletonComponent::class)
+object NetworkAuthModule {
+    @[Provides Singleton]
+    fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 }
