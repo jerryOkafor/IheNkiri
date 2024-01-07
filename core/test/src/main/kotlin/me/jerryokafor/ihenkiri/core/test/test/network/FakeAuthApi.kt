@@ -61,34 +61,34 @@ import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import javax.inject.Inject
 
 class FakeAuthApi
-@Inject
-constructor() : AuthApi {
-    override suspend fun createRequestToken(
-        requestBody: CreateRequestTokenRequest,
-    ): CreateRequestTokenResponse = createRequestTokenSuccessResponse()
+    @Inject
+    constructor() : AuthApi {
+        override suspend fun createRequestToken(
+            requestBody: CreateRequestTokenRequest,
+        ): CreateRequestTokenResponse = createRequestTokenSuccessResponse()
 
-    override suspend fun createAccessToken(
-        requestBody: CreateAccessTokenRequest,
-    ): CreateAccessTokenResponse = createAccessTokenSuccessResponse()
+        override suspend fun createAccessToken(
+            requestBody: CreateAccessTokenRequest,
+        ): CreateAccessTokenResponse = createAccessTokenSuccessResponse()
 
-    override suspend fun createGuestSession(): CreateGuestTokenResponse =
-        createGuestTokenResponse()
+        override suspend fun createGuestSession(): CreateGuestTokenResponse =
+            createGuestTokenResponse()
 
-    override suspend fun deleteSession() = Unit
-}
+        override suspend fun deleteSession() = Unit
+    }
 
 class FakeAuthApiWithException
-@Inject
-constructor() : AuthApi {
-    override suspend fun createRequestToken(
-        requestBody: CreateRequestTokenRequest,
-    ): CreateRequestTokenResponse = throw Exception("Unable to create request token")
+    @Inject
+    constructor() : AuthApi {
+        override suspend fun createRequestToken(
+            requestBody: CreateRequestTokenRequest,
+        ): CreateRequestTokenResponse = throw Exception("Unable to create request token")
 
-    override suspend fun createAccessToken(
-        requestBody: CreateAccessTokenRequest,
-    ): CreateAccessTokenResponse = throw Exception("Unable to create access token")
+        override suspend fun createAccessToken(
+            requestBody: CreateAccessTokenRequest,
+        ): CreateAccessTokenResponse = throw Exception("Unable to create access token")
 
-    override suspend fun createGuestSession() = throw Exception("Unable to create guest token")
+        override suspend fun createGuestSession() = throw Exception("Unable to create guest token")
 
-    override suspend fun deleteSession() = Unit
-}
+        override suspend fun deleteSession() = Unit
+    }
