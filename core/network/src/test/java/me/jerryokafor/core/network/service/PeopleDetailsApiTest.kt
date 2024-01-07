@@ -35,8 +35,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-const val TEST_PERSON_ID = 0L
-
 class PeopleDetailsApiTest : BaseServiceTest() {
     private val peopleDetailsApi =
         MockWebServerUtil.createMockedService(mockWebServer, PeopleDetailsApi::class.java)
@@ -46,7 +44,7 @@ class PeopleDetailsApiTest : BaseServiceTest() {
         mockWebServer.enqueueResponse("people-details-200.json", 200)
 
         runTest {
-            val response = peopleDetailsApi.personDetails(personId = TEST_PERSON_ID)
+            val response = peopleDetailsApi.personDetails(personId = 0L)
 
             assertNotNull(response)
             assertThat(response.toDomainModel()).isNotNull()
@@ -86,7 +84,7 @@ class PeopleDetailsApiTest : BaseServiceTest() {
             assertEquals("GET", recordedRequest.method)
             assert(
                 recordedRequest.path
-                    ?.contains("/${Config.TMDB_API_V3}/person/$TEST_PERSON_ID") == true,
+                    ?.contains("/${Config.TMDB_API_V3}/person/0") == true,
             )
         }
     }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ package me.jerryokafor.ihenkiri.core.network.datasource
 
 import me.jerryokafor.core.model.Person
 import me.jerryokafor.ihenkiri.core.network.model.response.toDomainModel
-import me.jerryokafor.ihenkiri.core.network.service.PeopleListsApi
+import me.jerryokafor.ihenkiri.core.network.service.PeopleListApi
 import javax.inject.Inject
 
 interface PeopleListRemoteDataSource {
@@ -35,7 +35,7 @@ interface PeopleListRemoteDataSource {
 
 class DefaultPeopleListRemoteDataSource
     @Inject
-    constructor(private val peopleListsApi: PeopleListsApi) : PeopleListRemoteDataSource {
+    constructor(private val peopleListsApi: PeopleListApi) : PeopleListRemoteDataSource {
         override suspend fun popularPersons(page: Int): List<Person> =
             peopleListsApi.popularPersons(page).results.map { it.toDomainModel() }
     }

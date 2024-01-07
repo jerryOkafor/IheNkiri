@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,8 @@ class MovieListApiTest : BaseServiceTest() {
             assertEquals(mockWebServer.requestCount, 1)
             assertEquals("GET", recordedRequest.method)
             assert(
-                recordedRequest.path?.contains("/${Config.TMDB_API_V3}/movie/now_playing") == true,
+                recordedRequest.path
+                    ?.contains("/${Config.TMDB_API_V3}/movie/now_playing") == true,
             )
         }
     }

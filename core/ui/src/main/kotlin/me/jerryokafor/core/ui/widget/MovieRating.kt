@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,17 +61,15 @@ import me.jerryokafor.core.ds.theme.IheNkiriTheme
 fun MovieRatingPreview() {
     IheNkiriTheme {
         Box(
-            modifier =
-                Modifier
-                    .size(200.dp)
-                    .aspectRatio(1F)
-                    .background(IheNkiri.color.inverseOnSurface),
+            modifier = Modifier
+                .size(200.dp)
+                .aspectRatio(1F)
+                .background(IheNkiri.color.inverseOnSurface),
         ) {
             MovieRating(
-                modifier =
-                    Modifier
-                        .size(100.dp)
-                        .align(Alignment.Center),
+                modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.Center),
                 rating = 0.45F,
             )
         }
@@ -89,12 +87,11 @@ fun MovieRating(
     var progress by remember { mutableStateOf(0f) }
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
-        animationSpec =
-            tween(
-                durationMillis = 3000,
-                delayMillis = 100,
-                easing = FastOutSlowInEasing,
-            ),
+        animationSpec = tween(
+            durationMillis = 3000,
+            delayMillis = 100,
+            easing = FastOutSlowInEasing,
+        ),
         label = "progressAnimation",
     )
 

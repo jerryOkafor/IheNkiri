@@ -37,7 +37,7 @@ import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenRequest
 import me.jerryokafor.ihenkiri.core.test.util.createAccessTokenSuccessResponse
 import me.jerryokafor.ihenkiri.core.test.util.createGuestTokenResponse
-import me.jerryokafor.ihenkiri.core.test.util.createRequestToken
+import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenRequest
 import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenSuccessResponse
 import org.junit.Before
 import org.junit.Rule
@@ -89,7 +89,7 @@ class AuthViewModelTest {
             }
         }
 
-        coVerify(exactly = 1) { authApi.createRequestToken(createRequestToken()) }
+        coVerify(exactly = 1) { authApi.createRequestToken(createRequestTokenRequest()) }
     }
 
     @Test
@@ -102,11 +102,11 @@ class AuthViewModelTest {
             authViewModel.createRequestToken()
             assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
             (awaitItem() as AuthUiState.Error).let {
-                assertThat(it.message).isEqualTo("Error : $errorMessage, please try again")
+                assertThat(it.message).isEqualTo("Error creating request token, please try again")
             }
         }
 
-        coVerify(exactly = 1) { authApi.createRequestToken(createRequestToken()) }
+        coVerify(exactly = 1) { authApi.createRequestToken(createRequestTokenRequest()) }
     }
 
     @Test
@@ -140,7 +140,7 @@ class AuthViewModelTest {
 
             assertThat(awaitItem()).isEqualTo(AuthUiState.Loading)
             (awaitItem() as AuthUiState.Error).let {
-                assertThat(it.message).isEqualTo("Error: $errorMessage, please try again")
+                assertThat(it.message).isEqualTo("Error creating session Id, please try again")
             }
         }
 

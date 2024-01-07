@@ -61,6 +61,7 @@ import androidx.core.util.Consumer
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
+import me.jerryokafor.core.common.util.AuthParam
 import me.jerryokafor.core.common.util.Constants
 import me.jerryokafor.core.common.util.getActivity
 import me.jerryokafor.core.ds.annotation.ThemePreviews
@@ -115,6 +116,7 @@ fun AuthScreen(
 
     DisposableEffect(Unit) {
         val listener = Consumer<Intent> {
+            Log.d("Testing: ", "Intent: $it")
             val data: Uri? = it?.data
             if (data != null && data.path == "/auth") {
                 // create session id here
@@ -127,7 +129,6 @@ fun AuthScreen(
 
     fun launchTMDBAuth(uri: Uri) {
         val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
-        Log.d("Testing: ", "Using Intent: ${intent.intent.`package`}")
         intent.launchUrl(context, uri)
     }
 
@@ -146,11 +147,13 @@ fun AuthScreen(
 
     LaunchedEffect(authUiState) {
         authUiState?.let { state ->
+            Log.d("Testing: ", "State: $state")
+
             if (state is AuthUiState.RequestTokenCreated) {
                 val token = state.requestToken
-                val uri = Uri.parse(Constants.TMDB_BASE_AUTH_URL).buildUpon()
-                    .appendQueryParameter("request_token", token)
-                    .appendQueryParameter("redirect_to", Constants.AUTH_REDIRECT_URL)
+                val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
+                    .appendQueryParameter(AuthParam.REQUEST_TOKEN, token)
+                    .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
                     .build()
                 launchTMDBAuth(uri)
             }

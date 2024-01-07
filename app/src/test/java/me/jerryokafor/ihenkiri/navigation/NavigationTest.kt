@@ -24,14 +24,10 @@
 
 package me.jerryokafor.ihenkiri.navigation
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
@@ -45,9 +41,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -57,15 +50,16 @@ import dagger.hilt.android.testing.UninstallModules
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import me.jerryokafor.core.common.util.Constants.AUTH_REDIRECT_URL
 import me.jerryokafor.core.data.injection.LocalStorageBinding
 import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.core.model.UserData
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
+import me.jerryokafor.ihenkiri.core.network.injection.NetworkAuthModule
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApiWithException
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
-import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -87,7 +81,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.R as TVShowsR
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-@UninstallModules(LocalStorageBinding::class)
+@UninstallModules(LocalStorageBinding::class, NetworkAuthModule::class)
 @HiltAndroidTest
 class NavigationTest {
     /**
@@ -107,17 +101,18 @@ class NavigationTest {
     /**
      * Use the primary activity to initialize the app normally.
      */
-    @get:Rule(order = 2)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
-
     @get:Rule(order = 3)
-    val intentsRule = IntentsRule()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @BindValue
     @JvmField
     val localStorage = mockk<LocalStorage>(relaxed = true) {
         every { isLoggedIn() } returns flowOf(true)
     }
+
+    @BindValue
+    @JvmField
+    val authApi: AuthApi = FakeAuthApiWithException()
 
     private fun AndroidComposeTestRule<*, *>.stringResource(
         @StringRes resId: Int,
@@ -147,16 +142,6 @@ class NavigationTest {
     @Before
     fun setUp() {
         ShadowLog.stream = System.out
-
-        val resultData = Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse(AUTH_REDIRECT_URL)
-        }
-
-        Intents.intending(not(IntentMatchers.isInternal())).respondWith(
-            Instrumentation.ActivityResult(Activity.RESULT_OK, resultData),
-        )
-
         hiltRule.inject()
     }
 
@@ -166,8 +151,16 @@ class NavigationTest {
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
             composeTestRule.apply {
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG, true)
+                    .assertExists()
+                    .assertIsDisplayed()
+
                 onNode(hasText(movies) and isSelectable()).assertIsSelected()
                 onNode(hasText(movies) and isSelectable().not()).assertIsDisplayed()
+
+                onNode(hasText(tvShows) and isSelectable()).assertIsNotSelected()
+                onNode(hasText(people) and isSelectable()).assertIsNotSelected()
+                onNode(hasText(settings) and isSelectable()).assertIsNotSelected()
             }
         }
     }
@@ -193,7 +186,7 @@ class NavigationTest {
     }
 
     @Test
-    fun navigationBar_navigateToPreviouslyTvsShowFilter_restoresContent() {
+    fun navigationBar_navigateToPreviouslyTvShowsFilter_restoresContent() {
         val scenario = launchActivity<MainActivity>()
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
@@ -213,7 +206,7 @@ class NavigationTest {
     }
 
     @Test
-    fun topLevelDestinations_showBottomNav() {
+    fun topLevelDestinations_showsBottomNav() {
         val scenario = launchActivity<MainActivity>()
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
@@ -259,7 +252,7 @@ class NavigationTest {
     }
 
     @Test
-    fun testAuth() {
+    fun authScreen_hidesBottomNav() {
         every { localStorage.userData() } returns flowOf(
             UserData(
                 accountId = "",
@@ -290,7 +283,7 @@ class NavigationTest {
     }
 
     @Test
-    fun testAuth1() {
+    fun authScreen_guestSessionLoadedWithError_showsSnackbar() {
         every { localStorage.userData() } returns flowOf(
             UserData(
                 accountId = "",
@@ -302,25 +295,22 @@ class NavigationTest {
             ),
         )
 
-        val scenario = launchActivity<MainActivity>()
-        scenario.moveToState(Lifecycle.State.CREATED)
-        scenario.onActivity {
-            composeTestRule.apply {
-                onNode(hasText(settings) and isSelectable()).performClick()
-                onNodeWithText("Login")
-                    .assertExists()
-                    .assertIsDisplayed()
-                    .performClick()
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
 
-                waitForIdle()
-                onNodeWithText("Continue as Guest").performClick()
-            }
+            waitForIdle()
+            onNodeWithText("Continue as Guest").performClick()
+            onNodeWithText("Error creating guest session, please try again")
+                .assertIsDisplayed()
         }
     }
 
-    @OptIn(ExperimentalTestApi::class)
     @Test
-    fun testAuth2() {
+    fun authScreen_authSessionLoadedWithError_showsSnackbar() {
         every { localStorage.userData() } returns flowOf(
             UserData(
                 accountId = "",
@@ -332,19 +322,17 @@ class NavigationTest {
             ),
         )
 
-        val scenario = launchActivity<MainActivity>()
-        scenario.moveToState(Lifecycle.State.CREATED)
-        scenario.onActivity {
-            composeTestRule.apply {
-                onNode(hasText(settings) and isSelectable()).performClick()
-                onNodeWithText("Login")
-                    .assertExists()
-                    .assertIsDisplayed()
-                    .performClick()
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
 
-                waitForIdle()
-                onNodeWithText("Sign In").performClick()
-            }
+            waitForIdle()
+            onNodeWithText("Sign In").performClick()
+            onNodeWithText("Error creating request token, please try again")
+                .assertIsDisplayed()
         }
     }
 }

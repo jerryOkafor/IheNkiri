@@ -65,16 +65,12 @@ fun IhenkiriNavHost(
         navController.navigateToAuth()
     }
 
-    val onCompleteLogin: () -> Unit = {
-        navController.popBackStack()
-    }
-
     NavHost(
         modifier = Modifier,
         navController = navController,
         startDestination = moviesRoutePattern,
     ) {
-        authNavGraph(onCompleteLogin = onCompleteLogin, onShowSnackbar = onShowSnackbar)
+        authNavGraph(onCompleteLogin = onNavigateUp, onShowSnackbar = onShowSnackbar)
         moviesScreen(onMovieClick = onMovieClick)
         tvShowsScreen(onTVShowClick = {})
         movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)

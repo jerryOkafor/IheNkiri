@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import me.jerryokafor.ihenkiri.core.network.model.response.CreateAccessTokenResp
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateGuestTokenResponse
 import me.jerryokafor.ihenkiri.core.network.model.response.CreateRequestTokenResponse
 
-fun createRequestToken() = CreateRequestTokenRequest("https://ihenkiri.jerryokafor.me/auth")
+fun createRequestTokenRequest() = CreateRequestTokenRequest("https://ihenkiri.jerryokafor.me/auth")
 
 fun createRequestTokenSuccessResponse() = CreateRequestTokenResponse(
     requestToken = """
