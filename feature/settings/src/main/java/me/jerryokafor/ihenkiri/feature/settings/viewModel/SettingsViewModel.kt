@@ -65,9 +65,7 @@ class SettingsViewModel
         }
 
         fun onChangeDynamicColorPreference(useDynamicColor: Boolean) {
-            viewModelScope.launch {
-                localStorage.setUseDynamicColor(useDynamicColor)
-            }
+            viewModelScope.launch { localStorage.setUseDynamicColor(useDynamicColor) }
         }
     }
 
