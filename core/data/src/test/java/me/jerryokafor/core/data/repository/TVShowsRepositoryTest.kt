@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.filter.MoviesFilter
-import me.jerryokafor.ihenkiri.core.network.service.TVSeriesListsApi
+import me.jerryokafor.ihenkiri.core.network.service.TVShowsListApi
 import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData.testNetworkTVShows
 import me.jerryokafor.ihenkiri.core.test.util.TVShowsTestData.testTVShows
 import org.junit.Before
@@ -42,7 +42,7 @@ class TVShowsRepositoryTest {
     private val testDispatcher = UnconfinedTestDispatcher()
     private val testScope = TestScope(testDispatcher)
 
-    private val tvSeriesListsApi = mockk<TVSeriesListsApi>(relaxed = true)
+    private val tvSeriesListsApi = mockk<TVShowsListApi>(relaxed = true)
     private val testFilter = MoviesFilter(language = "en-US", page = 1, region = null)
 
     private lateinit var tvShowsRepository: TVShowsRepository

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ import androidx.navigation.NavBackStackEntry
 
 private const val TWEEN_ANIM_DURATION = 200
 
-// @ExcludeFromGeneratedCoverageReport
 val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -41,7 +40,6 @@ val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Ent
         )
     }
 
-// @ExcludeFromGeneratedCoverageReport
 val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(
@@ -50,7 +48,6 @@ val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> Exit
         )
     }
 
-// @ExcludeFromGeneratedCoverageReport
 val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
     {
         slideIntoContainer(
@@ -59,7 +56,6 @@ val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> 
         )
     }
 
-// @ExcludeFromGeneratedCoverageReport
 val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
     {
         slideOutOfContainer(

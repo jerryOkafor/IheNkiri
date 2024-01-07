@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import me.jerryokafor.core.network.util.enqueueResponse
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor
 import me.jerryokafor.ihenkiri.core.network.AuthorizationInterceptor.Companion.AUTH_HEADER
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
-import me.jerryokafor.ihenkiri.core.test.util.createRequestToken
+import me.jerryokafor.ihenkiri.core.test.util.createRequestTokenRequest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -78,7 +78,7 @@ class AuthorizationInterceptorTest {
         mockWebServer.enqueueResponse("create-request-token-200.json", 200)
 
         runBlocking {
-            authApi.createRequestToken(createRequestToken())
+            authApi.createRequestToken(createRequestTokenRequest())
         }
 
         val recordedRequest = mockWebServer.takeRequest()

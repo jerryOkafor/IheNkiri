@@ -27,6 +27,7 @@ package me.jerryokafor.ihenkiri.navigation
 import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
@@ -54,6 +55,9 @@ import me.jerryokafor.core.data.repository.LocalStorage
 import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.core.model.UserData
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
+import me.jerryokafor.ihenkiri.core.network.injection.NetworkAuthModule
+import me.jerryokafor.ihenkiri.core.network.service.AuthApi
+import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApiWithException
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import org.junit.Before
@@ -77,7 +81,7 @@ import me.jerryokafor.ihenkiri.feature.tvshows.R as TVShowsR
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-@UninstallModules(LocalStorageBinding::class)
+@UninstallModules(LocalStorageBinding::class, NetworkAuthModule::class)
 @HiltAndroidTest
 class NavigationTest {
     /**
@@ -97,7 +101,7 @@ class NavigationTest {
     /**
      * Use the primary activity to initialize the app normally.
      */
-    @get:Rule(order = 2)
+    @get:Rule(order = 3)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @BindValue
@@ -105,6 +109,10 @@ class NavigationTest {
     val localStorage = mockk<LocalStorage>(relaxed = true) {
         every { isLoggedIn() } returns flowOf(true)
     }
+
+    @BindValue
+    @JvmField
+    val authApi: AuthApi = FakeAuthApiWithException()
 
     private fun AndroidComposeTestRule<*, *>.stringResource(
         @StringRes resId: Int,
@@ -143,8 +151,16 @@ class NavigationTest {
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
             composeTestRule.apply {
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG, true)
+                    .assertExists()
+                    .assertIsDisplayed()
+
                 onNode(hasText(movies) and isSelectable()).assertIsSelected()
                 onNode(hasText(movies) and isSelectable().not()).assertIsDisplayed()
+
+                onNode(hasText(tvShows) and isSelectable()).assertIsNotSelected()
+                onNode(hasText(people) and isSelectable()).assertIsNotSelected()
+                onNode(hasText(settings) and isSelectable()).assertIsNotSelected()
             }
         }
     }
@@ -170,7 +186,7 @@ class NavigationTest {
     }
 
     @Test
-    fun navigationBar_navigateToPreviouslyTvsShowFilter_restoresContent() {
+    fun navigationBar_navigateToPreviouslyTvShowsFilter_restoresContent() {
         val scenario = launchActivity<MainActivity>()
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
@@ -190,7 +206,7 @@ class NavigationTest {
     }
 
     @Test
-    fun topLevelDestinations_showBottomNav() {
+    fun topLevelDestinations_showsBottomNav() {
         val scenario = launchActivity<MainActivity>()
         scenario.moveToState(Lifecycle.State.CREATED)
         scenario.onActivity {
@@ -236,7 +252,7 @@ class NavigationTest {
     }
 
     @Test
-    fun testAuth() {
+    fun authScreen_hidesBottomNav() {
         every { localStorage.userData() } returns flowOf(
             UserData(
                 accountId = "",
@@ -263,6 +279,60 @@ class NavigationTest {
                 onNodeWithText("Continue as Guest").assertExists().assertIsDisplayed()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
             }
+        }
+    }
+
+    @Test
+    fun authScreen_guestSessionLoadedWithError_showsSnackbar() {
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = "Jerry",
+                userName = "jerryOkafor",
+            ),
+        )
+
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
+
+            waitForIdle()
+            onNodeWithText("Continue as Guest").performClick()
+            onNodeWithText("Error creating guest session, please try again")
+                .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun authScreen_authSessionLoadedWithError_showsSnackbar() {
+        every { localStorage.userData() } returns flowOf(
+            UserData(
+                accountId = "",
+                isLoggedIn = false,
+                themeConfig = ThemeConfig.DARK,
+                usDynamicColor = false,
+                name = "Jerry",
+                userName = "jerryOkafor",
+            ),
+        )
+
+        composeTestRule.apply {
+            onNode(hasText(settings) and isSelectable()).performClick()
+            onNodeWithText("Login")
+                .assertExists()
+                .assertIsDisplayed()
+                .performClick()
+
+            waitForIdle()
+            onNodeWithText("Sign In").performClick()
+            onNodeWithText("Error creating request token, please try again")
+                .assertIsDisplayed()
         }
     }
 }

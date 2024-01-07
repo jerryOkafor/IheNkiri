@@ -26,7 +26,7 @@ package me.jerryokafor.ihenkiri.feature.auth.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
@@ -43,7 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -62,6 +61,7 @@ import androidx.core.util.Consumer
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
+import me.jerryokafor.core.common.util.AuthParam
 import me.jerryokafor.core.common.util.Constants
 import me.jerryokafor.core.common.util.getActivity
 import me.jerryokafor.core.ds.annotation.ThemePreviews
@@ -73,15 +73,16 @@ import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.ihenkiri.feature.auth.R
 import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
-import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthState
+import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthUiState
 import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthViewModel
+import me.jerryokafor.ihenkiri.feature.auth.viewmodel.GuestSessionUiState
 
 @ThemePreviews
 @Composable
 @ExcludeFromGeneratedCoverageReport
 fun AuthScreenPreview() {
     IheNkiriTheme {
-        AuthScreen {}
+        AuthScreen(onCompleteLogin = {}) { _, _ -> false }
     }
 }
 
@@ -91,8 +92,10 @@ private const val HALF_WIDTH = 0.5F
 fun AuthScreen(
     authViewModel: AuthViewModel = hiltViewModel(),
     onCompleteLogin: () -> Unit,
+    onShowSnackbar: suspend (String, String?) -> Boolean,
 ) {
-    val authState by authViewModel.authState.collectAsStateWithLifecycle()
+    val authUiState by authViewModel.authUiState.collectAsStateWithLifecycle()
+    val guestSessionUiState by authViewModel.guestSessionUiState.collectAsStateWithLifecycle()
 
     val onSignInClick: () -> Unit = {
         authViewModel.createRequestToken()
@@ -102,7 +105,8 @@ fun AuthScreen(
     }
 
     AuthScreen(
-        authState = authState,
+        authState = authUiState,
+        guestSessionUiState = guestSessionUiState,
         onSignInClick = onSignInClick,
         onContinueAsGuestClick = onContinueAsGuestClick,
     )
@@ -112,6 +116,7 @@ fun AuthScreen(
 
     DisposableEffect(Unit) {
         val listener = Consumer<Intent> {
+            Log.d("Testing: ", "Intent: $it")
             val data: Uri? = it?.data
             if (data != null && data.path == "/auth") {
                 // create session id here
@@ -127,34 +132,47 @@ fun AuthScreen(
         intent.launchUrl(context, uri)
     }
 
-    LaunchedEffect(authState) {
-        when (authState) {
-            is AuthState.RequestTokenCreated -> {
-                val token = (authState as AuthState.RequestTokenCreated).requestToken
-                val uri = Uri.parse(Constants.TMDB_BASE_AUTH_URL).buildUpon()
-                    .appendQueryParameter("request_token", token)
-                    .appendQueryParameter("redirect_to", Constants.AUTH_REDIRECT_URL)
+    val okActionTitle = stringResource(R.string.ok)
+    LaunchedEffect(guestSessionUiState) {
+        guestSessionUiState?.let { session ->
+            if (session is GuestSessionUiState.Success) {
+                onCompleteLogin()
+            }
+
+            if (session is GuestSessionUiState.Error) {
+                onShowSnackbar(session.message, okActionTitle)
+            }
+        }
+    }
+
+    LaunchedEffect(authUiState) {
+        authUiState?.let { state ->
+            Log.d("Testing: ", "State: $state")
+
+            if (state is AuthUiState.RequestTokenCreated) {
+                val token = state.requestToken
+                val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
+                    .appendQueryParameter(AuthParam.REQUEST_TOKEN, token)
+                    .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
                     .build()
                 launchTMDBAuth(uri)
             }
 
-            is AuthState.Error -> {
-                Toast.makeText(context, (authState as AuthState.Error).message, Toast.LENGTH_SHORT)
-                    .show()
+            if (state is AuthUiState.Error) {
+                onShowSnackbar(state.message, okActionTitle)
             }
 
-            AuthState.CompleteLogin -> {
+            if (state is AuthUiState.CompleteLogin) {
                 onCompleteLogin()
             }
-
-            else -> {}
         }
     }
 }
 
 @Composable
 fun AuthScreen(
-    authState: AuthState,
+    authState: AuthUiState?,
+    guestSessionUiState: GuestSessionUiState?,
     onSignInClick: () -> Unit = {},
     onContinueAsGuestClick: () -> Unit = {},
 ) {
@@ -216,8 +234,8 @@ fun AuthScreen(
             )
             TwoVerticalSpacer()
 
-            val isLoading = authState == AuthState.LoadingSession
-            val isGuestSessionLoading = authState == AuthState.LoadingGuestSession
+            val isLoading = authState == AuthUiState.Loading
+            val isGuestSessionLoading = guestSessionUiState == GuestSessionUiState.Loading
 
             IhenkiriButton(
                 modifier = Modifier

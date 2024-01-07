@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,7 @@ import me.jerryokafor.ihenkiri.core.test.test.data.FakeMoviesRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleDetailsRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakePeopleListRepository
 import me.jerryokafor.ihenkiri.core.test.test.data.FakeTVShowsRepository
+import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
@@ -46,23 +47,23 @@ import me.jerryokafor.ihenkiri.core.test.test.data.FakeTVShowsRepository
     replaces = [DataModule::class],
 )
 abstract class TestDataModule {
-    @Binds
+    @[Binds Singleton]
     abstract fun provideFakeFakeMoviesRepository(repo: FakeMoviesRepository): MovieListRepository
 
-    @Binds
+    @[Binds Singleton]
     abstract fun provideMovieDetailsRepository(
         movieDetailsRepository: FakeMovieDetailsRepository,
     ): MovieDetailsRepository
 
-    @Binds
+    @[Binds Singleton]
     abstract fun providePeopleListRepository(
         peopleListRepository: FakePeopleListRepository,
     ): PeopleListRepository
 
-    @Binds
+    @[Binds Singleton]
     abstract fun provideTVShowsRepository(repo: FakeTVShowsRepository): TVShowsRepository
 
-    @Binds
+    @[Binds Singleton]
     abstract fun providePeopleDetailsRepository(
         repo: FakePeopleDetailsRepository,
     ): PeopleDetailsRepository
