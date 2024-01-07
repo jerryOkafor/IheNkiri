@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,11 @@ class PeopleViewModelTest {
     fun setUp() {
         coEvery { peopleListRepository.popularPeople(any()) } returns PeopleListTestData
             .testPersons()
-        peopleViewModel = PeopleViewModel(peopleListRepository = peopleListRepository)
+        peopleViewModel =
+            PeopleViewModel(
+                peopleListRepository = peopleListRepository,
+                dispatcher = mainDispatcherRule.testDispatcher,
+            )
     }
 
     @Test
