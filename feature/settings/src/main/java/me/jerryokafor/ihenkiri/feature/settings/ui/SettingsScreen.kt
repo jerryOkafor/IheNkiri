@@ -118,7 +118,7 @@ const val MORE_TITLE_TEST_TAG = "more_title"
 @Composable
 @ThemePreviews
 @ExcludeFromGeneratedCoverageReport
-fun MoreScreenPreview() {
+fun SettingsScreenPreview() {
     IheNkiriTheme {
         SettingsScreen(
             settingsUiState = SettingsUiState.Success(UserEditableSettings()),
