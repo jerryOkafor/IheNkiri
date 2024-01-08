@@ -32,7 +32,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.repository.MovieListRepository
 import me.jerryokafor.core.model.Movie
@@ -61,7 +60,7 @@ class MoviesViewModelTest {
     fun setUp() {
         moviesViewModel = MoviesViewModel(
             movieListRepository = movieListRepository,
-            dispatcher = StandardTestDispatcher(),
+            dispatcher = mainDispatcherRule.testDispatcher,
         )
     }
 

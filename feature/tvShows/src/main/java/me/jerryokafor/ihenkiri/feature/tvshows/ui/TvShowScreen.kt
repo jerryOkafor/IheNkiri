@@ -109,6 +109,8 @@ const val SEARCH_TEST_TAG = "search"
 const val ASPECT_RATIO = 0.7F
 const val FRESH_LOAD_PROGRESS_TEST_TAG = "fresh_load"
 const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
+const val SEARCH_INLCUDE_VIDEO = "search_include_video"
+const val SEARCH_ADULT = "search_include_adult"
 
 @Suppress("MagicNumber")
 @ThemePreviews
@@ -117,7 +119,7 @@ const val APPEND_LOAD_PROGRESS_TEST_TAG = "append_load"
 fun TVShowsScreenPreview() {
     IheNkiriTheme {
         TVShowsScreen(
-            movieLazyPagingItems = flowOf(
+            tvShowLazyPagingItems = flowOf(
                 PagingData.from(testTvShows()),
             ).collectAsLazyPagingItems(),
             filters = testFilters(),
@@ -139,7 +141,7 @@ fun TVShowsScreen(
     }
 
     TVShowsScreen(
-        movieLazyPagingItems = movieLazyPagingItems,
+        tvShowLazyPagingItems = movieLazyPagingItems,
         filters = availableFilters,
         onTVShowClick = onTVShowClick,
         onFilterItemSelected = onItemSelected,
@@ -149,7 +151,7 @@ fun TVShowsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TVShowsScreen(
-    movieLazyPagingItems: LazyPagingItems<TVShow>,
+    tvShowLazyPagingItems: LazyPagingItems<TVShow>,
     filters: List<TVShowsFilterItem> = emptyList(),
     onTVShowClick: (movieId: Long) -> Unit,
     onFilterItemSelected: (TVShowsFilterItem.FilterType) -> Unit = {},
@@ -245,8 +247,8 @@ fun TVShowsScreen(
                     horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.oneAndHalf),
                     content = {
                         item(span = StaggeredGridItemSpan.FullLine) { FiveVerticalSpacer() }
-                        items(count = movieLazyPagingItems.itemCount) { index ->
-                            val tvShow = movieLazyPagingItems[index]!!
+                        items(count = tvShowLazyPagingItems.itemCount) { index ->
+                            val tvShow = tvShowLazyPagingItems[index]!!
                             val path = ImageUtil.buildImageUrl(tvShow.posterPath)
                             MoviePoster(
                                 modifier = Modifier
@@ -259,7 +261,7 @@ fun TVShowsScreen(
                             )
                         }
 
-                        if (movieLazyPagingItems.loadState.append == LoadState.Loading) {
+                        if (tvShowLazyPagingItems.loadState.append == LoadState.Loading) {
                             item(span = StaggeredGridItemSpan.FullLine) {
                                 Box(
                                     modifier = Modifier
@@ -278,7 +280,7 @@ fun TVShowsScreen(
                     },
                 )
 
-                if (movieLazyPagingItems.loadState.refresh == LoadState.Loading) {
+                if (tvShowLazyPagingItems.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .testTag(FRESH_LOAD_PROGRESS_TEST_TAG)
@@ -404,7 +406,11 @@ fun SearchBarRow(
                     style = IheNkiri.typography.titleSmall,
                 )
                 FillingSpacer()
-                Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
+                Switch(
+                    modifier = Modifier.testTag(SEARCH_ADULT),
+                    checked = includeAdult,
+                    onCheckedChange = { includeAdult = it },
+                )
             }
 
             Row(
@@ -428,7 +434,11 @@ fun SearchBarRow(
                     style = IheNkiri.typography.titleSmall,
                 )
                 FillingSpacer()
-                Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
+                Switch(
+                    modifier = Modifier.testTag(SEARCH_INLCUDE_VIDEO),
+                    checked = includeVideo,
+                    onCheckedChange = { includeVideo = it },
+                )
             }
         }
     }

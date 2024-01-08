@@ -82,6 +82,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -118,7 +120,7 @@ const val MORE_TITLE_TEST_TAG = "more_title"
 @Composable
 @ThemePreviews
 @ExcludeFromGeneratedCoverageReport
-fun MoreScreenPreview() {
+fun SettingsScreenPreview() {
     IheNkiriTheme {
         SettingsScreen(
             settingsUiState = SettingsUiState.Success(UserEditableSettings()),
@@ -159,6 +161,7 @@ fun SettingsScreen(
 @ExcludeFromGeneratedCoverageReport
 fun SettingsScreen(
     settingsUiState: SettingsUiState,
+    supportDynamicColor: Boolean = supportsDynamicTheming(),
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeDarkThemeConfig: (themeConfig: ThemeConfig) -> Unit,
     onLoginClick: () -> Unit,
@@ -202,9 +205,8 @@ fun SettingsScreen(
                                     isLoggedIn = preference.isLoggedIn,
                                     onLoginClick = onLoginClick,
                                     onLogoutClick = onLogoutClick,
-                                ) {
-                                    showThemeSettingsDialog = true
-                                }
+                                    onChangeTheme = { showThemeSettingsDialog = true },
+                                )
                             }
                         }
 
@@ -226,7 +228,7 @@ fun SettingsScreen(
                                     Column(Modifier.verticalScroll(rememberScrollState())) {
                                         SettingsPanel(
                                             themeConfig = preference.themeConfig,
-                                            supportDynamicColor = supportsDynamicTheming(),
+                                            supportDynamicColor = supportDynamicColor,
                                             useDynamicColor = preference.isDynamicColor,
                                             onChangeDynamicColorPreference =
                                             onChangeDynamicColorPreference,
@@ -322,7 +324,11 @@ private fun SettingsDialogSectionTitle(text: String) {
 
 @Composable
 private fun ChangeThemeButton(onClick: () -> Unit) {
-    Surface(onClick = onClick, shape = IheNkiri.shape.small) {
+    Surface(
+        modifier = Modifier.semantics(true) { },
+        onClick = onClick,
+        shape = IheNkiri.shape.small,
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

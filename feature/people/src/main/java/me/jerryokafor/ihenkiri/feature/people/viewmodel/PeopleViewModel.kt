@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
+import me.jerryokafor.core.common.injection.IoDispatcher
 import me.jerryokafor.core.data.repository.PeopleListPagingSource
 import me.jerryokafor.core.data.repository.PeopleListRepository
 import javax.inject.Inject
@@ -39,6 +42,7 @@ class PeopleViewModel
     @Inject
     constructor(
         private val peopleListRepository: PeopleListRepository,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
     ) : ViewModel() {
         val persons = Pager(
             config = PagingConfig(pageSize = 4, maxSize = 200, enablePlaceholders = true),
@@ -47,4 +51,5 @@ class PeopleViewModel
                 PeopleListPagingSource(peopleListRepository = peopleListRepository)
             },
         ).flow.cachedIn(viewModelScope)
+            .flowOn(dispatcher)
     }

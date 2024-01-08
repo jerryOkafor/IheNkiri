@@ -365,9 +365,7 @@ class MoviesScreenTest {
 
 private fun List<MovieListFilterItem>.selectItem(whereLabel: String) = map {
     if (labelFor(it) == whereLabel) {
-        it.copy(
-            isSelected = true,
-        )
+        it.copy(isSelected = true)
     } else {
         it.copy(isSelected = false)
     }

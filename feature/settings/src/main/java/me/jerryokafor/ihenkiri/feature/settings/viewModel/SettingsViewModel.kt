@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel
     @Inject
-    @Suppress("UnusedPrivateMember")
     constructor(private val localStorage: LocalStorage) : ViewModel() {
         val settingsUiState: StateFlow<SettingsUiState> = localStorage.userData()
             .map {
@@ -66,9 +65,7 @@ class SettingsViewModel
         }
 
         fun onChangeDynamicColorPreference(useDynamicColor: Boolean) {
-            viewModelScope.launch {
-                localStorage.setUseDynamicColor(useDynamicColor)
-            }
+            viewModelScope.launch { localStorage.setUseDynamicColor(useDynamicColor) }
         }
     }
 
