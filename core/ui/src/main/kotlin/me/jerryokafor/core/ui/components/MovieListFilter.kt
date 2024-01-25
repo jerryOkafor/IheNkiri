@@ -99,6 +99,8 @@ fun MovieListFilter(
                 ),
                 border = FilterChipDefaults.filterChipBorder(
                     borderColor = IheNkiri.color.onPrimary.copy(alpha = 0.7f),
+                    enabled = true,
+                    selected = item.second,
                 ),
             )
         }
