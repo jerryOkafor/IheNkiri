@@ -61,9 +61,8 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
             androidTestImplementation(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
             androidTestImplementation(libs.findLibrary("androidx-compose-material3").get())
             androidTestImplementation(
-                libs.findLibrary("androidx-compose-material-icons-extended").get()
+                libs.findLibrary("androidx-compose-material-icons-extended").get(),
             )
-
         }
     }
 
@@ -84,7 +83,7 @@ private fun Project.buildComposeMetricsParameters(): List<String> {
         metricParameters.add("-P")
         metricParameters.add(
             "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                    metricsFolder.absolutePath,
+                metricsFolder.absolutePath,
         )
     }
 
@@ -95,7 +94,7 @@ private fun Project.buildComposeMetricsParameters(): List<String> {
         metricParameters.add("-P")
         metricParameters.add(
             "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                    reportsFolder.absolutePath,
+                reportsFolder.absolutePath,
         )
     }
     return metricParameters.toList()
