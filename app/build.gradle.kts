@@ -122,6 +122,7 @@ dependencies {
 
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.com.google.android.material)
 
     // Performance
     implementation(libs.androidx.metrics.performance)

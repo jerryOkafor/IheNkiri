@@ -49,6 +49,7 @@ accompanist = "0.33.1-alpha"
 coil = "2.4.0"
 haze = "0.4.1"
 composeShimmer = "1.0.5"
+material = "1.12.0-alpha03"
 
 #Paging
 paging = "3.2.1"
@@ -117,6 +118,7 @@ app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref =
 
 # google
 com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # accompanist
 com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
