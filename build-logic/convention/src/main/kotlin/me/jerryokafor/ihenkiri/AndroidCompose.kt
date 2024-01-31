@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,22 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
 
         dependencies {
             val bom = libs.findLibrary("androidx-compose-bom").get()
+
             implementation(platform(bom))
+            implementation(libs.findLibrary("androidx-compose-ui").get())
+            implementation(libs.findLibrary("androidx-compose-ui-graphics").get())
+            implementation(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            implementation(libs.findLibrary("androidx-compose-material3").get())
+            implementation(libs.findLibrary("androidx-compose-material-icons-extended").get())
+
             androidTestImplementation(platform(bom))
+            androidTestImplementation(libs.findLibrary("androidx-compose-ui").get())
+            androidTestImplementation(libs.findLibrary("androidx-compose-ui-graphics").get())
+            androidTestImplementation(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            androidTestImplementation(libs.findLibrary("androidx-compose-material3").get())
+            androidTestImplementation(
+                libs.findLibrary("androidx-compose-material-icons-extended").get(),
+            )
         }
     }
 
