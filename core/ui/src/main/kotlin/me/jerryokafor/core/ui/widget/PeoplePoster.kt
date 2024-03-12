@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,15 @@ package me.jerryokafor.core.ui.widget
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -56,6 +57,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
@@ -122,8 +124,7 @@ fun PeoplePoster(
             .semantics(mergeDescendants = true) {
                 contentDescription = "$firstName $lastName"
             }
-            .width(size)
-            .wrapContentSize(),
+            .width(size),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
@@ -162,13 +163,30 @@ fun PeoplePoster(
             }
         }
         OneVerticalSpacer()
-        Text(
-            text = "$firstName \n$lastName",
-            style = IheNkiri.typography.labelMedium,
-            color = textColor,
-            minLines = 2,
-            maxLines = 2,
-            textAlign = TextAlign.Center,
-        )
+        Column(
+            modifier = Modifier.height(34.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = firstName,
+                style = IheNkiri.typography.labelMedium,
+                color = textColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+            )
+
+            if (lastName.isNotBlank()) {
+                Text(
+                    text = lastName,
+                    style = IheNkiri.typography.labelMedium,
+                    color = textColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
     }
 }

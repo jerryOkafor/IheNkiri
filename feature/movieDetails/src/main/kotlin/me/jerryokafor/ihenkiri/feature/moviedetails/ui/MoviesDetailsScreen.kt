@@ -58,9 +58,9 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -105,8 +105,10 @@ import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.Video
+import me.jerryokafor.core.model.names
 import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
+import me.jerryokafor.core.ui.components.MovieDetailsText
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.core.ui.components.TrailerButton
 import me.jerryokafor.core.ui.extension.TrackScrollJank
@@ -370,7 +372,7 @@ fun MoviesDetailsScreen(
                                 }
 
                                 TwoVerticalSpacer()
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(1.dp)
@@ -420,15 +422,17 @@ fun MoviesDetailsScreen(
                         // Overview
                         item {
                             TwoVerticalSpacer()
-                            Text(
+                            MovieDetailsText(
                                 modifier = Modifier
-                                    .testTag(MOVIE_DETAILS_OVERVIEW)
-                                    .padding(horizontal = IheNkiri.spacing.two),
+                                    .testTag(MOVIE_DETAILS_OVERVIEW),
+//                                    .padding(horizontal = IheNkiri.spacing.two),
                                 text = movieDetails.overview,
+                                dialogTitle = movieDetails.title,
                                 style = IheNkiri.typography.bodyMedium,
                                 textAlign = TextAlign.Justify,
                                 color = secondaryTextColor,
                             )
+                            TwoVerticalSpacer()
                         }
 
                         // Trailer button
@@ -499,10 +503,9 @@ fun MoviesDetailsScreen(
                                             movieCreditUiState.movieCredit.cast
                                                 .distinctBy { it.name },
                                         ) {
-                                            val (firstName, lastName) = it.name?.split(" ")
-                                                ?: listOf("", "")
+                                            val (firstName, lastName) = it.names()
                                             PeoplePoster(
-                                                modifier = Modifier,
+                                                modifier = Modifier.fillParentMaxHeight(),
                                                 size = 80.dp,
                                                 firstName = firstName,
                                                 lastName = lastName,
@@ -562,8 +565,7 @@ fun MoviesDetailsScreen(
                                             movieCreditUiState.movieCredit.crew
                                                 .distinctBy { it.name },
                                         ) {
-                                            val (firstName, lastName) = it.name?.split(" ")
-                                                ?: listOf("", "")
+                                            val (firstName, lastName) = it.names()
                                             PeoplePoster(
                                                 modifier = Modifier,
                                                 size = 80.dp,
