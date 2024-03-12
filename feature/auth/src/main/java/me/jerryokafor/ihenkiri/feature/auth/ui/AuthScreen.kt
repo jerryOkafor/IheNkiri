@@ -43,6 +43,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -50,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +66,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.core.util.Consumer
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.common.util.AuthParam
 import me.jerryokafor.core.common.util.Constants
@@ -75,7 +84,6 @@ import me.jerryokafor.ihenkiri.feature.auth.R
 import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
 import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthUiState
 import me.jerryokafor.ihenkiri.feature.auth.viewmodel.AuthViewModel
-import me.jerryokafor.ihenkiri.feature.auth.viewmodel.GuestSessionUiState
 
 @ThemePreviews
 @Composable
@@ -90,25 +98,24 @@ private const val HALF_WIDTH = 0.5F
 
 @Composable
 fun AuthScreen(
-    authViewModel: AuthViewModel = hiltViewModel(),
+    viewModel: AuthViewModel = hiltViewModel(),
     onCompleteLogin: () -> Unit,
     onShowSnackbar: suspend (String, String?) -> Boolean,
 ) {
-    val authUiState by authViewModel.authUiState.collectAsStateWithLifecycle()
-    val guestSessionUiState by authViewModel.guestSessionUiState.collectAsStateWithLifecycle()
-
-    val onSignInClick: () -> Unit = {
-        authViewModel.createRequestToken()
-    }
-    val onContinueAsGuestClick: () -> Unit = {
-        authViewModel.createGuestSession()
-    }
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var hasHandledRequestToken by rememberSaveable { mutableStateOf(false) }
+    val okActionTitle = stringResource(R.string.ok)
 
     AuthScreen(
-        authState = authUiState,
-        guestSessionUiState = guestSessionUiState,
-        onSignInClick = onSignInClick,
-        onContinueAsGuestClick = onContinueAsGuestClick,
+        uiState = uiState,
+        onSignInClick = {
+            hasHandledRequestToken = false
+            viewModel.createRequestToken()
+        },
+        onContinueAsGuestClick = {
+            viewModel.createGuestSession()
+        },
     )
 
     val context = LocalContext.current
@@ -120,59 +127,58 @@ fun AuthScreen(
             val data: Uri? = it?.data
             if (data != null && data.path == "/auth") {
                 // create session id here
-                authViewModel.createSessionId()
+                viewModel.createSessionId()
             }
         }
         activity.addOnNewIntentListener(listener)
         onDispose { activity.removeOnNewIntentListener(listener) }
     }
 
-    fun launchTMDBAuth(uri: Uri) {
-        val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
-        intent.launchUrl(context, uri)
+    val currentOnCompleteLogin by rememberUpdatedState(onCompleteLogin)
+    LaunchedEffect(viewModel, lifecycle) {
+        snapshotFlow { uiState.authSuccess }
+            .filter { it }
+            .flowWithLifecycle(lifecycle)
+            .collect {
+                currentOnCompleteLogin()
+            }
     }
 
-    val okActionTitle = stringResource(R.string.ok)
-    LaunchedEffect(guestSessionUiState) {
-        guestSessionUiState?.let { session ->
-            if (session is GuestSessionUiState.Success) {
-                onCompleteLogin()
-            }
+    // prevent auto advancing to the next screen when users returns to the back stack
+    if (!hasHandledRequestToken) {
+        LaunchedEffect(viewModel, lifecycle) {
+            snapshotFlow { uiState.requestToken }
+                .flowWithLifecycle(lifecycle)
+                .filterNotNull()
+                .collect { requestToken ->
+                    val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
+                        .appendQueryParameter(AuthParam.REQUEST_TOKEN, requestToken)
+                        .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
+                        .build()
 
-            if (session is GuestSessionUiState.Error) {
-                onShowSnackbar(session.message, okActionTitle)
-            }
+                    val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
+                    intent.launchUrl(context, uri)
+
+                    hasHandledRequestToken = true
+                }
         }
     }
 
-    LaunchedEffect(authUiState) {
-        authUiState?.let { state ->
-            Log.d("Testing: ", "State: $state")
-
-            if (state is AuthUiState.RequestTokenCreated) {
-                val token = state.requestToken
-                val uri = Uri.parse(Constants.TMDB_AUTH_ACCESS_URL).buildUpon()
-                    .appendQueryParameter(AuthParam.REQUEST_TOKEN, token)
-                    .appendQueryParameter(AuthParam.REDIRECT_TO, Constants.AUTH_REDIRECT_URL)
-                    .build()
-                launchTMDBAuth(uri)
+    val currentOnShowSnackBar by rememberUpdatedState(onShowSnackbar)
+    LaunchedEffect(viewModel, lifecycle) {
+        snapshotFlow { uiState.error }
+            .filterNotNull()
+            .flowWithLifecycle(lifecycle)
+            .collect { message ->
+                currentOnShowSnackBar(message, okActionTitle)
+                viewModel.handleUiMessage()
             }
-
-            if (state is AuthUiState.Error) {
-                onShowSnackbar(state.message, okActionTitle)
-            }
-
-            if (state is AuthUiState.CompleteLogin) {
-                onCompleteLogin()
-            }
-        }
     }
 }
 
 @Composable
 fun AuthScreen(
-    authState: AuthUiState?,
-    guestSessionUiState: GuestSessionUiState?,
+    uiState: AuthUiState,
     onSignInClick: () -> Unit = {},
     onContinueAsGuestClick: () -> Unit = {},
 ) {
@@ -234,16 +240,13 @@ fun AuthScreen(
             )
             TwoVerticalSpacer()
 
-            val isLoading = authState == AuthUiState.Loading
-            val isGuestSessionLoading = guestSessionUiState == GuestSessionUiState.Loading
-
             IhenkiriButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = IheNkiri.spacing.two),
                 onClick = onSignInClick,
-                isLoading = isLoading,
-                enabled = !isLoading && !isGuestSessionLoading,
+                isLoading = uiState.loading,
+                enabled = !uiState.loading && !uiState.guestSessionLoading,
             ) {
                 Text(text = stringResource(R.string.app_sign_in))
             }
@@ -253,8 +256,8 @@ fun AuthScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = IheNkiri.spacing.two),
-                isLoading = isGuestSessionLoading,
-                enabled = !isLoading && !isGuestSessionLoading,
+                isLoading = uiState.guestSessionLoading,
+                enabled = !uiState.guestSessionLoading && !uiState.loading,
                 onClick = onContinueAsGuestClick,
             ) {
                 Text(
