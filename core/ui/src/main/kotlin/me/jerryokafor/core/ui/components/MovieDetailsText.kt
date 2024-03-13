@@ -73,20 +73,18 @@ import me.jerryokafor.core.ui.R
 @ExcludeFromGeneratedCoverageReport
 fun MovieDetailsTextPreview() {
     IheNkiriTheme {
-        Background {
-            val text =
-                "Terrible Script, dialogue, directing, hammy editing. Music is meh. Poor acting" +
-                    " (but they clearly got no support). This crap show's the contempt " +
-                    "producers like this have for the audience that gives them money. " +
-                    "The writer, director, producers and editor must have been so full of " +
-                    "ego that I bet continues today, despite the poor reviews. During the " +
-                    "boring minutes (90) I drifted off imagining them all working on these " +
-                    "scenes thinking they were amazing, and trying to understand the level " +
-                    "of narcissism required. Just delusional film makers that like the " +
-                    "smell of each others farts. During the credits I imagined the director " +
-                    "is still down there and that's what got it 0.5 rather than 0."
-            MovieDetailsText(text = text, textAlign = TextAlign.Justify)
-        }
+        val text =
+            "Terrible Script, dialogue, directing, hammy editing. Music is meh. Poor acting" +
+                " (but they clearly got no support). This crap show's the contempt " +
+                "producers like this have for the audience that gives them money. " +
+                "The writer, director, producers and editor must have been so full of " +
+                "ego that I bet continues today, despite the poor reviews. During the " +
+                "boring minutes (90) I drifted off imagining them all working on these " +
+                "scenes thinking they were amazing, and trying to understand the level " +
+                "of narcissism required. Just delusional film makers that like the " +
+                "smell of each others farts. During the credits I imagined the director " +
+                "is still down there and that's what got it 0.5 rather than 0."
+        MovieDetailsText(text = text, textAlign = TextAlign.Justify)
     }
 }
 
@@ -160,11 +158,10 @@ fun MovieDetailsText(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Color.Transparent,
-                                Black900,
-                                Black900.copy(alpha = 0.7f),
-                                Black900.copy(alpha = 0.8f),
-                                Black900.copy(alpha = 0.9f),
+                                IheNkiri.color.inverseOnSurface.copy(alpha = 0.1F),
+                                IheNkiri.color.inverseOnSurface.copy(alpha = 0.5F),
+                                IheNkiri.color.inverseOnSurface.copy(alpha = 0.9F),
+                                IheNkiri.color.inverseOnSurface,
                             ),
                         ),
                     ),

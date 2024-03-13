@@ -425,14 +425,12 @@ fun MoviesDetailsScreen(
                             MovieDetailsText(
                                 modifier = Modifier
                                     .testTag(MOVIE_DETAILS_OVERVIEW),
-//                                    .padding(horizontal = IheNkiri.spacing.two),
                                 text = movieDetails.overview,
                                 dialogTitle = movieDetails.title,
                                 style = IheNkiri.typography.bodyMedium,
                                 textAlign = TextAlign.Justify,
                                 color = secondaryTextColor,
                             )
-                            TwoVerticalSpacer()
                         }
 
                         // Trailer button
