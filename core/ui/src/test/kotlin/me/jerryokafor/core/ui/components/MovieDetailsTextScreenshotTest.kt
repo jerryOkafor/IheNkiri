@@ -50,9 +50,9 @@ class MovieDetailsTextScreenshotTest {
         composeTestRule.captureMultiTheme("MovieDetailsText") { desc: String ->
             val text =
                 "Terrible Script, dialogue, directing, hammy editing. Music is meh. Poor acting" +
-                        " (but they clearly got no support). This crap show's the contempt " +
-                        "producers like this have for the audience that gives them money. " +
-                        "The writer, director, producers and editor must have been so full of"
+                    " (but they clearly got no support). This crap show's the contempt " +
+                    "producers like this have for the audience that gives them money. " +
+                    "The writer, director, producers and editor must have been so full of"
             MovieDetailsText(text = text, textAlign = TextAlign.Justify)
         }
     }
