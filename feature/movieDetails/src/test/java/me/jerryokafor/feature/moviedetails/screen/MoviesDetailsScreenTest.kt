@@ -197,7 +197,7 @@ class MoviesDetailsScreenTest {
                 .assertCountEquals(2)
                 .onFirst()
                 .assert(hasContentDescription("Edward Norton"))
-                .assert(hasText("Edward \nNorton"))
+                .assert(hasText("Edward"))
 
             onNodeWithTag(MOVIE_DETAILS_CREW_ROW).assertExists()
                 .assertIsDisplayed()
@@ -206,7 +206,7 @@ class MoviesDetailsScreenTest {
                 .assertCountEquals(2)
                 .onFirst()
                 .assert(hasContentDescription("Arnon Milchan"))
-                .assert(hasText("Arnon \nMilchan"))
+                .assert(hasText("Arnon"))
         }
     }
 
