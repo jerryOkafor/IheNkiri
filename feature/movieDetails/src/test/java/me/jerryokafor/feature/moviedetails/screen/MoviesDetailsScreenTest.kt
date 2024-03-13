@@ -117,6 +117,24 @@ class MoviesDetailsScreenTest {
     }
 
     @Test
+    fun moviesDetailsScreen_otherDetailsLoading_progressBarIsShown() {
+        with(composeTestRule) {
+            val expectedMovieDetails = MovieDetailsTestData.testMovieDetails(0L)
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(expectedMovieDetails),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
+                )
+            }
+
+            onAllNodes(hasProgressBarRangeInfo(ProgressBarRangeInfo.Indeterminate))
+                .assertCountEquals(3)
+        }
+    }
+
+    @Test
     fun moviesDetailsScreen_movieDetailsLoaded_showMovieDetails() {
         with(composeTestRule) {
             val expectedMovieDetails = MovieDetailsTestData.testMovieDetails(0L)
@@ -301,7 +319,7 @@ class MoviesDetailsScreenTest {
     }
 
     @Test
-    fun moviesDetailsScreen_onRateItClick_addToBookmark() {
+    fun moviesDetailsScreen_onRateItClick_rateMovie() {
         with(composeTestRule) {
             setContent {
                 MoviesDetailsScreen(

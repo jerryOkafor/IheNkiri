@@ -503,7 +503,6 @@ fun MoviesDetailsScreen(
                                         ) {
                                             val (firstName, lastName) = it.names()
                                             PeoplePoster(
-                                                modifier = Modifier.fillParentMaxHeight(),
                                                 size = 80.dp,
                                                 firstName = firstName,
                                                 lastName = lastName,
@@ -565,7 +564,6 @@ fun MoviesDetailsScreen(
                                         ) {
                                             val (firstName, lastName) = it.names()
                                             PeoplePoster(
-                                                modifier = Modifier,
                                                 size = 80.dp,
                                                 firstName = firstName,
                                                 lastName = lastName,
