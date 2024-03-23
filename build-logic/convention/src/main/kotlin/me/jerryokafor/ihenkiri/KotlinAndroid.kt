@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,13 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Configure base Kotlin with Android options
  */
-internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *>) {
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
         compileSdk = Config.compileSdkVersion
 
@@ -100,20 +101,21 @@ internal fun Project.configureKotlinJvm() {
 private fun Project.configureKotlin() {
     // Use withType to workaround https://youtrack.jetbrains.com/issue/KT-55947
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
+        compilerOptions {
             // Set JVM target to 11
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            jvmTarget.set(JvmTarget.JVM_11)
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
             val warningsAsErrors: String? by project
-            allWarningsAsErrors = warningsAsErrors.toBoolean()
-            freeCompilerArgs = freeCompilerArgs +
+            allWarningsAsErrors.set(warningsAsErrors.toBoolean())
+            freeCompilerArgs.add(
                 listOf(
                     "-opt-in=kotlin.RequiresOptIn",
                     // Enable experimental coroutines APIs, including Flow
                     "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                     "-opt-in=kotlinx.coroutines.FlowPreview",
-                )
+                ).joinToString(" "),
+            )
         }
     }
 }

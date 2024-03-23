@@ -1,8 +1,8 @@
 [versions]
-androidGradlePlugin = "8.2.2"
-kotlin = "2.0.0-Beta3"
+androidGradlePlugin = "8.3.1"
+kotlin = "2.0.0-Beta4"
 androidDesugarJdkLibs = "2.0.4"
-ksp = "1.9.10-1.0.13"
+ksp = "1.9.23-1.0.19"
 
 core-ktx = "1.12.0"
 lifecycle = "2.7.0"
@@ -10,7 +10,7 @@ activity-compose = "1.8.2"
 coreSplashscreen = "1.0.1"
 adroidXFragmentktx = "1.6.2"
 appcompat = "1.6.1"
-browser = "1.7.0"
+browser = "1.8.0"
 palette = "1.0.0"
 
 # datastore
@@ -23,7 +23,7 @@ protocGenJavalite = "3.0.0"
 protobuf = "3.24.4"
 protobufPlugin = "0.9.4"
 
-coroutines = "1.7.3"
+coroutines = "1.8.0"
 turbine = "1.0.0"
 
 # Retrofit
@@ -34,26 +34,26 @@ okhttp3 = "4.12.0"
 secrets = "2.0.1"
 
 # hilt
-hilt = "2.48.1"
-hiltExt = "1.1.0"
+hilt = "2.49"
+hiltExt = "1.2.0"
 
 # navigation
-navigation = "2.7.6"
-androidxHiltNavigationCompose = "1.1.0"
+navigation = "2.7.7"
+androidxHiltNavigationCompose = "1.2.0"
 
 # compose
-composeBom = "2024.01.00"
-composeCompiler = "1.5.9-dev-k2.0.0-Beta3-7c5ec6895a0"
-composeMaterial3 = "1.2.0-rc01"
+composeBom = "2024.03.00"
+composeCompiler = "1.5.11-dev-k2.0.0-Beta4-21f5e479a96"
+composeMaterial3 = "1.2.1"
 accompanist = "0.33.1-alpha"
 coil = "2.4.0"
 haze = "0.4.1"
 composeShimmer = "1.0.5"
-material = "1.12.0-alpha03"
+material = "1.12.0-beta01"
 
 #Paging
 paging = "3.2.1"
-pagingCompose = "3.3.0-alpha02"
+pagingCompose = "3.3.0-alpha05"
 
 # code quality
 detekt = "1.22.0"

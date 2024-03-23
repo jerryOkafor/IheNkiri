@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -75,7 +75,7 @@ private fun String.capitalize() = replaceFirstChar {
 }
 
 internal fun Project.configureJacoco(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
     // set tool version
@@ -126,7 +126,7 @@ internal fun Project.configureJacoco(
                 }
 
                 classDirectories.setFrom(
-                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                    fileTree(layout.buildDirectory.file("tmp/kotlin-classes/${variant.name}")) {
                         exclude(coverageExclusions)
                     },
                 )
@@ -143,11 +143,8 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
-                    files(
-                        "$buildDir/outputs/unit_test_code_coverage/" +
-                            "${variant.name}UnitTest/$testTaskName.exec",
-                    ),
-                    fileTree("$buildDir/outputs/code_coverage") {
+                    files(layout.buildDirectory.file("outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec")),
+                    fileTree(layout.buildDirectory.file("outputs/code_coverage")) {
                         include("*.ec")
                     },
                 )
