@@ -143,6 +143,7 @@ internal fun Project.configureJacoco(
 
                 // set outputs
                 executionData.setFrom(
+                    @Suppress("ktlint:standard:max-line-length")
                     files(
                         layout.buildDirectory.file(
                             "outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec",
