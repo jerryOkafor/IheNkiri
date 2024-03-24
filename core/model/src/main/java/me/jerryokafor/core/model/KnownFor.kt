@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,10 @@ data class Crew(
     val posterPath: String?,
 )
 
+fun Crew.names(): List<String> = name?.split(" ")?.let {
+    if (it.size <= 1) it.plus(" ") else it
+} ?: emptyList()
+
 data class Cast(
     val adult: Boolean,
     val castId: Int,
@@ -63,6 +67,10 @@ data class Cast(
     val profilePath: String?,
     val posterPath: String?,
 )
+
+fun Cast.names(): List<String> = name?.split(" ")?.let {
+    if (it.size <= 1) it.plus("") else it
+} ?: emptyList()
 
 data class MovieCredit(
     val id: Int,

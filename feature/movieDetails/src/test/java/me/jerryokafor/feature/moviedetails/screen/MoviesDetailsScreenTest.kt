@@ -31,6 +31,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.hasScrollAction
@@ -117,6 +118,24 @@ class MoviesDetailsScreenTest {
     }
 
     @Test
+    fun moviesDetailsScreen_otherDetailsLoading_progressBarIsShown() {
+        with(composeTestRule) {
+            val expectedMovieDetails = MovieDetailsTestData.testMovieDetails(0L)
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(expectedMovieDetails),
+                    movieCreditUiState = MovieCreditUiState.Loading,
+                    similarMoviesUiState = SimilarMoviesUiState.Loading,
+                    moviesVideoUiState = MoviesVideoUiState.Loading,
+                )
+            }
+
+            onAllNodes(hasProgressBarRangeInfo(ProgressBarRangeInfo.Indeterminate))
+                .assertCountEquals(3)
+        }
+    }
+
+    @Test
     fun moviesDetailsScreen_movieDetailsLoaded_showMovieDetails() {
         with(composeTestRule) {
             val expectedMovieDetails = MovieDetailsTestData.testMovieDetails(0L)
@@ -138,6 +157,10 @@ class MoviesDetailsScreenTest {
             onAllNodesWithText("Fight Club")
                 .assertCountEquals(2)
                 .assertAreDisplayed()
+
+            onNodeWithText("2hr(s) 19m")
+                .assertExists()
+                .assertIsDisplayed()
 
             onNodeWithTag(MOVIE_DETAILS_COL).assertExists()
                 .performScrollToNode(hasTestTag(MOVIE_DETAILS_OVERVIEW))
@@ -197,7 +220,7 @@ class MoviesDetailsScreenTest {
                 .assertCountEquals(2)
                 .onFirst()
                 .assert(hasContentDescription("Edward Norton"))
-                .assert(hasText("Edward \nNorton"))
+                .assert(hasText("Edward"))
 
             onNodeWithTag(MOVIE_DETAILS_CREW_ROW).assertExists()
                 .assertIsDisplayed()
@@ -206,7 +229,7 @@ class MoviesDetailsScreenTest {
                 .assertCountEquals(2)
                 .onFirst()
                 .assert(hasContentDescription("Arnon Milchan"))
-                .assert(hasText("Arnon \nMilchan"))
+                .assert(hasText("Arnon"))
         }
     }
 
@@ -301,7 +324,7 @@ class MoviesDetailsScreenTest {
     }
 
     @Test
-    fun moviesDetailsScreen_onRateItClick_addToBookmark() {
+    fun moviesDetailsScreen_onRateItClick_rateMovie() {
         with(composeTestRule) {
             setContent {
                 MoviesDetailsScreen(
@@ -450,11 +473,16 @@ class MoviesDetailsScreenTest {
                     movieCreditUiState = MovieCreditUiState.LoadFailed(""),
                     similarMoviesUiState = SimilarMoviesUiState.LoadFailed(""),
                     moviesVideoUiState = MoviesVideoUiState.LoadFailed(""),
+                    onNavigateUp = { onNavigateUp++ },
                 )
             }
 
             onNodeWithText("Error loading movie details")
                 .assertExists().assertIsDisplayed()
+            onNode(hasClickAction() and hasText("Back"))
+                .assertIsDisplayed()
+                .performClick()
+            assertEquals(1, onNavigateUp)
         }
     }
 
@@ -477,6 +505,9 @@ class MoviesDetailsScreenTest {
             onAllNodesWithText(text = "please try again", substring = true, ignoreCase = true)
                 .assertCountEquals(3)
                 .assertAreDisplayed()
+            onAllNodes(hasClickAction() and hasText("Back"))
+                .assertAreDisplayed()
+                .assertCountEquals(3)
         }
     }
 }
