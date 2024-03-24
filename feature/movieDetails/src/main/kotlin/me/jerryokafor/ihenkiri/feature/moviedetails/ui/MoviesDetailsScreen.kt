@@ -477,11 +477,11 @@ fun MoviesDetailsScreen(
                                     .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
                                 horizontalArrangement =
-                                if (movieCreditUiState is MovieCreditUiState.Success) {
-                                    Arrangement.spacedBy(IheNkiri.spacing.one)
-                                } else {
-                                    Arrangement.Center
-                                },
+                                    if (movieCreditUiState is MovieCreditUiState.Success) {
+                                        Arrangement.spacedBy(IheNkiri.spacing.one)
+                                    } else {
+                                        Arrangement.Center
+                                    },
                             ) {
                                 when (movieCreditUiState) {
                                     is MovieCreditUiState.LoadFailed -> {
