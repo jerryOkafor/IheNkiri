@@ -31,6 +31,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.hasScrollAction
@@ -468,11 +469,16 @@ class MoviesDetailsScreenTest {
                     movieCreditUiState = MovieCreditUiState.LoadFailed(""),
                     similarMoviesUiState = SimilarMoviesUiState.LoadFailed(""),
                     moviesVideoUiState = MoviesVideoUiState.LoadFailed(""),
+                    onNavigateUp = { onNavigateUp++ },
                 )
             }
 
             onNodeWithText("Error loading movie details")
                 .assertExists().assertIsDisplayed()
+            onNode(hasClickAction() and hasText("Back"))
+                .assertIsDisplayed()
+                .performClick()
+            assertEquals(1, onNavigateUp)
         }
     }
 
@@ -495,6 +501,9 @@ class MoviesDetailsScreenTest {
             onAllNodesWithText(text = "please try again", substring = true, ignoreCase = true)
                 .assertCountEquals(3)
                 .assertAreDisplayed()
+            onAllNodes(hasClickAction() and hasText("Back"))
+                .assertAreDisplayed()
+                .assertCountEquals(3)
         }
     }
 }

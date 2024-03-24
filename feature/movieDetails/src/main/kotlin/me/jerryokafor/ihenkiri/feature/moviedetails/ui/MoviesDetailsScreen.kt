@@ -52,6 +52,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.List
@@ -393,7 +394,7 @@ fun MoviesDetailsScreen(
                                 ) {
                                     IconButton(onClick = onNavigateUp) {
                                         Icon(
-                                            imageVector = Icons.Filled.ArrowBack,
+                                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                             contentDescription = stringResource(
                                                 id = me.jerryokafor.core.ui.R.string.navigate_up,
                                             ),
@@ -475,19 +476,18 @@ fun MoviesDetailsScreen(
                                     .fillMaxWidth()
                                     .testTag(MOVIE_DETAILS_MAIN_CAST_ROW)
                                     .padding(horizontal = IheNkiri.spacing.two),
-                                horizontalArrangement =
-                                    if (movieCreditUiState is MovieCreditUiState.Success) {
-                                        Arrangement.spacedBy(IheNkiri.spacing.one)
-                                    } else {
-                                        Arrangement.Center
-                                    },
+                                horizontalArrangement = if (movieCreditUiState is MovieCreditUiState.Success) {
+                                    Arrangement.spacedBy(IheNkiri.spacing.one)
+                                } else {
+                                    Arrangement.Center
+                                },
                             ) {
                                 when (movieCreditUiState) {
                                     is MovieCreditUiState.LoadFailed -> {
                                         item {
                                             MovieDetailsLoadFailed(
                                                 message = "Error, please try again!",
-                                                onClick = {},
+                                                onClick = onNavigateUp,
                                             )
                                         }
                                     }
@@ -548,7 +548,7 @@ fun MoviesDetailsScreen(
                                         item {
                                             MovieDetailsLoadFailed(
                                                 message = "Error, please try again!",
-                                                onClick = {},
+                                                onClick = onNavigateUp,
                                             )
                                         }
                                     }
@@ -637,7 +637,7 @@ fun MoviesDetailsScreen(
                                         item {
                                             MovieDetailsLoadFailed(
                                                 message = "Error, please try again!",
-                                                onClick = {},
+                                                onClick = onNavigateUp,
                                             )
                                         }
                                     }
