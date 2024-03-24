@@ -158,6 +158,10 @@ class MoviesDetailsScreenTest {
                 .assertCountEquals(2)
                 .assertAreDisplayed()
 
+            onNodeWithText("2hr(s) 19m")
+                .assertExists()
+                .assertIsDisplayed()
+
             onNodeWithTag(MOVIE_DETAILS_COL).assertExists()
                 .performScrollToNode(hasTestTag(MOVIE_DETAILS_OVERVIEW))
 
