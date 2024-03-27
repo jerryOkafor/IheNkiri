@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -43,6 +44,7 @@ import me.jerryokafor.core.model.Video
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetailsArg
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MoviesDetailViewModel
     @Inject
@@ -100,7 +102,7 @@ class MoviesDetailViewModel
         }.map {
             when (it) {
                 is Failure -> MoviesVideoUiState.LoadFailed(it.errorResponse)
-                is Success -> MoviesVideoUiState.Success(it.data)
+                is Success -> MoviesVideoUiState.Success(it.data, movieId.value)
             }
         }.stateIn(
             scope = viewModelScope,
@@ -112,7 +114,7 @@ class MoviesDetailViewModel
 sealed interface MoviesVideoUiState {
     data object Loading : MoviesVideoUiState
 
-    data class Success(val videos: List<Video>) : MoviesVideoUiState
+    data class Success(val videos: List<Video>, val movieId: Long) : MoviesVideoUiState
 
     data class LoadFailed(val message: String) : MoviesVideoUiState
 }

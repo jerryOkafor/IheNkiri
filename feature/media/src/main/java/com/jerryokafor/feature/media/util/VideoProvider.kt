@@ -22,48 +22,18 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+package com.jerryokafor.feature.media.util
+
+enum class VideoProvider(val provider: String) {
+    YOUTUBE("Youtube"),
+    VIMEO("Vimeo"),
+    ;
+
+    companion object {
+        fun fromString(provider: String): VideoProvider? = when {
+            provider.equals("Youtube", true) -> YOUTUBE
+            provider.equals("Vimeo", true) -> VIMEO
+            else -> null
+        }
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
-    }
-}
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")

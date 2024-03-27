@@ -108,6 +108,7 @@ dependencies {
     implementation(projects.feature.peopleDetails)
     implementation(projects.feature.tvShows)
     implementation(projects.feature.settings)
+    implementation(projects.feature.media)
     debugImplementation(projects.uiTestHiltManifest)
 
     // lifecycle

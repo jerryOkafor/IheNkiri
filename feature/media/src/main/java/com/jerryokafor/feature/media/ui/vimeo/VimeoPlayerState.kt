@@ -22,48 +22,18 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
-    }
+package com.jerryokafor.feature.media.ui.vimeo
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
+import kotlinx.coroutines.flow.MutableStateFlow
+
+@Stable
+class VimeoPlayerState {
+    var events: MutableStateFlow<VimeoPlayerEvent?> = MutableStateFlow(null)
+        internal set
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")
+@Composable
+fun rememberVimeoPlayerState() = remember { VimeoPlayerState() }

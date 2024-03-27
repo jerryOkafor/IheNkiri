@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
+import com.jerryokafor.feature.media.navigation.mediaScreen
+import com.jerryokafor.feature.media.navigation.navigateToMedia
 import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
 import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
@@ -65,17 +67,29 @@ fun IhenkiriNavHost(
         navController.navigateToAuth()
     }
 
+    val onWatchTrailerClick: (Long, String) -> Unit = { id, title ->
+        navController.navigateToMedia(movieId = id, title = title)
+    }
+
     NavHost(
         modifier = Modifier,
         navController = navController,
         startDestination = moviesRoutePattern,
     ) {
-        authNavGraph(onCompleteLogin = onNavigateUp, onShowSnackbar = onShowSnackbar)
+        authNavGraph(
+            onCompleteLogin = onNavigateUp,
+            onShowSnackbar = onShowSnackbar,
+        )
         moviesScreen(onMovieClick = onMovieClick)
         tvShowsScreen(onTVShowClick = {})
-        movieDetailsScreen(onMovieItemClick = onMovieClick, onNavigateUp = onNavigateUp)
+        movieDetailsScreen(
+            onMovieItemClick = onMovieClick,
+            onNavigateUp = onNavigateUp,
+            onWatchTrailerClick = onWatchTrailerClick,
+        )
         peopleScreen(onPersonClick = onPersonClick)
         peopleDetailsScreen(onNavigateUp = onNavigateUp)
         settingsScreen(onLoginClick = onLoginClick)
+        mediaScreen(onBackClick = onNavigateUp)
     }
 }
