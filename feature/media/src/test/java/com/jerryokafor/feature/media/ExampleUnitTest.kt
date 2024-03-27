@@ -22,48 +22,19 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+package com.jerryokafor.feature.media
+
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
-    }
-}
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")

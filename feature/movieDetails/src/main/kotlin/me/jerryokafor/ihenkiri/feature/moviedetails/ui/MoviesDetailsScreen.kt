@@ -105,7 +105,6 @@ import me.jerryokafor.core.ds.theme.OneVerticalSpacer
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.core.model.Video
 import me.jerryokafor.core.model.names
 import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
@@ -165,6 +164,7 @@ fun MoviesDetailsPreview() {
                 ).results.map {
                     it.asDomainObject()
                 },
+                0L,
             ),
             onMovieItemClick = {},
             onNavigateUp = {},
@@ -181,6 +181,7 @@ private const val MAX_MOVIE_RATING = 10.0
 fun MoviesDetailsScreen(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
     onMovieItemClick: (Long) -> Unit,
+    onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onBackPress: () -> Unit,
 ) {
     val movieDetailsUiState by viewModel.movieDetailsUiState.collectAsStateWithLifecycle()
@@ -192,8 +193,6 @@ fun MoviesDetailsScreen(
     val onAddToBookmarkClick: () -> Unit = {}
     val onAddToFavorite: () -> Unit = {}
     val onRateItClick: () -> Unit = {}
-    val onWatchTrailerClick: (List<Video>) -> Unit = {
-    }
 
     MoviesDetailsScreen(
         movieDetailsUiState = movieDetailsUiState,
@@ -222,7 +221,7 @@ fun MoviesDetailsScreen(
     onAddToBookmarkClick: () -> Unit = {},
     onAddToFavorite: () -> Unit = {},
     onRateItClick: () -> Unit = {},
-    onWatchTrailerClick: (List<Video>) -> Unit = {},
+    onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onMovieItemClick: (Long) -> Unit = {},
     onNavigateUp: () -> Unit = {},
 ) {
@@ -438,6 +437,8 @@ fun MoviesDetailsScreen(
                         when (moviesVideoUiState) {
                             is MoviesVideoUiState.Success -> {
                                 val videos = moviesVideoUiState.videos
+                                val movieId = moviesVideoUiState.movieId
+                                val title = movieDetails.title
                                 if (videos.isNotEmpty()) {
                                     item {
                                         ThreeVerticalSpacer()
@@ -446,7 +447,7 @@ fun MoviesDetailsScreen(
                                                 .fillMaxWidth()
                                                 .testTag(MOVIE_DETAILS_TRAILER_BUTTON)
                                                 .padding(horizontal = IheNkiri.spacing.two),
-                                            onClick = { onWatchTrailerClick(videos) },
+                                            onClick = { onWatchTrailerClick(movieId, title) },
                                         )
                                     }
                                 }

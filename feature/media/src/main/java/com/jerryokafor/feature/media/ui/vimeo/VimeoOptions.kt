@@ -22,48 +22,21 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
-    }
-}
+package com.jerryokafor.feature.media.ui.vimeo
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+import android.graphics.Color
 
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")
+@Suppress("MagicNumber")
+data class VimeoOptions(
+    var autoPlay: Boolean = false,
+    var loop: Boolean = false,
+    var muted: Boolean = false,
+    var originalControls: Boolean = false,
+    var title: Boolean = true,
+    var quality: String = "Auto",
+    var color: Int = Color.rgb(0, 172, 240),
+    var backgroundColor: Int = Color.BLACK,
+    var menuOption: Boolean = true,
+    var fullscreenOption: Boolean = true,
+    var aspectRatio: Float = 16f / 9,
+)

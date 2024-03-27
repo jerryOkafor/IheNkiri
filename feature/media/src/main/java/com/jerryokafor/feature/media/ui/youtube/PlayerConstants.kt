@@ -22,48 +22,56 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
+package com.jerryokafor.feature.media.ui.youtube
+
+class PlayerConstants {
+    enum class PlayerState {
+        UNKNOWN,
+        UNSTARTED,
+        ENDED,
+        PLAYING,
+        PAUSED,
+        BUFFERING,
+        VIDEO_CUED,
+    }
+
+    enum class PlaybackQuality {
+        UNKNOWN,
+        SMALL,
+        MEDIUM,
+        LARGE,
+        HD720,
+        HD1080,
+        HIGH_RES,
+        DEFAULT,
+    }
+
+    enum class PlayerError {
+        UNKNOWN,
+        INVALID_PARAMETER_IN_REQUEST,
+        HTML_5_PLAYER,
+        VIDEO_NOT_FOUND,
+        VIDEO_NOT_PLAYABLE_IN_EMBEDDED_PLAYER,
+    }
+
+    enum class PlaybackRate {
+        UNKNOWN,
+        RATE_0_25,
+        RATE_0_5,
+        RATE_1,
+        RATE_1_5,
+        RATE_2,
     }
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
+
+@Suppress("MagicNumber")
+fun PlayerConstants.PlaybackRate.toFloat(): Float {
+    return when (this) {
+        PlayerConstants.PlaybackRate.UNKNOWN -> 1f
+        PlayerConstants.PlaybackRate.RATE_0_25 -> 0.25f
+        PlayerConstants.PlaybackRate.RATE_0_5 -> 0.5f
+        PlayerConstants.PlaybackRate.RATE_1 -> 1f
+        PlayerConstants.PlaybackRate.RATE_1_5 -> 1.5f
+        PlayerConstants.PlaybackRate.RATE_2 -> 2f
     }
 }
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")

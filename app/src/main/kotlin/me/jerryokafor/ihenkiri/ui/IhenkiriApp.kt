@@ -45,6 +45,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.jerryokafor.feature.media.navigation.mediaRoutePattern
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
 import me.jerryokafor.core.ui.extension.TrackDisposableJank
 import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
@@ -93,8 +94,9 @@ fun IhenkiriApp(
 
     LaunchedEffect(navBackStackEntry?.destination?.route) {
         when (navBackStackEntry?.destination?.route) {
-            movieDetailsRoutePattern, peopleDetailsRoutePattern, loginRoutePattern ->
-                bottomBarState.value = false
+            movieDetailsRoutePattern, peopleDetailsRoutePattern, loginRoutePattern,
+            mediaRoutePattern,
+            -> bottomBarState.value = false
 
             else -> bottomBarState.value = true
         }

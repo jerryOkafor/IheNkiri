@@ -22,48 +22,27 @@
  * THE SOFTWARE.
  */
 
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
+package com.jerryokafor.feature.media.ui.vimeo
+
+sealed class VimeoPlayerEvent {
+    data class OnPlayerReady(val title: String, val duration: Float, val tracks: String) :
+        VimeoPlayerEvent()
+
+    data object OnInitFailed : VimeoPlayerEvent()
+
+    data class OnError(val message: String, val method: String, val name: String) :
+        VimeoPlayerEvent()
+
+    data class OnTimeUpdate(val seconds: Float) : VimeoPlayerEvent()
+
+    data class OnPlay(val duration: Float) : VimeoPlayerEvent()
+
+    data class OnPause(val duration: Float) : VimeoPlayerEvent()
+
+    data class OnEnded(val duration: Float) : VimeoPlayerEvent()
+
+    data class OnVolumeChange(val volume: Float) : VimeoPlayerEvent()
+
+    data class OnTextTrackChange(val kind: String, val label: String, val language: String) :
+        VimeoPlayerEvent()
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
-        maven(uri("https://jitpack.io"))
-    }
-}
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "IheNkiri"
-include(":app")
-// Core
-include(":core:network")
-include(":core:model")
-include(":core:domain")
-include(":core:ui")
-include(":core:ds")
-include(":core:data")
-include(":core:common")
-include(":core:test")
-include(":androidTest")
-include(":ui-test-hilt-manifest")
-include(":lint")
-
-// Features
-include(":feature:movies")
-include(":feature:movieDetails")
-include(":feature:people")
-include(":feature:tvShows")
-include(":feature:settings")
-include(":feature:auth")
-include(":feature:peopleDetails")
-include(":benchmark")
-include(":feature:media")

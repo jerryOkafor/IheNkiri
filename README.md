@@ -32,6 +32,10 @@ and [Free Figma Design Template](https://www.figma.com/file/gbaO5pgTz0mOZXvFOPCe
   <img src="doc/screenshots/theme.png" width="200" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/media.png" width="200" />
+</p>
+
 # Development Environment
 
 # Build
@@ -306,6 +310,10 @@ Generate the Baseline Profile
 - [Testing Kotlin coroutines on Android](https://developer.android.com/kotlin/coroutines/test)
 - [Best practices for coroutines in Android](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
 - [Distinguishing between the different ProGuard “-keep” directives](https://jebware.com/blog/?p=418)
+- [Youtube - Iframe Player API](https://developers.google.com/youtube/iframe_api_reference)
+- [Android Youtube Player](https://github.com/PierfrancescoSoffritti/android-youtube-player/tree/master)
+- [Android Vimeo Player](https://github.com/ct7ct7ct7/Android-VimeoPlayer/tree/master)
+- [Vimeo JS Player API](https://github.com/vimeo/player.js)
 
 # License
 
