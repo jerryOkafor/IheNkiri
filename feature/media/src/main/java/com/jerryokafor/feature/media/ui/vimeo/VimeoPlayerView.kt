@@ -94,7 +94,11 @@ fun VimeoPlayerView(
             val videoId = playerController.initialVideoId
 
             val videoUrl =
-                if (hashKey.isNullOrBlank()) "https://vimeo.com/$videoId" else "https://vimeo.com/$videoId/h=$hashKey"
+                if (hashKey.isNullOrBlank()) {
+                    "https://vimeo.com/$videoId"
+                } else {
+                    "https://vimeo.com/$videoId/h=$hashKey"
+                }
             val htmlPage =
                 readHTMLFromUTF8File(context.resources.openRawResource(R.raw.vimeo_player))
                     .replace("<VIDEO_URL>", videoUrl)

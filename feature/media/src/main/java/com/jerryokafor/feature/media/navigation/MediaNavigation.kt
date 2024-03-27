@@ -34,13 +34,13 @@ import androidx.navigation.navArgument
 import com.jerryokafor.feature.media.ui.MediaScreen
 import kotlinx.coroutines.flow.StateFlow
 
-@Suppress("TopLevelPropertyNaming")
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 internal const val movieIdArg = "movieId"
 
-@Suppress("TopLevelPropertyNaming")
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 internal const val titleArg = "title"
 
-@Suppress("TopLevelPropertyNaming")
+@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val mediaRoutePattern = "watch/{$movieIdArg}?$titleArg={$titleArg}"
 
 internal class MovieDetailsArg(val movieId: StateFlow<Long>) {

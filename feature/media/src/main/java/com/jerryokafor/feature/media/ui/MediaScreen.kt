@@ -210,13 +210,14 @@ fun MediaScreen(
                                             TwoHorizontalSpacer()
                                         }
                                         Column {
+                                            val date = video.publishedAt.formatDate()
                                             Text(
                                                 text = video.name,
                                                 style = IheNkiri.typography.bodyLarge,
                                             )
                                             HalfVerticalSpacer()
                                             Text(
-                                                text = "Publish Date: ${video.publishedAt.formatDate()}",
+                                                text = "Publish Date: $date",
                                                 style = IheNkiri.typography.bodySmall,
                                             )
                                         }
