@@ -149,7 +149,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -307,7 +307,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -338,7 +338,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -368,7 +368,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -395,11 +395,10 @@ class MoviesDetailsScreenTest {
                     movieCreditUiState = MovieCreditUiState.Loading,
                     similarMoviesUiState = SimilarMoviesUiState.Loading,
                     moviesVideoUiState = MoviesVideoUiState.Success(
-                        MovieDetailsTestData.testMovieVideos(
-                            0L,
-                        ),
+                        videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
+                        movieId = 0L,
                     ),
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                 )
             }
 
@@ -424,8 +423,8 @@ class MoviesDetailsScreenTest {
                     ),
                     movieCreditUiState = MovieCreditUiState.Loading,
                     similarMoviesUiState = SimilarMoviesUiState.Loading,
-                    moviesVideoUiState = MoviesVideoUiState.Success(emptyList()),
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    moviesVideoUiState = MoviesVideoUiState.Success(emptyList(), 0L),
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                 )
             }
 
