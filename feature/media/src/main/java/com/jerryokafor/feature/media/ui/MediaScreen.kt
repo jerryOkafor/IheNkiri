@@ -24,7 +24,6 @@
 
 package com.jerryokafor.feature.media.ui
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,7 +52,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -73,11 +75,15 @@ import me.jerryokafor.core.ds.theme.TwoHorizontalSpacer
 import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
 import java.time.format.DateTimeFormatter
 
+internal const val VIMEO_PLAYER = "VIMEO_PLAYER"
+internal const val YOUTUBE_PLAYER = "YOUTUBE_PLAYER"
+internal const val VIDEO_LIST = "VIDEO_LIST"
+
 @Preview
 @Composable
 private fun MediaScreenPreview() {
     IheNkiriTheme {
-        MediaScreen(uiState = MoviesVideoUiState.Loading, "Testing") {}
+        MediaScreen(uiState = MediaUiState.Loading, "Testing") {}
     }
 }
 
@@ -87,14 +93,14 @@ fun MediaScreen(
     title: String,
     onBackClick: () -> Unit,
 ) {
-    val uiState by viewModel.moviesVideoUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.mediaUiState.collectAsStateWithLifecycle()
     MediaScreen(uiState = uiState, title = title, onBackClick = onBackClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaScreen(
-    uiState: MoviesVideoUiState,
+    uiState: MediaUiState,
     title: String,
     onBackClick: () -> Unit = {},
 ) {
@@ -115,12 +121,12 @@ fun MediaScreen(
 
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState) {
-                is MoviesVideoUiState.LoadFailed -> {}
-                MoviesVideoUiState.Loading -> {
+                is MediaUiState.LoadFailed -> {}
+                MediaUiState.Loading -> {
                     IheNkiriCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
 
-                is MoviesVideoUiState.Success -> {
+                is MediaUiState.Success -> {
                     val coroutineScope = rememberCoroutineScope()
                     var currentVideo by remember { mutableStateOf(uiState.videos.first()) }
                     val provider by remember {
@@ -134,26 +140,27 @@ fun MediaScreen(
                     )
 
                     Column {
-                        Log.d("MediaScreen", "Using: $provider")
                         when (provider) {
                             VideoProvider.YOUTUBE -> {
                                 YoutubePlayerView(
-                                    videoId = "",
                                     playerController = youtubePlayerController,
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .testTag(YOUTUBE_PLAYER),
                                 )
 
                                 youtubePlayerController.loadVideo(currentVideo.key)
                             }
 
                             VideoProvider.VIMEO -> {
-                                val vimeoPlayerController =
-                                    rememberVimeoPlayerController(
-                                        initialVideoId = currentVideo.key,
-                                        autoPlay = true,
-                                    )
+                                val vimeoPlayerController = rememberVimeoPlayerController(
+                                    initialVideoId = currentVideo.key,
+                                    autoPlay = true,
+                                )
                                 VimeoPlayerView(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .testTag(VIMEO_PLAYER),
                                     playerController = vimeoPlayerController,
                                     playerState = rememberVimeoPlayerState(),
                                 )
@@ -173,10 +180,13 @@ fun MediaScreen(
                                 }
                             }
                         }
+                        OneVerticalSpacer()
 
-                        LazyColumn(modifier = Modifier.padding(bottom = IheNkiri.spacing.two)) {
-                            item { OneVerticalSpacer() }
-
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(bottom = IheNkiri.spacing.two)
+                                .testTag(VIDEO_LIST),
+                        ) {
                             items(uiState.videos) { video ->
                                 Surface(
                                     modifier = Modifier
@@ -184,7 +194,10 @@ fun MediaScreen(
                                         .padding(
                                             horizontal = IheNkiri.spacing.oneAndHalf,
                                             vertical = IheNkiri.spacing.half,
-                                        ),
+                                        )
+                                        .semantics(mergeDescendants = true) {
+                                            contentDescription = video.site
+                                        },
                                     shape = IheNkiri.shape.small,
                                     color = IheNkiri.color.surfaceBright,
                                     onClick = { currentVideo = video },
@@ -232,7 +245,7 @@ fun MediaScreen(
     }
 }
 
-private fun String.formatDate(): String {
+internal fun String.formatDate(): String {
     val formatter = DateTimeFormatter.ISO_DATE_TIME
     return DateTimeFormatter.ofPattern("MMM yyyy").format(formatter.parse(this))
 }

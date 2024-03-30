@@ -72,9 +72,9 @@ class MediaScreenViewModelTest {
                 Success(MovieDetailsTestData.testMovieVideos(TEST_MOVIE_ID)),
             )
 
-        mediaScreenViewModel.moviesVideoUiState.test {
-            assertThat(awaitItem()).isEqualTo(MoviesVideoUiState.Loading)
-            with(awaitItem() as MoviesVideoUiState.Success) {
+        mediaScreenViewModel.mediaUiState.test {
+            assertThat(awaitItem()).isEqualTo(MediaUiState.Loading)
+            with(awaitItem() as MediaUiState.Success) {
                 assertThat(videos).isNotEmpty()
                 assertThat(videos)
                     .containsExactlyElementsIn(MovieDetailsTestData.testMovieVideos(TEST_MOVIE_ID))
@@ -93,9 +93,9 @@ class MediaScreenViewModelTest {
                 Failure("Error loading movie videos"),
             )
 
-        mediaScreenViewModel.moviesVideoUiState.test {
-            assertThat(awaitItem()).isEqualTo(MoviesVideoUiState.Loading)
-            with(awaitItem() as MoviesVideoUiState.LoadFailed) {
+        mediaScreenViewModel.mediaUiState.test {
+            assertThat(awaitItem()).isEqualTo(MediaUiState.Loading)
+            with(awaitItem() as MediaUiState.LoadFailed) {
                 assertThat(message).isEqualTo("Error loading movie videos")
             }
         }

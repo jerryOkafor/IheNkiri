@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -159,10 +159,8 @@ object MovieDetailsTestData {
                 iso31661 = "en",
                 iso6391 = "US",
                 key = "O-b2VfmmbyA",
-                name = """
-                    Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, 
-                    Helena Bonham Carter
-                """.trimIndent(),
+                name = "Fight Club (1999) Trailer - Starring Brad Pitt, Edward Norton, " +
+                    "Helena Bonham Carter",
                 official = false,
                 publishedAt = "2016-03-05T02:03:14.000Z",
                 site = "YouTube",
@@ -173,11 +171,11 @@ object MovieDetailsTestData {
                 id = "5c9294240e0a267cd516835f",
                 iso31661 = "en",
                 iso6391 = "US",
-                key = "BdJKm16Co6M",
+                key = "282875052",
                 name = "#TBT Trailer",
                 official = false,
                 publishedAt = "2014-10-02T19:20:22.000Z",
-                site = "YouTube",
+                site = "Vimeo",
                 size = 1080,
                 type = "Trailer",
             ),

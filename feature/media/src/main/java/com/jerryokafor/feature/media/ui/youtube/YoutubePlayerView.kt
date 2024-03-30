@@ -51,6 +51,80 @@ import java.io.InputStream
 import java.io.InputStreamReader
 
 @Composable
+internal fun YoutubePlayerView(
+    playerController: YoutubePlayerController = rememberYoutubePlayerController(),
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    val playerState = rememberYoutubePlayerState()
+
+    @Suppress("MagicNumber")
+    AndroidView(
+        factory = {
+            WebView(context).apply {
+                settings.apply {
+                    javaScriptEnabled = true
+                    mediaPlaybackRequiresUserGesture = false
+                    cacheMode = WebSettings.LOAD_DEFAULT
+                }
+
+                addJavascriptInterface(
+                    YouTubePlayerBridge(playerState, playerController),
+                    "YouTubePlayerBridge",
+                )
+            }.also {
+                playerController.webView = it
+                playerState.webView = it
+            }
+        },
+        modifier = modifier
+            .background(Color.LightGray)
+            .aspectRatio(1.75f),
+        update = { webView ->
+            val htmlPage =
+                readHTMLFromUTF8File(context.resources.openRawResource(R.raw.youtube_player_embed))
+            webView.loadDataWithBaseURL(
+                "https://www.youtube.com",
+                htmlPage,
+                "text/html",
+                "utf-8",
+                null,
+            )
+        },
+        onRelease = {},
+    )
+}
+
+@VisibleForTesting
+@Suppress("TooGenericExceptionThrown")
+internal fun readHTMLFromUTF8File(inputStream: InputStream): String {
+    inputStream.use {
+        try {
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream, "utf-8"))
+            return bufferedReader.readLines().joinToString("\n")
+        } catch (e: Exception) {
+            throw RuntimeException("Can't parse HTML file.")
+        }
+    }
+}
+
+fun WebView.invoke(
+    function: String,
+    vararg args: Any,
+) {
+    val stringArgs = args.map {
+        if (it is String) {
+            "'$it'"
+        } else {
+            it.toString()
+        }
+    }
+    Handler(Looper.getMainLooper()).post {
+        loadUrl("javascript:$function(${stringArgs.joinToString(",")})")
+    }
+}
+
+@Composable
 fun rememberYoutubePlayerController(
     initialVideoId: String = "",
     autoPlay: Boolean = false,
@@ -94,82 +168,3 @@ class YoutubePlayerState(coroutineScope: CoroutineScope) {
 fun rememberYoutubePlayerState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ): YoutubePlayerState = remember(coroutineScope) { YoutubePlayerState(coroutineScope) }
-
-@Composable
-internal fun YoutubePlayerView(
-    videoId: String,
-    playerController: YoutubePlayerController = rememberYoutubePlayerController(),
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    val playerState = rememberYoutubePlayerState()
-
-    @Suppress("MagicNumber")
-    AndroidView(
-        factory = {
-            WebView(context).apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    mediaPlaybackRequiresUserGesture = false
-                    cacheMode = WebSettings.LOAD_DEFAULT
-                }
-
-                addJavascriptInterface(
-                    YouTubePlayerBridge(playerState, playerController),
-                    "YouTubePlayerBridge",
-                )
-            }.also {
-                playerController.webView = it
-                playerState.webView = it
-            }
-        },
-        modifier = modifier
-            .background(Color.LightGray)
-            .aspectRatio(1.75f),
-        update = { webView ->
-            val htmlPage =
-                readHTMLFromUTF8File(context.resources.openRawResource(R.raw.youtube_player_embed))
-                    .replace(
-                        oldValue = "<<VIDEO_ID>>",
-                        newValue = videoId,
-                    )
-            webView.loadDataWithBaseURL(
-                "https://www.youtube.com",
-                htmlPage,
-                "text/html",
-                "utf-8",
-                null,
-            )
-        },
-        onRelease = {},
-    )
-}
-
-@VisibleForTesting
-@Suppress("TooGenericExceptionThrown")
-internal fun readHTMLFromUTF8File(inputStream: InputStream): String {
-    inputStream.use {
-        try {
-            val bufferedReader = BufferedReader(InputStreamReader(inputStream, "utf-8"))
-            return bufferedReader.readLines().joinToString("\n")
-        } catch (e: Exception) {
-            throw RuntimeException("Can't parse HTML file.")
-        }
-    }
-}
-
-fun WebView.invoke(
-    function: String,
-    vararg args: Any,
-) {
-    val stringArgs = args.map {
-        if (it is String) {
-            "'$it'"
-        } else {
-            it.toString()
-        }
-    }
-    Handler(Looper.getMainLooper()).post {
-        loadUrl("javascript:$function(${stringArgs.joinToString(",")})")
-    }
-}

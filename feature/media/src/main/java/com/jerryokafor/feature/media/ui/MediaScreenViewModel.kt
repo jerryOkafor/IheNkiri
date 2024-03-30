@@ -52,26 +52,26 @@ class MediaScreenViewModel
         private val movieId = MovieDetailsArg(savedStateHandle).movieId
 
         @Suppress("MagicNumber")
-        val moviesVideoUiState: StateFlow<MoviesVideoUiState> = movieId.flatMapLatest {
+        val mediaUiState: StateFlow<MediaUiState> = movieId.flatMapLatest {
             movieDetailsRepository.movieVideos(it)
         }.map {
             when (it) {
-                is Failure -> MoviesVideoUiState.LoadFailed(it.errorResponse)
-                is Success -> MoviesVideoUiState.Success(it.data)
+                is Failure -> MediaUiState.LoadFailed(it.errorResponse)
+                is Success -> MediaUiState.Success(it.data)
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = MoviesVideoUiState.Loading,
+            initialValue = MediaUiState.Loading,
         )
     }
 
-sealed interface MoviesVideoUiState {
-    data object Loading : MoviesVideoUiState
+sealed interface MediaUiState {
+    data object Loading : MediaUiState
 
-    data class Success(val videos: List<Video>) : MoviesVideoUiState
+    data class Success(val videos: List<Video>) : MediaUiState
 
-    data class LoadFailed(val message: String) : MoviesVideoUiState
+    data class LoadFailed(val message: String) : MediaUiState
 }
 
 // Video(
