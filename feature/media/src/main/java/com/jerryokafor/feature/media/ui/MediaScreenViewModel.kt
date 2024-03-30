@@ -43,7 +43,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class MediaScreenVIewModel
+class MediaScreenViewModel
     @Inject
     constructor(
         savedStateHandle: SavedStateHandle,
@@ -57,24 +57,7 @@ class MediaScreenVIewModel
         }.map {
             when (it) {
                 is Failure -> MoviesVideoUiState.LoadFailed(it.errorResponse)
-                is Success -> MoviesVideoUiState.Success(
-                    listOf(
-                        Video(
-                            id = "",
-                            iso31661 = "",
-                            iso6391 = "",
-                            key = "282875052",
-                            name = "Fight Club - Theatrical Trailer Remastered in HD",
-                            official = false,
-                            publishedAt = "2023-12-13T15:43:38.000Z",
-                            site = "Vimeo",
-                            size = 0,
-                            type = "",
-                        ),
-                    ).plus(
-                        it.data,
-                    ),
-                )
+                is Success -> MoviesVideoUiState.Success(it.data)
             }
         }.stateIn(
             scope = viewModelScope,
@@ -90,3 +73,16 @@ sealed interface MoviesVideoUiState {
 
     data class LoadFailed(val message: String) : MoviesVideoUiState
 }
+
+// Video(
+// id = "",
+// iso31661 = "",
+// iso6391 = "",
+// key = "282875052",
+// name = "Fight Club - Theatrical Trailer Remastered in HD",
+// official = false,
+// publishedAt = "2023-12-13T15:43:38.000Z",
+// site = "Vimeo",
+// size = 0,
+// type = "",
+// )

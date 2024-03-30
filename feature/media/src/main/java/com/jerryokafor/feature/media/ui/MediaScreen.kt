@@ -83,7 +83,7 @@ private fun MediaScreenPreview() {
 
 @Composable
 fun MediaScreen(
-    viewModel: MediaScreenVIewModel = hiltViewModel(),
+    viewModel: MediaScreenViewModel = hiltViewModel(),
     title: String,
     onBackClick: () -> Unit,
 ) {
