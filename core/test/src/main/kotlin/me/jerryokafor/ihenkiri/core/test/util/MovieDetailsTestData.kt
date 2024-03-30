@@ -184,4 +184,19 @@ object MovieDetailsTestData {
 
     fun testMovieVideos(movieId: Long): List<Video> = testNetworkMovieVideos(movieId)
         .results.map { it.asDomainObject() }
+
+    fun testUnknownProviderVideo() = listOf(
+        NetworkVideo(
+            id = "5c9294240e0a267cd516835f",
+            iso31661 = "en",
+            iso6391 = "US",
+            key = "282875052",
+            name = "#TBT Trailer",
+            official = false,
+            publishedAt = "2014-10-02T19:20:22.000Z",
+            site = "Unknown",
+            size = 1080,
+            type = "Trailer",
+        ),
+    ).map { it.asDomainObject() }
 }

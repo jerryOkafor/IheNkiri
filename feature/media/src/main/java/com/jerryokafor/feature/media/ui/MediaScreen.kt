@@ -83,7 +83,21 @@ internal const val VIDEO_LIST = "VIDEO_LIST"
 @Composable
 private fun MediaScreenPreview() {
     IheNkiriTheme {
-        MediaScreen(uiState = MediaUiState.Loading, "Testing") {}
+        MediaScreen(
+            uiState = MediaUiState.Loading,
+            title = "Testing",
+        ) {}
+    }
+}
+
+@Preview
+@Composable
+private fun MediaScreenPreview1() {
+    IheNkiriTheme {
+        MediaScreen(
+            uiState = MediaUiState.LoadFailed("Error loading movie videos"),
+            title = "Testing",
+        ) {}
     }
 }
 
@@ -121,7 +135,10 @@ fun MediaScreen(
 
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState) {
-                is MediaUiState.LoadFailed -> {}
+                is MediaUiState.LoadFailed -> {
+                    Text(modifier = Modifier.align(Alignment.Center), text = uiState.message)
+                }
+
                 MediaUiState.Loading -> {
                     IheNkiriCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }

@@ -138,4 +138,37 @@ class MediaScreenTest {
                 .assertIsDisplayed()
         }
     }
+
+    @Test
+    fun mediaScreen_loadMovieUnknownVideo_showUnknownProvider() {
+        val testMovies = MovieDetailsTestData.testUnknownProviderVideo()
+        with(composeTestRule) {
+            setContent {
+                MediaScreen(
+                    uiState = MediaUiState.Success(testMovies),
+                    title = "Test Movie title",
+                    onBackClick = { onNavigateUp++ },
+                )
+            }
+
+            onNodeWithText("Provider: Unknown not supported")
+                .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun mediaScreen_loadMovieFailed_showFailureScreen() {
+        with(composeTestRule) {
+            setContent {
+                MediaScreen(
+                    uiState = MediaUiState.LoadFailed("Error loading movie videos"),
+                    title = "Test Movie title",
+                    onBackClick = { onNavigateUp++ },
+                )
+            }
+
+            onNodeWithText("Error loading movie videos")
+                .assertIsDisplayed()
+        }
+    }
 }
