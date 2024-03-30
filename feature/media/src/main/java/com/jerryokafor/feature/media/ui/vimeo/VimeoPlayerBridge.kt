@@ -27,7 +27,9 @@ package com.jerryokafor.feature.media.ui.vimeo
 import android.util.Log
 import android.webkit.JavascriptInterface
 import kotlinx.coroutines.flow.update
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
+@ExcludeFromGeneratedCoverageReport
 class VimeoPlayerBridge(
     private val playerController: VimeoPlayerController,
     private val playerState: VimeoPlayerState,

@@ -27,7 +27,9 @@ package com.jerryokafor.feature.media.ui.youtube
 import android.util.Log
 import android.webkit.JavascriptInterface
 import kotlinx.coroutines.flow.update
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 
+@ExcludeFromGeneratedCoverageReport
 class YouTubePlayerBridge(
     private val playerState: YoutubePlayerState,
     private val playerController: YoutubePlayerController,

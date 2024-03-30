@@ -34,7 +34,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.jerryokafor.feature.media.ui.youtube.invoke
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -42,21 +41,21 @@ import kotlinx.coroutines.launch
 class VimeoPlayerController(
     val initialVideoId: String?,
     val autoPlay: Boolean,
-    private val coroutineScope: CoroutineScope,
+    coroutineScope: CoroutineScope,
 ) {
     internal var webView by mutableStateOf<WebView?>(null)
 
-    fun play() = coroutineScope.launch(Dispatchers.Main) {
-        webView?.invoke("playVideo")
-    }
-
-    fun pause() = coroutineScope.launch(Dispatchers.Main) {
-        webView?.invoke("pauseVideo")
-    }
-
-    fun stop() = coroutineScope.launch(Dispatchers.Main) {
-        webView?.invoke("stopVideo")
-    }
+//    fun play() = coroutineScope.launch(Dispatchers.Main) {
+//        webView?.invoke("playVideo")
+//    }
+//
+//    fun pause() = coroutineScope.launch(Dispatchers.Main) {
+//        webView?.invoke("pauseVideo")
+//    }
+//
+//    fun stop() = coroutineScope.launch(Dispatchers.Main) {
+//        webView?.invoke("stopVideo")
+//    }
 
     fun loadVideo(videoId: String) {
         webView?.invoke("loadVideo", videoId)
