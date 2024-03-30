@@ -54,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,6 +68,7 @@ import com.jerryokafor.feature.media.ui.vimeo.rememberVimeoPlayerState
 import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerView
 import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerController
 import com.jerryokafor.feature.media.util.VideoProvider
+import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.theme.HalfVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
@@ -81,21 +83,11 @@ internal const val VIDEO_LIST = "VIDEO_LIST"
 
 @Preview
 @Composable
+@ExcludeFromGeneratedCoverageReport
 private fun MediaScreenPreview() {
     IheNkiriTheme {
         MediaScreen(
             uiState = MediaUiState.Loading,
-            title = "Testing",
-        ) {}
-    }
-}
-
-@Preview
-@Composable
-private fun MediaScreenPreview1() {
-    IheNkiriTheme {
-        MediaScreen(
-            uiState = MediaUiState.LoadFailed("Error loading movie videos"),
             title = "Testing",
         ) {}
     }
@@ -127,7 +119,7 @@ fun MediaScreen(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                     )
                 }
             },

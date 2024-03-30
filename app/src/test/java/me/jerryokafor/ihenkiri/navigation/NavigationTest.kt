@@ -29,6 +29,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
@@ -138,6 +139,9 @@ class NavigationTest {
 
     private val people by composeTestRule.stringResource(PeopleR.string.people)
     private val settings by composeTestRule.stringResource(SettingsR.string.settings)
+
+    // Watch  trailer
+    private val watchTrailer by composeTestRule.stringResource(CoreUIR.string.title_watch_trailer)
 
     @Before
     fun setUp() {
@@ -333,6 +337,30 @@ class NavigationTest {
             onNodeWithText("Sign In").performClick()
             onNodeWithText("Error creating request token, please try again")
                 .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun topLevelDestinations_showsBottomNav2() {
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(movies) and isSelectable())
+                    .performClick()
+                onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG)
+                    .assertIsDisplayed()
+                    .onChildren()
+                    .onFirst()
+                    .performClick()
+                waitForIdle()
+                onNode(hasText(watchTrailer) and hasClickAction())
+                    .assertIsDisplayed()
+                    .performClick()
+                waitForIdle()
+                onNodeWithText("Fight Club")
+                    .assertIsDisplayed()
+            }
         }
     }
 }
