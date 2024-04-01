@@ -87,7 +87,7 @@ class MediaScreenTest {
     }
 
     @Test
-    fun mediaScreen_loadMovieVideos_movieVideosShow() {
+    fun mediaScreen_loadMovieVideos_movieVideosIsShown() {
         val testMovies = MovieDetailsTestData.testMovieVideos(0L)
         with(composeTestRule) {
             setContent {
@@ -117,6 +117,7 @@ class MediaScreenTest {
                 .onFirst()
                 .performClick()
 
+            waitForIdle()
             onNodeWithTag(YOUTUBE_PLAYER)
                 .assertIsDisplayed()
 
@@ -125,6 +126,7 @@ class MediaScreenTest {
                 .onFirst()
                 .performClick()
 
+            waitForIdle()
             onNodeWithTag(VIMEO_PLAYER)
                 .assertIsDisplayed()
 

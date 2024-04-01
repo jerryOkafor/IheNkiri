@@ -107,7 +107,7 @@ internal fun YoutubePlayerView(
                     }
                 )
             },
-            modifier = modifier
+            modifier = Modifier
                 .background(Color.LightGray)
                 .aspectRatio(1.75f),
             update = { webView ->

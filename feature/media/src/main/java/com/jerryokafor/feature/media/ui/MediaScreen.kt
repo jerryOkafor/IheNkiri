@@ -142,15 +142,14 @@ fun MediaScreen(
                         derivedStateOf { VideoProvider.fromString(currentVideo.site) }
                     }
 
-                    val youtubePlayerController = rememberYoutubePlayerController(
-                        initialVideoId = currentVideo.key,
-                        autoPlay = false,
-                        coroutineScope = coroutineScope,
-                    )
-
                     Column {
                         when (provider) {
                             VideoProvider.YOUTUBE -> {
+                                val youtubePlayerController = rememberYoutubePlayerController(
+                                    initialVideoId = currentVideo.key,
+                                    autoPlay = false,
+                                    coroutineScope = coroutineScope,
+                                )
                                 YoutubePlayerView(
                                     playerController = youtubePlayerController,
                                     modifier = Modifier
