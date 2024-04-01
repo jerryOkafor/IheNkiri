@@ -28,10 +28,10 @@ import android.os.Build
 import android.webkit.WebView
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerEvent
-import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerView
-import com.jerryokafor.feature.media.ui.vimeo.rememberVimeoPlayerController
-import com.jerryokafor.feature.media.ui.vimeo.rememberVimeoPlayerState
+import com.jerryokafor.feature.media.ui.youtube.YouTubePlayerEvent
+import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerView
+import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerController
+import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerState
 import kotlinx.coroutines.flow.update
 import org.junit.Before
 import org.junit.Rule
@@ -49,7 +49,7 @@ import kotlin.test.Test
     instrumentedPackages = ["androidx.loader.content"],
     qualifiers = "xlarge",
 )
-class VimeoPlayerViewTest {
+class YoutubePlayerViewTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -68,15 +68,15 @@ class VimeoPlayerViewTest {
     fun shouldRecordLastLoadedUrl() {
         with(composeTestRule) {
             setContent {
-                val playerController = rememberVimeoPlayerController(autoPlay = true)
-                val playerState = rememberVimeoPlayerState()
-                VimeoPlayerView(
+                val playerController = rememberYoutubePlayerController(autoPlay = true)
+                val playerState = rememberYoutubePlayerState()
+                YoutubePlayerView(
                     playerController = playerController,
                     playerState = playerState,
                     factory = { webView },
                 )
 
-                playerController.events.update { VimeoPlayerEvent.OnPlayerReady("", 0F, "") }
+                playerController.events.update { YouTubePlayerEvent.OnPlayerReady }
             }
         }
 
