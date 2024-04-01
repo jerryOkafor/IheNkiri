@@ -37,6 +37,19 @@ val engine = FakeImageLoaderEngine.Builder()
     .intercept({ it is String && it.endsWith(".png") }, ColorDrawable(Color.GRAY))
     .default(ColorDrawable(Color.BLUE))
     .build()
-val imageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
+
+@OptIn(ExperimentalCoilApi::class)
+val fakeSuccessImageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
     .components { add(engine) }
+    .build()
+
+@OptIn(ExperimentalCoilApi::class)
+@Suppress("TooGenericExceptionThrown")
+val errorEngine =
+    FakeImageLoaderEngine.Builder().default { chain -> throw Exception("Error loading image") }
+        .build()
+
+@OptIn(ExperimentalCoilApi::class)
+val fakeErrorImageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
+    .components { add(errorEngine) }
     .build()

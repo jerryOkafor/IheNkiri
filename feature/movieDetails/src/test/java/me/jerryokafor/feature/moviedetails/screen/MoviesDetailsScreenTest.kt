@@ -49,8 +49,11 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import coil.Coil
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
+import me.jerryokafor.ihenkiri.core.test.util.fakeErrorImageLoader
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_BOTTOM_BAR
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CATEGORIES
@@ -96,7 +99,30 @@ class MoviesDetailsScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
+    }
+
+    @Test
+    fun test_image_load_error() {
+        Coil.setImageLoader(fakeErrorImageLoader)
+        with(composeTestRule) {
+            setContent {
+                MoviesDetailsScreen(
+                    movieDetailsUiState = MovieDetailsUiState.Success(
+                        MovieDetailsTestData.testMovieDetails(0L),
+                    ),
+                    movieCreditUiState = MovieCreditUiState.Success(
+                        movieCredit = MovieDetailsTestData.testMovieCredit(0L),
+                    ),
+                    similarMoviesUiState = SimilarMoviesUiState.Success(testMovies()),
+                    moviesVideoUiState = MoviesVideoUiState.Success(
+                        videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
+                        movieId = 0L,
+                    ),
+                )
+            }
+        }
     }
 
     @Test

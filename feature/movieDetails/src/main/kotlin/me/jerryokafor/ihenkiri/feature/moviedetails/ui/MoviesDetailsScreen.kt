@@ -602,9 +602,8 @@ fun MoviesDetailsScreen(
                                 horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                                 verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                             ) {
-                                (movieDetails.genres.map { genre -> genre.name }).forEach {
-                                    GenreChip(text = it)
-                                }
+                                (movieDetails.genres.map { genre -> genre.name })
+                                    .forEach { GenreChip(text = it) }
                             }
                         }
 

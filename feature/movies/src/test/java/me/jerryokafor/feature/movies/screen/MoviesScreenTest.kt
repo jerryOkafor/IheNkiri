@@ -51,6 +51,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.Coil
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -58,6 +59,7 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.MOVIE_POSTER_TEST_TAG
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import org.junit.Before
 import org.junit.Rule
@@ -83,6 +85,7 @@ class MoviesScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
     }
 
