@@ -43,13 +43,5 @@ val fakeSuccessImageLoader = ImageLoader.Builder(ApplicationProvider.getApplicat
     .components { add(engine) }
     .build()
 
-@OptIn(ExperimentalCoilApi::class)
-@Suppress("TooGenericExceptionThrown")
-val errorEngine =
-    FakeImageLoaderEngine.Builder().default { chain -> throw Exception("Error loading image") }
-        .build()
-
-@OptIn(ExperimentalCoilApi::class)
 val fakeErrorImageLoader = ImageLoader.Builder(ApplicationProvider.getApplicationContext())
-    .components { add(errorEngine) }
     .build()

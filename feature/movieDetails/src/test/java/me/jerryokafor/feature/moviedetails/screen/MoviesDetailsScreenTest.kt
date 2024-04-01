@@ -25,6 +25,8 @@
 package me.jerryokafor.feature.moviedetails.screen
 
 import android.os.Build
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
@@ -108,19 +110,21 @@ class MoviesDetailsScreenTest {
         Coil.setImageLoader(fakeErrorImageLoader)
         with(composeTestRule) {
             setContent {
-                MoviesDetailsScreen(
-                    movieDetailsUiState = MovieDetailsUiState.Success(
-                        MovieDetailsTestData.testMovieDetails(0L),
-                    ),
-                    movieCreditUiState = MovieCreditUiState.Success(
-                        movieCredit = MovieDetailsTestData.testMovieCredit(0L),
-                    ),
-                    similarMoviesUiState = SimilarMoviesUiState.Success(testMovies()),
-                    moviesVideoUiState = MoviesVideoUiState.Success(
-                        videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
-                        movieId = 0L,
-                    ),
-                )
+                CompositionLocalProvider(LocalInspectionMode provides true) {
+                    MoviesDetailsScreen(
+                        movieDetailsUiState = MovieDetailsUiState.Success(
+                            MovieDetailsTestData.testMovieDetails(0L),
+                        ),
+                        movieCreditUiState = MovieCreditUiState.Success(
+                            movieCredit = MovieDetailsTestData.testMovieCredit(0L),
+                        ),
+                        similarMoviesUiState = SimilarMoviesUiState.Success(testMovies()),
+                        moviesVideoUiState = MoviesVideoUiState.Success(
+                            videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
+                            movieId = 0L,
+                        ),
+                    )
+                }
             }
         }
     }

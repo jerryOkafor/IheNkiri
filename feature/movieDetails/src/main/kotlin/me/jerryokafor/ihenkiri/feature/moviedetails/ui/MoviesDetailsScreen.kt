@@ -151,21 +151,25 @@ const val MOVIE_DETAILS_BOTTOM_BAR = "movies_details_bottom_bar"
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     val testMovieCredit = testNetworkMovieCredit(0L).asDomainObject()
+    val movieDetailsUiState = MovieDetailsUiState.Success(
+        movieDetails = testNetworkMovieDetails(0L).asDomainObject(),
+    )
+    val movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit)
+    val similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies())
+
+    val moviesVideoUiState = MoviesVideoUiState.Success(
+        videos = testNetworkMovieVideos(
+            movieId = 0L,
+        ).results.map { it.asDomainObject() },
+        0L,
+    )
+
     IheNkiriTheme {
         MoviesDetailsScreen(
-            movieDetailsUiState = MovieDetailsUiState.Success(
-                movieDetails = testNetworkMovieDetails(0L).asDomainObject(),
-            ),
-            movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit),
-            similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies()),
-            moviesVideoUiState = MoviesVideoUiState.Success(
-                videos = testNetworkMovieVideos(
-                    0L,
-                ).results.map {
-                    it.asDomainObject()
-                },
-                0L,
-            ),
+            movieDetailsUiState = movieDetailsUiState,
+            movieCreditUiState = movieCreditUiState,
+            similarMoviesUiState = similarMoviesUiState,
+            moviesVideoUiState = moviesVideoUiState,
             onMovieItemClick = {},
             onNavigateUp = {},
         )
