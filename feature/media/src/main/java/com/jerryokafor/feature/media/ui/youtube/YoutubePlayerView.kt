@@ -24,12 +24,16 @@
 
 package com.jerryokafor.feature.media.ui.youtube
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.widget.FrameLayout
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -53,46 +57,75 @@ import java.io.InputStreamReader
 @Composable
 internal fun YoutubePlayerView(
     playerController: YoutubePlayerController = rememberYoutubePlayerController(),
+    playerState: YoutubePlayerState = rememberYoutubePlayerState(),
     modifier: Modifier = Modifier,
+    factory: ((Context) -> WebView)? = null,
 ) {
     val context = LocalContext.current
-    val playerState = rememberYoutubePlayerState()
 
-    @Suppress("MagicNumber")
-    AndroidView(
-        factory = {
-            WebView(context).apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    mediaPlaybackRequiresUserGesture = false
-                    cacheMode = WebSettings.LOAD_DEFAULT
-                }
+    BoxWithConstraints(modifier) {
+        // WebView changes it's layout strategy based on
+        // it's layoutParams. We convert from Compose Modifier to
+        // layout params here.
+        val width = if (constraints.hasFixedWidth) {
+            ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
 
-                addJavascriptInterface(
-                    YouTubePlayerBridge(playerState, playerController),
-                    "YouTubePlayerBridge",
+        val height = if (constraints.hasFixedHeight) {
+            ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+
+        val layoutParams = FrameLayout.LayoutParams(
+            width,
+            height,
+        )
+
+        @Suppress("MagicNumber")
+        AndroidView(
+            factory = { context ->
+                (
+                    factory?.invoke(context) ?: WebView(context).apply {
+                        settings.apply {
+                            javaScriptEnabled = true
+                            mediaPlaybackRequiresUserGesture = false
+                            cacheMode = WebSettings.LOAD_DEFAULT
+                        }
+
+                        this.layoutParams = layoutParams
+
+                        addJavascriptInterface(
+                            YouTubePlayerBridge(playerState, playerController),
+                            "YouTubePlayerBridge",
+                        )
+                    }.also {
+                        playerController.webView = it
+                        playerState.webView = it
+                    }
                 )
-            }.also {
-                playerController.webView = it
-                playerState.webView = it
-            }
-        },
-        modifier = modifier
-            .background(Color.LightGray)
-            .aspectRatio(1.75f),
-        update = { webView ->
-            val htmlPage =
-                readHTMLFromUTF8File(context.resources.openRawResource(R.raw.youtube_player_embed))
-            webView.loadDataWithBaseURL(
-                "https://www.youtube.com",
-                htmlPage,
-                "text/html",
-                "utf-8",
-                null,
-            )
-        },
-        onRelease = {},
-    )
+            },
+            modifier = modifier
+                .background(Color.LightGray)
+                .aspectRatio(1.75f),
+            update = { webView ->
+                val htmlPage =
+                    readHTMLFromUTF8File(
+                        context.resources.openRawResource(R.raw.youtube_player_embed),
+                    )
+                webView.loadDataWithBaseURL(
+                    "https://www.youtube.com",
+                    htmlPage,
+                    "text/html",
+                    "utf-8",
+                    null,
+                )
+            },
+            onRelease = {},
+        )
+    }
 }
 
 @VisibleForTesting

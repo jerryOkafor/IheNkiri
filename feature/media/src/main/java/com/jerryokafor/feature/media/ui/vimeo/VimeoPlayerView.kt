@@ -24,10 +24,14 @@
 
 package com.jerryokafor.feature.media.ui.vimeo
 
+import android.content.Context
+import android.view.ViewGroup.LayoutParams
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -55,73 +59,100 @@ fun VimeoPlayerView(
     modifier: Modifier = Modifier,
     playerController: VimeoPlayerController = rememberVimeoPlayerController(autoPlay = true),
     playerState: VimeoPlayerState = rememberVimeoPlayerState(),
+    factory: ((Context) -> WebView)? = null,
 ) {
     val context = LocalContext.current
 
-    @Suppress("MagicNumber")
-    AndroidView(
-        factory = {
-            WebView(context).apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    mediaPlaybackRequiresUserGesture = false
-                    cacheMode = WebSettings.LOAD_DEFAULT
-                }
+    BoxWithConstraints(modifier) {
+        // WebView changes it's layout strategy based on
+        // it's layoutParams. We convert from Compose Modifier to
+        // layout params here.
+        val width = if (constraints.hasFixedWidth) {
+            LayoutParams.MATCH_PARENT
+        } else {
+            LayoutParams.WRAP_CONTENT
+        }
 
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(
-                        view: WebView?,
-                        url: String?,
-                    ) {
-                        super.onPageFinished(view, url)
-                        view?.invoke("initVimeoPlayer")
+        val height = if (constraints.hasFixedHeight) {
+            LayoutParams.MATCH_PARENT
+        } else {
+            LayoutParams.WRAP_CONTENT
+        }
+
+        val layoutParams = FrameLayout.LayoutParams(
+            width,
+            height,
+        )
+
+        @Suppress("MagicNumber")
+        AndroidView(
+            factory = { context ->
+                (
+                    factory?.invoke(context) ?: WebView(context).apply {
+                        settings.apply {
+                            javaScriptEnabled = true
+                            mediaPlaybackRequiresUserGesture = false
+                            cacheMode = WebSettings.LOAD_DEFAULT
+                        }
+
+                        this.layoutParams = layoutParams
+
+                        webViewClient = object : WebViewClient() {
+                            override fun onPageFinished(
+                                view: WebView?,
+                                url: String?,
+                            ) {
+                                super.onPageFinished(view, url)
+                                view?.invoke("initVimeoPlayer")
+                            }
+                        }
+
+                        addJavascriptInterface(
+                            VimeoPlayerBridge(playerController, playerState),
+                            "VimeoPlayerBridge",
+                        )
+                    }.also {
+                        playerController.webView = it
                     }
-                }
-
-                addJavascriptInterface(
-                    VimeoPlayerBridge(playerController, playerState),
-                    "VimeoPlayerBridge",
                 )
-            }.also {
-                playerController.webView = it
-            }
-        },
-        modifier = modifier
-            .background(Color.LightGray)
-            .aspectRatio(1.75f),
-        update = { webView ->
-            val options = VimeoOptions()
-            val hashKey: String? = ""
-            val videoId = playerController.initialVideoId
+            },
+            modifier = modifier
+                .background(Color.LightGray)
+                .aspectRatio(1.75f),
+            update = { webView ->
+                val options = VimeoOptions()
+                val hashKey: String? = ""
+                val videoId = playerController.initialVideoId
 
-            val videoUrl =
-                if (hashKey.isNullOrBlank()) {
-                    "https://vimeo.com/$videoId"
-                } else {
-                    "https://vimeo.com/$videoId/h=$hashKey"
-                }
-            val htmlPage =
-                readHTMLFromUTF8File(context.resources.openRawResource(R.raw.vimeo_player))
-                    .replace("<VIDEO_URL>", videoUrl)
-                    .replace(
-                        oldValue = "<BACKGROUND_COLOR>",
-                        newValue = options.backgroundColor.toHexString(),
-                    )
-                    .replace(oldValue = "<AUTOPLAY>", newValue = options.autoPlay.toString())
-                    .replace("<PLAYSINLINE>", "1")
-                    .replace("<COLOR>", options.color.toHexString())
-                    .replace("<MUTED>", options.muted.toString())
-                    .replace("<LOOP>", options.loop.toString())
-                    .replace("<TITLE>", options.title.toString())
-                    .replace("<QUALITY>", options.quality)
-            webView.loadDataWithBaseURL(
-                "https://vimeo.com",
-                htmlPage,
-                "text/html",
-                "utf-8",
-                null,
-            )
-        },
-        onRelease = {},
-    )
+                val videoUrl =
+                    if (hashKey.isNullOrBlank()) {
+                        "https://vimeo.com/$videoId"
+                    } else {
+                        "https://vimeo.com/$videoId/h=$hashKey"
+                    }
+                val htmlPage =
+                    readHTMLFromUTF8File(context.resources.openRawResource(R.raw.vimeo_player))
+                        .replace("<VIDEO_URL>", videoUrl)
+                        .replace(
+                            oldValue = "<BACKGROUND_COLOR>",
+                            newValue = options.backgroundColor.toHexString(),
+                        )
+                        .replace(oldValue = "<AUTOPLAY>", newValue = options.autoPlay.toString())
+                        .replace("<PLAYSINLINE>", "1")
+                        .replace("<COLOR>", options.color.toHexString())
+                        .replace("<MUTED>", options.muted.toString())
+                        .replace("<LOOP>", options.loop.toString())
+                        .replace("<TITLE>", options.title.toString())
+                        .replace("<QUALITY>", options.quality)
+                webView.loadDataWithBaseURL(
+                    "https://vimeo.com",
+                    htmlPage,
+                    "text/html",
+                    "utf-8",
+                    null,
+                )
+            },
+            onRelease = {},
+        )
+    }
 }
