@@ -36,20 +36,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jerryokafor.feature.media.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -101,10 +92,7 @@ internal fun YoutubePlayerView(
                             YouTubePlayerBridge(playerState, playerController),
                             "YouTubePlayerBridge",
                         )
-                    }.also {
-                        playerController.webView = it
-                        playerState.webView = it
-                    }
+                    }.also { playerController.webView = it }
                 )
             },
             modifier = Modifier
@@ -156,48 +144,3 @@ fun WebView.invoke(
         loadUrl("javascript:$function(${stringArgs.joinToString(",")})")
     }
 }
-
-@Composable
-fun rememberYoutubePlayerController(
-    initialVideoId: String = "",
-    autoPlay: Boolean = false,
-    startSeconds: Float = 0f,
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-) = remember {
-    YoutubePlayerController(
-        initialVideoId = initialVideoId,
-        autoPlay = autoPlay,
-        startSeconds = startSeconds,
-        coroutineScope = coroutineScope,
-    )
-}
-
-@Stable
-class YoutubePlayerState(coroutineScope: CoroutineScope) {
-    var isPlayerReady: Boolean by mutableStateOf(false)
-
-    var isIframeApiReady: Boolean by mutableStateOf(false)
-
-    var events: MutableStateFlow<YouTubePlayerEvent> =
-        MutableStateFlow(YouTubePlayerEvent.Default)
-        internal set
-
-    internal var webView by mutableStateOf<WebView?>(null)
-
-    init {
-        coroutineScope.launch {
-            events.collect { event ->
-                when (event) {
-                    YouTubePlayerEvent.Default -> {}
-                    YouTubePlayerEvent.OnIframeAPIReady -> isIframeApiReady = true
-                    YouTubePlayerEvent.OnPlayerReady -> isPlayerReady = true
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun rememberYoutubePlayerState(
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-): YoutubePlayerState = remember(coroutineScope) { YoutubePlayerState(coroutineScope) }

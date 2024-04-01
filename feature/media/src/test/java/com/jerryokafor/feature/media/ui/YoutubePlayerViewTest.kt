@@ -28,11 +28,17 @@ import android.os.Build
 import android.webkit.WebView
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import com.jerryokafor.feature.media.ui.youtube.YouTubePlayerEvent
+import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerController
+import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerState
 import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerView
-import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerController
-import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerState
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -53,6 +59,10 @@ class YoutubePlayerViewTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    val testScheduler = TestCoroutineScheduler()
+    val testDispatcher = StandardTestDispatcher(testScheduler)
+    val testScope = TestScope(testDispatcher)
+
     private lateinit var webView: WebView
     private lateinit var shadowWebView: ShadowWebView
 
@@ -65,21 +75,33 @@ class YoutubePlayerViewTest {
     }
 
     @Test
-    fun shouldRecordLastLoadedUrl() {
-        with(composeTestRule) {
-            setContent {
-                val playerController = rememberYoutubePlayerController(autoPlay = true)
-                val playerState = rememberYoutubePlayerState()
-                YoutubePlayerView(
-                    playerController = playerController,
-                    playerState = playerState,
-                    factory = { webView },
-                )
+    fun shouldRecordLastLoadedUrl() = runTest {
+        val playerController = YoutubePlayerController(
+            autoPlay = true,
+            initialVideoId = "O-b2VfmmbyA",
+            startSeconds = 0F,
+            coroutineScope = testScope,
+        )
 
-                playerController.events.update { YouTubePlayerEvent.OnPlayerReady }
-            }
+        val playerState = YoutubePlayerState()
+
+        composeTestRule.setContent {
+            YoutubePlayerView(
+                playerController = playerController,
+                playerState = playerState,
+                factory = { webView },
+            )
         }
 
-        shadowWebView.performSuccessfulPageLoadClientCallbacks()
+        playerController.loadVideo("O-b2VfmmbyA")
+
+        assertThat(shadowOf(webView).getJavascriptInterface("YouTubePlayerBridge"))
+            .isNotNull()
+
+        playerState.events.test {
+            println("Hello : ${awaitItem()}")
+            playerState.events.update { YouTubePlayerEvent.OnPlayerReady }
+            println("Hello : ${awaitItem()}")
+        }
     }
 }

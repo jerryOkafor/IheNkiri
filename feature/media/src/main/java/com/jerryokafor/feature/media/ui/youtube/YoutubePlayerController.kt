@@ -25,13 +25,17 @@
 package com.jerryokafor.feature.media.ui.youtube
 
 import android.webkit.WebView
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 @Stable
@@ -44,18 +48,6 @@ class YoutubePlayerController(
 ) {
     internal var webView by mutableStateOf<WebView?>(null)
 
-//    fun play() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("playVideo")
-//    }
-//
-//    fun pause() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("pauseVideo")
-//    }
-//
-//    fun stop() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("stopVideo")
-//    }
-
     fun loadVideo(
         videoId: String,
         startSeconds: Float = 0F,
@@ -63,67 +55,19 @@ class YoutubePlayerController(
         webView?.invoke("loadVideo", videoId, startSeconds)
     }
 
-    fun cueVideo(
+    private fun cueVideo(
         videoId: String,
         startSeconds: Float,
     ) = coroutineScope.launch(Dispatchers.Main) {
         webView?.invoke("cueVideo", videoId, startSeconds)
     }
 
-//    fun nextVideo() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("nextVideo")
-//    }
-//
-//    fun previousVideo() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("previousVideo")
-//    }
-//
-//    fun playVideoAt(index: Int) = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("playVideoAt", index)
-//    }
-//
-//    fun setLoop(loop: Boolean) = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("setLoop", loop)
-//    }
-//
-//    fun setShuffle(shuffle: Boolean) = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("setShuffle", shuffle)
-//    }
-//
-//    fun mute() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("mute")
-//    }
-//
-//    fun unMute() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("unMute")
-//    }
-//
-//    @Suppress("MagicNumber")
-//    fun setVolume(volumePercent: Int) = coroutineScope.launch(Dispatchers.Main) {
-//        require(volumePercent in 0..100) { "Volume must be between 0 and 100" }
-//        webView?.invoke("setVolume", volumePercent)
-//    }
-//
-//    fun seekTo(time: Float) = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("seekTo", time)
-//    }
-//
-//    fun setPlaybackRate(playbackRate: PlayerConstants.PlaybackRate) =
-//        coroutineScope.launch(Dispatchers.Main) {
-//            webView?.invoke("setPlaybackRate", playbackRate.toFloat())
-//        }
-//
-//    fun toggleFullscreen() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("toggleFullscreen")
-//    }
-
-    var events: MutableStateFlow<YouTubePlayerEvent> =
-        MutableStateFlow(YouTubePlayerEvent.Default)
+    var events: MutableStateFlow<YouTubePlayerEvent?> = MutableStateFlow(null)
         internal set
 
     init {
         coroutineScope.launch(Dispatchers.Main) {
-            events.collect { event ->
+            events.filterNotNull().collect { event ->
                 when (event) {
                     YouTubePlayerEvent.OnPlayerReady -> {
                         if (autoPlay) {
@@ -138,4 +82,19 @@ class YoutubePlayerController(
             }
         }
     }
+}
+
+@Composable
+fun rememberYoutubePlayerController(
+    initialVideoId: String = "",
+    autoPlay: Boolean = false,
+    startSeconds: Float = 0f,
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+) = remember {
+    YoutubePlayerController(
+        initialVideoId = initialVideoId,
+        autoPlay = autoPlay,
+        startSeconds = startSeconds,
+        coroutineScope = coroutineScope,
+    )
 }

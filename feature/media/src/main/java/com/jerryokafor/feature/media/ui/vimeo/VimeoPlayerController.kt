@@ -45,18 +45,6 @@ class VimeoPlayerController(
 ) {
     internal var webView by mutableStateOf<WebView?>(null)
 
-//    fun play() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("playVideo")
-//    }
-//
-//    fun pause() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("pauseVideo")
-//    }
-//
-//    fun stop() = coroutineScope.launch(Dispatchers.Main) {
-//        webView?.invoke("stopVideo")
-//    }
-
     fun loadVideo(videoId: String) {
         webView?.invoke("loadVideo", videoId)
         if (autoPlay) {

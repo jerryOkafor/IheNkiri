@@ -24,8 +24,16 @@
 
 package com.jerryokafor.feature.media.ui.youtube
 
-sealed class YouTubePlayerEvent {
-    data object OnIframeAPIReady : YouTubePlayerEvent()
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
+import kotlinx.coroutines.flow.MutableStateFlow
 
-    data object OnPlayerReady : YouTubePlayerEvent()
+@Stable
+class YoutubePlayerState {
+    var events: MutableStateFlow<YouTubePlayerEvent?> = MutableStateFlow(null)
+        internal set
 }
+
+@Composable
+fun rememberYoutubePlayerState(): YoutubePlayerState = remember { YoutubePlayerState() }
