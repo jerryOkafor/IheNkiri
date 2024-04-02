@@ -26,13 +26,21 @@ package com.jerryokafor.feature.media.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -106,15 +114,26 @@ class MediaNavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = mediaRoutePattern,
+                    startDestination = "home",
                 ) {
+                    composable("home") {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Text(modifier = Modifier.align(Alignment.Center), text = "Home")
+                        }
+                    }
                     mediaScreen(onBackClick = { onNavigateUp++ })
                 }
             }
 
-            onNodeWithContentDescription(navigateUp).performClick()
+            assertThat(navController.currentDestination?.route).isEqualTo("home")
+            navController.navigateToMedia(0L, "Test App", null)
 
+
+            waitForIdle()
+            onNodeWithText("Test App").assertIsDisplayed()
             assertThat(navController.currentDestination?.route).isEqualTo(mediaRoutePattern)
+
+            onNodeWithContentDescription(navigateUp).performClick()
             assertThat(onNavigateUp).isEqualTo(1)
         }
     }
