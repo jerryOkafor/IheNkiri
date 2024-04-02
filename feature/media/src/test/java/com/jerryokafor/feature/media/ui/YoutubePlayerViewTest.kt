@@ -75,7 +75,7 @@ class YoutubePlayerViewTest {
     }
 
     @Test
-    fun shouldRecordLastLoadedUrl() = runTest {
+    fun test_youtubePlayerView() = runTest {
         val playerController = YoutubePlayerController(
             autoPlay = true,
             initialVideoId = "O-b2VfmmbyA",
@@ -95,13 +95,12 @@ class YoutubePlayerViewTest {
 
         playerController.loadVideo("O-b2VfmmbyA")
 
-        assertThat(shadowOf(webView).getJavascriptInterface("YouTubePlayerBridge"))
-            .isNotNull()
-
         playerState.events.test {
-            println("Hello : ${awaitItem()}")
+            assertThat(awaitItem()).isNull()
             playerState.events.update { YouTubePlayerEvent.OnPlayerReady }
-            println("Hello : ${awaitItem()}")
+            assertThat(awaitItem()).isInstanceOf(YouTubePlayerEvent.OnPlayerReady::class.java)
+
+            cancelAndConsumeRemainingEvents()
         }
     }
 }

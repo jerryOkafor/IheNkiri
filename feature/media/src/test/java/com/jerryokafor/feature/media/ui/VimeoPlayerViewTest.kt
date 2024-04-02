@@ -76,7 +76,7 @@ class VimeoPlayerViewTest {
     }
 
     @Test
-    fun shouldRecordLastLoadedUrl() = runTest {
+    fun test_vimeoPlayerView() = runTest {
         val playerController = VimeoPlayerController(
             autoPlay = true,
             initialVideoId = "",
