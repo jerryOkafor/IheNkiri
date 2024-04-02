@@ -92,6 +92,8 @@ class VimeoPlayerViewTest {
             )
         }
 
+        shadowWebView.performSuccessfulPageLoadClientCallbacks()
+
         playerState.events.test(timeout = 10.milliseconds) {
             assertThat(awaitItem()).isNull()
 

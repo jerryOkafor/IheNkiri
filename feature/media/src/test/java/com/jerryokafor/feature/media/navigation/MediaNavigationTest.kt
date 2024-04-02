@@ -129,8 +129,11 @@ class MediaNavigationTest {
             navController.navigateToMedia(0L, "Test App", null)
 
             waitForIdle()
+
             onNodeWithText("Test App").assertIsDisplayed()
             assertThat(navController.currentDestination?.route).isEqualTo(mediaRoutePattern)
+            assertThat(navController.currentBackStackEntry?.arguments?.getString(titleArg))
+                .isEqualTo("Test App")
 
             onNodeWithContentDescription(navigateUp).performClick()
             assertThat(onNavigateUp).isEqualTo(1)
