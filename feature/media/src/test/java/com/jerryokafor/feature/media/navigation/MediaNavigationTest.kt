@@ -128,7 +128,6 @@ class MediaNavigationTest {
             assertThat(navController.currentDestination?.route).isEqualTo("home")
             navController.navigateToMedia(0L, "Test App", null)
 
-
             waitForIdle()
             onNodeWithText("Test App").assertIsDisplayed()
             assertThat(navController.currentDestination?.route).isEqualTo(mediaRoutePattern)
