@@ -20,7 +20,7 @@ concurrency:
 jobs:
   verify_code_quality:
     name: Verify Code Quality
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 60
 
     steps:
@@ -48,7 +48,7 @@ jobs:
   build_test_check:
     name: Build,Test & Check
     needs: verify_code_quality
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 60
 
     steps:
