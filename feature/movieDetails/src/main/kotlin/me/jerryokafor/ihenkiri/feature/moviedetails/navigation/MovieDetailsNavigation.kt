@@ -82,6 +82,7 @@ fun NavController.navigateToMovieDetails(
 
 fun NavGraphBuilder.movieDetailsScreen(
     onMovieItemClick: (Long) -> Unit,
+    onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onNavigateUp: () -> Unit,
 ) {
     composable(
@@ -95,6 +96,7 @@ fun NavGraphBuilder.movieDetailsScreen(
     ) {
         MoviesDetailsScreen(
             onMovieItemClick = onMovieItemClick,
+            onWatchTrailerClick = onWatchTrailerClick,
             onBackPress = onNavigateUp,
         )
     }

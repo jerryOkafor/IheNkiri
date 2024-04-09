@@ -1,0 +1,35 @@
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2024 IheNkiri Project
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:height="24dp"
+        android:viewportHeight="461"
+        android:viewportWidth="461"
+        android:width="24dp">
+
+    <path
+            android:fillColor="#F61C0D"
+            android:pathData="M365.26,67.39H95.74C42.87,67.39 0,110.26 0,163.14v134.73c0,52.88 42.87,95.74 95.74,95.74h269.51c52.88,0 95.74,-42.87 95.74,-95.74V163.14C461,110.26 418.14,67.39 365.26,67.39zM300.51,237.06l-126.06,60.12c-3.36,1.6 -7.24,-0.85 -7.24,-4.57V168.61c0,-3.77 3.98,-6.22 7.35,-4.51l126.06,63.88C304.36,229.87 304.3,235.25 300.51,237.06z" />
+
+</vector>

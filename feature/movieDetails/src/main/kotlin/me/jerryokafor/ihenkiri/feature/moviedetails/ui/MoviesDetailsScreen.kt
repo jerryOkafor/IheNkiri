@@ -105,7 +105,6 @@ import me.jerryokafor.core.ds.theme.OneVerticalSpacer
 import me.jerryokafor.core.ds.theme.ThreeVerticalSpacer
 import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
-import me.jerryokafor.core.model.Video
 import me.jerryokafor.core.model.names
 import me.jerryokafor.core.ui.components.GenreChip
 import me.jerryokafor.core.ui.components.IheNkiriCircularProgressIndicator
@@ -152,20 +151,25 @@ const val MOVIE_DETAILS_BOTTOM_BAR = "movies_details_bottom_bar"
 @ExcludeFromGeneratedCoverageReport
 fun MoviesDetailsPreview() {
     val testMovieCredit = testNetworkMovieCredit(0L).asDomainObject()
+    val movieDetailsUiState = MovieDetailsUiState.Success(
+        movieDetails = testNetworkMovieDetails(0L).asDomainObject(),
+    )
+    val movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit)
+    val similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies())
+
+    val moviesVideoUiState = MoviesVideoUiState.Success(
+        videos = testNetworkMovieVideos(
+            movieId = 0L,
+        ).results.map { it.asDomainObject() },
+        0L,
+    )
+
     IheNkiriTheme {
         MoviesDetailsScreen(
-            movieDetailsUiState = MovieDetailsUiState.Success(
-                movieDetails = testNetworkMovieDetails(0L).asDomainObject(),
-            ),
-            movieCreditUiState = MovieCreditUiState.Success(movieCredit = testMovieCredit),
-            similarMoviesUiState = SimilarMoviesUiState.Success(movies = testMovies()),
-            moviesVideoUiState = MoviesVideoUiState.Success(
-                videos = testNetworkMovieVideos(
-                    0L,
-                ).results.map {
-                    it.asDomainObject()
-                },
-            ),
+            movieDetailsUiState = movieDetailsUiState,
+            movieCreditUiState = movieCreditUiState,
+            similarMoviesUiState = similarMoviesUiState,
+            moviesVideoUiState = moviesVideoUiState,
             onMovieItemClick = {},
             onNavigateUp = {},
         )
@@ -181,6 +185,7 @@ private const val MAX_MOVIE_RATING = 10.0
 fun MoviesDetailsScreen(
     viewModel: MoviesDetailViewModel = hiltViewModel(),
     onMovieItemClick: (Long) -> Unit,
+    onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onBackPress: () -> Unit,
 ) {
     val movieDetailsUiState by viewModel.movieDetailsUiState.collectAsStateWithLifecycle()
@@ -192,8 +197,6 @@ fun MoviesDetailsScreen(
     val onAddToBookmarkClick: () -> Unit = {}
     val onAddToFavorite: () -> Unit = {}
     val onRateItClick: () -> Unit = {}
-    val onWatchTrailerClick: (List<Video>) -> Unit = {
-    }
 
     MoviesDetailsScreen(
         movieDetailsUiState = movieDetailsUiState,
@@ -222,7 +225,7 @@ fun MoviesDetailsScreen(
     onAddToBookmarkClick: () -> Unit = {},
     onAddToFavorite: () -> Unit = {},
     onRateItClick: () -> Unit = {},
-    onWatchTrailerClick: (List<Video>) -> Unit = {},
+    onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onMovieItemClick: (Long) -> Unit = {},
     onNavigateUp: () -> Unit = {},
 ) {
@@ -438,6 +441,8 @@ fun MoviesDetailsScreen(
                         when (moviesVideoUiState) {
                             is MoviesVideoUiState.Success -> {
                                 val videos = moviesVideoUiState.videos
+                                val movieId = moviesVideoUiState.movieId
+                                val title = movieDetails.title
                                 if (videos.isNotEmpty()) {
                                     item {
                                         ThreeVerticalSpacer()
@@ -446,7 +451,7 @@ fun MoviesDetailsScreen(
                                                 .fillMaxWidth()
                                                 .testTag(MOVIE_DETAILS_TRAILER_BUTTON)
                                                 .padding(horizontal = IheNkiri.spacing.two),
-                                            onClick = { onWatchTrailerClick(videos) },
+                                            onClick = { onWatchTrailerClick(movieId, title) },
                                         )
                                     }
                                 }
@@ -601,9 +606,8 @@ fun MoviesDetailsScreen(
                                 horizontalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                                 verticalArrangement = Arrangement.spacedBy(IheNkiri.spacing.one),
                             ) {
-                                (movieDetails.genres.map { genre -> genre.name }).forEach {
-                                    GenreChip(text = it)
-                                }
+                                (movieDetails.genres.map { genre -> genre.name })
+                                    .forEach { GenreChip(text = it) }
                             }
                         }
 

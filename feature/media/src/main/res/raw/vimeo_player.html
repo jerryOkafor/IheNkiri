@@ -1,0 +1,225 @@
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2024 IheNkiri Project
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE html>
+<html>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      overflow: hidden;
+      position: fixed;
+    }
+  </style>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <script src="https://player.vimeo.com/api/player.js"></script>
+  </head>
+
+  <body>
+    <div class="flexbox">
+      <div id="player"></div>
+    </div>
+
+    <script>
+      var VimeoPlayerBridge = window.VimeoPlayerBridge;
+      var player = null;
+
+      function initVimeoPlayer() {
+        var w = document.body.clientWidth;
+        var h = document.body.clientHeight;
+
+        var options = {
+          id: "<VIDEO_URL>",
+          texttrack: "None",
+          transcript: false,
+          portrait: true,
+          cc: false,
+          byline: true,
+          speed: true,
+          transparent: true,
+          autoplay: false,
+          vimeo_logo: false,
+          fullscreen: false,
+          width: w,
+          height: h,
+        };
+
+        player = new Vimeo.Player("player", options);
+
+        player.on("timeupdate", function (data) {
+          VimeoPlayerBridge.onTimeUpdate(data.seconds);
+        });
+
+        player.on("play", function (data) {
+          VimeoPlayerBridge.onPlay(data.duration);
+        });
+
+        player.on("pause", function (data) {
+          VimeoPlayerBridge.onPause(data.seconds);
+        });
+
+        player.on("ended", function (data) {
+          VimeoPlayerBridge.onEnded(data.duration);
+        });
+
+        player.on("volumechange", function (data) {
+          VimeoPlayerBridge.onVolumeChange(data.volume);
+        });
+
+        player.on("texttrackchange", function (data) {
+          VimeoPlayerBridge.onTextTrackChange(
+            data.kind,
+            data.label,
+            data.language
+          );
+        });
+
+        player.on("error", function (data) {
+          VimeoPlayerBridge.onError(data.message, data.method, data.name);
+        });
+
+        player
+          .ready()
+          .then(function () {
+            player
+              .getDuration()
+              .then(function (duration) {
+                player
+                  .getVideoTitle()
+                  .then(function (title) {
+                    player
+                      .getTextTracks()
+                      .then(function (tracks) {
+                        var tracksJSON = JSON.stringify(tracks);
+                        VimeoPlayerBridge.onPlayerReady(
+                          title,
+                          duration,
+                          tracksJSON
+                        );
+                      })
+                      .catch(function (error) {
+                        VimeoPlayerBridge.onInitFailed();
+                        VimeoPlayerBridge.onError(
+                          "Init failed",
+                          "init",
+                          "init"
+                        );
+                      });
+                  })
+                  .catch(function (error) {
+                    VimeoPlayerBridge.onInitFailed();
+                    VimeoPlayerBridge.onError("Init failed", "init", "init");
+                  });
+              })
+              .catch(function (error) {
+                VimeoPlayerBridge.onInitFailed();
+                VimeoPlayerBridge.onError("Init failed", "init", "init");
+              });
+          })
+          .catch(function (error) {
+            VimeoPlayerBridge.onInitFailed();
+            VimeoPlayerBridge.onError("Init failed", "init", "init");
+          });
+      }
+
+      function loadVideo(videoId) {
+        player.loadVideo(videoId);
+      }
+
+      function playVideo() {
+        player.play();
+      }
+
+      function pauseVideo() {
+        player.pause();
+      }
+
+      function stopVideo() {
+        player.stop();
+      }
+
+      function setVolume(volumePercent) {
+        player.setVolume(volumePercent);
+      }
+
+      function destroyPlayer() {
+        player.destroy();
+      }
+
+      function setColor(hexColor) {
+        player.setColor(hexColor);
+      }
+
+      function setLoop(loop) {
+        player.setLoop(loop);
+      }
+
+      function setPlaybackRate(playbackRate) {
+        player.setPlaybackRate(playbackRate);
+      }
+
+      function playTwoStage() {
+        player
+          .play()
+          .then(function () {
+            player
+              .pause()
+              .then(function () {
+                player.play();
+              })
+              .catch(function (error) {
+                VimeoPlayerBridge.onError(data.message, data.method, data.name);
+              });
+          })
+          .catch(function (error) {
+            VimeoPlayerBridge.onError(data.message, data.method, data.name);
+          });
+      }
+
+      function setCaptions(language) {
+        player
+          .enableTextTrack(language)
+          .then(function (track) {
+            track.language = language;
+            track.kind = "captions";
+          })
+          .catch(function (error) {
+            VimeoPlayerBridge.onError(error.name, error.name, error.name);
+          });
+      }
+
+      function disableCaptions() {
+        player.disableTextTrack();
+      }
+    </script>
+  </body>
+</html>

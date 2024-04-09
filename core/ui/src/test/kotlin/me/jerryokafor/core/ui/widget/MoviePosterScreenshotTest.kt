@@ -40,7 +40,7 @@ import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ui.components.MoviePoster
 import me.jerryokafor.ihenkiri.core.test.util.captureMultiTheme
-import me.jerryokafor.ihenkiri.core.test.util.imageLoader
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -62,7 +62,7 @@ class MoviePosterScreenshotTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        Coil.setImageLoader(imageLoader)
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
     }
 

@@ -46,7 +46,7 @@ import com.google.common.truth.Truth.assertThat
 import me.jerryokafor.core.model.ThemeConfig
 import me.jerryokafor.core.model.UserEditableSettings
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
-import me.jerryokafor.ihenkiri.core.test.util.imageLoader
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import me.jerryokafor.ihenkiri.feature.settings.viewModel.SettingsUiState
 import org.junit.Before
 import org.junit.Rule
@@ -73,7 +73,7 @@ class SettingsScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        Coil.setImageLoader(imageLoader)
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
     }
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(uri("https://androidx.dev/storage/compose-compiler/repository/"))
+        maven(uri("https://jitpack.io"))
     }
 }
 
@@ -65,3 +66,4 @@ include(":feature:settings")
 include(":feature:auth")
 include(":feature:peopleDetails")
 include(":benchmark")
+include(":feature:media")

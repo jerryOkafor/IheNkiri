@@ -29,6 +29,8 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
@@ -70,6 +72,7 @@ import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
 import me.jerryokafor.core.ui.R as CoreUIR
 import me.jerryokafor.feature.movies.R as MoviesR
+import me.jerryokafor.ihenkiri.feature.moviedetails.R as MoviesDetailsR
 import me.jerryokafor.ihenkiri.feature.people.R as PeopleR
 import me.jerryokafor.ihenkiri.feature.settings.R as SettingsR
 import me.jerryokafor.ihenkiri.feature.tvshows.R as TVShowsR
@@ -138,6 +141,19 @@ class NavigationTest {
 
     private val people by composeTestRule.stringResource(PeopleR.string.people)
     private val settings by composeTestRule.stringResource(SettingsR.string.settings)
+
+    // Watch  trailer
+    private val watchTrailer by composeTestRule.stringResource(CoreUIR.string.title_watch_trailer)
+    private val addToWatchList by composeTestRule.stringResource(
+        MoviesDetailsR.string.add_to_watch_list,
+    )
+    private val addToBookmark by composeTestRule.stringResource(
+        MoviesDetailsR.string.add_to_bookmark,
+    )
+    private val addToFavourite by composeTestRule.stringResource(
+        MoviesDetailsR.string.add_to_favourite,
+    )
+    private val rateMovie by composeTestRule.stringResource(MoviesDetailsR.string.rate_it)
 
     @Before
     fun setUp() {
@@ -333,6 +349,57 @@ class NavigationTest {
             onNodeWithText("Sign In").performClick()
             onNodeWithText("Error creating request token, please try again")
                 .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun movieDetailsScreen_watchTrailer() {
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(movies) and isSelectable())
+                    .performClick()
+
+                waitForIdle()
+                onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG)
+                    .assertIsDisplayed()
+                    .onChildren()
+                    .onFirst()
+                    .performClick()
+
+                waitForIdle()
+                onNode(
+                    matcher = hasContentDescription(addToWatchList) and hasClickAction(),
+                    useUnmergedTree = false,
+                ).assertIsDisplayed()
+                    .performClick()
+
+                onNode(
+                    matcher = hasContentDescription(addToBookmark) and hasClickAction(),
+                    useUnmergedTree = false,
+                ).assertIsDisplayed()
+                    .performClick()
+
+                onNode(
+                    matcher = hasContentDescription(addToFavourite) and hasClickAction(),
+                    useUnmergedTree = false,
+                ).assertIsDisplayed()
+                    .performClick()
+
+                onNode(
+                    matcher = hasContentDescription(rateMovie) and hasClickAction(),
+                    useUnmergedTree = false,
+                ).assertIsDisplayed()
+                    .performClick()
+                onNode(hasText(watchTrailer) and hasClickAction())
+                    .assertIsDisplayed()
+                    .performClick()
+
+                waitForIdle()
+                onNodeWithText("Fight Club")
+                    .assertIsDisplayed()
+            }
         }
     }
 }

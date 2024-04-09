@@ -25,6 +25,8 @@
 package me.jerryokafor.feature.moviedetails.screen
 
 import android.os.Build
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
@@ -49,8 +51,11 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import coil.Coil
 import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.MovieDetailsTestData
+import me.jerryokafor.ihenkiri.core.test.util.fakeErrorImageLoader
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import me.jerryokafor.ihenkiri.core.test.util.testMovies
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_BOTTOM_BAR
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_CATEGORIES
@@ -96,7 +101,32 @@ class MoviesDetailsScreenTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
+    }
+
+    @Test
+    fun test_image_load_error() {
+        Coil.setImageLoader(fakeErrorImageLoader)
+        with(composeTestRule) {
+            setContent {
+                CompositionLocalProvider(LocalInspectionMode provides true) {
+                    MoviesDetailsScreen(
+                        movieDetailsUiState = MovieDetailsUiState.Success(
+                            MovieDetailsTestData.testMovieDetails(0L),
+                        ),
+                        movieCreditUiState = MovieCreditUiState.Success(
+                            movieCredit = MovieDetailsTestData.testMovieCredit(0L),
+                        ),
+                        similarMoviesUiState = SimilarMoviesUiState.Success(testMovies()),
+                        moviesVideoUiState = MoviesVideoUiState.Success(
+                            videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
+                            movieId = 0L,
+                        ),
+                    )
+                }
+            }
+        }
     }
 
     @Test
@@ -149,7 +179,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -307,7 +337,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -338,7 +368,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -368,7 +398,7 @@ class MoviesDetailsScreenTest {
                     onAddToBookmarkClick = { onAddToBookmarkClick++ },
                     onAddToFavorite = { onAddToFavorite++ },
                     onRateItClick = { onRateItClick++ },
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                     onNavigateUp = { onNavigateUp++ },
                 )
             }
@@ -395,11 +425,10 @@ class MoviesDetailsScreenTest {
                     movieCreditUiState = MovieCreditUiState.Loading,
                     similarMoviesUiState = SimilarMoviesUiState.Loading,
                     moviesVideoUiState = MoviesVideoUiState.Success(
-                        MovieDetailsTestData.testMovieVideos(
-                            0L,
-                        ),
+                        videos = MovieDetailsTestData.testMovieVideos(movieId = 0L),
+                        movieId = 0L,
                     ),
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                 )
             }
 
@@ -424,8 +453,8 @@ class MoviesDetailsScreenTest {
                     ),
                     movieCreditUiState = MovieCreditUiState.Loading,
                     similarMoviesUiState = SimilarMoviesUiState.Loading,
-                    moviesVideoUiState = MoviesVideoUiState.Success(emptyList()),
-                    onWatchTrailerClick = { onWatchTrailerClick++ },
+                    moviesVideoUiState = MoviesVideoUiState.Success(emptyList(), 0L),
+                    onWatchTrailerClick = { _, _ -> onWatchTrailerClick++ },
                 )
             }
 

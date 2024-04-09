@@ -44,7 +44,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import coil.Coil
 import com.google.common.truth.Truth.assertThat
 import me.jerryokafor.core.ds.theme.IheNkiri
-import me.jerryokafor.ihenkiri.core.test.util.imageLoader
+import me.jerryokafor.ihenkiri.core.test.util.fakeSuccessImageLoader
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,7 +67,7 @@ class IhenkiriCollapsingToolbarHeaderTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        Coil.setImageLoader(imageLoader)
+        Coil.setImageLoader(fakeSuccessImageLoader)
         ShadowLog.stream = System.out
     }
 
