@@ -61,7 +61,8 @@ class MovieDetailsTextScreenshotTest {
                     "producers like this have for the audience that gives them money. " +
                     "The writer, director, producers and editor must have been so full of"
             MovieDetailsText(
-                text = text, textAlign = TextAlign.Justify,
+                text = text,
+                textAlign = TextAlign.Justify,
                 modifier = Modifier,
                 dialogTitle = stringResource(id = R.string.core_ds_read_more),
                 color = Color.Unspecified,
