@@ -30,12 +30,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerController
 import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerEvent
+import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerState
 import com.jerryokafor.feature.media.ui.vimeo.VimeoPlayerView
-import com.jerryokafor.feature.media.ui.vimeo.rememberVimeoPlayerController
-import com.jerryokafor.feature.media.ui.vimeo.rememberVimeoPlayerState
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -77,57 +76,55 @@ class VimeoPlayerViewTest {
     }
 
     @Test
-    fun test_vimeoPlayerView() = runTest testScope@{
-        composeTestRule.setContent {
-            val playerController = rememberVimeoPlayerController()
-            val playerState = rememberVimeoPlayerState()
+    fun test_vimeoPlayerView() = runTest {
+        val playerController = VimeoPlayerController(
+            autoPlay = true,
+            initialVideoId = "",
+            coroutineScope = testScope,
+        )
+        val playerState = VimeoPlayerState()
 
+        composeTestRule.setContent {
             VimeoPlayerView(
                 playerController = playerController,
                 playerState = playerState,
                 factory = { webView },
             )
+        }
 
-            shadowWebView.performSuccessfulPageLoadClientCallbacks()
+        shadowWebView.performSuccessfulPageLoadClientCallbacks()
 
-            testScope.launch {
-                playerState.events.test(timeout = 10.milliseconds) {
-                    assertThat(awaitItem()).isNull()
+        playerState.events.test(timeout = 10.milliseconds) {
+            assertThat(awaitItem()).isNull()
 
-                    playerState.events.update { VimeoPlayerEvent.OnPlayerReady("", 0F, "") }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPlayerReady::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnPlayerReady("", 0F, "") }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPlayerReady::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnTimeUpdate(0f) }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnTimeUpdate::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnTimeUpdate(0f) }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnTimeUpdate::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnPlay(0f) }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPlay::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnPlay(0f) }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPlay::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnPause(0f) }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPause::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnPause(0f) }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnPause::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnEnded(0f) }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnEnded::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnEnded(0f) }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnEnded::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnVolumeChange(0f) }
-                    assertThat(
-                        awaitItem(),
-                    ).isInstanceOf(VimeoPlayerEvent.OnVolumeChange::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnVolumeChange(0f) }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnVolumeChange::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnTextTrackChange("", "", "") }
-                    assertThat(
-                        awaitItem(),
-                    ).isInstanceOf(VimeoPlayerEvent.OnTextTrackChange::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnTextTrackChange("", "", "") }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnTextTrackChange::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnInitFailed }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnInitFailed::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnInitFailed }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnInitFailed::class.java)
 
-                    playerState.events.update { VimeoPlayerEvent.OnError("", "", "") }
-                    assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnError::class.java)
+            playerState.events.update { VimeoPlayerEvent.OnError("", "", "") }
+            assertThat(awaitItem()).isInstanceOf(VimeoPlayerEvent.OnError::class.java)
 
-                    cancelAndConsumeRemainingEvents()
-                }
-            }
+            cancelAndConsumeRemainingEvents()
         }
     }
 }

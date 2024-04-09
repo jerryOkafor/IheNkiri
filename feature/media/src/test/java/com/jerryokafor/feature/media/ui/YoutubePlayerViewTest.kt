@@ -31,11 +31,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.jerryokafor.feature.media.ui.youtube.YouTubePlayerEvent
+import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerController
+import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerState
 import com.jerryokafor.feature.media.ui.youtube.YoutubePlayerView
-import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerController
-import com.jerryokafor.feature.media.ui.youtube.rememberYoutubePlayerState
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -77,39 +76,38 @@ class YoutubePlayerViewTest {
 
     @Test
     fun test_youtubePlayerView() = runTest {
+        val playerController = YoutubePlayerController(
+            autoPlay = true,
+            initialVideoId = "O-b2VfmmbyA",
+            startSeconds = 0F,
+            coroutineScope = testScope,
+        )
+
+        val playerState = YoutubePlayerState()
+
         composeTestRule.setContent {
-            val playerController = rememberYoutubePlayerController(
-                autoPlay = true,
-                initialVideoId = "O-b2VfmmbyA",
-                startSeconds = 0F,
-            )
-
-            val playerState = rememberYoutubePlayerState()
-
             YoutubePlayerView(
                 playerController = playerController,
                 playerState = playerState,
                 factory = { webView },
             )
+        }
 
-            playerController.loadVideo("O-b2VfmmbyA")
+        playerController.loadVideo("O-b2VfmmbyA")
 
-            testScope.launch {
-                playerState.events.test {
-                    assertThat(awaitItem()).isNull()
-                    playerState.events.update { YouTubePlayerEvent.OnPlayerReady }
-                    assertThat(
-                        awaitItem(),
-                    ).isInstanceOf(YouTubePlayerEvent.OnPlayerReady::class.java)
+        playerState.events.test {
+            assertThat(awaitItem()).isNull()
+            playerState.events.update { YouTubePlayerEvent.OnPlayerReady }
+            assertThat(
+                awaitItem(),
+            ).isInstanceOf(YouTubePlayerEvent.OnPlayerReady::class.java)
 
-                    playerState.events.update { YouTubePlayerEvent.OnIframeAPIReady }
-                    assertThat(
-                        awaitItem(),
-                    ).isInstanceOf(YouTubePlayerEvent.OnIframeAPIReady::class.java)
+            playerState.events.update { YouTubePlayerEvent.OnIframeAPIReady }
+            assertThat(
+                awaitItem(),
+            ).isInstanceOf(YouTubePlayerEvent.OnIframeAPIReady::class.java)
 
-                    cancelAndConsumeRemainingEvents()
-                }
-            }
+            cancelAndConsumeRemainingEvents()
         }
     }
 }
