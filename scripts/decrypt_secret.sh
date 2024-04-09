@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #
 # The MIT License (MIT)
 #
@@ -22,18 +24,11 @@
 # THE SOFTWARE.
 #
 
-#Gradle
-org.gradle.jvmargs=-Xmx4g -Dfile.encoding=UTF-8 -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -Dkotlin.daemon.jvm.options\="-Xmx6124m" -Xmx6124m
+gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
+  --output upload-keyStore.jks upload-keyStore.jks.gpg
 
-#Android
-android.useAndroidX=true
-android.nonTransitiveRClass=true
-android.enableR8.fullMode=false
-android.enableJetifier=true
+gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
+  --output keyStore.properties keyStore.properties.gpg
 
-#kotlin
-kotlin.code.style=official
-kotlin.experimental.tryK2=true
-
-#Others
-roborazzi.test.verify=true
+gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
+  --output secrets.properties secrets.properties.gpg

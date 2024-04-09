@@ -27,3 +27,5 @@ docs/_site
 
 # code cov
 /codecov
+/keystore.properties
+/upload-keystore.jks

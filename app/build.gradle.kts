@@ -23,6 +23,8 @@
  */
 
 import me.jerryokafor.ihenkiri.Config
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id("me.jerryokafor.ihenkiri.android.application")
@@ -30,10 +32,14 @@ plugins {
     id("me.jerryokafor.ihenkiri.application.jacoco")
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
-//    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 //    id("jacoco")
     alias(libs.plugins.androidx.baselineprofile)
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "me.jerryokafor.ihenkiri"
@@ -51,6 +57,19 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -64,7 +83,7 @@ android {
                 "proguard-rules.pro",
             )
 
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
 
             // Ensure Baseline Profile is fresh for release builds.
             baselineProfile.automaticGenerationDuringBuild = true
@@ -160,4 +179,9 @@ baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
     automaticGenerationDuringBuild = false
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
 }
