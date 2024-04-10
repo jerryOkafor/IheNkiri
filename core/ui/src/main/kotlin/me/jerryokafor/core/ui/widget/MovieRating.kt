@@ -97,11 +97,11 @@ fun MovieRating(
 
     Box(modifier = modifier) {
         CircularProgressIndicator(
+            progress = { progressAnimation },
             modifier = Modifier.fillMaxSize(),
-            trackColor = IheNkiri.color.tertiaryContainer,
             color = IheNkiri.color.secondaryContainer,
-            progress = progressAnimation,
             strokeWidth = strokeWidth,
+            trackColor = IheNkiri.color.tertiaryContainer,
             strokeCap = StrokeCap.Round,
         )
         @Suppress("MagicNumber")

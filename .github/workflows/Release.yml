@@ -48,11 +48,11 @@ jobs:
             -Pandroid.experimental.androidTest.numManagedDeviceShards=1 \
             -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
 
-      - name: Retrieve VersionName and VersionCode
-        id: version
-        run: |
-          echo "{VERSION_CODE}=$(${{github.workspace}}/gradlew -q versionCode)" >> $GITHUB_OUTPUT
-          echo "{VERSION_NAME}=$(${{github.workspace}}/gradlew -q versionName)" >> $GITHUB_OUTPUT
+#      - name: Retrieve VersionName and VersionCode
+#        id: version
+#        run: |
+#          echo "{VERSION_CODE}=$(${{github.workspace}}/gradlew -q versionCode)" >> $GITHUB_OUTPUT
+#          echo "{VERSION_NAME}=$(${{github.workspace}}/gradlew -q versionName)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
@@ -60,12 +60,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{steps.android_version.outputs.VERSION_NAME}}
-          release_name: Release - ${{steps.android_version.outputs.VERSION_NAME}}(${{steps.android_version.outputs.VERSION_CODE}})
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           draft: true
           prerelease: false
 
-      - name: Upload app
+      - name: Upload apk
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -81,6 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/bundle/bundle/app-release.aab
+          asset_path: app/build/outputs/bundle/release/app-release.aab
           asset_name: app-release.aab
           asset_content_type: application/x-authorware-bin
