@@ -51,8 +51,8 @@ jobs:
       - name: Retrieve VersionName and VersionCode
         id: version
         run: |
-          echo "::set-output name=VERSION_CODE::$(${{github.workspace}}/gradlew -q versionCode)"
-          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q versionName)"
+          echo "{VERSION_CODE}=$(${{github.workspace}}/gradlew -q versionCode)" >> $GITHUB_OUTPUT
+          echo "{VERSION_NAME}=$(${{github.workspace}}/gradlew -q versionName)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
@@ -81,6 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/bundle/app-release.aab
+          asset_path: app/build/outputs/bundle/bundle/app-release.aab
           asset_name: app-release.aab
           asset_content_type: application/x-authorware-bin
