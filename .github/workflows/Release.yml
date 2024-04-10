@@ -56,36 +56,19 @@ jobs:
 
       - name: Test VersionName and VersionCode
         run: |
-          echo "{{steps.version.output.VERSION_CODE}}"
-          echo "{{steps.version.output.VERSION_NAME}}"
+          echo "${{steps.version.output.VERSION_CODE}}"
+          echo "${{steps.version.output.VERSION_NAME}}"
 
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+        id: create-release
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          name: ${{ github.ref }}
           draft: true
           prerelease: false
-
-      - name: Upload apk
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/release/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload App Bundle
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/bundle/release/app-release.aab
-          asset_name: app-release.aab
-          asset_content_type: application/x-authorware-bin
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
