@@ -14,6 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Decrypt large secret
+        shell: bash
+        run: |
+          ./scripts/decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v2
 
@@ -34,12 +41,18 @@ jobs:
 
       - name: Build release variant including baseline profile generation
         run: |
-          ./gradlew :app:assembleRelease \
+          ./gradlew :app:bundleRelease :app:assembleRelease \
             -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile \
             -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" \
             -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true \
             -Pandroid.experimental.androidTest.numManagedDeviceShards=1 \
             -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+
+      - name: Retrieve VersionName and VersionCode
+        id: version
+        run: |
+          echo "::set-output name=VERSION_CODE::$(${{github.workspace}}/gradlew -q versionCode)"
+          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q versionName)"
 
       - name: Create Release
         id: create_release
@@ -47,8 +60,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: v${{steps.android_version.outputs.VERSION_NAME}}
+          release_name: Release - ${{steps.android_version.outputs.VERSION_NAME}}(${{steps.android_version.outputs.VERSION_CODE}})
           draft: true
           prerelease: false
 
@@ -61,3 +74,13 @@ jobs:
           asset_path: app/build/outputs/apk/release/app-release.apk
           asset_name: app-release.apk
           asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload App Bundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/bundle/app-release.aab
+          asset_name: app-release.aab
+          asset_content_type: application/x-authorware-bin
