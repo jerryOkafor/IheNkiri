@@ -25,10 +25,10 @@
 #
 
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
-  --output upload-keyStore.jks upload-keyStore.jks.gpg
+  --output upload-keystore.jks upload-keystore.jks.gpg
 
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
-  --output keyStore.properties keyStore.properties.gpg
+  --output keystore.properties keystore.properties.gpg
 
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
   --output secrets.properties secrets.properties.gpg

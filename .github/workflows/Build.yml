@@ -30,7 +30,7 @@ jobs:
       - name: Decrypt large secret
         shell: bash
         run: |
-          ./.github/scripts/decrypt_secret.sh
+          ./scripts/decrypt_secret.sh
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
 
@@ -65,7 +65,7 @@ jobs:
       - name: Decrypt large secret
         shell: bash
         run: |
-          ./.github/scripts/decrypt_secret.sh
+          ./scripts/decrypt_secret.sh
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
 
