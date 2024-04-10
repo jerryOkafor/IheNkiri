@@ -48,11 +48,16 @@ jobs:
             -Pandroid.experimental.androidTest.numManagedDeviceShards=1 \
             -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
 
-#      - name: Retrieve VersionName and VersionCode
-#        id: version
-#        run: |
-#          echo "{VERSION_CODE}=$(${{github.workspace}}/gradlew -q versionCode)" >> $GITHUB_OUTPUT
-#          echo "{VERSION_NAME}=$(${{github.workspace}}/gradlew -q versionName)" >> $GITHUB_OUTPUT
+      - name: Retrieve VersionName and VersionCode
+        id: version
+        run: |
+          echo "{VERSION_CODE}={$(${{github.workspace}}/gradlew -q versionCode)}" >> $GITHUB_OUTPUT
+          echo "{VERSION_NAME}={$(${{github.workspace}}/gradlew -q versionName)}" >> $GITHUB_OUTPUT
+
+      - name: Test VersionName and VersionCode
+        run: |
+          echo "{{steps.version.output.VERSION_CODE}}"
+          echo "{{steps.version.output.VERSION_NAME}}"
 
       - name: Create Release
         id: create_release
