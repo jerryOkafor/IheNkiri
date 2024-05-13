@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,6 +64,7 @@ plugins {
     alias(libs.plugins.io.github.takahirom.roborazzi) apply false
     alias(libs.plugins.com.google.devtools.ksp) apply false
     alias(libs.plugins.com.android.test) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.serialization) apply false
 
     // add detket and ktlint
     alias(libs.plugins.io.gitlab.arturbosch.detekt)

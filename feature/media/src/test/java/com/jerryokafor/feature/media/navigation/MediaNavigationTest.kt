@@ -106,7 +106,7 @@ class MediaNavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun mediaScreen_onLoad_addMediaScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -131,7 +131,9 @@ class MediaNavigationTest {
             waitForIdle()
 
             onNodeWithText("Test App").assertIsDisplayed()
-            assertThat(navController.currentDestination?.route).isEqualTo(mediaRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).matches(WatchMedia.ROUTE_PATTERN.pattern)
             assertThat(navController.currentBackStackEntry?.arguments?.getString(titleArg))
                 .isEqualTo("Test App")
 

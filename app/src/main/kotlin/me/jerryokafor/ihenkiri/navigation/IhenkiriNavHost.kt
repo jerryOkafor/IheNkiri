@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.jerryokafor.feature.media.navigation.mediaScreen
 import com.jerryokafor.feature.media.navigation.navigateToMedia
@@ -42,6 +43,8 @@ import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDe
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
 import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
 import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
+import me.jerryokafor.ihenkiri.ui.Recommendation
+import me.jerryokafor.ihenkiri.ui.RecommendationScreen
 
 @Composable
 fun IhenkiriNavHost(
@@ -71,6 +74,10 @@ fun IhenkiriNavHost(
         navController.navigateToMedia(movieId = id, title = title)
     }
 
+    val onRecommendationClick: () -> Unit = {
+        navController.navigate(route = Recommendation)
+    }
+
     NavHost(
         modifier = Modifier,
         navController = navController,
@@ -80,8 +87,14 @@ fun IhenkiriNavHost(
             onCompleteLogin = onNavigateUp,
             onShowSnackbar = onShowSnackbar,
         )
-        moviesScreen(onMovieClick = onMovieClick)
-        tvShowsScreen(onTVShowClick = {})
+        moviesScreen(
+            onRecommendationClick = onRecommendationClick,
+            onMovieClick = onMovieClick,
+        )
+        tvShowsScreen(
+            onRecommendationClick = onRecommendationClick,
+            onTVShowClick = {},
+        )
         movieDetailsScreen(
             onMovieItemClick = onMovieClick,
             onNavigateUp = onNavigateUp,
@@ -91,5 +104,9 @@ fun IhenkiriNavHost(
         peopleDetailsScreen(onNavigateUp = onNavigateUp)
         settingsScreen(onLoginClick = onLoginClick)
         mediaScreen(onBackClick = onNavigateUp)
+
+        composable<Recommendation> {
+            RecommendationScreen()
+        }
     }
 }

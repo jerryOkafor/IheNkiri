@@ -54,18 +54,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MoviesDetailsScreen
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")
 internal const val movieIdArg = "movieId"
-
-@Suppress("ktlint:standard:property-naming")
-const val movieDetailsRoutePattern = "movie/{$movieIdArg}"
 
 internal class MovieDetailsArg(val movieId: StateFlow<Long>) {
     constructor(savedStateHandle: SavedStateHandle) : this(
@@ -77,7 +73,17 @@ fun NavController.navigateToMovieDetails(
     movieId: Long,
     navOptions: NavOptions? = null,
 ) {
-    this.navigate(route = "movie/$movieId", navOptions = navOptions)
+    this.navigate(
+        route = MovieDetail(movieId),
+        navOptions = navOptions,
+    )
+}
+
+@Serializable
+data class MovieDetail(val movieId: Long) {
+    companion object {
+        val ROUTE_PATTERN = "\\D+/\\{(movieId)\\}".toRegex()
+    }
 }
 
 fun NavGraphBuilder.movieDetailsScreen(
@@ -85,15 +91,7 @@ fun NavGraphBuilder.movieDetailsScreen(
     onWatchTrailerClick: (Long, String) -> Unit = { _, _ -> },
     onNavigateUp: () -> Unit,
 ) {
-    composable(
-        route = movieDetailsRoutePattern,
-        arguments = listOf(
-            navArgument(movieIdArg) {
-                type = NavType.LongType
-                defaultValue = 0L
-            },
-        ),
-    ) {
+    composable<MovieDetail> {
         MoviesDetailsScreen(
             onMovieItemClick = onMovieItemClick,
             onWatchTrailerClick = onWatchTrailerClick,

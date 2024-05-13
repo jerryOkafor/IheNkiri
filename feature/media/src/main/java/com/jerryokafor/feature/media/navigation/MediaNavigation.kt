@@ -28,11 +28,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.jerryokafor.feature.media.ui.MediaScreen
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
 
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 internal const val movieIdArg = "movieId"
@@ -40,13 +40,17 @@ internal const val movieIdArg = "movieId"
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 internal const val titleArg = "title"
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val mediaRoutePattern = "watch/{$movieIdArg}?$titleArg={$titleArg}"
-
 internal class MovieDetailsArg(val movieId: StateFlow<Long>) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         movieId = checkNotNull(savedStateHandle.getStateFlow(movieIdArg, 0L)),
     )
+}
+
+@Serializable
+data class WatchMedia(val movieId: Long, val title: String) {
+    companion object {
+        val ROUTE_PATTERN = "\\D+/\\{(movieId)\\}/\\{(title)\\}".toRegex()
+    }
 }
 
 fun NavController.navigateToMedia(
@@ -55,26 +59,14 @@ fun NavController.navigateToMedia(
     navOptions: NavOptions? = null,
 ) {
     this.navigate(
-        route = "watch/$movieId?$titleArg=$title",
+        route = WatchMedia(movieId = movieId, title = title),
         navOptions = navOptions,
     )
 }
 
 fun NavGraphBuilder.mediaScreen(onBackClick: () -> Unit) {
-    composable(
-        route = mediaRoutePattern,
-        arguments = listOf(
-            navArgument(movieIdArg) {
-                type = NavType.LongType
-                defaultValue = 0L
-            },
-            navArgument(titleArg) {
-                type = NavType.StringType
-                defaultValue = ""
-            },
-        ),
-    ) {
-        val title = it.arguments?.getString(titleArg) ?: ""
-        MediaScreen(onBackClick = onBackClick, title = title)
+    composable<WatchMedia> {
+        val media = it.toRoute<WatchMedia>()
+        MediaScreen(onBackClick = onBackClick, title = media.title)
     }
 }

@@ -1,20 +1,21 @@
 [versions]
-androidGradlePlugin = "8.3.1"
-kotlin = "2.0.0-Beta5" #https://androidx.dev/storage/compose-compiler/repository
+androidGradlePlugin = "8.4.0"
+kotlin = "2.0.0-RC1" #https://androidx.dev/storage/compose-compiler/repository
+kotlinSerialization = "1.6.3"
 androidDesugarJdkLibs = "2.0.4"
 ksp = "1.9.23-1.0.20"
 
-core-ktx = "1.12.0"
+core-ktx = "1.13.1"
 lifecycle = "2.7.0"
-activity-compose = "1.8.2"
+activity-compose = "1.9.0"
 coreSplashscreen = "1.0.1"
-adroidXFragmentktx = "1.6.2"
+adroidXFragmentktx = "1.7.0"
 appcompat = "1.6.1"
 browser = "1.8.0"
 palette = "1.0.0"
 
 # datastore
-datastore = "1.0.0"
+datastore = "1.1.1"
 room = "2.6.1"
 
 # proto
@@ -27,42 +28,42 @@ coroutines = "1.8.0"
 turbine = "1.0.0"
 
 # Retrofit
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 gson = "2.10.1"
 okhttp3 = "4.12.0"
 
 secrets = "2.0.1"
 
 # hilt
-hilt = "2.49"
+hilt = "2.51.1"
 hiltExt = "1.2.0"
 
 # navigation
-navigation = "2.7.7"
+navigation = "2.8.0-alpha08"
 androidxHiltNavigationCompose = "1.2.0"
 
 # compose
-composeBom = "2024.04.00"
-composeCompiler = "1.5.11-dev-k2.0.0-Beta5-b5a216d0ac6"
+composeBom = "2024.05.00"
+composeCompiler = "1.5.13-dev-k2.0.0-RC1-50f08dfa4b4"
 composeMaterial3 = "1.2.1"
 accompanist = "0.33.1-alpha"
 coil = "2.4.0"
 haze = "0.4.1"
 composeShimmer = "1.0.5"
-material = "1.12.0-rc01"
+material = "1.12.0"
 
 # media 3
 media3 = "1.3.1"
 
 #Paging
 paging = "3.2.1"
-pagingCompose = "3.3.0-beta01"
+pagingCompose = "3.3.0-rc01"
 
 # code quality
 detekt = "1.22.0"
 ktlint = "1.0.1"
 jacoco = "0.8.11"
-lint = "31.3.1"
+lint = "31.4.0"
 testParameterInjector = "1.12"
 
 # testing
@@ -88,7 +89,7 @@ dependencyGraphGenerator = "0.8.0"
 # Metrics
 metricsPerformance = "1.0.0-beta01"
 profileInstaller = "1.3.1"
-androidxMacroBenchmark = "1.2.3"
+androidxMacroBenchmark = "1.2.4"
 
 [libraries]
 android-tools-desugarKdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -122,6 +123,9 @@ org-jetbrains-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-j
 org-jetbrains-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
 org-jetbrains-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+org-jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+
+# turbine
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 # google
@@ -241,6 +245,7 @@ com-google-devtools-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+org-jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 io-gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

@@ -99,7 +99,7 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun settingsScreen_onLoad_addSettingsScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)

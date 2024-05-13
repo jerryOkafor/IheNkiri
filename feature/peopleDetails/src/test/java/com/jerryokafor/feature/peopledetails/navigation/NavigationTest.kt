@@ -98,7 +98,7 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun peopleDetailsScreen_onLoad_addPeopleDetailsScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -106,7 +106,7 @@ class NavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = peopleDetailsRoutePattern,
+                    startDestination = PeopleDetails(0L),
                 ) {
                     peopleDetailsScreen(onNavigateUp = { onNavigateUp++ })
                 }
@@ -114,7 +114,9 @@ class NavigationTest {
 
             onNodeWithContentDescription(navigateUp).performClick()
 
-            assertThat(navController.currentDestination?.route).isEqualTo(peopleDetailsRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).matches(PeopleDetails.ROUTE_PATTERN.pattern)
             assertThat(onNavigateUp).isEqualTo(1)
         }
     }

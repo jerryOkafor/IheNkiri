@@ -25,46 +25,29 @@
 
 package me.jerryokafor.feature.movies.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,8 +56,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -88,11 +69,9 @@ import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.data.util.ImageUtil
 import me.jerryokafor.core.ds.annotation.ThemePreviews
-import me.jerryokafor.core.ds.theme.FillingSpacer
 import me.jerryokafor.core.ds.theme.FiveVerticalSpacer
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.core.ds.theme.TwoVerticalSpacer
 import me.jerryokafor.core.model.Movie
 import me.jerryokafor.core.model.MovieListFilterItem
 import me.jerryokafor.core.ui.components.Background
@@ -128,7 +107,8 @@ fun MoviesScreenPreview() {
 @ExcludeFromGeneratedCoverageReport
 fun MoviesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
-    onMovieClick: (movieId: Long) -> Unit,
+    onRecommendationClick: () -> Unit = {},
+    onMovieClick: (movieId: Long) -> Unit = {},
 ) {
     val availableFilters by viewModel.availableFilters.collectAsStateWithLifecycle()
     val movieLazyPagingItems = viewModel.movies.collectAsLazyPagingItems()
@@ -140,6 +120,7 @@ fun MoviesScreen(
         movieLazyPagingItems = movieLazyPagingItems,
         filters = availableFilters,
         onMovieClick = onMovieClick,
+        onRecommendationClick = onRecommendationClick,
         onFilterItemSelected = onItemSelected,
     )
 }
@@ -149,80 +130,73 @@ fun MoviesScreen(
 fun MoviesScreen(
     movieLazyPagingItems: LazyPagingItems<Movie>,
     filters: List<MovieListFilterItem> = emptyList(),
-    onMovieClick: (movieId: Long) -> Unit,
+    onRecommendationClick: () -> Unit = {},
+    onMovieClick: (movieId: Long) -> Unit = {},
     onFilterItemSelected: (MovieListFilterItem.FilterType) -> Unit = {},
 ) {
     val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
-    var query by rememberSaveable { mutableStateOf("") }
-    var showSearch by rememberSaveable { mutableStateOf(false) }
-    var isSearchActive by rememberSaveable { mutableStateOf(false) }
-    val onSearchClick: () -> Unit = {
-        showSearch = true
-        isSearchActive = true
-    }
 
     val filterItemSelected: (MovieListFilterItem.FilterType) -> Unit = {
         when (it) {
             MovieListFilterItem.FilterType.DISCOVER -> {
-                showSearch = true
-                isSearchActive = true
+                onRecommendationClick()
             }
 
             else -> {
-                showSearch = false
                 onFilterItemSelected(it)
             }
         }
     }
 
     Background {
-        Column(modifier = Modifier) {
-            Column(modifier = Modifier.padding(horizontal = IheNkiri.spacing.twoAndaHalf)) {
-                Crossfade(targetState = showSearch, label = "toggleSearch") { show ->
-                    when {
-                        show -> {
-                            SearchBarRow(
-                                modifier = Modifier.statusBarsPadding(),
-                                isSearchActive = isSearchActive,
-                                query = query,
-                                onQueryChange = { query = it },
-                                onSearch = { isSearchActive = false },
-                                onActiveChange = { showSearch = it },
-                                onCancel = { showSearch = false },
-                            )
-                        }
-
-                        else -> {
-                            CenterAlignedTopAppBar(
-                                modifier = Modifier.testTag(TITLE_TEST_TAG),
-                                title = {
-                                    Text(
-                                        text = stringResource(R.string.movies_title),
-                                        style = IheNkiri.typography.titleMedium,
-                                        color = IheNkiri.color.onPrimary,
-                                    )
-                                },
-                                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                    containerColor = Color.Transparent,
-                                    scrolledContainerColor = Color.Transparent,
-                                ),
-                                actions = {
-                                    Button(onClick = onSearchClick) {
-                                        Icon(
-                                            painter = painterResource(
-                                                id = me.jerryokafor.core.ui.R.drawable.search,
-                                            ),
-                                            contentDescription = stringResource(
-                                                id = R.string.movies_content_description_search,
-                                            ),
-                                        )
-                                    }
-                                },
-                            )
-                        }
+        Column(modifier = Modifier.fillMaxSize()) {
+            CenterAlignedTopAppBar(
+                modifier = Modifier.testTag(TITLE_TEST_TAG),
+                title = {
+                    Text(
+                        text = stringResource(R.string.movies_title),
+                        style = IheNkiri.typography.titleMedium,
+                        color = IheNkiri.color.onPrimary,
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
+                actions = {
+                    Button(onClick = onRecommendationClick) {
+                        Icon(
+                            painter = painterResource(
+                                id = me.jerryokafor.core.ui.R.drawable.search,
+                            ),
+                            contentDescription = stringResource(
+                                id = R.string.movies_content_description_search,
+                            ),
+                        )
                     }
-                }
-            }
+                },
+            )
+
+//                Crossfade(targetState = showSearch, label = "toggleSearch") { show ->
+//                    when {
+//                        show -> {
+//                            SearchBarRow(
+//                                modifier = Modifier.statusBarsPadding(),
+//                                isSearchActive = isSearchActive,
+//                                query = query,
+//                                onQueryChange = { query = it },
+//                                onSearch = { isSearchActive = false },
+//                                onActiveChange = { showSearch = it },
+//                                onCancel = { showSearch = false },
+//                            )
+//                        }
+//
+//                        else -> {
+//
+//                        }
+//                    }
+//                }
+//            }
             val scrollState = rememberLazyStaggeredGridState()
             TrackScrollJank(scrollableState = scrollState, stateName = "peopleDetails:screen")
             Box(modifier = Modifier.fillMaxSize()) {
@@ -307,125 +281,126 @@ private fun filterLabelFor(filterItem: MovieListFilterItem): String {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBarRow(
-    modifier: Modifier = Modifier,
-    isSearchActive: Boolean = false,
-    isSearching: Boolean = false,
-    query: String = "",
-    onQueryChange: (String) -> Unit = {},
-    onSearch: (String) -> Unit = {},
-    onActiveChange: (Boolean) -> Unit = {},
-    onCancel: () -> Unit = {},
-) {
-    var includeAdult by rememberSaveable { mutableStateOf(false) }
-    var includeVideo by rememberSaveable { mutableStateOf(false) }
-
-    SearchBar(
-        modifier = modifier
-            .testTag(SEARCH_TEST_TAG)
-            .semantics { traversalIndex = -1f },
-        query = query,
-        shape = IheNkiri.shape.large,
-        tonalElevation = SearchBarDefaults.Elevation,
-        onQueryChange = onQueryChange,
-        onSearch = onSearch,
-        active = isSearchActive,
-        onActiveChange = onActiveChange,
-        colors = SearchBarDefaults.colors(
-            containerColor = IheNkiri.color.primary,
-            inputFieldColors = TextFieldDefaults.colors(
-                focusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
-                unfocusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
-            ),
-        ),
-        placeholder = {
-            Text(
-                text = "Search ....",
-                color = contentColorFor(backgroundColor = IheNkiri.color.primary),
-            )
-        },
-        leadingIcon = {
-            IconButton(onClick = { onSearch(query) }) {
-                Icon(
-                    painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
-                    contentDescription = "perform search",
-                    tint = contentColorFor(IheNkiri.color.primary),
-                )
-            }
-        },
-        trailingIcon = {
-            IconButton(onClick = onCancel) {
-                Icon(
-                    Icons.Default.Close,
-                    contentDescription = "close search",
-                    tint = contentColorFor(IheNkiri.color.primary),
-                )
-            }
-        },
-    ) {
-        AnimatedVisibility(visible = isSearching) {
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth(),
-                strokeCap = StrokeCap.Round,
-            )
-        }
-
-        TwoVerticalSpacer()
-        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-            Row(
-                modifier = Modifier
-                    .padding(
-                        horizontal = IheNkiri.spacing.two,
-                    )
-                    .border(
-                        1.dp,
-                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
-                        shape = IheNkiri.shape.medium,
-                    )
-                    .padding(
-                        horizontal = IheNkiri.spacing.two,
-                    )
-                    .weight(1F),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.include_adult),
-                    style = IheNkiri.typography.titleSmall,
-                )
-                FillingSpacer()
-                Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(
-                        horizontal = IheNkiri.spacing.two,
-                    )
-                    .border(
-                        1.dp,
-                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
-                        shape = IheNkiri.shape.medium,
-                    )
-                    .padding(
-                        horizontal = IheNkiri.spacing.two,
-                    )
-                    .weight(1F),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.include_video),
-                    style = IheNkiri.typography.titleSmall,
-                )
-                FillingSpacer()
-                Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
-            }
-        }
-    }
-}
+// var query by rememberSaveable { mutableStateOf("") }
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun SearchBarRow(
+//    modifier: Modifier = Modifier,
+//    isSearchActive: Boolean = false,
+//    isSearching: Boolean = false,
+//    query: String = "",
+//    onQueryChange: (String) -> Unit = {},
+//    onSearch: (String) -> Unit = {},
+//    onActiveChange: (Boolean) -> Unit = {},
+//    onCancel: () -> Unit = {},
+// ) {
+//    var includeAdult by rememberSaveable { mutableStateOf(false) }
+//    var includeVideo by rememberSaveable { mutableStateOf(false) }
+//
+//    SearchBar(
+//        modifier = modifier
+//            .testTag(SEARCH_TEST_TAG)
+//            .semantics { traversalIndex = -1f },
+//        query = query,
+//        shape = IheNkiri.shape.large,
+//        tonalElevation = SearchBarDefaults.Elevation,
+//        onQueryChange = onQueryChange,
+//        onSearch = onSearch,
+//        active = isSearchActive,
+//        onActiveChange = onActiveChange,
+//        colors = SearchBarDefaults.colors(
+//            containerColor = IheNkiri.color.primary,
+//            inputFieldColors = TextFieldDefaults.colors(
+//                focusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
+//                unfocusedTextColor = contentColorFor(backgroundColor = IheNkiri.color.primary),
+//            ),
+//        ),
+//        placeholder = {
+//            Text(
+//                text = "Search ....",
+//                color = contentColorFor(backgroundColor = IheNkiri.color.primary),
+//            )
+//        },
+//        leadingIcon = {
+//            IconButton(onClick = { onSearch(query) }) {
+//                Icon(
+//                    painter = painterResource(id = me.jerryokafor.core.ui.R.drawable.search),
+//                    contentDescription = "perform search",
+//                    tint = contentColorFor(IheNkiri.color.primary),
+//                )
+//            }
+//        },
+//        trailingIcon = {
+//            IconButton(onClick = onCancel) {
+//                Icon(
+//                    Icons.Default.Close,
+//                    contentDescription = "close search",
+//                    tint = contentColorFor(IheNkiri.color.primary),
+//                )
+//            }
+//        },
+//    ) {
+//        AnimatedVisibility(visible = isSearching) {
+//            LinearProgressIndicator(
+//                modifier = Modifier
+//                    .height(1.dp)
+//                    .fillMaxWidth(),
+//                strokeCap = StrokeCap.Round,
+//            )
+//        }
+//
+//        TwoVerticalSpacer()
+//        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+//            Row(
+//                modifier = Modifier
+//                    .padding(
+//                        horizontal = IheNkiri.spacing.two,
+//                    )
+//                    .border(
+//                        1.dp,
+//                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+//                        shape = IheNkiri.shape.medium,
+//                    )
+//                    .padding(
+//                        horizontal = IheNkiri.spacing.two,
+//                    )
+//                    .weight(1F),
+//                verticalAlignment = Alignment.CenterVertically,
+//            ) {
+//                Text(
+//                    text = stringResource(R.string.include_adult),
+//                    style = IheNkiri.typography.titleSmall,
+//                )
+//                FillingSpacer()
+//                Switch(checked = includeAdult, onCheckedChange = { includeAdult = it })
+//            }
+//
+//            Row(
+//                modifier = Modifier
+//                    .padding(
+//                        horizontal = IheNkiri.spacing.two,
+//                    )
+//                    .border(
+//                        1.dp,
+//                        color = IheNkiri.color.onPrimary.copy(alpha = 0.5f),
+//                        shape = IheNkiri.shape.medium,
+//                    )
+//                    .padding(
+//                        horizontal = IheNkiri.spacing.two,
+//                    )
+//                    .weight(1F),
+//                verticalAlignment = Alignment.CenterVertically,
+//            ) {
+//                Text(
+//                    text = stringResource(R.string.include_video),
+//                    style = IheNkiri.typography.titleSmall,
+//                )
+//                FillingSpacer()
+//                Switch(checked = includeVideo, onCheckedChange = { includeVideo = it })
+//            }
+//        }
+//    }
+// }
 
 @ExcludeFromGeneratedCoverageReport
 private fun testFilters() = listOf(

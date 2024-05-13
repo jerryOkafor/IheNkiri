@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
@@ -80,6 +81,7 @@ class NavigationTest {
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
     private var onMovieClick = 0
+    private var onRecommendationClick = 0
 
     private lateinit var navController: TestNavHostController
 
@@ -90,14 +92,17 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun moviesScreen_onLoad_addMoviesScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
                 NavHost(navController = navController, startDestination = moviesRoutePattern) {
-                    moviesScreen(onMovieClick = { onMovieClick++ })
+                    moviesScreen(
+                        onRecommendationClick = { onRecommendationClick++ },
+                        onMovieClick = { onMovieClick++ },
+                    )
                 }
             }
 
@@ -106,8 +111,13 @@ class NavigationTest {
                 .onFirst()
                 .performClick()
 
+            waitForIdle()
+            onNodeWithContentDescription("click to search").assertExists()
+                .performClick()
+
             assertThat(navController.currentDestination?.route).isEqualTo(moviesRoutePattern)
             assertThat(onMovieClick).isEqualTo(1)
+            assertThat(onRecommendationClick).isEqualTo(1)
         }
     }
 }

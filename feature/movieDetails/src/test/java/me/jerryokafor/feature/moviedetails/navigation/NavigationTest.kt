@@ -44,7 +44,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import me.jerryokafor.core.ui.R
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetail
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_RECOMMENDATIONS_ROW
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
@@ -87,6 +87,7 @@ class NavigationTest {
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
     private var onMovieItemClick = 0
+    private var onWatchTrailer = 0
     private var onNavigateUp = 0
 
     private lateinit var navController: TestNavHostController
@@ -97,6 +98,7 @@ class NavigationTest {
 
     // The strings used for matching in these tests
     private val navigateUp by composeTestRule.stringResource(R.string.navigate_up)
+    private val watchTrailer by composeTestRule.stringResource(R.string.title_watch_trailer)
 
     @Before
     fun setUp() {
@@ -105,7 +107,7 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun movieDetailsScreen_onLoad_addMovieDetailsScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -113,10 +115,11 @@ class NavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = movieDetailsRoutePattern,
+                    startDestination = MovieDetail(movieId = 0L),
                 ) {
                     movieDetailsScreen(
                         onMovieItemClick = { onMovieItemClick++ },
+                        onWatchTrailerClick = { _, _ -> onWatchTrailer++ },
                         onNavigateUp = { onNavigateUp++ },
                     )
                 }
@@ -126,10 +129,16 @@ class NavigationTest {
                 .onChildren()
                 .onFirst()
                 .performClick()
+
+            onNodeWithContentDescription(watchTrailer).performClick()
             onNodeWithContentDescription(navigateUp).performClick()
 
-            assertThat(navController.currentDestination?.route).isEqualTo(movieDetailsRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).matches(MovieDetail.ROUTE_PATTERN.pattern)
+
             assertThat(onMovieItemClick).isEqualTo(1)
+            assertThat(watchTrailer).isEqualTo(1)
             assertThat(onNavigateUp).isEqualTo(1)
         }
     }

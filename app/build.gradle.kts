@@ -33,8 +33,9 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.hilt")
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-//    id("jacoco")
+
     alias(libs.plugins.androidx.baselineprofile)
+    alias(libs.plugins.org.jetbrains.kotlin.serialization)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -129,6 +130,8 @@ dependencies {
     implementation(projects.feature.settings)
     implementation(projects.feature.media)
     debugImplementation(projects.uiTestHiltManifest)
+
+    implementation(libs.org.jetbrains.kotlinx.serialization.json)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

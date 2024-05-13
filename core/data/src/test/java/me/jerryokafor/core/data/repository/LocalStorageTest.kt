@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +31,12 @@ import io.mockk.spyk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.jerryokafor.core.data.ThemeConfigProto
 import me.jerryokafor.core.data.UserPreferences
 import me.jerryokafor.core.data.copy
 import me.jerryokafor.core.model.ThemeConfig
+import me.jerryokafor.ihenkiri.core.test.util.MainDispatcherRule
 import me.jerryokafor.ihenkiri.core.test.util.testUserPreferencesDataStore
 import org.junit.Before
 import org.junit.Rule
@@ -44,31 +44,32 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
 class LocalStorageTest {
-    private val testDispatcher = UnconfinedTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
+    @get:Rule(order = 0)
+    val dispatcherRule = MainDispatcherRule()
 
-    @get:Rule
+    @get:Rule(order = 1)
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
-    private val userPreferences = spyk(tmpFolder.testUserPreferencesDataStore(testScope))
+    private val userPreferences =
+        spyk(tmpFolder.testUserPreferencesDataStore(TestScope(dispatcherRule.testDispatcher)))
     private lateinit var localStorage: LocalStorage
 
     @Before
     fun setup() {
         localStorage = DefaultLocalStorage(
-            dispatcher = testDispatcher,
+            dispatcher = dispatcherRule.testDispatcher,
             userPreferences = userPreferences,
         )
     }
 
     @Test
-    fun localStorage_initialized_isLoggedInIsFalseByDefault() = testScope.runTest {
+    fun localStorage_initialized_isLoggedInIsFalseByDefault() = runTest {
         assertThat(localStorage.isLoggedIn().first()).isFalse()
         coVerify { userPreferences.data }
     }
 
     @Test
-    fun localStorage_saveUserSession_isLoggedInIsTrue() = testScope.runTest {
+    fun localStorage_saveUserSession_isLoggedInIsTrue() = runTest {
         localStorage.saveUserSession(
             accountId = "4bc889XXXXa3c0z92001001",
             accessToken = """
@@ -82,7 +83,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_saveGuestSession_isLoggedInIsTrue() = testScope.runTest {
+    fun localStorage_saveGuestSession_isLoggedInIsTrue() = runTest {
         localStorage.saveGuestSession(guestSessionId = "e25304417c5c67f66b7838517257a3e9")
 
         assertThat(localStorage.isLoggedIn().first()).isTrue()
@@ -90,7 +91,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_setThemeConfig_ThemeConfigSaved() = testScope.runTest {
+    fun localStorage_setThemeConfig_ThemeConfigSaved() = runTest {
         localStorage.setThemeConfig(ThemeConfig.DARK)
         assertThat(localStorage.userData().first().themeConfig).isEqualTo(ThemeConfig.DARK)
 
@@ -104,7 +105,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_setUseDynamicColor_useDynamicColorIsSet() = testScope.runTest {
+    fun localStorage_setUseDynamicColor_useDynamicColorIsSet() = runTest {
         localStorage.setUseDynamicColor(true)
         assertThat(localStorage.userData().first().usDynamicColor).isTrue()
 
@@ -115,8 +116,8 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_userData_readDefaultUserData() = testScope.runTest {
-        localStorage.userData().first()?.let {
+    fun localStorage_userData_readDefaultUserData() = runTest {
+        localStorage.userData().first().let {
             assertThat(it.themeConfig).isEqualTo(ThemeConfig.DARK)
             assertThat(it.usDynamicColor).isFalse()
             assertThat(it.accountId).isEmpty()
@@ -126,7 +127,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_userData_defaultThemeConfigIsFollowSystem() = testScope.runTest {
+    fun localStorage_userData_defaultThemeConfigIsFollowSystem() = runTest {
         coEvery { userPreferences.data } returns flowOf(
             UserPreferences.getDefaultInstance()
                 .copy { themeConfig = ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM },
@@ -137,7 +138,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_userData_defaultThemeConfigIsDark() = testScope.runTest {
+    fun localStorage_userData_defaultThemeConfigIsDark() = runTest {
         coEvery { userPreferences.data } returns flowOf(
             UserPreferences.getDefaultInstance()
                 .copy { themeConfig = ThemeConfigProto.THEME_CONFIG_UNSPECIFIED },
@@ -148,7 +149,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_userData_themeConfigIsLight() = testScope.runTest {
+    fun localStorage_userData_themeConfigIsLight() = runTest {
         coEvery { userPreferences.data } returns flowOf(
             UserPreferences.getDefaultInstance()
                 .copy { themeConfig = ThemeConfigProto.THEME_CONFIG_LIGHT },
@@ -159,7 +160,7 @@ class LocalStorageTest {
     }
 
     @Test
-    fun localStorage_logout_userIsLoggedOut() = testScope.runTest {
+    fun localStorage_logout_userIsLoggedOut() = runTest {
         localStorage.saveUserSession(
             accountId = "4bc889XXXXa3c0z92001001",
             accessToken = """

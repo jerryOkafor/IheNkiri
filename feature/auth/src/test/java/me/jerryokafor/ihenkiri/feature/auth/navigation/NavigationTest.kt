@@ -111,7 +111,7 @@ class NavigationTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                NavHost(navController = navController, startDestination = authNavGraph) {
+                NavHost(navController = navController, startDestination = AuthNavGraph) {
                     authNavGraph(
                         onCompleteLogin = { onCompleteLogin++ },
                         onShowSnackbar = onShowSnackbar,
@@ -122,7 +122,9 @@ class NavigationTest {
             onNodeWithText(signIn).performClick()
             onNodeWithText(continueAsGuest).performClick()
 
-            assertThat(navController.currentDestination?.route).isEqualTo(loginRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).isEqualTo(Welcome::class.qualifiedName)
 //            assertThat(onCompleteLogin).isEqualTo(1)
         }
     }

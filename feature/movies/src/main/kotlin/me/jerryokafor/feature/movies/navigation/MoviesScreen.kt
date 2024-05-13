@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,10 @@ fun NavController.navigateToMoviesScreen() {
     )
 }
 
-fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
+fun NavGraphBuilder.moviesScreen(
+    onRecommendationClick: () -> Unit,
+    onMovieClick: (Long) -> Unit,
+) {
     composable(
         route = moviesRoutePattern,
         enterTransition = enterTransition,
@@ -55,6 +58,9 @@ fun NavGraphBuilder.moviesScreen(onMovieClick: (Long) -> Unit) {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        MoviesScreen(onMovieClick = onMovieClick)
+        MoviesScreen(
+            onRecommendationClick = onRecommendationClick,
+            onMovieClick = onMovieClick,
+        )
     }
 }

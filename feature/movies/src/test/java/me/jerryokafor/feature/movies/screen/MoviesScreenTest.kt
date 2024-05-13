@@ -35,15 +35,12 @@ import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isToggleable
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
@@ -81,6 +78,7 @@ class MoviesScreenTest {
 
     private var onMovieClickCounter = 0
     private var onFilterItemSelectedCounter = 0
+    private var onRecommendClick = 0
 
     @Before
     @Throws(Exception::class)
@@ -254,6 +252,7 @@ class MoviesScreenTest {
                 ).collectAsLazyPagingItems(),
                 onMovieClick = { onMovieClickCounter++ },
                 onFilterItemSelected = { onFilterItemSelectedCounter++ },
+                onRecommendationClick = { onRecommendClick++ },
             )
         }
         composeTestRule.onNodeWithTag(CHIP_GROUP_TEST_TAG)
@@ -271,43 +270,7 @@ class MoviesScreenTest {
         composeTestRule.mainClock.autoAdvance = true
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
-            .assertExists()
-            .assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Adult")
-            .assertExists()
-            .assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Video")
-            .assertExists()
-            .assertIsDisplayed()
-
-        composeTestRule.onAllNodes(isToggleable())
-            .assertCountEquals(2)
-            .onFirst()
-            .performClick()
-
-        composeTestRule.onAllNodes(isToggleable())
-            .assertCountEquals(2)
-            .onLast()
-            .performClick()
-
-        composeTestRule.onNodeWithContentDescription("perform search")
-            .assertExists()
-            .assertIsDisplayed()
-
-        composeTestRule.onNodeWithContentDescription("close search")
-            .assertExists()
-            .assertIsDisplayed()
-            .performClick()
-
-        // wait for dialog to open
-        composeTestRule.mainClock.autoAdvance = true
-        composeTestRule.waitForIdle()
-
-        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
-            .assertDoesNotExist()
+        assertThat(onRecommendClick).isEqualTo(1)
     }
 
     @Test
@@ -320,6 +283,7 @@ class MoviesScreenTest {
                 ).collectAsLazyPagingItems(),
                 onMovieClick = { onMovieClickCounter++ },
                 onFilterItemSelected = { onFilterItemSelectedCounter++ },
+                onRecommendationClick = { onRecommendClick++ },
             )
         }
 
@@ -332,9 +296,7 @@ class MoviesScreenTest {
         composeTestRule.mainClock.autoAdvance = true
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithTag(SEARCH_TEST_TAG)
-            .assertExists()
-            .assertIsDisplayed()
+        assertThat(onRecommendClick).isEqualTo(1)
     }
 
     @Test

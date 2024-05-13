@@ -24,6 +24,7 @@
 
 package me.jerryokafor.ihenkiri.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -32,7 +33,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,11 +45,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.jerryokafor.feature.media.navigation.mediaRoutePattern
-import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsRoutePattern
+import com.jerryokafor.feature.media.navigation.WatchMedia
+import com.jerryokafor.feature.peopledetails.navigation.PeopleDetails
 import me.jerryokafor.core.ui.extension.TrackDisposableJank
-import me.jerryokafor.ihenkiri.feature.auth.navigation.loginRoutePattern
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
+import me.jerryokafor.ihenkiri.feature.auth.navigation.Welcome
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetail
 import me.jerryokafor.ihenkiri.navigation.BottomNavigation
 import me.jerryokafor.ihenkiri.navigation.IhenkiriNavHost
 
@@ -68,12 +68,12 @@ fun IhenkiriApp(
     },
 ) {
     NavigationTrackingSideEffect(navController)
-    val bottomBarState = rememberSaveable { mutableStateOf(false) }
+    val showBottomBarState = rememberSaveable { mutableStateOf(false) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     Scaffold(
         modifier = Modifier.testTag(MAIN_CONTENT_TEST_TAG),
-        bottomBar = { BottomNavigation(navController, bottomBarState.value) },
+        bottomBar = { BottomNavigation(navController, showBottomBarState.value) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Box(
@@ -92,14 +92,18 @@ fun IhenkiriApp(
         )
     }
 
-    LaunchedEffect(navBackStackEntry?.destination?.route) {
-        when (navBackStackEntry?.destination?.route) {
-            movieDetailsRoutePattern, peopleDetailsRoutePattern, loginRoutePattern,
-            mediaRoutePattern,
-            -> bottomBarState.value = false
+    Log.d("Testing: ", "Dest: ${navBackStackEntry?.destination?.route}")
+    val route = navBackStackEntry?.destination?.route
+    when {
+        route.equals(Welcome::class.qualifiedName) ||
+            route.equals(WatchMedia::class.qualifiedName) ||
+            route.equals(Recommendation::class.qualifiedName) ||
+            route?.matches(PeopleDetails.ROUTE_PATTERN) == true ||
+            route?.matches(MovieDetail.ROUTE_PATTERN) == true ||
+            route?.matches(WatchMedia.ROUTE_PATTERN) == true
+        -> showBottomBarState.value = false
 
-            else -> bottomBarState.value = true
-        }
+        else -> showBottomBarState.value = true
     }
 }
 

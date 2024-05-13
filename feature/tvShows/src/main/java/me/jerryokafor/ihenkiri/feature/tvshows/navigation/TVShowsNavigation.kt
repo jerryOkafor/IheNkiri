@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,10 @@ import me.jerryokafor.ihenkiri.feature.tvshows.ui.TVShowsScreen
 @Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
 const val tvShowsNavPattern = "/tv-shows"
 
-fun NavGraphBuilder.tvShowsScreen(onTVShowClick: (Long) -> Unit) {
+fun NavGraphBuilder.tvShowsScreen(
+    onRecommendationClick: () -> Unit,
+    onTVShowClick: (Long) -> Unit,
+) {
     composable(
         route = tvShowsNavPattern,
         enterTransition = enterTransition,
@@ -43,6 +46,9 @@ fun NavGraphBuilder.tvShowsScreen(onTVShowClick: (Long) -> Unit) {
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
     ) {
-        TVShowsScreen(onTVShowClick = onTVShowClick)
+        TVShowsScreen(
+            onRecommendationClick = onRecommendationClick,
+            onTVShowClick = onTVShowClick,
+        )
     }
 }

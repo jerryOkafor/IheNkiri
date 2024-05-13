@@ -90,7 +90,7 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun tvShowsScreen_onLoad_addTvShowsScreenScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -100,7 +100,7 @@ class NavigationTest {
                     navController = navController,
                     startDestination = tvShowsNavPattern,
                 ) {
-                    tvShowsScreen(onTVShowClick = { onTVShowClick++ })
+                    tvShowsScreen(onRecommendationClick = {}, onTVShowClick = { onTVShowClick++ })
                 }
             }
 
