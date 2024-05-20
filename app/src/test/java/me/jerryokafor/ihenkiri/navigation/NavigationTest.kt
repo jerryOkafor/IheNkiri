@@ -26,6 +26,7 @@ package me.jerryokafor.ihenkiri.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
@@ -62,6 +63,7 @@ import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApiWithException
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
+import me.jerryokafor.ihenkiri.ui.RECOMMENDATION_SCREEN_TEST_TAG
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -155,6 +157,10 @@ class NavigationTest {
     )
     private val rateMovie by composeTestRule.stringResource(MoviesDetailsR.string.rate_it)
 
+    private val clickToSearch by composeTestRule.stringResource(
+        MoviesR.string.movies_content_description_search,
+    )
+
     @Before
     fun setUp() {
         ShadowLog.stream = System.out
@@ -244,10 +250,12 @@ class NavigationTest {
                     .onChildren()
                     .onFirst()
                     .performClick()
+
                 waitForIdle()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
 
                 onNodeWithContentDescription(navigateUp).performClick()
+
                 waitForIdle()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertExists().assertIsDisplayed()
 
@@ -257,10 +265,12 @@ class NavigationTest {
                     .onChildren()
                     .onFirst()
                     .performClick()
+
                 waitForIdle()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
 
                 onNodeWithContentDescription(navigateUp).performClick()
+
                 waitForIdle()
                 onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertExists().assertIsDisplayed()
             }
@@ -349,6 +359,26 @@ class NavigationTest {
             onNodeWithText("Sign In").performClick()
             onNodeWithText("Error creating request token, please try again")
                 .assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun recommendationScreen_searchClick() {
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(movies) and isSelectable())
+                    .performClick()
+
+                onNodeWithContentDescription(clickToSearch)
+                    .assertHasClickAction()
+                    .performClick()
+
+                waitForIdle()
+                onNodeWithTag(RECOMMENDATION_SCREEN_TEST_TAG)
+                    .assertIsDisplayed()
+            }
         }
     }
 

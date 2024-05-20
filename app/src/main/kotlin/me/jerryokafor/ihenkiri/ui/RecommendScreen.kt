@@ -84,11 +84,13 @@ fun RecommendationScreenPreview() {
     }
 }
 
+const val RECOMMENDATION_SCREEN_TEST_TAG = "Recommendation"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecommendationScreen() {
     Background {
-        Column(modifier = Modifier) {
+        Column(modifier = Modifier.testTag(RECOMMENDATION_SCREEN_TEST_TAG)) {
             CenterAlignedTopAppBar(
                 modifier = Modifier
                     .statusBarsPadding()
