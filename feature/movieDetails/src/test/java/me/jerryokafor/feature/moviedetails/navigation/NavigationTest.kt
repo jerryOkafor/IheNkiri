@@ -65,7 +65,6 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
 
-
 @Serializable
 object TestHome
 
@@ -142,7 +141,9 @@ class NavigationTest {
                 }
             }
 
-            assertThat(navController.graph.startDestinationRoute).isEqualTo(TestHome::class.qualifiedName)
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
 
             navController.navigateToMovieDetails(0L)
             onNodeWithTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW, useUnmergedTree = true)

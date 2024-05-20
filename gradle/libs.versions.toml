@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.4.0"
+androidGradlePlugin = "8.4.1"
 kotlin = "2.0.0-RC1" #https://androidx.dev/storage/compose-compiler/repository
 kotlinSerialization = "1.6.3"
 androidDesugarJdkLibs = "2.0.4"
@@ -9,7 +9,7 @@ core-ktx = "1.13.1"
 lifecycle = "2.7.0"
 activity-compose = "1.9.0"
 coreSplashscreen = "1.0.1"
-adroidXFragmentktx = "1.7.0"
+adroidXFragmentktx = "1.7.1"
 appcompat = "1.6.1"
 browser = "1.8.0"
 palette = "1.0.0"
@@ -39,7 +39,7 @@ hilt = "2.51.1"
 hiltExt = "1.2.0"
 
 # navigation
-navigation = "2.8.0-alpha08"
+navigation = "2.8.0-beta01"
 androidxHiltNavigationCompose = "1.2.0"
 
 # compose
@@ -56,13 +56,13 @@ material = "1.12.0"
 media3 = "1.3.1"
 
 #Paging
-paging = "3.2.1"
-pagingCompose = "3.3.0-rc01"
+paging = "3.3.0"
+pagingCompose = "3.3.0"
 
 # code quality
 detekt = "1.22.0"
 ktlint = "1.0.1"
-jacoco = "0.8.11"
+jacoco = "0.8.12"
 lint = "31.4.0"
 testParameterInjector = "1.12"
 
@@ -78,7 +78,7 @@ testJunit = "1.1.5"
 testTruth = "1.5.0"
 testMonitor = "1.6.1"
 espressoCore = "3.5.1"
-uiautomator = "2.3.0-beta01"
+uiautomator = "2.3.0"
 googleTruth = "1.1.5"
 mockk = "1.13.7"
 
