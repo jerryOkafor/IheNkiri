@@ -26,13 +26,20 @@ package me.jerryokafor.ihenkiri.feature.auth.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -41,6 +48,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.ihenkiri.feature.auth.R
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
@@ -51,6 +59,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+
+@Serializable
+data object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -111,7 +122,15 @@ class NavigationTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                NavHost(navController = navController, startDestination = AuthNavGraph) {
+                NavHost(
+                    navController = navController,
+                    startDestination = TestHome,
+                ) {
+                    composable<TestHome> {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Text(modifier = Modifier.align(Alignment.Center), text = "Home")
+                        }
+                    }
                     authNavGraph(
                         onCompleteLogin = { onCompleteLogin++ },
                         onShowSnackbar = onShowSnackbar,
@@ -119,13 +138,19 @@ class NavigationTest {
                 }
             }
 
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+            onNodeWithText("Home").assertExists().assertIsDisplayed()
+
+            navController.navigateToAuth()
+
             onNodeWithText(signIn).performClick()
             onNodeWithText(continueAsGuest).performClick()
 
             assertThat(
                 navController.currentDestination?.route,
             ).isEqualTo(Welcome::class.qualifiedName)
-//            assertThat(onCompleteLogin).isEqualTo(1)
         }
     }
 }

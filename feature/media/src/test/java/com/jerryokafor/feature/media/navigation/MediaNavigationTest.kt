@@ -49,6 +49,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
@@ -58,6 +59,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+
+@Serializable
+data object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -114,9 +118,9 @@ class MediaNavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home",
+                    startDestination = TestHome,
                 ) {
-                    composable("home") {
+                    composable<TestHome> {
                         Box(modifier = Modifier.fillMaxSize()) {
                             Text(modifier = Modifier.align(Alignment.Center), text = "Home")
                         }
@@ -125,7 +129,12 @@ class MediaNavigationTest {
                 }
             }
 
-            assertThat(navController.currentDestination?.route).isEqualTo("home")
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+            onNodeWithText("Home").assertExists()
+                .assertIsDisplayed()
+
             navController.navigateToMedia(0L, "Test App", null)
 
             waitForIdle()
