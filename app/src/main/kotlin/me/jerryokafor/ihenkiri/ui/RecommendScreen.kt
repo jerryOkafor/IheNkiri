@@ -88,7 +88,7 @@ const val RECOMMENDATION_SCREEN_TEST_TAG = "Recommendation"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecommendationScreen() {
+fun RecommendationScreen(onNavigateUp: () -> Unit = {}) {
     Background {
         Column(modifier = Modifier.testTag(RECOMMENDATION_SCREEN_TEST_TAG)) {
             CenterAlignedTopAppBar(
@@ -96,7 +96,10 @@ fun RecommendationScreen() {
                     .statusBarsPadding()
                     .testTag(TITLE_TEST_TAG),
                 title = {
-                    Button(modifier = Modifier.fillMaxWidth(), onClick = {}) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth().testTag("test_button"),
+                        onClick = onNavigateUp,
+                    ) {
                         Icon(
                             painter = painterResource(
                                 id = me.jerryokafor.core.ui.R.drawable.search,

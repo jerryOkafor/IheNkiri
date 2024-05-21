@@ -33,6 +33,7 @@ import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isNotDisplayed
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -42,6 +43,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -62,6 +64,8 @@ import me.jerryokafor.ihenkiri.core.network.injection.NetworkAuthModule
 import me.jerryokafor.ihenkiri.core.network.service.AuthApi
 import me.jerryokafor.ihenkiri.core.test.test.network.FakeAuthApiWithException
 import me.jerryokafor.ihenkiri.feature.people.ui.PEOPLE_LIST_TEST_TAG
+import me.jerryokafor.ihenkiri.feature.tvshows.ui.CHIP_GROUP_TEST_TAG
+import me.jerryokafor.ihenkiri.feature.tvshows.ui.TV_SHOWS_GRID_ITEMS_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.MainActivity
 import me.jerryokafor.ihenkiri.ui.RECOMMENDATION_SCREEN_TEST_TAG
 import org.junit.Before
@@ -159,6 +163,10 @@ class NavigationTest {
 
     private val clickToSearch by composeTestRule.stringResource(
         MoviesR.string.movies_content_description_search,
+    )
+
+    private val searchTvShows by composeTestRule.stringResource(
+        TVShowsR.string.tv_shows_content_description_search,
     )
 
     @Before
@@ -378,6 +386,41 @@ class NavigationTest {
                 waitForIdle()
                 onNodeWithTag(RECOMMENDATION_SCREEN_TEST_TAG)
                     .assertIsDisplayed()
+            }
+        }
+    }
+
+    @Test
+    fun tvShowDetailsScreen_tvShowClick() {
+        val scenario = launchActivity<MainActivity>()
+        scenario.moveToState(Lifecycle.State.CREATED)
+        scenario.onActivity {
+            composeTestRule.apply {
+                onNode(hasText(tvShows) and isSelectable())
+                    .performClick()
+
+                onNode(hasText(tvShows) and !isSelectable()).assertIsDisplayed()
+                onNodeWithContentDescription(searchTvShows).assertIsDisplayed().performClick()
+                onNodeWithContentDescription(clickToSearch).assertIsDisplayed()
+
+                onNodeWithTag("test_button").performClick()
+                waitForIdle()
+                onNodeWithContentDescription(clickToSearch).isNotDisplayed()
+
+                waitForIdle()
+                onNode(hasText(tvShows) and !isSelectable()).assertIsDisplayed()
+
+                onNodeWithTag(CHIP_GROUP_TEST_TAG).performScrollToIndex(5)
+                onNode(hasText(tvShowsDiscover) and isSelectable()).performClick()
+                onNodeWithContentDescription(searchTvShows).assertIsDisplayed()
+
+                composeTestRule.onNodeWithTag(TV_SHOWS_GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
+                    .onChildren()
+                    .onFirst()
+                    .performClick()
+
+                waitForIdle()
+                onNodeWithTag(BOTTOM_NAV_BAR_TEST_TAG).assertDoesNotExist()
             }
         }
     }

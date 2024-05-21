@@ -62,6 +62,13 @@ fun IhenkiriNavHost(
         )
     }
 
+    val onTVShowClick: (Long) -> Unit = { movieId ->
+        navController.navigateToMovieDetails(
+            movieId = movieId,
+            navOptions = navOptions {},
+        )
+    }
+
     val onPersonClick: (Long) -> Unit = {
         navController.navigateToPersonDetails(personId = it)
     }
@@ -93,7 +100,7 @@ fun IhenkiriNavHost(
         )
         tvShowsScreen(
             onRecommendationClick = onRecommendationClick,
-            onTVShowClick = {},
+            onTVShowClick = onTVShowClick,
         )
         movieDetailsScreen(
             onMovieItemClick = onMovieClick,
@@ -106,7 +113,7 @@ fun IhenkiriNavHost(
         mediaScreen(onBackClick = onNavigateUp)
 
         composable<Recommendation> {
-            RecommendationScreen()
+            RecommendationScreen(onNavigateUp = onNavigateUp)
         }
     }
 }

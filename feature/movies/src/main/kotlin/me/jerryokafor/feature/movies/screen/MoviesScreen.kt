@@ -177,26 +177,6 @@ fun MoviesScreen(
                 },
             )
 
-//                Crossfade(targetState = showSearch, label = "toggleSearch") { show ->
-//                    when {
-//                        show -> {
-//                            SearchBarRow(
-//                                modifier = Modifier.statusBarsPadding(),
-//                                isSearchActive = isSearchActive,
-//                                query = query,
-//                                onQueryChange = { query = it },
-//                                onSearch = { isSearchActive = false },
-//                                onActiveChange = { showSearch = it },
-//                                onCancel = { showSearch = false },
-//                            )
-//                        }
-//
-//                        else -> {
-//
-//                        }
-//                    }
-//                }
-//            }
             val scrollState = rememberLazyStaggeredGridState()
             TrackScrollJank(scrollableState = scrollState, stateName = "peopleDetails:screen")
             Box(modifier = Modifier.fillMaxSize()) {

@@ -142,13 +142,9 @@ fun TVShowsScreen(
 
     val filterItemSelected: (TVShowsFilterItem.FilterType) -> Unit = {
         when (it) {
-            TVShowsFilterItem.FilterType.DISCOVER -> {
-                onRecommendationClick()
-            }
+            TVShowsFilterItem.FilterType.DISCOVER -> onRecommendationClick()
 
-            else -> {
-                onFilterItemSelected(it)
-            }
+            else -> onFilterItemSelected(it)
         }
     }
 
