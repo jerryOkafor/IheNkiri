@@ -34,7 +34,7 @@ import com.jerryokafor.feature.media.navigation.mediaScreen
 import com.jerryokafor.feature.media.navigation.navigateToMedia
 import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
-import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
+import me.jerryokafor.feature.movies.navigation.Movies
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
@@ -88,7 +88,7 @@ fun IhenkiriNavHost(
     NavHost(
         modifier = Modifier,
         navController = navController,
-        startDestination = moviesRoutePattern,
+        startDestination = Movies,
     ) {
         authNavGraph(
             onCompleteLogin = onNavigateUp,

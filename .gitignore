@@ -29,3 +29,4 @@ docs/_site
 /codecov
 /keystore.properties
 /upload-keystore.jks
+/.idea/deploymentTargetSelector.xml

@@ -28,6 +28,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.library.jacoco")
     id("me.jerryokafor.ihenkiri.android.hilt")
+    alias(libs.plugins.org.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -61,6 +62,8 @@ dependencies {
 
     implementation(libs.io.coil.compose)
     implementation(libs.com.valentinilk.compose.shimmer)
+
+    implementation(libs.org.jetbrains.kotlinx.serialization.json)
 
     // compose
     implementation(platform(libs.androidx.compose.bom))

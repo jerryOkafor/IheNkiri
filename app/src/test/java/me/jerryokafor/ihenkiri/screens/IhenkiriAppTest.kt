@@ -45,7 +45,11 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import me.jerryokafor.feature.movies.navigation.Movies
 import me.jerryokafor.ihenkiri.feature.auth.navigation.LANDING_SCREEN_TEST_TAG
+import me.jerryokafor.ihenkiri.feature.people.navigation.People
+import me.jerryokafor.ihenkiri.feature.settings.navigation.Settings
+import me.jerryokafor.ihenkiri.feature.tvshows.navigation.TvShows
 import me.jerryokafor.ihenkiri.navigation.BOTTOM_NAV_BAR_TEST_TAG
 import me.jerryokafor.ihenkiri.ui.IhenkiriApp
 import me.jerryokafor.ihenkiri.ui.MAIN_CONTENT_TEST_TAG
@@ -96,7 +100,7 @@ class IhenkiriAppTest {
                 .assertIsDisplayed()
                 .performClick()
             val moviesRoute = navController.currentBackStackEntry?.destination?.route
-            assertThat(moviesRoute).isEqualTo("/movies")
+            assertThat(moviesRoute).isEqualTo(Movies::class.qualifiedName)
             onNode(isBottomNavItemWithText("Movies")).assertIsSelected()
 
             // Verify /tv-shows
@@ -104,7 +108,7 @@ class IhenkiriAppTest {
                 .assertIsDisplayed()
                 .performClick()
             val tvShowsRoute = navController.currentBackStackEntry?.destination?.route
-            assertThat(tvShowsRoute).isEqualTo("/tv-shows")
+            assertThat(tvShowsRoute).isEqualTo(TvShows::class.qualifiedName)
             onNode(isBottomNavItemWithText("TV Shows")).assertIsSelected()
 
             // Verify route: /people
@@ -112,7 +116,7 @@ class IhenkiriAppTest {
                 .assertIsDisplayed()
                 .performClick()
             val peopleRoute = navController.currentBackStackEntry?.destination?.route
-            assertThat(peopleRoute).isEqualTo("/people")
+            assertThat(peopleRoute).isEqualTo(People::class.qualifiedName)
             onNode(isBottomNavItemWithText("People")).assertIsSelected()
 
             // Verify route: /more
@@ -120,7 +124,7 @@ class IhenkiriAppTest {
                 .assertIsDisplayed()
                 .performClick()
             val moreRtoue = navController.currentBackStackEntry?.destination?.route
-            assertThat(moreRtoue).isEqualTo("/settings")
+            assertThat(moreRtoue).isEqualTo(Settings::class.qualifiedName)
             onNode(isBottomNavItemWithText("Settings")).assertIsSelected()
         }
     }
@@ -138,7 +142,7 @@ class IhenkiriAppTest {
             onNodeWithTag(LANDING_SCREEN_TEST_TAG).assertDoesNotExist()
             onNodeWithTag(MAIN_CONTENT_TEST_TAG).assertIsDisplayed()
             val route = navController.currentBackStackEntry?.destination?.route
-            assertThat(route).isEqualTo("/movies")
+            assertThat(route).isEqualTo(Movies::class.qualifiedName)
         }
     }
 }

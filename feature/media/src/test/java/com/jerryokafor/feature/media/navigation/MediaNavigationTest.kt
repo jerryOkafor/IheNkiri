@@ -135,7 +135,7 @@ class MediaNavigationTest {
             onNodeWithText("Home").assertExists()
                 .assertIsDisplayed()
 
-            navController.navigateToMedia(0L, "Test App", null)
+            navController.navigateToMedia(movieId = 0L, title = "Test App", navOptions = null)
 
             waitForIdle()
 

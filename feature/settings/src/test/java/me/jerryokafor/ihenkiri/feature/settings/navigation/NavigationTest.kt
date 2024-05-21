@@ -26,13 +26,20 @@ package me.jerryokafor.ihenkiri.feature.settings.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -40,6 +47,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.ihenkiri.feature.settings.R
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
@@ -50,6 +58,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+
+@Serializable
+data object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -105,15 +116,32 @@ class NavigationTest {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                NavHost(navController = navController, startDestination = settingsNavPattern) {
+                NavHost(
+                    navController = navController,
+                    startDestination = TestHome,
+                ) {
+                    composable<TestHome> {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Text(modifier = Modifier.align(Alignment.Center), text = "Home")
+                        }
+                    }
                     settingsScreen(onLoginClick = { onPersonClick++ })
                 }
             }
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+            onNodeWithText("Home").assertExists()
+                .assertIsDisplayed()
 
-            onNodeWithText(login)
-                .performClick()
+            navController.navigate(Settings)
 
-            assertThat(navController.currentDestination?.route).isEqualTo(settingsNavPattern)
+            waitForIdle()
+            onNodeWithText(login).performClick()
+
+            assertThat(
+                navController.currentDestination?.route,
+            ).isEqualTo(Settings::class.qualifiedName)
             assertThat(onPersonClick).isEqualTo(1)
         }
     }
