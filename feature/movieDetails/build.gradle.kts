@@ -28,6 +28,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.library.jacoco")
     id("me.jerryokafor.ihenkiri.android.hilt")
+    alias(libs.plugins.org.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -53,6 +54,8 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.network)
     implementation(libs.androidx.core.ktx)
+
+    implementation(libs.org.jetbrains.kotlinx.serialization.json)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

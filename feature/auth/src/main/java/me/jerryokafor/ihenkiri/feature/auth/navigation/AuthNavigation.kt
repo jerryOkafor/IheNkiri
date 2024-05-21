@@ -29,6 +29,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import androidx.navigation.navigation
+import kotlinx.serialization.Serializable
 import me.jerryokafor.core.ui.navigation.enterTransition
 import me.jerryokafor.core.ui.navigation.exitTransition
 import me.jerryokafor.core.ui.navigation.popEnterTransition
@@ -37,15 +38,15 @@ import me.jerryokafor.ihenkiri.feature.auth.ui.AuthScreen
 
 const val LANDING_SCREEN_TEST_TAG = "landingScreen"
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val authNavGraph = "auth-graph"
+@Serializable
+object AuthNavGraph
 
-@Suppress("TopLevelPropertyNaming", "ktlint:standard:property-naming")
-const val loginRoutePattern = "welcome"
+@Serializable
+object Welcome
 
 fun NavController.navigateToAuth() {
     this.navigate(
-        route = authNavGraph,
+        route = AuthNavGraph,
         navOptions = navOptions {
             launchSingleTop = true
         },
@@ -56,12 +57,8 @@ fun NavGraphBuilder.authNavGraph(
     onCompleteLogin: () -> Unit,
     onShowSnackbar: suspend (String, String?) -> Boolean,
 ) {
-    navigation(
-        route = authNavGraph,
-        startDestination = loginRoutePattern,
-    ) {
-        composable(
-            route = loginRoutePattern,
+    navigation<AuthNavGraph>(startDestination = Welcome) {
+        composable<Welcome>(
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,

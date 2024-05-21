@@ -36,9 +36,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
@@ -69,6 +67,7 @@ class TVShowsScreenTest {
 
     private var onTVShowClick = 0
     private var onFilterItemSelected = 0
+    private var onRecommendClick = 0
 
     private fun testFilters() = listOf(
         TVShowsFilterItem(
@@ -347,6 +346,7 @@ class TVShowsScreenTest {
                     filters = testFilters().selectItem(TVShowsFilterItem.FilterType.DISCOVER),
                     onTVShowClick = { onTVShowClick++ },
                     onFilterItemSelected = { onFilterItemSelected++ },
+                    onRecommendationClick = { onRecommendClick++ },
                 )
             }
 
@@ -361,15 +361,8 @@ class TVShowsScreenTest {
                 .assertIsDisplayed()
                 .performClick()
 
-            onNodeWithTag(SEARCH_TEST_TAG).assertIsDisplayed()
-            onNodeWithText("Search ....").assertIsDisplayed()
-            onNodeWithContentDescription("perform search").assertIsDisplayed()
-            onNodeWithContentDescription("close search").assertIsDisplayed()
-            onNodeWithText("Adult").assertIsDisplayed()
-            onNodeWithText("Video").assertIsDisplayed()
-            onNodeWithTag(SEARCH_ADULT).assertIsDisplayed()
-            onNodeWithTag(SEARCH_INLCUDE_VIDEO).assertIsDisplayed()
             assertThat(onFilterItemSelected).isEqualTo(0)
+            assertThat(onRecommendClick).isEqualTo(1)
         }
     }
 }

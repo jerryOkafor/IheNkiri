@@ -26,6 +26,11 @@ package me.jerryokafor.feature.moviedetails.navigation
 
 import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -36,6 +41,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -43,9 +49,11 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.core.ui.R
-import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsRoutePattern
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.MovieDetail
 import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.movieDetailsScreen
+import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDetails
 import me.jerryokafor.ihenkiri.feature.moviedetails.ui.MOVIE_DETAILS_RECOMMENDATIONS_ROW
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
@@ -56,6 +64,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+
+@Serializable
+object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -87,6 +98,7 @@ class NavigationTest {
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
     private var onMovieItemClick = 0
+    private var onWatchTrailer = 0
     private var onNavigateUp = 0
 
     private lateinit var navController: TestNavHostController
@@ -97,6 +109,7 @@ class NavigationTest {
 
     // The strings used for matching in these tests
     private val navigateUp by composeTestRule.stringResource(R.string.navigate_up)
+//    private val watchTrailer by composeTestRule.stringResource(R.string.title_watch_trailer)
 
     @Before
     fun setUp() {
@@ -105,7 +118,7 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun movieDetailsScreen_onLoad_addMovieDetailsScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -113,23 +126,40 @@ class NavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = movieDetailsRoutePattern,
+                    startDestination = TestHome,
                 ) {
+                    composable<TestHome> {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Text(text = "Home", modifier = Modifier.align(Alignment.Center))
+                        }
+                    }
                     movieDetailsScreen(
                         onMovieItemClick = { onMovieItemClick++ },
+                        onWatchTrailerClick = { _, _ -> onWatchTrailer++ },
                         onNavigateUp = { onNavigateUp++ },
                     )
                 }
             }
 
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+
+            navController.navigateToMovieDetails(0L)
             onNodeWithTag(MOVIE_DETAILS_RECOMMENDATIONS_ROW, useUnmergedTree = true)
                 .onChildren()
                 .onFirst()
                 .performClick()
+
+//            onNodeWithContentDescription(watchTrailer).performClick()
             onNodeWithContentDescription(navigateUp).performClick()
 
-            assertThat(navController.currentDestination?.route).isEqualTo(movieDetailsRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).matches(MovieDetail.ROUTE_PATTERN.pattern)
+
             assertThat(onMovieItemClick).isEqualTo(1)
+//            assertThat(watchTrailer).isEqualTo(1)
             assertThat(onNavigateUp).isEqualTo(1)
         }
     }

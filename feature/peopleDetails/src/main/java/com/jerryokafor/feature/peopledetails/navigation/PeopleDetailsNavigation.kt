@@ -30,18 +30,18 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.jerryokafor.feature.peopledetails.ui.PeopleDetailsScreen
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
+import me.jerryokafor.core.ui.navigation.enterTransition
+import me.jerryokafor.core.ui.navigation.exitTransition
+import me.jerryokafor.core.ui.navigation.popEnterTransition
+import me.jerryokafor.core.ui.navigation.popExitTransition
 
 @VisibleForTesting
 @Suppress("ktlint:standard:property-naming")
-internal const val personIdArg = "movieId"
-
-@Suppress("ktlint:standard:property-naming")
-const val peopleDetailsRoutePattern = "person/{$personIdArg}"
+internal const val personIdArg = "personId"
 
 internal class PeopleDetailsArg(val personId: StateFlow<Long>) {
     constructor(savedStateHandle: SavedStateHandle) : this(
@@ -49,26 +49,26 @@ internal class PeopleDetailsArg(val personId: StateFlow<Long>) {
     )
 }
 
+@Serializable
+data class PeopleDetails(val personId: Long) {
+    companion object {
+        val ROUTE_PATTERN = "\\D+/\\{(personId)\\}".toRegex()
+    }
+}
+
 fun NavController.navigateToPersonDetails(
     personId: Long,
     navOptions: NavOptions? = null,
 ) {
-    this.navigate(route = "person/$personId", navOptions = navOptions)
+    this.navigate(route = PeopleDetails(personId), navOptions = navOptions)
 }
 
 fun NavGraphBuilder.peopleDetailsScreen(onNavigateUp: () -> Unit) {
-    composable(
-        route = peopleDetailsRoutePattern,
-//        enterTransition = enterTransition,
-//        exitTransition = exitTransition,
-//        popEnterTransition = popEnterTransition,
-//        popExitTransition = popExitTransition,
-        arguments = listOf(
-            navArgument(personIdArg) {
-                type = NavType.LongType
-                defaultValue = 0L
-            },
-        ),
+    composable<PeopleDetails>(
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
     ) {
         PeopleDetailsScreen(onNavigateUp = onNavigateUp)
     }

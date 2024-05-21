@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@
 package me.jerryokafor.ihenkiri.feature.people.ui
 
 import android.os.Build
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildren
@@ -36,9 +35,9 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.test.espresso.action.ViewActions.swipeUp
 import kotlinx.coroutines.flow.flowOf
 import me.jerryokafor.core.model.Person
+import me.jerryokafor.ihenkiri.core.test.rule.assertAreDisplayed
 import me.jerryokafor.ihenkiri.core.test.util.PeopleListTestData
 import org.junit.Before
 import org.junit.Rule
@@ -79,7 +78,7 @@ class PeopleScreenTest {
 
         with(composeTestRule) {
             setContent {
-                PeopleScreen(personLazyPagingItems = testPagingList.collectAsLazyPagingItems())
+                PeopleScreen(pagingItems = testPagingList.collectAsLazyPagingItems())
             }
             // assert
             onNodeWithTag(REFRESH_PROGRESS_INDICATOR).assertExists()
@@ -102,7 +101,7 @@ class PeopleScreenTest {
 
         with(composeTestRule) {
             setContent {
-                PeopleScreen(personLazyPagingItems = testPagingList.collectAsLazyPagingItems())
+                PeopleScreen(pagingItems = testPagingList.collectAsLazyPagingItems())
             }
 
             // assert
@@ -124,7 +123,7 @@ class PeopleScreenTest {
         )
         with(composeTestRule) {
             setContent {
-                PeopleScreen(personLazyPagingItems = testPagingList.collectAsLazyPagingItems())
+                PeopleScreen(pagingItems = testPagingList.collectAsLazyPagingItems())
             }
 
             onNodeWithTag(APPEND_PROGRESS_INDICATOR).assertExists()
@@ -147,7 +146,7 @@ class PeopleScreenTest {
 
         with(composeTestRule) {
             setContent {
-                PeopleScreen(personLazyPagingItems = testPagingList.collectAsLazyPagingItems())
+                PeopleScreen(pagingItems = testPagingList.collectAsLazyPagingItems())
             }
 
             onNodeWithTag(APPEND_PROGRESS_INDICATOR).assertDoesNotExist()
@@ -169,14 +168,15 @@ class PeopleScreenTest {
 
         with(composeTestRule) {
             setContent {
-                PeopleScreen(personLazyPagingItems = testPagingList.collectAsLazyPagingItems())
+                PeopleScreen(pagingItems = testPagingList.collectAsLazyPagingItems())
             }
 
-            onNodeWithTag(PEOPLE_LIST_TEST_TAG, useUnmergedTree = true).assertExists()
+            onNodeWithTag(PEOPLE_LIST_TEST_TAG)
+                .assertExists()
                 .assertIsDisplayed()
                 .performTouchInput { swipeUp() }
                 .onChildren()
-                .assertCountEquals(8)
+                .assertAreDisplayed()
         }
     }
 }

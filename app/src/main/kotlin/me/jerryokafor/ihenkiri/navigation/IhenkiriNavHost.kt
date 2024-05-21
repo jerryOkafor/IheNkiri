@@ -28,12 +28,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.jerryokafor.feature.media.navigation.mediaScreen
 import com.jerryokafor.feature.media.navigation.navigateToMedia
 import com.jerryokafor.feature.peopledetails.navigation.navigateToPersonDetails
 import com.jerryokafor.feature.peopledetails.navigation.peopleDetailsScreen
-import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
+import me.jerryokafor.feature.movies.navigation.Movies
 import me.jerryokafor.feature.movies.navigation.moviesScreen
 import me.jerryokafor.ihenkiri.feature.auth.navigation.authNavGraph
 import me.jerryokafor.ihenkiri.feature.auth.navigation.navigateToAuth
@@ -42,6 +43,8 @@ import me.jerryokafor.ihenkiri.feature.moviedetails.navigation.navigateToMovieDe
 import me.jerryokafor.ihenkiri.feature.people.navigation.peopleScreen
 import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsScreen
 import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsScreen
+import me.jerryokafor.ihenkiri.ui.Recommendation
+import me.jerryokafor.ihenkiri.ui.RecommendationScreen
 
 @Composable
 fun IhenkiriNavHost(
@@ -53,6 +56,13 @@ fun IhenkiriNavHost(
     }
 
     val onMovieClick: (Long) -> Unit = { movieId ->
+        navController.navigateToMovieDetails(
+            movieId = movieId,
+            navOptions = navOptions {},
+        )
+    }
+
+    val onTVShowClick: (Long) -> Unit = { movieId ->
         navController.navigateToMovieDetails(
             movieId = movieId,
             navOptions = navOptions {},
@@ -71,17 +81,27 @@ fun IhenkiriNavHost(
         navController.navigateToMedia(movieId = id, title = title)
     }
 
+    val onRecommendationClick: () -> Unit = {
+        navController.navigate(route = Recommendation)
+    }
+
     NavHost(
         modifier = Modifier,
         navController = navController,
-        startDestination = moviesRoutePattern,
+        startDestination = Movies,
     ) {
         authNavGraph(
             onCompleteLogin = onNavigateUp,
             onShowSnackbar = onShowSnackbar,
         )
-        moviesScreen(onMovieClick = onMovieClick)
-        tvShowsScreen(onTVShowClick = {})
+        moviesScreen(
+            onRecommendationClick = onRecommendationClick,
+            onMovieClick = onMovieClick,
+        )
+        tvShowsScreen(
+            onRecommendationClick = onRecommendationClick,
+            onTVShowClick = onTVShowClick,
+        )
         movieDetailsScreen(
             onMovieItemClick = onMovieClick,
             onNavigateUp = onNavigateUp,
@@ -91,5 +111,9 @@ fun IhenkiriNavHost(
         peopleDetailsScreen(onNavigateUp = onNavigateUp)
         settingsScreen(onLoginClick = onLoginClick)
         mediaScreen(onBackClick = onNavigateUp)
+
+        composable<Recommendation> {
+            RecommendationScreen(onNavigateUp = onNavigateUp)
+        }
     }
 }

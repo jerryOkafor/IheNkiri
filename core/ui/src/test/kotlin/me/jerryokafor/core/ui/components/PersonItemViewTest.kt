@@ -64,7 +64,7 @@ class PersonItemViewTest {
     }
 
     @Test
-    fun trailerButton_multipleThemes() {
+    fun personItemView_multipleThemes() {
         composeTestRule.captureMultiTheme("PersonItemView") { desc: String ->
             Surface {
                 PersonItemView(

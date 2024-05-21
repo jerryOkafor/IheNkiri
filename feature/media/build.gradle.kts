@@ -28,6 +28,7 @@ plugins {
     id("me.jerryokafor.ihenkiri.android.navigation")
     id("me.jerryokafor.ihenkiri.library.jacoco")
     id("me.jerryokafor.ihenkiri.android.hilt")
+    alias(libs.plugins.org.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -58,6 +59,8 @@ dependencies {
 //    implementation("androidx.media3:media3-ui:1.3.0")
 //    implementation("com.github.ct7ct7ct7:Android-VimeoPlayer:2.1")
 //    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
+    implementation(libs.org.jetbrains.kotlinx.serialization.json)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

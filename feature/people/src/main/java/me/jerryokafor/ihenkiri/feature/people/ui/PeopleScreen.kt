@@ -78,7 +78,9 @@ const val PEOPLE_LIST_TEST_TAG = "people_list"
 @ExcludeFromGeneratedCoverageReport
 fun PeopleScreenPreview() {
     IheNkiriTheme {
-        PeopleScreen(flowOf(PagingData.from(testPersons())).collectAsLazyPagingItems())
+        PeopleScreen(
+            pagingItems = flowOf(PagingData.from(testPersons())).collectAsLazyPagingItems(),
+        )
     }
 }
 
@@ -90,7 +92,7 @@ fun PeopleScreen(
 ) {
     val persons = viewModel.persons.collectAsLazyPagingItems()
     PeopleScreen(
-        personLazyPagingItems = persons,
+        pagingItems = persons,
         onPersonClick = onPersonClick,
     )
 }
@@ -98,7 +100,7 @@ fun PeopleScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PeopleScreen(
-    personLazyPagingItems: LazyPagingItems<Person>,
+    pagingItems: LazyPagingItems<Person>,
     onPersonClick: (Long) -> Unit = {},
 ) {
     Background {
@@ -118,8 +120,8 @@ fun PeopleScreen(
                     scrolledContainerColor = Color.Transparent,
                 ),
             )
-            TwoAndHalfHorizontalSpacer()
 
+            TwoAndHalfHorizontalSpacer()
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyVerticalGrid(
                     modifier = Modifier
@@ -135,10 +137,10 @@ fun PeopleScreen(
                     columns = GridCells.Fixed(2),
                 ) {
                     items(
-                        count = personLazyPagingItems.itemCount,
-                        key = personLazyPagingItems.itemKey { it.id },
+                        count = pagingItems.itemCount,
+                        key = pagingItems.itemKey { it.id },
                     ) {
-                        val person = personLazyPagingItems[it]!!
+                        val person = pagingItems[it]!!
                         val path = ImageUtil.buildImageUrl(
                             path = person.profilePath,
                             size = ImageUtil.Size.Profile.H632,
@@ -155,7 +157,7 @@ fun PeopleScreen(
                     }
 
                     // append
-                    if (personLazyPagingItems.loadState.append == LoadState.Loading) {
+                    if (pagingItems.loadState.append == LoadState.Loading) {
                         item {
                             Box(
                                 modifier = Modifier
@@ -176,7 +178,7 @@ fun PeopleScreen(
                 }
 
                 // refreshing
-                if (personLazyPagingItems.loadState.refresh == LoadState.Loading) {
+                if (pagingItems.loadState.refresh == LoadState.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .testTag(REFRESH_PROGRESS_INDICATOR)

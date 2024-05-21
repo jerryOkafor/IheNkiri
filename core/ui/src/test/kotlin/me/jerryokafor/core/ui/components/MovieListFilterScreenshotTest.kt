@@ -47,7 +47,7 @@ class MovieListFilterScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun trailerButton_multipleThemes() {
+    fun movieListFilter_multipleThemes() {
         composeTestRule.captureMultiTheme("MovieListFilter") { desc: String ->
             Surface {
                 MovieListFilter(

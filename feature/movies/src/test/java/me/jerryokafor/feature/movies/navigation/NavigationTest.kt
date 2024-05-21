@@ -25,14 +25,23 @@
 package me.jerryokafor.feature.movies.navigation
 
 import android.os.Build
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -40,6 +49,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.feature.movies.screen.MOVIES_GRID_ITEMS_TEST_TAG
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
@@ -49,6 +59,9 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
+
+@Serializable
+data object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -80,6 +93,7 @@ class NavigationTest {
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
     private var onMovieClick = 0
+    private var onRecommendationClick = 0
 
     private lateinit var navController: TestNavHostController
 
@@ -90,24 +104,49 @@ class NavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun moviesScreen_onLoad_addMoviesScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
                 navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-                NavHost(navController = navController, startDestination = moviesRoutePattern) {
-                    moviesScreen(onMovieClick = { onMovieClick++ })
+                NavHost(
+                    navController = navController,
+                    startDestination = TestHome,
+                ) {
+                    composable<TestHome> {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Text(modifier = Modifier.align(Alignment.Center), text = "Home")
+                        }
+                    }
+                    moviesScreen(
+                        onRecommendationClick = { onRecommendationClick++ },
+                        onMovieClick = { onMovieClick++ },
+                    )
                 }
             }
 
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+            onNodeWithText("Home").assertExists()
+                .assertIsDisplayed()
+
+            navController.navigateToMoviesScreen()
             onNodeWithTag(MOVIES_GRID_ITEMS_TEST_TAG, useUnmergedTree = true)
                 .onChildren()
                 .onFirst()
                 .performClick()
 
-            assertThat(navController.currentDestination?.route).isEqualTo(moviesRoutePattern)
+            waitForIdle()
+            onNodeWithContentDescription("click to search").assertExists()
+                .performClick()
+
+            assertThat(
+                navController.currentDestination?.route,
+            ).isEqualTo(Movies::class.qualifiedName)
             assertThat(onMovieClick).isEqualTo(1)
+            assertThat(onRecommendationClick).isEqualTo(1)
         }
     }
 }

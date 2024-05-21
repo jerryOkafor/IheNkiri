@@ -49,6 +49,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.serialization.Serializable
 import me.jerryokafor.uitesthiltmanifest.HiltComponentActivity
 import org.junit.Before
 import org.junit.Rule
@@ -58,6 +59,9 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import kotlin.properties.ReadOnlyProperty
+
+@Serializable
+data object TestHome
 
 @RunWith(AndroidJUnit4::class)
 @Config(
@@ -106,7 +110,7 @@ class MediaNavigationTest {
     }
 
     @Test
-    fun peopleScreen_onLoad_addPeopleScreenToNavHost() {
+    fun mediaScreen_onLoad_addMediaScreenToNavHost() {
         composeTestRule.apply {
             setContent {
                 navController = TestNavHostController(LocalContext.current)
@@ -114,9 +118,9 @@ class MediaNavigationTest {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home",
+                    startDestination = TestHome,
                 ) {
-                    composable("home") {
+                    composable<TestHome> {
                         Box(modifier = Modifier.fillMaxSize()) {
                             Text(modifier = Modifier.align(Alignment.Center), text = "Home")
                         }
@@ -125,13 +129,20 @@ class MediaNavigationTest {
                 }
             }
 
-            assertThat(navController.currentDestination?.route).isEqualTo("home")
-            navController.navigateToMedia(0L, "Test App", null)
+            assertThat(
+                navController.graph.startDestinationRoute,
+            ).isEqualTo(TestHome::class.qualifiedName)
+            onNodeWithText("Home").assertExists()
+                .assertIsDisplayed()
+
+            navController.navigateToMedia(movieId = 0L, title = "Test App", navOptions = null)
 
             waitForIdle()
 
             onNodeWithText("Test App").assertIsDisplayed()
-            assertThat(navController.currentDestination?.route).isEqualTo(mediaRoutePattern)
+            assertThat(
+                navController.currentDestination?.route,
+            ).matches(WatchMedia.ROUTE_PATTERN.pattern)
             assertThat(navController.currentBackStackEntry?.arguments?.getString(titleArg))
                 .isEqualTo("Test App")
 

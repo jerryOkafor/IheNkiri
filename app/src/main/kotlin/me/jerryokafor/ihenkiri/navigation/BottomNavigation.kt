@@ -57,11 +57,11 @@ import me.jerryokafor.core.common.annotation.ExcludeFromGeneratedCoverageReport
 import me.jerryokafor.core.ds.annotation.ThemePreviews
 import me.jerryokafor.core.ds.theme.IheNkiri
 import me.jerryokafor.core.ds.theme.IheNkiriTheme
-import me.jerryokafor.feature.movies.navigation.moviesRoutePattern
+import me.jerryokafor.feature.movies.navigation.Movies
 import me.jerryokafor.ihenkiri.R
-import me.jerryokafor.ihenkiri.feature.people.navigation.peopleNavPattern
-import me.jerryokafor.ihenkiri.feature.settings.navigation.settingsNavPattern
-import me.jerryokafor.ihenkiri.feature.tvshows.navigation.tvShowsNavPattern
+import me.jerryokafor.ihenkiri.feature.people.navigation.People
+import me.jerryokafor.ihenkiri.feature.settings.navigation.Settings
+import me.jerryokafor.ihenkiri.feature.tvshows.navigation.TvShows
 
 const val BOTTOM_NAV_BAR_TEST_TAG = "BottomNavigationBar"
 
@@ -82,10 +82,10 @@ fun BottomNavigation(
     show: Boolean = true,
 ) {
     val items = listOf(
-        BottomNavItem.Movies,
-        BottomNavItem.TVShows,
-        BottomNavItem.People,
-        BottomNavItem.More,
+        BottomNavItem.MoviesNavItem,
+        BottomNavItem.TVShowsNavItem,
+        BottomNavItem.PeopleNavItem,
+        BottomNavItem.SettingsNavItem,
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -137,44 +137,44 @@ sealed interface BottomNavItem {
     @Composable
     fun title(): String
 
-    data object Movies : BottomNavItem {
+    data object MoviesNavItem : BottomNavItem {
         override val icon: Int
             get() = R.drawable.baseline_video_library_24
         override val route: String
-            get() = moviesRoutePattern
+            get() = Movies::class.qualifiedName!!
 
         @Composable
         override fun title(): String =
             stringResource(id = me.jerryokafor.feature.movies.R.string.movies)
     }
 
-    data object TVShows : BottomNavItem {
+    data object TVShowsNavItem : BottomNavItem {
         override val icon: Int
             get() = R.drawable.baseline_live_tv_24
         override val route: String
-            get() = tvShowsNavPattern
+            get() = TvShows::class.qualifiedName!!
 
         @Composable
         override fun title(): String =
             stringResource(me.jerryokafor.ihenkiri.feature.tvshows.R.string.tv_shows)
     }
 
-    data object People : BottomNavItem {
+    data object PeopleNavItem : BottomNavItem {
         override val icon: Int
             get() = R.drawable.baseline_people_24
         override val route: String
-            get() = peopleNavPattern
+            get() = People::class.qualifiedName!!
 
         @Composable
         override fun title(): String =
             stringResource(me.jerryokafor.ihenkiri.feature.people.R.string.people)
     }
 
-    data object More : BottomNavItem {
+    data object SettingsNavItem : BottomNavItem {
         override val icon: Int
             get() = R.drawable.baseline_more_24
         override val route: String
-            get() = settingsNavPattern
+            get() = Settings::class.qualifiedName!!
 
         @Composable
         override fun title(): String =
