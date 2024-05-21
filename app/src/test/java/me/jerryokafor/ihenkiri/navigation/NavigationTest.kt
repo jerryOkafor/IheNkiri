@@ -399,6 +399,12 @@ class NavigationTest {
                 onNode(hasText(tvShows) and isSelectable())
                     .performClick()
 
+                onNode(hasText(tvShows) and isSelectable()).performClick()
+                onNode(hasText(tvShowsOnThAir) and isSelectable()).performClick()
+                onNode(hasText(tvShowsPopular) and isSelectable()).performClick()
+                onNode(hasText(tvShowsTopRated) and isSelectable()).performClick()
+                onNode(hasText(tvShowsDiscover) and isSelectable()).performClick()
+
                 onNode(hasText(tvShows) and !isSelectable()).assertIsDisplayed()
                 onNodeWithContentDescription(searchTvShows).assertIsDisplayed().performClick()
                 onNodeWithContentDescription(clickToSearch).assertIsDisplayed()
