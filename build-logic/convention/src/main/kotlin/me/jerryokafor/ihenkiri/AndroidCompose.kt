@@ -27,13 +27,20 @@ package me.jerryokafor.ihenkiri
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Configure Compose specific options.
  */
 internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+    with(extensions.getByType<ComposeCompilerGradlePluginExtension>()) {
+        enableStrongSkippingMode.set(true)
+        includeSourceInformation.set(true)
+    }
+
     commonExtension.apply {
         buildFeatures {
             compose = true

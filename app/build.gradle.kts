@@ -42,6 +42,9 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
+composeCompiler {
+}
+
 android {
     namespace = "me.jerryokafor.ihenkiri"
 
@@ -132,6 +135,7 @@ dependencies {
     debugImplementation(projects.uiTestHiltManifest)
 
     implementation(libs.org.jetbrains.kotlinx.serialization.json)
+    implementation(libs.com.google.ai.client.generativeai)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

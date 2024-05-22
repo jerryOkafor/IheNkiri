@@ -1,9 +1,10 @@
 [versions]
 androidGradlePlugin = "8.4.1"
-kotlin = "2.0.0-RC1" #https://androidx.dev/storage/compose-compiler/repository
+kotlin = "2.0.0" #https://androidx.dev/storage/compose-compiler/repository
 kotlinSerialization = "1.6.3"
 androidDesugarJdkLibs = "2.0.4"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.21"
+generativeAI = "0.6.0"
 
 core-ktx = "1.13.1"
 lifecycle = "2.7.0"
@@ -132,6 +133,9 @@ app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref =
 com-google-code-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+# Generative AI
+com-google-ai-client-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeAI" }
+
 # accompanist
 com-google-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 com-google-accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
@@ -237,10 +241,8 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 jacoco-gradlePlugin = { group = "org.jacoco", name = "org.jacoco.core", version.ref = "jacoco" }
-#hilt-android-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
-#navigation-safe-args-gradlePlugin = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
-
-com-google-devtools-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -259,6 +261,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 com-android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
+org-jetbrains-kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 # Plugins defined in the project
 ihenkiri-android-test = { id = "me.jerryokafor.ihenkiri.android.test", version = "unspecified" }

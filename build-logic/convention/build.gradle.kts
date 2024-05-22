@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,8 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.detekt.gradlePlugin)
-    compileOnly(libs.com.google.devtools.ksp.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradlePlugin)
 }
 
 tasks.check {

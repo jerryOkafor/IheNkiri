@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 IheNkiri Project
+ * Copyright (c) 2024 IheNkiri Project
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,16 @@ import com.android.build.gradle.LibraryExtension
 import me.jerryokafor.ihenkiri.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getByType
 
 class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("com.android.library")
+            with(pluginManager) {
+                apply("com.android.library")
+                apply("org.jetbrains.kotlin.plugin.compose")
+            }
             val extension = extensions.getByType<LibraryExtension>()
             configureAndroidCompose(extension)
         }
