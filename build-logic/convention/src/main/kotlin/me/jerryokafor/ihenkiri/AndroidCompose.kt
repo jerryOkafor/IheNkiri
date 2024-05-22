@@ -39,6 +39,11 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
     with(extensions.getByType<ComposeCompilerGradlePluginExtension>()) {
         enableStrongSkippingMode.set(true)
         includeSourceInformation.set(true)
+
+        reportsDestination.set(layout.buildDirectory.dir("compose_compiler"))
+        stabilityConfigurationFile.set(
+            rootProject.layout.projectDirectory.file("stability_config.conf"),
+        )
     }
 
     commonExtension.apply {
