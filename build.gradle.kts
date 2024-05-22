@@ -65,6 +65,7 @@ plugins {
     alias(libs.plugins.com.google.devtools.ksp) apply false
     alias(libs.plugins.com.android.test) apply false
     alias(libs.plugins.org.jetbrains.kotlin.serialization) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.compose.compiler) apply false
 
     // add detket and ktlint
     alias(libs.plugins.io.gitlab.arturbosch.detekt)

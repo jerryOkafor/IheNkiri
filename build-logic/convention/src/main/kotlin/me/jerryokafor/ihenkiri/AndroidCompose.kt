@@ -27,13 +27,24 @@ package me.jerryokafor.ihenkiri
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 /**
  * Configure Compose specific options.
  */
 internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+    with(extensions.getByType<ComposeCompilerGradlePluginExtension>()) {
+        enableStrongSkippingMode.set(true)
+        includeSourceInformation.set(true)
+
+        reportsDestination.set(layout.buildDirectory.dir("compose_compiler"))
+        metricsDestination.set(layout.buildDirectory.dir("compose_compiler"))
+        stabilityConfigurationFile.set(
+            rootProject.layout.projectDirectory.file("compose/stability_config.conf"),
+        )
+    }
+
     commonExtension.apply {
         buildFeatures {
             compose = true
@@ -64,37 +75,4 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
             )
         }
     }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        compilerOptions {
-            freeCompilerArgs.addAll(buildComposeMetricsParameters())
-        }
-    }
-}
-
-private fun Project.buildComposeMetricsParameters(): List<String> {
-    val metricParameters = mutableListOf<String>()
-    val enableMetricsProvider = project.providers
-        .gradleProperty("enableComposeCompilerMetrics")
-    val enableMetrics = (enableMetricsProvider.orNull == "true")
-    if (enableMetrics) {
-        val metricsFolder = layout.buildDirectory.file("compose-metrics")
-        metricParameters.add("-P")
-        metricParameters.add(
-            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                metricsFolder.get().asFile.absolutePath,
-        )
-    }
-
-    val enableReportsProvider = project.providers.gradleProperty("enableComposeCompilerReports")
-    val enableReports = (enableReportsProvider.orNull == "true")
-    if (enableReports) {
-        val reportsFolder = layout.buildDirectory.file("compose-reports")
-        metricParameters.add("-P")
-        metricParameters.add(
-            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                reportsFolder.get().asFile.absolutePath,
-        )
-    }
-    return metricParameters.toList()
 }
